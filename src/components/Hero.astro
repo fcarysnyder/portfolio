@@ -1,0 +1,71 @@
+---
+interface Props {
+	title: string;
+	tagline?: string;
+	link?: string;
+	url?: string;
+	align?: 'start' | 'center';
+}
+
+const { align = 'center', tagline, title, url, link } = Astro.props;
+---
+
+<div class:list={['hero stack gap-2', align]}>
+	<div class="stack gap-2">
+		<h1 class="title">{title}</h1>
+		{tagline && <p class="tagline">{tagline} <a href={url} class="company-link">{link}</a></p>}
+	</div>
+	<slot />
+</div>
+
+<style>
+	.hero {
+		font-size: var(--text-lg);
+		text-align: center;
+		width: 100%;
+	}
+
+	.title {
+		max-width: 37ch;
+		margin-inline: auto;
+		font-size: var(--text-2xl);
+		color: var(--gray-0);
+	}
+
+	.tagline {
+		display: inline;
+		font-size: 1.5rem; /* 24px */
+		line-height: 2rem; /* 32px */
+		width: 100%;
+	}
+
+	.company-link {
+		color: var(--accent-regular);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+	
+	.company-link:hover {
+		color: var(--accent-dark);
+	}
+
+	@media (min-width: 60em) {
+		.hero {
+			font-size: var(--text-2xl);
+		}
+
+		.start {
+			text-align: start;
+			align-self: center;
+		}
+
+		.start .title,
+		.start .tagline {
+			margin-inline: unset;
+		}
+
+		.title {
+			font-size: var(--text-3xl);
+		}
+	}
+</style>
