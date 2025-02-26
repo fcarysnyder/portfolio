@@ -4,7 +4,7 @@ publishDate: 2025-02-25 16:42:00
 img: /assets/Umbra.jpg
 img_alt: Umbra's C3 platform, Omniscience.
 description: |
-  Lead design on Umbra's internal C3 application, Omniscience, built in React. This application is the hub for all space operations including tasking, mission planning, and ephemeris management. 
+  Lead design on Umbra's internal C3 application, Omniscience, built in React. This application is the hub for all satellite operations within Umbra including managing and creating tasks, mission planning, and ephemeris management. 
 tags:
   - Product Design
   - Geospatial
