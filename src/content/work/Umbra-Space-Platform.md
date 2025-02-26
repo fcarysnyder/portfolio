@@ -1,5 +1,5 @@
 ---
-title: Umbra Space Platform
+title: Omniscience UI
 publishDate: 2025-02-25 16:42:00
 img: /assets/Umbra.jpg
 img_alt: Umbra's C3 platform, Omniscience.
