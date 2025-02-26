@@ -16,6 +16,8 @@ const currentYear = new Date().getFullYear();
 		<a href="https://linkedin.com/in/fcarysnyder"> LinkedIn</a>
 		<p>·</p>
 		<a href="https://instagram.com/fcarysnyder"> Instagram</a>
+		<p>·</p>
+		<a href="https://github.com/fcarysnyder">Github</a>
 	</div>
 </footer>
 <style>
@@ -43,9 +45,9 @@ const currentYear = new Date().getFullYear();
 		color: var(--accent-regular) !important;
 	}
 
-	footer a:hover,
-	footer a:focus {
-		text-decoration-color: currentColor;
+	footer a:hover, footer a:focus {
+		text-decoration-color: var(--accent-dark);
+		color: var(--accent-dark) !important;
 	}
 
 	.group {
@@ -63,7 +65,7 @@ const currentYear = new Date().getFullYear();
 	.socials {
 		display: flex;
 		justify-content: center;
-		gap: 1rem;
+		gap: .75rem;
 		flex-wrap: wrap;
 		text-transform: uppercase;
 
