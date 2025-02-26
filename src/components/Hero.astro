@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
 	title: string;
 	tagline?: string;
@@ -14,6 +16,7 @@ const { align = 'center', tagline, title, url, link } = Astro.props;
 	<div class="stack gap-2">
 		<h1 class="title">{title}</h1>
 		{tagline && <p class="tagline">{tagline} <a href={url} class="company-link">{link}</a></p>}
+		<a href="mailto:?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>
 	</div>
 	<slot />
 </div>
@@ -21,15 +24,26 @@ const { align = 'center', tagline, title, url, link } = Astro.props;
 <style>
 	.hero {
 		font-size: var(--text-lg);
-		text-align: center;
 		width: 100%;
 	}
 
 	.title {
 		max-width: 37ch;
-		margin-inline: auto;
 		font-size: var(--text-2xl);
 		color: var(--gray-0);
+	}
+
+	.start {
+		text-align: start;
+	}
+
+	.center {
+		text-align: center;
+	}
+
+	.center .title,
+	.center .tagline {
+		margin-inline: auto;
 	}
 
 	.tagline {
@@ -47,6 +61,29 @@ const { align = 'center', tagline, title, url, link } = Astro.props;
 	
 	.company-link:hover {
 		color: var(--accent-dark);
+	}
+	.button {
+		grid-column-gap: 4px;
+    background-color: var(--accent-regular);
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 148px;
+    height: 40px;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+	border: none;
+	color: white;
+	text-transform:uppercase;
+	font-size: 12px;
+	margin-top: 20px;
+	text-decoration: none;
+	cursor: pointer;
+	}
+
+	.button:hover {
+		background-color: var(--accent-dark);
 	}
 
 	@media (min-width: 60em) {

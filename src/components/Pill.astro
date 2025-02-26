@@ -1,0 +1,27 @@
+---
+interface Props {
+	color?: string;
+}
+
+const { color = 'var(--accent-regular)' } = Astro.props;
+---
+
+<div class="pill" style={`--pill-color: ${color};`}><slot /></div>
+
+<style>
+	.pill {
+		display: flex;
+		padding: 4px 8px;
+		gap: 0.5rem;
+		color: var(--accent-text-over);
+		border: 1px solid var(--pill-color, var(--accent-regular));
+		background-color: var(--pill-color, var(--accent-regular));
+		border-radius: 999rem;
+		font-size: 10px;
+		line-height: 1.35;
+		white-space: nowrap;
+		text-transform:uppercase;
+		letter-spacing: .0125em;
+		font-weight: 400;
+	}
+</style>

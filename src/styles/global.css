@@ -18,13 +18,11 @@
 
 	--accent-light: #f54c4c;
 	--accent-regular: #ff4949;
-	--accent-dark: #700101; 
+	--accent-dark: #ba3535; 
 	--accent-overlay: hsla(0, 99%, 64%, 1.00);
 	--accent-subtle-overlay: var(--accent-overlay);
 	--accent-text-over: var(--gray-999);
-
 	--link-color: var(--accent-regular);
-
 	/* Gradients */
 	--gradient-stop-1: var(--accent-light);
 	--gradient-stop-2: var(--accent-regular);
@@ -53,6 +51,7 @@
 		0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
 
 	/* Text Sizes */
+	--text-xs: 0.750rem;
 	--text-sm: 0.875rem;
 	--text-base: 1rem;
 	--text-md: 1.125rem;
@@ -66,8 +65,9 @@
 	/* Fonts */
 	--font-system: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--font-body: 'Public Sans', var(--font-system);
-	--font-brand: Rubik, var(--font-system);
+	--font-body: 'Aktiv Grotesk', var(--font-system);
+	--font-brand: 'Aktiv Grotesk', var(--font-system);
+	--font-mono: 'Roboto Mono', var(--font-system);
 
 	/* Transitions */
 	--theme-transition: 0.2s ease-in-out;
@@ -87,11 +87,10 @@
 	--gray-900: #141925;
 	--gray-999-basis: 225, 31%, 5%;
 	--gray-999: #090b11;
-	--accent-test: #ff4949;
 	--accent-light: #600202; 
 	--accent-regular: #ff4949;
-	--accent-dark: #f65959;
-	--accent-overlay: hsla(280, 89%, 67%, 0.33);
+	--accent-dark: rgb(248, 97, 97);
+	--accent-overlay: rgba(248, 97, 97, 0.866);
 	--accent-subtle-overlay: hsla(281, 81%, 36%, 0.33);
 	--accent-text-over: var(--gray-0);
 

@@ -1,19 +1,11 @@
 ---
-import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import type { iconPaths } from './IconPaths';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
 	{ label: 'Home', href: '/' },
 	{ label: 'Work', href: '/work/' },
 	{ label: 'About', href: '/about/' },
-];
-
-/** Icon links to social media — edit these with links to your profiles! */
-const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: 'X', href: 'https://twitter.com/fcarysnyder', icon: 'twitter-logo' },
-	{ label: 'LinkedIn', href: 'https://linkedin.com/in/fcarysnyder', icon: 'linkedin-logo' },
 ];
 
 /** Test if a link is pointing to the current page. */
@@ -87,17 +79,7 @@ const isCurrentPage = (href: string) => {
 		</ul>
 	-->
 		<div class="menu-footer">
-			<div class="socials">
-				{
-					iconLinks.map(({ href, icon, label }) => (
-						<a href={href} class="social">
-							<span class="sr-only">{label}</span>
-							<Icon icon={icon} />
-						</a>
-					))
-				}
-			</div>
-
+			<a class="resume" href="./public/Resume-02052025-FCS.pdf">RESUME</a>
 			<div class="theme-toggle">
 				<ThemeToggle />
 			</div>
@@ -134,7 +116,7 @@ const isCurrentPage = (href: string) => {
 				setExpanded(e.matches);
 				btn.hidden = e.matches;
 			};
-			const mediaQueries = window.matchMedia('(min-width: 60em)');
+			const mediaQueries = window.matchMedia('(min-width: 50em)');
 			handleViewports(mediaQueries);
 			mediaQueries.addEventListener('change', handleViewports);
 		}
@@ -153,10 +135,9 @@ const isCurrentPage = (href: string) => {
 		justify-content: space-between;
 		align-items: center;
 		padding: 1.5rem;
-		max-width: 1280px;
-		margin-left: auto;
-		margin-right: auto;
 		width: 100%;
+		max-width: 83rem;
+		margin-inline: auto;
 	}
 
 	.menu-header {
@@ -188,8 +169,8 @@ const isCurrentPage = (href: string) => {
 
 	.menu-button[aria-expanded='true'] {
 		color: var(--gray-0);
-		/* background: linear-gradient(180deg, var(--gray-600), transparent),
-			radial-gradient(var(--gray-900), var(--gray-800) 150%); */
+		background: linear-gradient(180deg, var(--gray-600), transparent),
+			radial-gradient(var(--gray-900), var(--gray-800) 150%);
 	}
 
 	.menu-button[hidden] {
@@ -200,7 +181,7 @@ const isCurrentPage = (href: string) => {
 		position: absolute;
 		inset: -1px;
 		content: '';
-		/* background: var(--gradient-stroke); */
+		background: var(--gradient-stroke);
 		border-radius: 999rem;
 		z-index: -1;
 	}
@@ -251,17 +232,17 @@ const isCurrentPage = (href: string) => {
 		font-size: var(--icon-size);
 	}
 
-	.social {
+	.resume {
 		display: flex;
 		padding: var(--icon-padding);
 		text-decoration: none;
-		color: var(--accent-dark);
+		color: var(--accent-regular);
 		transition: color var(--theme-transition);
 	}
 
-	.social:hover,
+	.resume:hover,
 	.social:focus {
-		color: var(--accent-text-over);
+		color: var(--accent-dark);
 	}
 
 	.theme-toggle {
@@ -270,9 +251,9 @@ const isCurrentPage = (href: string) => {
 		height: calc(var(--icon-size) + 2 * var(--icon-padding));
 	}
 
-	@media (min-width: 60em) {
+	@media (min-width: 50em) {
 		nav {
-			padding: 2.5rem 2rem;
+			padding-inline: 1.5rem;
 		}
 
 		.menu-header {

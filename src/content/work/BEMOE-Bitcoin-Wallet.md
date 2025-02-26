@@ -1,14 +1,22 @@
 ---
-title: Markdown Mystery Tour
+title: BEMOE Bitcoin Wallet
 publishDate: 2020-03-02 00:00:00
-img: /assets/stock-1.jpg
-img_alt: Iridescent ripples of a bright blue and pink liquid
+img: /assets/Bemoe-cover.jpg
+img_alt: Three screens showing BEMOE wallet.
 description: |
-  We designed a whodunnit-style game to introduce Markdown formatting. Suspense — suspicion — syntax!
+  Designed an omni-currency mobile wallet application for iOS / Android and Chrome using React Native. BEMOE uses Bitcoin and a variety of fiat currencies to send and receive payments.
 tags:
+  - Mobile App
   - Design
-  - Dev
-  - User Testing
+  - UX research
+color:
+  hsla(360, 87%, 45%, 1.00)
+url:
+  https://www.figma.com/file/Iy5ruwIEqg9Bvg5ua3g7DR/BEMOE-Chrome-(Copy)?node-id=105%3A29695
+cta:
+  see project
+  
+
 ---
 
 ## Level-two heading

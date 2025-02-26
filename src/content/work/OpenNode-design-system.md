@@ -1,14 +1,18 @@
 ---
-title: h2.0
-publishDate: 2019-10-02 00:00:00
-img: /assets/stock-4.jpg
-img_alt: Soft pink and baby blue water ripples together in a subtle texture.
+title: OpenNode Design System
+publishDate: 2025-02-25 16:00:00
+img: /assets/OpenNode-design-system.png
+img_alt: Some examples of UI elements from OpenNode's design system.
 description: |
-  We developed brand positioning and design assets for the launch
-  of a new colored water product.
+  Established OpenNode's first design system and pattern library optimized for both mobile and web applications across platforms. Championed implementation throughout the dev team.
 tags:
-  - Design
-  - Branding
+  - Design System
+color:
+  hsla(212, 85%, 61%, 1.00)
+url:
+  https://www.figma.com/file/viIVQ1hupoE8o9uSrIc74Y/OpenNode-Design-System---v2.3?node-id=88%3A1027
+cta:
+  see project
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.

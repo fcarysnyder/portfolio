@@ -5,32 +5,34 @@ const currentYear = new Date().getFullYear();
 
 <footer>
 	<div class="group">
-		<p>
-			Designed & Developed in Portland with <a href="https://astro.build/">Astro</a>
-			<Icon icon="rocket-launch" size="1.2em" />
+		<p class="footer-text">
+			Designed & developed in Santa Barbara, CA
 		</p>
-		<p>&copy; {currentYear} Jeanine White</p>
 	</div>
-	<p class="socials">
-		<a href="https://twitter.com/me"> Twitter</a>
-		<a href="https://github.com/me"> GitHub</a>
-		<a href="https://codepen.io/me"> CodePen</a>
-	</p>
+	<div class="socials">
+		<p class="socials-label">@fcarysnyder on</p>
+		<a href="https://twitter.com/fcarysnyder"> Twitter</a>
+		<p>·</p>
+		<a href="https://linkedin.com/in/fcarysnyder"> LinkedIn</a>
+		<p>·</p>
+		<a href="https://instagram.com/fcarysnyder"> Instagram</a>
+	</div>
 </footer>
 <style>
 	footer {
 		display: flex;
+		color: var(--gray-400);
 		flex-direction: column;
 		gap: 3rem;
 		margin-top: auto;
 		padding: 3rem 2rem;
 		text-align: center;
-		color: var(--gray-400);
 		font-size: var(--text-sm);
 		max-width: 1280px;
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
+		font-family: var(--font-mono);
 	}
 
 	footer a {
@@ -38,6 +40,7 @@ const currentYear = new Date().getFullYear();
 		text-decoration: 1px solid underline transparent;
 		text-underline-offset: 0.25em;
 		transition: text-decoration-color var(--theme-transition);
+		color: var(--accent-regular) !important;
 	}
 
 	footer a:hover,
@@ -51,11 +54,26 @@ const currentYear = new Date().getFullYear();
 		gap: 0.5rem;
 	}
 
+	.footer-text {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		text-transform: uppercase;
+	}
+
 	.socials {
 		display: flex;
 		justify-content: center;
 		gap: 1rem;
 		flex-wrap: wrap;
+		text-transform: uppercase;
+
+	}
+
+	.socials-label {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		text-transform: uppercase;
+
 	}
 
 	@media (min-width: 60em) {

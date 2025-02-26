@@ -1,14 +1,20 @@
 ---
-title: Duvet Genius
-publishDate: 2020-03-04 00:00:00
-img: /assets/stock-3.jpg
-img_alt: Pearls of silky soft white cotton, bubble up under vibrant lighting
+title: Next Wave Physical Therapy
+publishDate: 2020-02-25 11:14:00
+img: /assets/next-wave-pt-cover.jpg
+img_alt: Example of Next Wave's website
 description: |
-  We developed a virtual showcase for the softest bedding imaginable.
+  Helped a new physical therapy business build their very first online presence, covering brand identity, web design, and project management.
 tags:
-  - Design
+  - Brand
   - Dev
-  - Branding
+  - Design
+color:
+  hsla(340, 82%, 52%, 1.00)
+url:
+  https://web.archive.org/web/20230120130829/http://nextwavept.com/
+cta:
+  see project
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.

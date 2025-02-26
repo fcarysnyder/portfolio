@@ -38,6 +38,15 @@
         "img_alt": {
           "type": "string"
         },
+        "color": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "cta": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }

@@ -39,6 +39,11 @@ import Icon from './Icon.astro';
 		inset: 0;
 		background-color: var(--accent-regular);
 		border-radius: 999rem;
+		transition: background-color var(--theme-transition), transform var(--theme-transition);
+	}
+
+	button:hover .icon.light::before {
+		background-color: var(--accent-dark);
 	}
 
 	:global(.theme-dark) .icon.light::before {
