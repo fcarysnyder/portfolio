@@ -7,16 +7,17 @@ interface Props {
 	link?: string;
 	url?: string;
 	align?: 'start' | 'center';
+	button?: boolean;
 }
 
-const { align = 'center', tagline, title, url, link } = Astro.props;
+const { align = 'center', tagline, title, url, link, button = true } = Astro.props;
 ---
 
 <div class:list={['hero stack gap-2', align]}>
 	<div class="stack gap-2">
 		<h1 class="title">{title}</h1>
 		{tagline && <p class="tagline">{tagline} <a href={url} class="company-link">{link}</a></p>}
-		<a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>
+		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>}
 	</div>
 	<slot />
 </div>
