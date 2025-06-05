@@ -20,7 +20,7 @@ const { title, description } = Astro.props;
 		<MainHead title={title} description={description} />
 	</head>
 	<body>
-		<div class="stack backgrounds">
+		<div class="stack backgrounds animated-fade-in">
 			<Nav />
 			<slot />
 			<Footer />
@@ -111,6 +111,23 @@ const { title, description } = Astro.props;
 					background: none;
 					background-blend-mode: none;
 					--bg-gradient-size: none;
+				}
+			}
+
+			.animated-fade-in {
+				animation: 1s ease-out forwards fadeInFromTop;
+			}
+
+			@keyframes fadeInFromTop {
+				from {
+					opacity: 0;
+					transform: translateY(-10px);
+					pointer-events: none;
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+					pointer-events: auto;
 				}
 			}
 		</style>
