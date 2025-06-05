@@ -254,3 +254,82 @@ h5 {
 		gap: 12rem;
 	}
 }
+
+/* NavDropdown component styles */
+.menu-button {
+	position: relative;
+	display: flex;
+	border: 0;
+	border-radius: 999rem;
+	padding: 0.65rem;
+	font-size: 1.5rem;
+	color: var(--accent-dark);
+	background: var(--gray-999);
+	cursor: pointer;
+}
+
+.menu-button:focus {
+	outline: none !important;
+}
+
+.menu-button[data-state='open'] { /* Radix uses data-state for open/closed */
+	color: var(--accent-dark);
+	background: var(--gray-999);
+}
+
+[data-theme='light'] .menu-button[data-state='open'] {
+	color: var(--accent-light);
+}
+
+.menu-content {
+	background-color: var(--gray-999);
+	border: 1px solid var(--gray-800);
+	border-radius: 0.5rem;
+	box-shadow: var(--shadow-lg);
+	z-index: 1000;
+	box-sizing: border-box; /* Added for predictable sizing */
+	min-width: 200px; /* Added to ensure minimum readability */
+	max-width: 280px; /* Added to prevent excessive width and potential overflow */
+}
+
+.nav-items {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	font-size: var(--text-sm);
+	line-height: 150%;
+	list-style: none;
+	padding: 8px;
+	gap: 4px;
+	border: none !important;
+}
+
+.link {
+	display: block; /* Make the whole area clickable */
+	color: var(--gray-300);
+	text-decoration: none;
+	padding: 0.5rem 1rem; /* Adjust padding for better click area */
+	border-radius: 0.25rem;
+	border: none !important;
+}
+
+.link:hover {
+	background-color: var(--accent-overlay-hover);
+	color: var(--accent-dark); /* Optional: change text color on hover */
+	border: none !important;
+}
+
+.link[data-highlighted] {
+	outline: none !important;
+	border: none !important;
+}
+
+.link[aria-current] {
+	color: var(--accent-dark);
+	font-weight: bold; /* Optional: make current link bolder */
+	border: none !important;
+}
+
+html body[data-scroll-locked] {
+	margin-right: 0px !important;
+}
