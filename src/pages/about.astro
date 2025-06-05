@@ -1,62 +1,94 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import AboutHero from '../components/AboutHero.astro';
 ---
 
-<BaseLayout title="About | Jeanine White" description="About Jeanine White Lorem Ipsum">
-	<div class="stack gap-20">
+<BaseLayout title="About | F Cary Snyder" description="About F Cary Snyder">
+	<div class="stack">
+		<AboutHero
+			title="About me"
+			
+		>
+			<img
+				class="about-img-1"
+				src="/assets/about/img-1.jpg"
+				alt="F Cary Snyder"
+			/>
+			<img
+				class="about-img-2"
+				src="/assets/about/img-2.jpg"
+				alt="F Cary Snyder"
+			/>
+			<img
+				class="about-img-3"
+				src="/assets/about/img-3.jpg"
+				alt="F Cary Snyder"
+			/>
+			<img
+				class="about-img-4"
+				src="/assets/about/img-4.jpg"
+				alt="F Cary Snyder"
+			/>
+			<img
+				class="about-img-5"
+				src="/assets/about/img-5.jpg"
+				alt="F Cary Snyder"
+			/>
+		</AboutHero>
 		<main class="wrapper about">
-			<Hero 
-				button={false}
-				title="About me"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
-			>
-				<img
-					width="1553"
-					height="873"
-					src="/assets/about-me.jpeg"
-					alt="Jeanine White at work with a colleague"
-				/>
-			</Hero>
-
 			<section>
 				<h2 class="section-title">Background</h2>
 				<div class="content">
 					<p>
-						Lorem ipsum dolor sit amet, <a href="https://astro.build/">Astro</a> makes people happy.
-						Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin nibh nisl condimentum
-						id venenatis a condimentum vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla
-						pharetra diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare.
+						Seriously - my name is really the letter "F" but you can call me Cary.
 					</p>
 					<p>
-						Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget gravida cum sociis
-						natoque penatibus. Cras fermentum odio eu feugiat pretium nibh. Proin nibh nisl
-						condimentum id venenatis. Porta nibh venenatis cras sed felis eget velit. Id diam vel
-						quam elementum pulvinar etiam non.
+						I was born in San Francisco and raised in Oakland, CA to an interior designer mom and a
+						network engineer dad. Courtesy of my dad, I always had access to a computer. I was
+						making posters, graphics, and tweaking myspace pages since middle school. I didn't know
+						it yet, but I was learning valuable skills that I'd capitalize on later.
 					</p>
 					<p>
-						Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut sem viverra aliquet
-						eget sit amet. Lacus luctus accumsan tortor posuere ac ut consequat semper viverra.
-						Viverra accumsan in nisl nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl
-						pretium fusce.
+						Now I live in Santa Barbara. I've lived here for almost 10 years over 2 stints.
 					</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Education</h2>
-				<div class="content">
-					<p>Corporis voluptates tenetur laudantium.</p>
+					<p>
+						When I graduated from college, I travelled around South America for 5+ months and fell
+						in love with photography. Since then, I've taken my cameras on all my travels - John
+						Muir Trail, to the ruins of Machu Picchu, the tip of Patagonia, the dunes of Colorado
+						and more. I try to bring my camera with me whenever I can.
+					</p>
+					<p>
+						I've always been a massive fan of riding bikes. I have completed multiple centuries,
+						and have a goal of riding from Stockholm, Sweden to Oslo Norway. Cycling is such a
+						passion for me that my wife and I honeymooned at a bike hotel in Lake Garda, Italy.
+					</p>
 				</div>
 			</section>
 			<section>
 				<h2 class="section-title">Skills</h2>
 				<div class="content">
-					<p>officia unde omnis</p>
+					<ul>
+						<li>Product design</li>
+						<li>UI/UX design</li>
+						<li>Visual design</li>
+						<li>Web design</li>
+						<li>Brand design</li>
+						<li>Email design</li>
+						<li>AI web development / Cursor</li>
+						<li>Competitive analysis</li>
+						<li>Rapid prototyping</li>
+						<li>Wireframes, mockups, and prototypes</li>
+						<li>Agile/scrum</li>
+						<li>Frontend development</li>
+						<li>Backend development</li>
+						<li>Database design</li>
+						<li>Front end development</li>
+						<li>Project management</li>
+						<li>Copywriting</li>
+					</ul>
 				</div>
 			</section>
 		</main>
-
-	
 	</div>
 </BaseLayout>
 
@@ -68,9 +100,29 @@ import Hero from '../components/Hero.astro';
 	}
 
 	img {
-		margin-top: 1.5rem;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-md);
+	}
+
+	:global(.about-img-1:hover) {
+		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">👋</text></svg>'),
+			auto;
+	}
+	:global(.about-img-2:hover) {
+		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🐣</text></svg>'),
+			auto;
+	}
+	:global(.about-img-3:hover) {
+		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🇮🇹</text></svg>'),
+			auto;
+	}
+	:global(.about-img-4:hover) {
+		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🚲</text></svg>'),
+			auto;
+	}
+	:global(.about-img-5:hover) {
+		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🕺</text></svg>'),
+			auto;
 	}
 
 	section {
@@ -88,6 +140,10 @@ import Hero from '../components/Hero.astro';
 
 	.content {
 		grid-column: 2 / 4;
+	}
+
+	.content p + p {
+		margin-top: 1.5em;
 	}
 
 	.content :global(a) {
