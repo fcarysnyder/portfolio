@@ -4,7 +4,7 @@ publishDate: 2025-02-25 16:00:00
 img: /assets/OpenNode-design-system.png
 img_alt: Some examples of UI elements from OpenNode's design system.
 description: |
-  Established OpenNode's first design system and pattern library optimized for both mobile and web applications across platforms. Championed implementation of the system with the dev team.
+  Established OpenNode's first design system and pattern library optimized for both mobile and web applications across platforms. Championed implementation of the system with the development team.
 tags:
   - Design System
 color:
