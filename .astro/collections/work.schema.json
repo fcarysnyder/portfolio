@@ -7,9 +7,6 @@
         "title": {
           "type": "string"
         },
-        "description": {
-          "type": "string"
-        },
         "publishDate": {
           "anyOf": [
             {
@@ -26,26 +23,20 @@
             }
           ]
         },
+        "img": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
         "tags": {
           "type": "array",
           "items": {
             "type": "string"
           }
-        },
-        "img": {
-          "type": "string"
-        },
-        "img_alt": {
-          "type": "string"
-        },
-        "color": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "cta": {
-          "type": "string"
         },
         "$schema": {
           "type": "string"
@@ -53,10 +44,8 @@
       },
       "required": [
         "title",
-        "description",
         "publishDate",
-        "tags",
-        "img"
+        "description"
       ],
       "additionalProperties": false
     }

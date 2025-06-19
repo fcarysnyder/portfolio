@@ -12,13 +12,13 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 ---
 
 <div>
-	<a class="card" href={data.url}>
-		<img src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
+	<a class="card" href={`/work/${id}`}>
+		<img src={data.img} alt={data.title || ''} loading="lazy" decoding="async" />
 		<div class="card-descrip">
-				{firstTag && <Pill color={data.color}>{firstTag}</Pill>}
+				{firstTag && <Pill>{firstTag}</Pill>}
 				<h3 class='title'> {data.title}</h3>
 				<p class="description">{data.description}</p>
-				<span class="faux-button">{data.cta} <Icon icon="arrow-right" size=" var(--text-sm)" /></span>
+				<span class="faux-button">View Project <Icon icon="arrow-right" size=" var(--text-sm)" /></span>
 			
 		</div>
 	</a>

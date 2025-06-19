@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	title?: string | undefined;
+	description?: string | undefined;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title}>
+	<div class="stack gap-20 lg:gap-20">
+		<main class="wrapper stack gap-20 lg:gap-48">
+			<article class="archive-content">
+				<slot />
+			</article>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	.archive-content {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	:global(.archive-card) {
+		display: grid;
+		gap: 1rem;
+		padding: 1.5rem;
+		border-radius: 12px;
+		background: var(--gray-800);
+		transition: transform 0.2s ease;
+	}
+
+	:global(.archive-card:hover) {
+		transform: translateY(-4px);
+	}
+
+	:global(.archive-card img) {
+		width: 100%;
+		aspect-ratio: 16/9;
+		object-fit: cover;
+		border-radius: 8px;
+	}
+
+	:global(.archive-card h2) {
+		margin: 0;
+		font-size: 1.5rem;
+		color: var(--gray-100);
+	}
+
+	:global(.archive-card .date) {
+		color: var(--gray-300);
+		font-size: 0.875rem;
+	}
+
+	:global(.archive-card .description) {
+		color: var(--gray-200);
+		line-height: 1.6;
+	}
+</style> 

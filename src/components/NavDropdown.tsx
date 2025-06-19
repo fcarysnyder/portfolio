@@ -39,7 +39,6 @@ export default function NavDropdown({ links }: NavDropdownProps) {
         <span className="sr-only">Menu</span>
         <List size={16} />
       </DropdownMenu.Trigger>
-
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           className="menu-content"

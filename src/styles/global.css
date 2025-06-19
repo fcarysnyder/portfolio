@@ -93,7 +93,7 @@
 	--accent-dark: rgb(248, 97, 97);
 	--accent-overlay: rgba(248, 97, 97, 0.866);
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
-	--accent-subtle-overlay: hsla(281, 81%, 36%, 0.33);
+	--accent-subtle-overlay: var(--accent-overlay);
 	--accent-text-over: var(--gray-0);
 
 	--link-color: var(--accent-dark);
