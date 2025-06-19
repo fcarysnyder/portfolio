@@ -25,16 +25,15 @@ const currentYear = new Date().getFullYear();
 		display: flex;
 		color: var(--gray-400);
 		flex-direction: column;
-		gap: 3rem;
 		margin-top: auto;
 		padding: 3rem 2rem;
-		text-align: center;
 		font-size: var(--text-sm);
 		max-width: 1280px;
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
 		font-family: var(--font-mono);
+		gap: 1rem;
 	}
 
 	footer a {
@@ -60,12 +59,13 @@ const currentYear = new Date().getFullYear();
 		font-size: var(--text-sm);
 		color: var(--gray-400);
 		text-transform: uppercase;
+		padding: 0px 12px 0px 0px;
 	}
 
 	.socials {
 		display: flex;
-		justify-content: center;
-		gap: .75rem;
+		justify-content: flex-start;
+		column-gap: 0.75rem;
 		flex-wrap: wrap;
 		text-transform: uppercase;
 
@@ -76,19 +76,35 @@ const currentYear = new Date().getFullYear();
 		color: var(--gray-400);
 		text-transform: uppercase;
 
+
 	}
 
-	@media (min-width: 60em) {
+	@media (min-width: 1024px) {
 		footer {
 			flex-direction: row;
 			justify-content: space-between;
 			padding: 2.5rem 2rem;
+			text-align: left !important;
+			gap: 1rem !important;
+			
 		}
 
 		.group {
 			flex-direction: row;
-			gap: 1rem;
+			gap: 2rem !important;
 			flex-wrap: wrap;
+			margin-bottom: 1rem !important;
+		}
+
+		.socials-label {
+			
+			padding: 0px 10px 0px 0px;
+			text-align: left;
+		}
+
+		.footer-text {
+			padding: 0px 12px 0px 0px;
+			text-align: left !important;
 		}
 
 		.socials {
