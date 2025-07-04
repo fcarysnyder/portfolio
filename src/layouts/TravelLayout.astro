@@ -12,7 +12,7 @@ const { title, description } = Astro.props;
 <BaseLayout title={title}>
 	<div class="stack gap-20 lg:gap-20">
 		<main class="wrapper stack gap-20 lg:gap-48">
-			<article class="archive-content">
+			<article class="travel-content">
 				<slot />
 			</article>
 		</main>
@@ -20,13 +20,13 @@ const { title, description } = Astro.props;
 </BaseLayout>
 
 <style>
-	.archive-content {
+	.travel-content {
 		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 	}
 
-	:global(.archive-card) {
+	:global(.travel-card) {
 		display: grid;
 		gap: 1rem;
 		padding: 1.5rem;
@@ -35,29 +35,29 @@ const { title, description } = Astro.props;
 		transition: transform 0.2s ease;
 	}
 
-	:global(.archive-card:hover) {
+	:global(.travel-card:hover) {
 		transform: translateY(-4px);
 	}
 
-	:global(.archive-card img) {
+	:global(.travel-card img) {
 		width: 100%;
 		aspect-ratio: 16/9;
 		object-fit: cover;
 		border-radius: 8px;
 	}
 
-	:global(.archive-card h2) {
+	:global(.travel-card h2) {
 		margin: 0;
 		font-size: 1.5rem;
 		color: var(--gray-100);
 	}
 
-	:global(.archive-card .date) {
+	:global(.travel-card .date) {
 		color: var(--gray-300);
 		font-size: 0.875rem;
 	}
 
-	:global(.archive-card .description) {
+	:global(.travel-card .description) {
 		color: var(--gray-200);
 		line-height: 1.6;
 	}

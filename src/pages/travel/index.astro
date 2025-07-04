@@ -1,19 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import TravelLayout from '../../layouts/TravelLayout.astro';
 
-const archiveEntries = (await getCollection('travel'))
+const travelEntries = (await getCollection('travel'))
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 ---
 
-<ArchiveLayout title="Archive">
+<TravelLayout title="Archive">
 	<div class="archive-grid">
-		{archiveEntries.map((entry) => (
+		{travelEntries.map((entry) => (
 			<article class="archive-card">
-				{entry.data.img && (
+				{entry.data.image && (
 					<img
-						src={entry.data.img}
+						src={entry.data.image}
 						alt={entry.data.title}
 						width="800"
 						height="450"
@@ -31,7 +31,7 @@ const archiveEntries = (await getCollection('travel'))
 			</article>
 		))}
 	</div>
-</ArchiveLayout>
+</TravelLayout>
 
 <style>
 	.archive-grid {

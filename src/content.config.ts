@@ -17,7 +17,7 @@ const travel = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		publishDate: z.date(),
-		img: z.string().optional(),
+		image: z.string().optional(),
 		description: z.string(),
 		link: z.string().optional(),
 		tags: z.array(z.string()).optional(),
