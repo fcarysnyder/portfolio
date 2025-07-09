@@ -1,49 +1,130 @@
 ---
 import { getCollection } from 'astro:content';
 import TravelLayout from '../../layouts/TravelLayout.astro';
+import Pile from '../../components/Pile.tsx';
 
 const travelEntries = (await getCollection('travel'))
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
+// Helper function to get all images from all travel entries
+function getAllImagesFromEntries(entries: any[]): string[] {
+	const allImages: string[] = [];
+	
+	entries.forEach(entry => {
+		// Add multiple images if they exist
+		if (entry.data.images && entry.data.images.length > 0) {
+			allImages.push(...entry.data.images);
+		}
+		
+		// Add single image if it exists
+		if (entry.data.image) {
+			allImages.push(entry.data.image);
+		}
+	});
+	
+	return allImages;
+}
+
+// Helper function to get random images for the pile
+function getRandomImagesForPile(allImages: string[]): string[] {
+	const images: string[] = [];
+	
+	if (allImages.length === 0) {
+		// Use placeholder images if no images are available
+		return [
+			'/assets/about/img-1.jpg',
+			'/assets/about/img-2.jpg',
+			'/assets/about/img-3.jpg',
+			'/assets/about/img-4.jpg',
+			'/assets/about/img-5.jpg'
+		];
+	}
+	
+	// If we have fewer than 5 images, duplicate some randomly
+	const availableImages = [...allImages];
+	while (images.length < 5) {
+		if (availableImages.length === 0) {
+			// If we've used all images, reset the available pool
+			availableImages.push(...allImages);
+		}
+		
+		const randomIndex = Math.floor(Math.random() * availableImages.length);
+		images.push(availableImages[randomIndex]);
+		availableImages.splice(randomIndex, 1);
+	}
+	
+	return images;
+}
+
+const allImages = getAllImagesFromEntries(travelEntries);
+const pileImages = getRandomImagesForPile(allImages);
+
+// Get the year range for display
+const years = travelEntries.map(entry => entry.data.publishDate.getFullYear());
+const yearRange = years.length > 0 ? 
+	(Math.min(...years) === Math.max(...years) ? 
+		Math.min(...years).toString() : 
+		`${Math.min(...years)}-${Math.max(...years)}`) : 
+	new Date().getFullYear().toString();
+
 ---
 
-<TravelLayout title="Archive">
-	<div class="archive-grid">
-		{travelEntries.map((entry) => (
-			<article class="archive-card">
-				{entry.data.image && (
-					<img
-						src={entry.data.image}
-						alt={entry.data.title}
-						width="800"
-						height="450"
-					/>
-				)}
-				<h2>{entry.data.title}</h2>
-				<time class="date" datetime={entry.data.publishDate.toISOString()}>
-					{entry.data.publishDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				</time>
-				<p class="description">{entry.data.description}</p>
-			</article>
-		))}
+<TravelLayout title="Travel">
+	<div class="travel-container">
+		<div class="travel-hero">
+			<h1>Travel Adventures</h1>
+			<p>Explore my collection of travel experiences and adventures from around the world.</p>
+		</div>
+		
+		<div class="pile-container">
+			<Pile
+				images={pileImages}
+				href="/travel/archive"
+				year={yearRange}
+				title="Travel Collection"
+				client:load
+			/>
+		</div>
 	</div>
 </TravelLayout>
 
 <style>
-	.archive-grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 2rem;
-		width: 100%;
+	.travel-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 60vh;
+		padding: 2rem 0;
+	}
+
+	.travel-hero {
+		text-align: center;
+		margin-bottom: 3rem;
+		max-width: 600px;
+	}
+
+	.travel-hero h1 {
+		font-size: var(--text-4xl);
+		color: var(--gray-100);
+		margin-bottom: 1rem;
+	}
+
+	.travel-hero p {
+		font-size: var(--text-lg);
+		color: var(--gray-300);
+		line-height: 1.6;
+	}
+
+	.pile-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	@media (min-width: 768px) {
-		.archive-grid {
-			grid-template-columns: repeat(2, 1fr);
+		.travel-hero h1 {
+			font-size: var(--text-5xl);
 		}
 	}
 </style> 

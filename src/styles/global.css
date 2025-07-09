@@ -333,3 +333,140 @@ h5 {
 html body[data-scroll-locked] {
 	margin-right: 0px !important;
 }
+
+/* Pile component styles */
+.pile-container {
+	position: relative;
+	background-color: var(--gray-999);
+	width: 100%;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 20px;
+	text-align: center;
+	cursor: pointer;
+	transition: transform 0.2s ease-in-out;
+}
+
+.pile-container:hover {
+	transform: translateY(-2px);
+}
+
+.pile-cards {
+	width: 248px;
+	position: relative;
+	height: 224px;
+}
+
+.pile-stack {
+	position: absolute;
+	top: 21.45px;
+	left: calc(50% - 90px);
+	width: 179.2px;
+	height: 195.5px;
+}
+
+.pile-polaroid-frame {
+	position: absolute;
+	width: 140px;
+	height: 166px;
+	background-image: url('/assets/polaroid-bg.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 8px;
+	box-shadow: var(--shadow-md);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.pile-image {
+	position: relative;
+	border-radius: 4px;
+	overflow: hidden;
+	object-fit: cover;
+	border: 2px solid var(--gray-999);
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pile-polaroid-frame-0 {
+	top: 0px;
+	left: calc(50% - 70px);
+}
+
+.pile-polaroid-frame-1 {
+	top: 0px;
+	left: calc(50% - 70px);
+}
+
+.pile-polaroid-frame-2 {
+	top: 0px;
+	left: calc(50% - 70px);
+}
+
+.pile-polaroid-frame-3 {
+	top: 0px;
+	left: calc(50% - 70px);
+}
+
+.pile-polaroid-frame-4 {
+	top: 0px;
+	left: calc(50% - 70px);
+}
+
+.pile-image-0,
+.pile-image-1,
+.pile-image-2,
+.pile-image-3,
+.pile-image-4 {
+	width: 128px;
+	height: 136px;
+}
+
+.pile-nav-button {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: var(--gray-999);
+	border: 1px solid var(--gray-800);
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+	color: var(--gray-300);
+	z-index: 20;
+}
+
+.pile-container:hover .pile-nav-button {
+	opacity: 1;
+}
+
+.pile-nav-button:hover {
+	background-color: var(--accent-overlay-hover);
+	color: var(--accent-dark);
+}
+
+.pile-nav-left {
+	left: -60px;
+}
+
+.pile-nav-right {
+	right: -60px;
+}
+
+.pile-year {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--gray-100);
+	font-family: var(--font-brand);
+	line-height: 150%;
+}

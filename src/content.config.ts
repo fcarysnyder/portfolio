@@ -18,6 +18,7 @@ const travel = defineCollection({
 		title: z.string(),
 		publishDate: z.date(),
 		image: z.string().optional(),
+		images: z.array(z.string()).optional(),
 		description: z.string(),
 		link: z.string().optional(),
 		tags: z.array(z.string()).optional(),
