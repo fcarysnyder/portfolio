@@ -20,7 +20,10 @@
 	--accent-regular: #ff4949;
 	--accent-dark:  #f54c4c; 
 	--accent-overlay: hsla(0, 99%, 64%, 1.00);
-	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
+	--liquid-accent-hover: hsla(0, 33%, 94%, 0.17);
+	--liquid-accent: hsla(0, 33%, 94%, 0.5);
+	--liquid-glass-border: hsla(0, 64%, 91%, 0.8);
+	--liquid-glass-backdrop: rgba(255, 255, 255, 0.1);
 	--accent-subtle-overlay: var(--accent-overlay);
 	--accent-text-over: var(--gray-999);
 	--link-color: var(--accent-regular);
@@ -95,6 +98,11 @@
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--accent-subtle-overlay: var(--accent-overlay);
 	--accent-text-over: var(--gray-0);
+	
+	--liquid-accent-hover: hsla(0, 65%, 25%, 0.25);
+	--liquid-accent: hsla(0, 65%, 15%, 0.4);
+	--liquid-glass-border: hsla(0, 65%, 35%, 0.6);
+	--liquid-glass-backdrop: rgba(0, 0, 0, 0.15);
 
 	--link-color: var(--accent-dark);
 
@@ -255,17 +263,63 @@ h5 {
 	}
 }
 
+/* Shared glass button styles */
+.glass-button {
+	background-color: var(--liquid-accent);
+	border: 1px solid var(--liquid-glass-border);
+	cursor: pointer;
+	transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+	box-shadow: var(--shadow-md);
+	color: var(--accent-dark);
+}
+
+.glass-button-hover,
+.glass-button:hover {
+	background: linear-gradient(135deg, var(--liquid-accent-hover), var(--liquid-glass-backdrop));
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--liquid-glass-border);
+	color: var(--accent-dark);
+}
+
+/* Neutral glass effect for navigation */
+.glass-neutral-light {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-neutral-dark {
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Apply neutral glass based on theme */
+:root .glass-neutral {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root.theme-dark .glass-neutral {
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
 /* NavDropdown component styles */
 .menu-button {
 	position: relative;
 	display: flex;
-	border: 0;
 	border-radius: 999rem;
 	padding: 0.65rem;
 	font-size: 1.5rem;
-	color: var(--accent-dark);
-	background: var(--gray-999);
-	cursor: pointer;
 }
 
 .menu-button:focus {
@@ -273,8 +327,11 @@ h5 {
 }
 
 .menu-button[data-state='open'] { /* Radix uses data-state for open/closed */
+	background: linear-gradient(135deg, var(--liquid-accent-hover), var(--liquid-glass-backdrop));
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--liquid-glass-border);
 	color: var(--accent-dark);
-	background: var(--gray-999);
 }
 
 [data-theme='light'] .menu-button[data-state='open'] {
@@ -287,10 +344,11 @@ h5 {
 	border-radius: 0.5rem;
 	box-shadow: var(--shadow-lg);
 	z-index: 1000;
-	box-sizing: border-box; /* Added for predictable sizing */
-	min-width: 200px; /* Added to ensure minimum readability */
-	max-width: 280px; /* Added to prevent excessive width and potential overflow */
+	box-sizing: border-box;
+	min-width: 200px;
+	max-width: 280px;
 }
+
 
 .nav-items {
 	margin: 0;
@@ -301,7 +359,7 @@ h5 {
 	list-style: none;
 	padding: 8px;
 	gap: 4px;
-	border: none !important;
+	/* border: var(-gray-800) !important; */
 }
 
 .link {
@@ -314,8 +372,8 @@ h5 {
 }
 
 .link:hover {
-	background-color: var(--accent-overlay-hover);
-	color: var(--accent-dark); /* Optional: change text color on hover */
+	/* background-color: var(--liquid-accent-hover); */
+	color: var(--accent-dark);
 	border: none !important;
 }
 
@@ -339,7 +397,7 @@ html body[data-scroll-locked] {
 	position: relative;
 	background-color: var(--gray-999);
 	width: 100%;
-	max-width: 300px;
+	max-width: 280px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -355,95 +413,56 @@ html body[data-scroll-locked] {
 }
 
 .pile-cards {
-	width: 248px;
+	width: 280px;
 	position: relative;
 	height: 224px;
 }
 
 .pile-stack {
-	position: absolute;
-	top: 21.45px;
-	left: calc(50% - 90px);
-	width: 179.2px;
-	height: 195.5px;
+	position: relative;
+	width: 280px;
+	height: 224px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .pile-polaroid-frame {
 	position: absolute;
 	width: 140px;
 	height: 166px;
-	background-image: url('/assets/polaroid-bg.png');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	background-color: var(--gray-999);
 	border-radius: 8px;
-	box-shadow: var(--shadow-md);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+	padding: 6px;
+	transition: all 0.3s ease-in-out;
+	border: 0.5px solid var(--gray-800);
 }
 
 .pile-image {
-	position: relative;
+	width: 128px;
+	height: 136px;
 	border-radius: 4px;
-	overflow: hidden;
 	object-fit: cover;
-	border: 2px solid var(--gray-999);
 	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.pile-polaroid-frame-0 {
-	top: 0px;
-	left: calc(50% - 70px);
-}
-
-.pile-polaroid-frame-1 {
-	top: 0px;
-	left: calc(50% - 70px);
-}
-
-.pile-polaroid-frame-2 {
-	top: 0px;
-	left: calc(50% - 70px);
-}
-
-.pile-polaroid-frame-3 {
-	top: 0px;
-	left: calc(50% - 70px);
-}
-
-.pile-polaroid-frame-4 {
-	top: 0px;
-	left: calc(50% - 70px);
-}
-
-.pile-image-0,
-.pile-image-1,
-.pile-image-2,
-.pile-image-3,
-.pile-image-4 {
-	width: 128px;
-	height: 136px;
-}
 
 .pile-nav-button {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	background-color: var(--gray-999);
-	border: 1px solid var(--gray-800);
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	cursor: pointer;
 	opacity: 0;
+	z-index: 15;
 	transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
-	color: var(--gray-300);
-	z-index: 20;
 }
 
 .pile-container:hover .pile-nav-button {
@@ -451,16 +470,15 @@ html body[data-scroll-locked] {
 }
 
 .pile-nav-button:hover {
-	background-color: var(--accent-overlay-hover);
-	color: var(--accent-dark);
+	transform: translateY(-50%) scale(1.05);
 }
 
 .pile-nav-left {
-	left: -60px;
+	left: 20px;
 }
 
 .pile-nav-right {
-	right: -60px;
+	right: 20px;
 }
 
 .pile-year {

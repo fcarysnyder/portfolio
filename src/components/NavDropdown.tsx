@@ -31,7 +31,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger
-        className="menu-button"
+        className="menu-button glass-button"
         aria-label="Menu"
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => setOpen((prev) => !prev)}
@@ -41,7 +41,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="menu-content"
+          className="menu-content glass-neutral"
           sideOffset={5}
           align="end"
           collisionPadding={16}

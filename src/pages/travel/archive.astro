@@ -17,7 +17,7 @@ const travelEntries = (await getCollection('travel'))
 	
 	<div class="archive-grid">
 		{travelEntries.map((entry) => (
-			<article class="archive-card">
+			<article class="archive-card glass-button-hover">
 				<a href={`/travel/${entry.id}`} class="card-link">
 					{entry.data.image && (
 						<img
@@ -107,11 +107,10 @@ const travelEntries = (await getCollection('travel'))
 	}
 
 	.archive-card {
-		background: var(--gray-999);
 		border-radius: 12px;
 		overflow: hidden;
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
 		border: 1px solid var(--gray-800);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
 	}
 
 	.archive-card:hover {
