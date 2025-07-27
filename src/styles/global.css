@@ -395,9 +395,8 @@ html body[data-scroll-locked] {
 /* Pile component styles */
 .pile-container {
 	position: relative;
-	background-color: var(--gray-999);
 	width: 100%;
-	max-width: 280px;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -413,15 +412,15 @@ html body[data-scroll-locked] {
 }
 
 .pile-cards {
-	width: 280px;
+	width: 560px;
 	position: relative;
-	height: 224px;
+	height: 448px;
 }
 
 .pile-stack {
 	position: relative;
-	width: 280px;
-	height: 224px;
+	width: 560px;
+	height: 448px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -429,24 +428,24 @@ html body[data-scroll-locked] {
 
 .pile-polaroid-frame {
 	position: absolute;
-	width: 140px;
-	height: 166px;
+	width: 280px;
+	height: 332px;
 	background-color: var(--gray-999);
-	border-radius: 8px;
+	border-radius: 16px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 6px;
+	padding: 12px;
 	transition: all 0.3s ease-in-out;
-	border: 0.5px solid var(--gray-800);
+	border: 1px solid var(--gray-800);
 }
 
 .pile-image {
-	width: 128px;
-	height: 136px;
-	border-radius: 4px;
+	width: 256px;
+	height: 272px;
+	border-radius: 8px;
 	object-fit: cover;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -474,11 +473,11 @@ html body[data-scroll-locked] {
 }
 
 .pile-nav-left {
-	left: 20px;
+	left: 40px;
 }
 
 .pile-nav-right {
-	right: 20px;
+	right: 40px;
 }
 
 .pile-year {

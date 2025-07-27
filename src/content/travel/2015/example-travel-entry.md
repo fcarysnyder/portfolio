@@ -1,6 +1,6 @@
 ---
 title: "Example Travel Entry"
-publishDate: 2024-03-20T00:00:00Z
+publishDate: 2015-03-20T00:00:00Z
 description: "This is an example travel entry that demonstrates the structure of the front matter. You can include multiple images for the pile effect."
 images:
   - "/assets/about/img-1.jpg"

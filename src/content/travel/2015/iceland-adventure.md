@@ -1,6 +1,6 @@
 ---
 title: "Iceland Adventure"
-publishDate: 2023-08-15T00:00:00Z
+publishDate: 2015-08-15T00:00:00Z
 description: "Exploring the land of fire and ice, from the Northern Lights to geothermal hot springs and dramatic waterfalls."
 images:
   - "/assets/backgrounds/photo-dunes.jpg"

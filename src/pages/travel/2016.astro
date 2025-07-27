@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+import TravelLayout from '../../layouts/TravelLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+const travelEntries = (await getCollection('travel'))
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+---
+
+<TravelLayout title="Travel 2015">
+	<div class="archive-header">
+		<a class="back-link" href="/travel/"><Icon icon="arrow-left" /> Back to Travel</a>
+		<h1>2015</h1>
+	</div>
+	
+	<div class="archive-grid">
+		{travelEntries.map((entry) => (
+			<article class="archive-card glass-button-hover">
+				<a href={`/travel/${entry.id}`} class="card-link">
+					{entry.data.image && (
+						<img
+							src={entry.data.image}
+							alt={entry.data.title}
+							width="800"
+							height="450"
+						/>
+					)}
+					{!entry.data.image && entry.data.images && entry.data.images.length > 0 && (
+						<img
+							src={entry.data.images[0]}
+							alt={entry.data.title}
+							width="800"
+							height="450"
+						/>
+					)}
+					<div class="card-content">
+						<h2>{entry.data.title}</h2>
+						<time class="date" datetime={entry.data.publishDate.toISOString()}>
+							{entry.data.publishDate.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})}
+						</time>
+						<p class="description">{entry.data.description}</p>
+						{entry.data.tags && (
+							<div class="tags">
+								{entry.data.tags.map((tag) => (
+									<span class="tag">{tag}</span>
+								))}
+							</div>
+						)}
+					</div>
+				</a>
+			</article>
+		))}
+	</div>
+</TravelLayout>
+
+<style>
+	.archive-header {
+		text-align: center;
+		margin-bottom: 3rem;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--gray-800);
+	}
+
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--accent-regular);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		margin-bottom: 1rem;
+		transition: color 0.2s ease;
+	}
+
+	.back-link:hover {
+		color: var(--accent-dark);
+	}
+
+	.archive-header h1 {
+		font-size: var(--text-4xl);
+		color: var(--gray-100);
+		margin-bottom: 0.5rem;
+	}
+
+	.archive-header p {
+		font-size: var(--text-lg);
+		color: var(--gray-300);
+	}
+
+	.archive-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+		width: 100%;
+	}
+
+	@media (min-width: 768px) {
+		.archive-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.archive-card {
+		border-radius: 12px;
+		overflow: hidden;
+		border: 1px solid var(--gray-800);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.archive-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.card-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+
+	.archive-card img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+	}
+
+	.card-content {
+		padding: 1.5rem;
+	}
+
+	.card-content h2 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.25rem;
+		color: var(--gray-100);
+	}
+
+	.date {
+		color: var(--gray-400);
+		font-size: 0.875rem;
+		margin-bottom: 0.75rem;
+		display: block;
+	}
+
+	.description {
+		color: var(--gray-300);
+		line-height: 1.6;
+		margin-bottom: 1rem;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag {
+		background: var(--accent-overlay);
+		color: var(--accent-text-over);
+		padding: 0.25rem 0.75rem;
+		border-radius: 999rem;
+		font-size: 0.75rem;
+		font-weight: 500;
+	}
+</style> 

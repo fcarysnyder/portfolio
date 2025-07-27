@@ -51,10 +51,10 @@ export default function Pile({ images, href, year, title = 'Image Stack' }: Pile
     const baseAngles = [0, -12, 8, -6, 15];
     const baseOffsets = [
       { x: 0, y: 0 },
-      { x: -15, y: -10 },
-      { x: 12, y: -8 },
-      { x: -8, y: 5 },
-      { x: 20, y: -5 }
+      { x: -30, y: -20 },
+      { x: 24, y: -16 },
+      { x: -16, y: 10 },
+      { x: 40, y: -10 }
     ];
     
     // On hover, spread images more

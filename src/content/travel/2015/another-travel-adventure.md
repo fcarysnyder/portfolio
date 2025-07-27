@@ -1,6 +1,6 @@
 ---
 title: "Another Travel Adventure"
-publishDate: 2024-02-15T00:00:00Z
+publishDate: 2015-02-15T00:00:00Z
 description: "Another example travel entry showcasing different images and content structure for the pile component."
 images:
   - "/assets/about/img-5.jpg"

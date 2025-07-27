@@ -70,61 +70,88 @@ const yearRange = years.length > 0 ?
 ---
 
 <TravelLayout title="Travel">
-	<div class="travel-container">
-		<div class="travel-hero">
-			<h1>Travel Adventures</h1>
-			<p>Explore my collection of travel experiences and adventures from around the world.</p>
+	<div class="hero-wrapper stack gap-20">
+		<div class="travel-hero title">
+			<h1>Trips</h1>
+			<p>I organize trips by year, beginning with my first major adventure as an adult to South America in 2015.</p>
 		</div>
 		
-		<div class="pile-container">
-			<Pile
-				images={pileImages}
-				href="/travel/archive"
-				year={yearRange}
-				title="Travel Collection"
-				client:load
-			/>
-		</div>
+		
+			<div class="pile-container">
+				<Pile
+					images={pileImages}
+					href="/travel/2015"
+					year={yearRange}
+					title="2015"
+					client:load
+				/>
+				<Pile
+					images={pileImages}
+					href="/travel/2016"
+					year={yearRange}
+					title="2015"
+					client:load
+				/>
+				<Pile
+					images={pileImages}
+					href="/travel/2016"
+					year={yearRange}
+					title="2015"
+					client:load
+				/>
+				<Pile
+					images={pileImages}
+					href="/travel/2016"
+					year={yearRange}
+					title="2015"
+					client:load
+				/>
+			</div>
+		
 	</div>
 </TravelLayout>
 
 <style>
-	.travel-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 60vh;
-		padding: 2rem 0;
-	}
-
 	.travel-hero {
-		text-align: center;
-		margin-bottom: 3rem;
-		max-width: 600px;
+		text-align: left;
 	}
 
 	.travel-hero h1 {
-		font-size: var(--text-4xl);
-		color: var(--gray-100);
+		font-size: var(--text-2xl);
+		color: var(--gray-0);
 		margin-bottom: 1rem;
 	}
 
 	.travel-hero p {
 		font-size: var(--text-lg);
 		color: var(--gray-300);
-		line-height: 1.6;
+	}
+
+	.section {
+		width: 100%;
 	}
 
 	.pile-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		display: grid;
+		grid-auto-rows: 1fr;
+		gap: 40px;
+		list-style: none;
+		padding: 0;
+		width: 100%;
+		justify-items: center;
+		grid-template-columns: 1fr;
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 1344px) {
+		.pile-container {
+			grid-template-columns: 1fr 1fr;
+			gap: 32px;
+		}
+	}
+
+	@media (min-width: 60em) {
 		.travel-hero h1 {
-			font-size: var(--text-5xl);
+			font-size: var(--text-3xl);
 		}
 	}
 </style> 

@@ -1,6 +1,6 @@
 ---
 title: "Tokyo Exploration"
-publishDate: 2023-04-10T00:00:00Z
+publishDate: 2015-04-10T00:00:00Z
 description: "Diving into the vibrant culture of Tokyo, from bustling street markets to serene temples and cutting-edge technology."
 images:
   - "/assets/about/img-3.jpg"
