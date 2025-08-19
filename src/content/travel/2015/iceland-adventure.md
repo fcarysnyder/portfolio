@@ -8,7 +8,6 @@ images:
   - "/assets/backgrounds/photo-cloud.jpg"
   - "/assets/about/img-1.jpg"
   - "/assets/about/img-2.jpg"
-tags: ["iceland", "northern-lights", "waterfalls", "photography"]
 ---
 
 Iceland was absolutely breathtaking! The landscapes were so diverse and dramatic. From the powerful Gullfoss waterfall to the ethereal Northern Lights dancing across the sky, every moment was magical.

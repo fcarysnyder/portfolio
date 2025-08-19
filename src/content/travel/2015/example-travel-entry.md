@@ -8,7 +8,6 @@ images:
   - "/assets/about/img-3.jpg"
   - "/assets/about/img-4.jpg"
   - "/assets/about/img-5.jpg"
-tags: ["travel", "example"]
 ---
 
 This is the main content of the archive entry. For now, we're just using the front matter data, but you can add full content here if needed in the future. 

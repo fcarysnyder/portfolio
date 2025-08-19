@@ -3,15 +3,29 @@ import { getCollection } from 'astro:content';
 import TravelLayout from '../../layouts/TravelLayout.astro';
 import Icon from '../../components/Icon.astro';
 
+export async function getStaticPaths() {
+	const travelEntries = await getCollection('travel');
+	const years = [...new Set(travelEntries.map(entry => {
+		const year = entry.data.publishDate.getFullYear();
+		return year.toString();
+	}))].sort((a, b) => b.localeCompare(a));
+	
+	return years.map(year => ({
+		params: { year }
+	}));
+}
+
+const { year } = Astro.params;
 const travelEntries = (await getCollection('travel'))
+	.filter(entry => entry.data.publishDate.getFullYear().toString() === year)
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 ---
 
-<TravelLayout title="Travel 2015">
+<TravelLayout title={`Travel ${year}`}>
 	<div class="archive-header">
 		<a class="back-link" href="/travel/"><Icon icon="arrow-left" /> Back to Travel</a>
-		<h1>2015</h1>
+		<h1>{year}</h1>
 	</div>
 	
 	<div class="archive-grid">
@@ -60,7 +74,7 @@ const travelEntries = (await getCollection('travel'))
 
 <style>
 	.archive-header {
-		text-align: center;
+		text-align: left;
 		margin-bottom: 3rem;
 		padding-bottom: 2rem;
 		border-bottom: 1px solid var(--gray-800);
@@ -82,7 +96,7 @@ const travelEntries = (await getCollection('travel'))
 	}
 
 	.archive-header h1 {
-		font-size: var(--text-4xl);
+		font-size: var(--text-2xl);
 		color: var(--gray-100);
 		margin-bottom: 0.5rem;
 	}
@@ -102,6 +116,12 @@ const travelEntries = (await getCollection('travel'))
 	@media (min-width: 768px) {
 		.archive-grid {
 			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 60em) {
+		.archive-header h1 {
+			font-size: var(--text-3xl);
 		}
 	}
 
@@ -167,4 +187,4 @@ const travelEntries = (await getCollection('travel'))
 		font-size: 0.75rem;
 		font-weight: 500;
 	}
-</style> 
+</style>

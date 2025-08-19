@@ -7,7 +7,6 @@ images:
   - "/assets/about/img-4.jpg"
   - "/assets/about/img-5.jpg"
 image: "/assets/backgrounds/bg-light.png"
-tags: ["tokyo", "japan", "culture", "food", "temples"]
 ---
 
 Tokyo was an incredible sensory overload in the best possible way! The city seamlessly blends ancient traditions with ultra-modern innovation.

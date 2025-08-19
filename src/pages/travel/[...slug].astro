@@ -1,10 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-import Hero from '../../components/Hero.astro';
-import Icon from '../../components/Icon.astro';
+import BlogHero from '../../components/BlogHero.astro';
 import { render } from 'astro:content';
 
 interface Props {
@@ -31,15 +28,15 @@ const { Content } = await render(entry);
 		<div class="stack gap-15">
 			<header>
 				<div class="wrapper stack gap-2">
-					<a class="back-link" href="/travel/"><Icon icon="arrow-left" /> Travel</a>
-					<Hero title={entry.data.title} align="start">
-						<div class="details">
-							<div class="tags">
-								{entry.data.tags && entry.data.tags.map((t) => <span class="tag">{t}</span>)}
-							</div>
-							<p class="description">{entry.data.description}</p>
-						</div>
-					</Hero>
+					<div>
+					<BlogHero title={entry.data.title} tagline={entry.data.description} entry={entry}>
+						<img
+							class="header-img"
+							src={entry.data.images?.[0]}
+							alt="Header Image"
+						/>
+						
+					</BlogHero>
 				</div>
 			</header>
 			<main class="wrapper">
@@ -67,35 +64,19 @@ const { Content } = await render(entry);
 		border-bottom: 1px solid var(--gray-800);
 	}
 
-	.back-link {
-		display: none;
-	}
 
 	.details {
 		display: flex;
 		flex-direction: column;
-		padding: 0.5rem;
 		gap: 1.5rem;
 		justify-content: space-between;
-		align-items: center;
-	}
-
-	.tags {
-		display: flex;
-		gap: 0.5rem;
-	}
-
-	.tag {
-		background: var(--gradient-subtle);
-		color: var(--gray-200);
-		padding: 0.25rem 0.75rem;
-		border-radius: 999rem;
-		font-size: var(--text-sm);
+		align-items: left;
 	}
 
 	.description {
 		font-size: var(--text-lg);
 		max-width: 54ch;
+		text-align: left;
 	}
 
 	.content {
