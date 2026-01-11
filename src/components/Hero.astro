@@ -16,7 +16,7 @@ const { align = 'center', tagline, title, url, link, button = true } = Astro.pro
 <div class:list={['hero stack gap-2', align]}>
 	<div class="stack gap-2">
 		<h1 class="title">{title}</h1>
-		{tagline && <p class="tagline">{tagline} <a href={url} class="company-link">{link}</a></p>}
+		<p class="tagline">I am a multi-disciplinary product designer based in Santa Barbara, CA. I'm committed to developing aesthetically pleasing and user-friendly digital products, websites, and mobile applications. Currently, I design software aimed at energy conservation for <a href={url} class="company-link">CrossnoKaye</a>.</p>
 		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>}
 	</div>
 	<slot />
