@@ -25,3 +25,4 @@ yarn-error.log
 # IDE / Editor specific
 .vscode/
 .idea/ 
+.astro/data-store.json
