@@ -28,7 +28,7 @@ const { title, description, useAnimatedBackground = false } = Astro.props;
             <div transition:persist>
                 <BackgroundEffect />
             </div>
-			<div class="stack animated-fade-in" style="flex: 1;">
+			<div class="stack animated-fade-in main-content-wrapper">
 				<Nav />
 				<slot />
 				<Footer />
@@ -55,6 +55,16 @@ const { title, description, useAnimatedBackground = false } = Astro.props;
 				--bg-aspect-ratio: calc(var(--bg-image-aspect-ratio) / var(--bg-scale));
 				--bg-gradient-size: calc(var(--bg-scale) * 100%);
 			}
+
+            /* ... existing vars ... */
+
+            .main-content-wrapper {
+                flex: 1;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
 
 			:root.theme-dark {
 				--bg-image-main: url('/assets/backgrounds/bg-dark.png');

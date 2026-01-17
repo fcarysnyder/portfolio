@@ -66,31 +66,6 @@ const { align = 'center', title, button = true } = Astro.props;
 		color: var(--accent-dark);
 	}
 
-	:global(.button) {
-	grid-column-gap: 4px;
-    background-color: var(--accent-regular);
-    border-radius: 8px;
-    justify-content: center;
-    align-items: center;
-    width: 148px;
-    height: 40px;
-    font-size: 14px;
-    line-height: 20px;
-    display: flex;
-    border: none;
-    color: white;
-    text-transform:uppercase;
-    font-size: 12px;
-    margin-top: 20px;
-    text-decoration: none;
-    font-weight: 600;
-    cursor: pointer;
-    }
-
-	:global(.button:hover) {
-		background-color: var(--accent-dark);
-	}
-
 	@media (min-width: 60em) {
 		.hero {
 			font-size: var(--text-2xl);
