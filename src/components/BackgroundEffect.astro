@@ -1,0 +1,250 @@
+---
+---
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- Debug Controls -->
+<div id="debug-controls" class="debug-controls hidden">
+    <div class="control-group">
+        <label>Gap <span id="val-gap"></span></label>
+        <input type="range" id="in-gap" min="1" max="100" step="1">
+    </div>
+    <div class="control-group">
+        <label>Speed <span id="val-speed"></span></label>
+        <input type="range" id="in-speed" min="0" max="0.05" step="0.0001">
+    </div>
+    <div class="control-group">
+        <label>Frequency <span id="val-freq"></span></label>
+        <input type="range" id="in-freq" min="0.001" max="0.1" step="0.001">
+    </div>
+    <div class="control-group">
+        <label>Amplitude <span id="val-amp"></span></label>
+        <input type="range" id="in-amp" min="0" max="100" step="1">
+    </div>
+    <div class="control-group">
+        <label>Opacity <span id="val-op"></span></label>
+        <input type="range" id="in-op" min="0" max="1" step="0.01">
+    </div>
+    <div class="control-group">
+        <label>Angle (deg) <span id="val-angle"></span></label>
+        <input type="range" id="in-angle" min="0" max="360" step="1">
+    </div>
+    <button id="toggle-debug">Toggle Debug</button>
+</div>
+
+<style>
+	#bg-canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		pointer-events: none;
+        /* Mask to fade out at the bottom */
+        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+	}
+
+    .debug-controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        font-family: monospace;
+        width: 300px;
+        display: block !important; /* Force always visible */
+    }
+
+    .debug-controls.hidden {
+        /* display: none; */ /* Disabled hiding for now */
+    }
+
+    .control-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .control-group label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .control-group input {
+        width: 100%;
+    }
+
+    #toggle-debug {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        opacity: 0.5;
+    }
+    
+    #toggle-debug:hover {
+        opacity: 1;
+    }
+</style>
+
+<script>
+	class BackgroundEffect {
+		canvas: HTMLCanvasElement;
+		ctx: CanvasRenderingContext2D;
+		width: number = 0;
+		height: number = 0;
+		accentColor: string = '';
+        
+        // Parameters
+        params = {
+            gap: 6,
+            speed: 0.0026,
+            frequency: 0.01,
+            amplitude: 62,
+            opacity: 0.68,
+            angle: 285
+        };
+
+        time: number = 0;
+
+		constructor() {
+			this.canvas = document.getElementById('bg-canvas') as HTMLCanvasElement;
+			const context = this.canvas.getContext('2d');
+            if (!context) throw new Error('Could not get canvas context');
+            this.ctx = context;
+
+			this.resize = this.resize.bind(this);
+			this.animate = this.animate.bind(this);
+            this.updateColors = this.updateColors.bind(this);
+
+			window.addEventListener('resize', this.resize);
+			this.resize();
+            
+            // Watch for theme changes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        this.updateColors();
+                    }
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true });
+
+            this.updateColors();
+            this.setupDebug();
+			this.animate();
+		}
+
+        setupDebug() {
+            const controls = document.getElementById('debug-controls');
+            const toggle = document.getElementById('toggle-debug');
+
+            if (toggle && controls) {
+                toggle.addEventListener('click', () => {
+                    controls.classList.toggle('hidden');
+                });
+
+                const bindInput = (key: keyof typeof this.params, id: string) => {
+                    const input = document.getElementById(id) as HTMLInputElement;
+                    const valDisplay = document.getElementById(id.replace('in-', 'val-'));
+                    
+                    if (input && valDisplay) {
+                        input.value = String(this.params[key]);
+                        valDisplay.textContent = String(this.params[key]);
+
+                        input.addEventListener('input', (e) => {
+                            const val = parseFloat((e.target as HTMLInputElement).value);
+                            this.params[key] = val;
+                            valDisplay.textContent = String(val);
+                            
+                            // If gap changes, we might need to clear or handle it in draw loop
+                        });
+                    }
+                };
+
+                bindInput('gap', 'in-gap');
+                bindInput('speed', 'in-speed');
+                bindInput('frequency', 'in-freq');
+                bindInput('amplitude', 'in-amp');
+                bindInput('opacity', 'in-op');
+                bindInput('angle', 'in-angle');
+            }
+        }
+
+        updateColors() {
+            const styles = getComputedStyle(document.documentElement);
+            this.accentColor = styles.getPropertyValue('--accent-regular').trim();
+        }
+
+		resize() {
+			this.width = window.innerWidth;
+			this.height = window.innerHeight;
+			this.canvas.width = this.width;
+			this.canvas.height = this.height;
+		}
+
+		animate() {
+			this.ctx.clearRect(0, 0, this.width, this.height);
+            
+            // Calculate direction vector from angle
+            const angleRad = this.params.angle * (Math.PI / 180);
+            const dx = Math.cos(angleRad);
+            const dy = Math.sin(angleRad);
+
+            this.ctx.fillStyle = this.accentColor || '#ff4949';
+
+            // Draw grid of points
+            for (let x = 0; x < this.width; x += this.params.gap) {
+                for (let y = 0; y < this.height; y += this.params.gap) {
+                    
+                    // Wave calculation
+                    // Project position onto direction vector for wave propagation
+                    const dist = x * dx + y * dy;
+                    
+                    // Z offset driven by sine wave
+                    // Use amplitude to offset Y position for 3D effect (isometric-ish look)
+                    const z = Math.sin(dist * this.params.frequency - this.time * this.params.speed) * this.params.amplitude;
+                    
+                    // Normalize Z for opacity/size logic (approximate range -1 to 1 -> 0 to 1)
+                    // Note: z is now scaled by amplitude, so we need to normalize based on that
+                    const normalizedZ = (Math.sin(dist * this.params.frequency - this.time * this.params.speed) + 1) / 2;
+                    
+                    // Dynamic opacity based on wave height
+                    const alpha = this.params.opacity * normalizedZ;
+                    
+                    // Only draw if visible
+                    if (alpha > 0.01) {
+                        this.ctx.globalAlpha = alpha;
+                        this.ctx.beginPath();
+                        
+                        // Isometric-like offset: shift Y by Z
+                        const drawX = x;
+                        const drawY = y - z; // Move up/down based on wave height
+
+                        // Size oscillation slightly
+                        const size = 0.5 + normalizedZ * 0.5; 
+                        this.ctx.arc(drawX, drawY, size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
+                }
+            }
+
+            this.time++;
+			requestAnimationFrame(this.animate);
+		}
+	}
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => new BackgroundEffect());
+    } else {
+        new BackgroundEffect();
+    }
+</script>
