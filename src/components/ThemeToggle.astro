@@ -79,17 +79,27 @@ import Icon from './Icon.astro';
 
 			const button = this.querySelector('button')!;
 
-			/** Set the theme to dark/light mode. */
+			/** Set the theme to dark/light mode and save preference. */
 			const setTheme = (dark: boolean) => {
 				document.documentElement.classList[dark ? 'add' : 'remove']('theme-dark');
 				button.setAttribute('aria-pressed', String(dark));
+				// Save user preference to localStorage
+				localStorage.setItem('theme', dark ? 'dark' : 'light');
+			};
+
+			/** Sync button state to current theme without toggling or saving. */
+			const syncButtonState = () => {
+				button.setAttribute('aria-pressed', String(this.isDark()));
 			};
 
 			// Toggle the theme when a user clicks the button.
 			button.addEventListener('click', () => setTheme(!this.isDark()));
 
 			// Initialize button state to reflect current theme.
-			setTheme(this.isDark());
+			syncButtonState();
+
+			// Re-sync button state after View Transitions navigation.
+			document.addEventListener('astro:page-load', syncButtonState);
 		}
 
 		isDark() {
