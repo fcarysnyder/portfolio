@@ -19,7 +19,7 @@ const projects = (await getCollection('work'))
 const title = "Hi, I'm F Cary Snyder";
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} useAnimatedBackground={true}>
 	<div class="stack gap-20 lg:gap-20">
 		<div class="hero-wrapper">
 			<header class="hero wrapper">
@@ -81,7 +81,7 @@ const title = "Hi, I'm F Cary Snyder";
 	}
 	
 	.hero-wrapper::before {
-		content: '';
+		/* content: '';
 		position: absolute;
 		pointer-events: none;
 		left: 50%;
@@ -95,7 +95,7 @@ const title = "Hi, I'm F Cary Snyder";
 			var(--gray-999);
 		background-blend-mode: overlay, normal, normal;
 		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
+		z-index: -1; */
 	}
 
 	.hero {
@@ -184,7 +184,7 @@ const title = "Hi, I'm F Cary Snyder";
 	}
 
 	.with-background::before {
-		content: '';
+		/* content: '';
 		position: absolute;
 		pointer-events: none;
 		left: 50%;
@@ -198,7 +198,7 @@ const title = "Hi, I'm F Cary Snyder";
 			var(--gray-999);
 		background-blend-mode: overlay, normal, normal;
 		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
+		z-index: -1; */
 	}
 
 	.section-header {

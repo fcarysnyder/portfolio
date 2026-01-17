@@ -6,24 +6,33 @@
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import BackgroundEffect from '../components/BackgroundEffect.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title?: string | undefined;
 	description?: string | undefined;
+    useAnimatedBackground?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, useAnimatedBackground = false } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<MainHead title={title} description={description} />
+        <ClientRouter />
 	</head>
 	<body>
-		<div class="stack backgrounds animated-fade-in">
-			<Nav />
-			<slot />
-			<Footer />
+		<div class:list={['stack', 'backgrounds', 'use-animated-bg']}>
+            <div transition:persist>
+                <BackgroundEffect />
+            </div>
+			<div class="stack animated-fade-in" style="flex: 1;">
+				<Nav />
+				<slot />
+				<Footer />
+			</div>
 		</div>
 
 		<script>
@@ -113,6 +122,12 @@ const { title, description } = Astro.props;
 					--bg-gradient-size: none;
 				}
 			}
+
+            /* When using animated background, remove the static background images */
+            .backgrounds.use-animated-bg {
+                background: var(--gray-999);
+                background-blend-mode: normal;
+            }
 
 			.animated-fade-in {
 				animation: 1s ease-out forwards fadeInFromTop;
