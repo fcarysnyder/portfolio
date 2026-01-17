@@ -2,24 +2,25 @@
 import Icon from './Icon.astro';
 
 interface Props {
-	title: string;
-	tagline?: string;
-	link?: string;
-	url?: string;
+	title?: string;
 	align?: 'start' | 'center';
 	button?: boolean;
 }
 
-const { align = 'center', tagline, title, url, link, button = true } = Astro.props;
+const { align = 'center', title, button = true } = Astro.props;
 ---
 
 <div class:list={['hero stack gap-2', align]}>
 	<div class="stack gap-2">
-		<h1 class="title">{title}</h1>
-		<p class="tagline">I am a multi-disciplinary product designer based in Santa Barbara, CA. I'm committed to developing aesthetically pleasing and user-friendly digital products, websites, and mobile applications. Currently, I design software aimed at energy conservation for <a href={url} class="company-link">CrossnoKaye</a>.</p>
+		{title && <h1 class="title">
+			<slot name="title">{title}</slot>
+		</h1>}
+		{Astro.slots.has('tagline') && <p class="tagline">
+			<slot name="tagline" />
+		</p>}
+		<slot />
 		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>}
 	</div>
-	<slot />
 </div>
 
 <style>
@@ -28,7 +29,7 @@ const { align = 'center', tagline, title, url, link, button = true } = Astro.pro
 		width: 100%;
 	}
 
-	.title {
+	.title, :global(.hero .title) {
 		max-width: 37ch;
 		font-size: var(--text-2xl);
 		color: var(--gray-0);
@@ -43,49 +44,26 @@ const { align = 'center', tagline, title, url, link, button = true } = Astro.pro
 	}
 
 	.center .title,
-	.center .tagline {
+	.center :global(.title),
+	.center .tagline,
+	.center :global(.tagline) {
 		margin-inline: auto;
 	}
 
-	.tagline {
-		display: inline;
+	.tagline, :global(.hero .tagline) {
 		font-size: 1.5rem; /* 24px */
 		line-height: 2rem; /* 32px */
 		width: 100%;
 	}
 
-	.company-link {
+	:global(.company-link) {
 		color: var(--accent-regular);
 		text-decoration: none;
 		transition: color 0.2s ease;
 	}
 	
-	.company-link:hover {
+	:global(.company-link:hover) {
 		color: var(--accent-dark);
-	}
-	.button {
-	grid-column-gap: 4px;
-    background-color: var(--accent-regular);
-    border-radius: 8px;
-    justify-content: center;
-    align-items: center;
-    width: 148px;
-    height: 40px;
-    font-size: 14px;
-    line-height: 20px;
-    display: flex;
-	border: none;
-	color: white;
-	text-transform:uppercase;
-	font-size: 12px;
-	margin-top: 20px;
-	text-decoration: none;
-	font-weight: 600;
-	cursor: pointer;
-	}
-
-	.button:hover {
-		background-color: var(--accent-dark);
 	}
 
 	@media (min-width: 60em) {
@@ -99,11 +77,13 @@ const { align = 'center', tagline, title, url, link, button = true } = Astro.pro
 		}
 
 		.start .title,
-		.start .tagline {
+		.start :global(.title),
+		.start .tagline,
+		.start :global(.tagline) {
 			margin-inline: unset;
 		}
 
-		.title {
+		.title, :global(.hero .title) {
 			font-size: var(--text-3xl);
 		}
 	}
