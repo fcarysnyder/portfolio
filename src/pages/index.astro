@@ -1,27 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
-
 // Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Component Imports
-import Grid from '../components/Grid.astro';
 import Hero from '../components/Hero.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-import Icon from '../components/Icon.astro';
 import HeroTyper from '../components/HeroTyper';
-
-
-// Content Fetching: List five most recent work projects
-const projects = (await getCollection('work'))
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-	.slice(0, 5);
 
 const title = "Hi, I'm F Cary Snyder";
 ---
 
 <BaseLayout title={title} useAnimatedBackground={true}>
-	<div class="stack gap-20 lg:gap-20">
+	<div class="stack full-height-container">
 		<div class="hero-wrapper">
 			<header class="hero wrapper">
 				<img
@@ -42,28 +31,6 @@ const title = "Hi, I'm F Cary Snyder";
 				</Hero>
 			</header>
 		</div>
-
-		<main class="wrapper stack gap-20 lg:gap-48">
-			<section class="section with-background with-cta">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<div class="header-content">
-						<Icon icon='pen-nib' color='var(--icon-color, var(--gray-200))' size="16px"/>
-						<h3>Selected Projects</h3>
-					</div>
-				</header>
-				<div class="gallery">
-					<Grid >
-						{
-							projects.map((project) => (
-								<li>
-									<PortfolioPreview project={project} />
-								</li>
-							))
-						}
-					</Grid>
-				</div>
-			</section>
-		</main>
 	</div>
 </BaseLayout>
 
@@ -76,29 +43,18 @@ const title = "Hi, I'm F Cary Snyder";
 		--icon-color: var(--gray-200);
 	}
 
+	.full-height-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
 	.hero-wrapper {
 		width: 100%;
 		max-width: 100%;
 		padding: 0;
 		position: relative;
-	}
-	
-	.hero-wrapper::before {
-		/* content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
-		background:
-			url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
-			var(--gray-999);
-		background-blend-mode: overlay, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1; */
 	}
 
 	.hero {
@@ -152,6 +108,7 @@ const title = "Hi, I'm F Cary Snyder";
 			display: grid;
 			grid-template-columns: 1fr 3fr;
 			gap: 2rem;
+            align-items: center; /* Center vertically */
 		}
 
 		.roles {
@@ -164,121 +121,10 @@ const title = "Hi, I'm F Cary Snyder";
 			min-width: 300px;
 			width: 300px;
 			height: auto;
+			max-height: 70vh; /* Limit height to 70% of viewport to prevent scroll */
 			aspect-ratio: 3 / 4;
 			border-radius: 20px;
 			object-fit: cover;
 		}
 	}
-
-	/* ====================================================== */
-
-	.section {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-areas: 
-			'header'
-			'gallery';
-		gap: 32px;
-		width: 100%;
-	}
-
-	.with-background {
-		position: relative;
-	}
-
-	.with-background::before {
-		/* content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
-		background:
-			url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
-			var(--gray-999);
-		background-blend-mode: overlay, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1; */
-	}
-
-	.section-header {
-		grid-area: header;
-		font-size: var(--text-lg);
-		width: 100%;
-		display: block;
-	}
-
-	.header-content {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		padding-bottom: 8px;
-		border-bottom: 1px solid;
-		border-color: var(--gray-200);
-		width: 100%;
-	}
-
-	.section-header h3 {
-		font-size: var(--text-sm);
-		text-transform: uppercase;
-		color: var(--gray-200);
-		margin: 0;
-	}
-
-	.with-cta .section-header {
-		justify-self: flex-start;
-		text-align: left;
-		width: 100%;
-	}
-
-	.gallery {
-		grid-area: gallery;
-	}
-
-	.cta {
-		grid-area: cta;
-	}
-
-	/* ====================================================== */
-
-	.mention-card {
-		display: flex;
-		height: 7rem;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		border: 1px solid var(--gray-800);
-		border-radius: 1.5rem;
-		color: var(--gray-300);
-		background: var(--gradient-subtle);
-		/* box-shadow: var(--shadow-sm); */
-	}
-
-	@media (min-width: 60em) {
-		.mention-card {
-			border-radius: 1.5rem;
-			height: 9.5rem;
-		}
-	}
-
-	@media (min-width: 60em) {
-		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 32px;
-		}
-
-		.section.with-cta {
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-		}
-	}
-
-	.section-header.stack {
-		display: flex;
-		flex-direction: column;
-	}
-
 </style>

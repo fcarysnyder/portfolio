@@ -22,6 +22,21 @@ const ArrowRightIcon = () => (
   </svg>
 );
 
+// Envelope Icon SVG
+const EnvelopeIcon = () => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 256 256"
+    width="1em" 
+    height="1em" 
+    fill="currentColor"
+    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+  >
+    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" d="M32,56H224a8,8,0,0,1,8,8V192a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V64A8,8,0,0,1,32,56Z"/>
+    <polyline fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" points="224 64 128 128 32 64"/>
+  </svg>
+);
+
 const HeroTyper: React.FC<HeroTyperProps> = ({ 
   title, 
   taglinePart1, 
@@ -29,11 +44,11 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
   linkUrl 
 }) => {
   const [step, setStep] = useState(0);
-  const [showButton, setShowButton] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
     if (step === 3) {
-      const timer = setTimeout(() => setShowButton(true), 500);
+      const timer = setTimeout(() => setShowButtons(true), 500);
       return () => clearTimeout(timer);
     }
   }, [step]);
@@ -64,6 +79,13 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
       gridTemplateColumns: '100%',
   };
 
+  const buttonContainerStyle: React.CSSProperties = {
+      marginTop: '20px',
+      display: 'flex',
+      gap: '1rem',
+      flexWrap: 'wrap'
+  };
+
   return (
     <div style={containerStyle}>
         {/* Ghost Layer - RESERVES SPACE */}
@@ -73,9 +95,12 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
                 {taglinePart1}
                 <a href={linkUrl} className="company-link">{linkText}</a>
             </p>
-            <div style={{ marginTop: '20px' }}>
+            <div style={buttonContainerStyle}>
                 <a className="button">
-                    Drop me a line <ArrowRightIcon />
+                    See selected work <ArrowRightIcon />
+                </a>
+                <a className="button secondary">
+                    Drop me a line <EnvelopeIcon />
                 </a>
             </div>
         </div>
@@ -108,12 +133,16 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
             </p>
             
             <div style={{ 
-                opacity: showButton ? 1 : 0, 
+                ...buttonContainerStyle,
+                opacity: showButtons ? 1 : 0, 
                 transition: 'opacity 0.8s ease',
                 visibility: step >= 3 ? 'visible' : 'hidden' 
             }}>
-                <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" className="button">
-                    Drop me a line <ArrowRightIcon />
+                <a href="/work/" className="button">
+                    See selected work <ArrowRightIcon />
+                </a>
+                <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" className="button secondary">
+                    Drop me a line <EnvelopeIcon />
                 </a>
             </div>
         </div>

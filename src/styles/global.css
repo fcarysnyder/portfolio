@@ -333,3 +333,40 @@ h5 {
 html body[data-scroll-locked] {
 	margin-right: 0px !important;
 }
+
+/* Button Styles - Moved from Hero.astro to be globally available */
+.button {
+	grid-column-gap: 4px;
+	background-color: var(--accent-regular);
+	border-radius: 8px;
+	justify-content: center;
+	align-items: center;
+	padding: 0 16px;
+	height: 40px;
+	gap: 8px;
+	font-size: 14px;
+	line-height: 20px;
+	display: inline-flex;
+	border: none;
+	color: white;
+	text-transform: uppercase;
+	margin-top: 20px;
+	text-decoration: none;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.button:hover {
+	background-color: var(--accent-dark);
+}
+
+.button.secondary {
+	background-color: transparent !important;
+	border: none !important;
+	color: var(--accent-regular) !important;
+}
+
+.button.secondary:hover {
+	background-color: var(--accent-overlay-hover) !important;
+	color: var(--accent-regular) !important;
+}
