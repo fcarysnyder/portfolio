@@ -9,6 +9,7 @@ import Grid from '../components/Grid.astro';
 import Hero from '../components/Hero.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
 import Icon from '../components/Icon.astro';
+import HeroTyper from '../components/HeroTyper';
 
 
 // Content Fetching: List five most recent work projects
@@ -30,12 +31,14 @@ const title = "Hi, I'm F Cary Snyder";
 					src="/assets/headshot.jpg"
 					class="headshot"
 				/>
-				<Hero
-					title="Hi, I'm F Cary Snyder"
-					align="start"
-					url="https://crossnokaye.com"
-					link="CrossnoKaye."
-				>
+				<Hero align="start" button={false}>
+					<HeroTyper 
+						client:load
+						title="Hi, I'm F Cary Snyder"
+						taglinePart1="I am a multi-disciplinary product designer based in Santa Barbara, CA. I'm committed to developing aesthetically pleasing and user-friendly digital products, websites, and mobile applications. Currently, I design software aimed at energy conservation for "
+						linkText="CrossnoKaye."
+						linkUrl="https://crossnokaye.com"
+					/>
 				</Hero>
 			</header>
 		</div>
