@@ -1,17 +1,21 @@
 ---
 ---
 
-<canvas id="bg-canvas"></canvas>
+<div id="canvas-container"></div>
 
+<!-- 
+    EASTER EGG - DEBUG CONTROLS 
+    Please do not delete this section. The user intends to redesign this later as a full feature.
+-->
 <!-- Debug Controls -->
 <div id="debug-controls" class="debug-controls hidden">
     <div class="control-group">
         <label>Gap <span id="val-gap"></span></label>
-        <input type="range" id="in-gap" min="1" max="100" step="1">
+        <input type="range" id="in-gap" min="5" max="100" step="1">
     </div>
     <div class="control-group">
         <label>Speed <span id="val-speed"></span></label>
-        <input type="range" id="in-speed" min="0" max="0.05" step="0.0001">
+        <input type="range" id="in-speed" min="0" max="5.0" step="0.1">
     </div>
     <div class="control-group">
         <label>Frequency <span id="val-freq"></span></label>
@@ -29,11 +33,52 @@
         <label>Angle (deg) <span id="val-angle"></span></label>
         <input type="range" id="in-angle" min="0" max="360" step="1">
     </div>
-    <button id="toggle-debug">Toggle Debug</button>
+    <div class="control-group">
+        <label>Z-Axis <span id="val-zAxis"></span></label>
+        <input type="range" id="in-zAxis" min="0" max="200" step="1">
+    </div>
+    <div class="control-group">
+        <label>Focal Length <span id="val-focal"></span></label>
+        <input type="range" id="in-focal" min="100" max="1000" step="10">
+    </div>
+    <div class="control-group">
+        <label>Blur Strength <span id="val-blur"></span></label>
+        <input type="range" id="in-blur" min="0" max="20" step="0.1">
+    </div>
+    <div class="control-group">
+        <label>Base Size <span id="val-size"></span></label>
+        <input type="range" id="in-size" min="0.1" max="10" step="0.1">
+    </div>
+    <div class="control-group">
+        <label>Rotation X <span id="val-rotX"></span></label>
+        <input type="range" id="in-rotX" min="0" max="360" step="1">
+    </div>
+    <div class="control-group">
+        <label>Rotation Y <span id="val-rotY"></span></label>
+        <input type="range" id="in-rotY" min="0" max="360" step="1">
+    </div>
+    <div class="control-group">
+        <label>Rotation Z <span id="val-rotZ"></span></label>
+        <input type="range" id="in-rotZ" min="0" max="360" step="1">
+    </div>
+    <div class="control-group">
+        <label>Camera X <span id="val-camX"></span></label>
+        <input type="range" id="in-camX" min="-500" max="500" step="10">
+    </div>
+    <div class="control-group">
+        <label>Camera Y <span id="val-camY"></span></label>
+        <input type="range" id="in-camY" min="-500" max="500" step="10">
+    </div>
+    <div class="control-group">
+        <label>Camera Z <span id="val-camZ"></span></label>
+        <input type="range" id="in-camZ" min="0" max="2000" step="10">
+    </div>
 </div>
+<button id="toggle-debug-btn">Toggle Debug</button>
+
 
 <style>
-	#bg-canvas {
+	#canvas-container {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -46,6 +91,7 @@
         -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 	}
 
+    /* EASTER EGG STYLES - DO NOT DELETE */
     .debug-controls {
         position: fixed;
         top: 20px;
@@ -58,10 +104,12 @@
         font-family: monospace;
         width: 300px;
         display: block !important; /* Force always visible */
+        max-height: 80vh;
+        overflow-y: auto;
     }
 
     .debug-controls.hidden {
-        /* display: none; */ /* Disabled hiding for now */
+         display: none !important;
     }
 
     .control-group {
@@ -81,51 +129,81 @@
         width: 100%;
     }
 
-    #toggle-debug {
+    #toggle-debug-btn {
         position: fixed;
         bottom: 20px;
         right: 20px;
         z-index: 10000;
         opacity: 0.5;
+        cursor: pointer;
+        display: none;
     }
     
-    #toggle-debug:hover {
+    #toggle-debug-btn:hover {
         opacity: 1;
     }
 </style>
 
 <script>
-	class BackgroundEffect {
-		canvas: HTMLCanvasElement;
-		ctx: CanvasRenderingContext2D;
-		width: number = 0;
-		height: number = 0;
-		accentColor: string = '';
+    import * as THREE from 'three';
+
+    class BackgroundEffect {
+        container: HTMLElement;
+        scene!: THREE.Scene;
+        camera!: THREE.PerspectiveCamera;
+        renderer!: THREE.WebGLRenderer;
+        material!: THREE.ShaderMaterial;
+        geometry!: THREE.BufferGeometry;
+        points!: THREE.Points;
         
-        // Parameters
+        width: number = 0;
+        height: number = 0;
+        accentColor: string = '';
+        
+        // Animation state
+        isAnimating: boolean = false;
+        
         params = {
-            gap: 6,
-            speed: 0.0026,
-            frequency: 0.01,
-            amplitude: 62,
-            opacity: 0.68,
-            angle: 285
+            gap: 7,
+            speed: 0.4, // Adjusted scale for shader time
+            frequency: 0.005,
+            amplitude: 30,
+            opacity: 0.57,
+            angle: 58,
+            zAxis: 61,
+            focalLength: 280,
+            blurStrength: 2.6,
+            baseSize: 4.8,
+            rotationX: 11,
+            rotationY: 31,
+            rotationZ: 102,
+            cameraX: -10,
+            cameraY: -240,
+            cameraZ: 400
         };
 
-        time: number = 0;
+        startTime: number = 0;
 
-		constructor() {
-			this.canvas = document.getElementById('bg-canvas') as HTMLCanvasElement;
-			const context = this.canvas.getContext('2d');
-            if (!context) throw new Error('Could not get canvas context');
-            this.ctx = context;
+        constructor() {
+            this.container = document.getElementById('canvas-container') as HTMLElement;
+            if (!this.container) throw new Error('Container not found');
 
-			this.resize = this.resize.bind(this);
-			this.animate = this.animate.bind(this);
+            // Prevent multiple initializations if the script runs again but container is full
+            if (this.container.children.length > 0) {
+                // Already initialized
+                return;
+            }
+
+            this.startTime = Date.now();
+
+            this.init();
+            this.setupDebug();
+            this.animate = this.animate.bind(this);
+            this.resize = this.resize.bind(this);
             this.updateColors = this.updateColors.bind(this);
+            this.checkAnimationState = this.checkAnimationState.bind(this);
 
-			window.addEventListener('resize', this.resize);
-			this.resize();
+            window.addEventListener('resize', this.resize);
             
             // Watch for theme changes
             const observer = new MutationObserver((mutations) => {
@@ -137,14 +215,304 @@
             });
             observer.observe(document.documentElement, { attributes: true });
 
-            this.updateColors();
-            this.setupDebug();
-			this.animate();
-		}
+            // Listen for Astro navigation
+            document.addEventListener('astro:page-load', this.checkAnimationState);
 
+            this.updateColors();
+            
+            // Initial check
+            this.checkAnimationState();
+        }
+
+        checkAnimationState() {
+            const path = window.location.pathname;
+            // Adjust home path check as needed (e.g. handle / vs /index.html)
+            const isHome = path === '/' || path === '' || path === '/index.html' || path.endsWith('/index.html');
+
+            if (isHome) {
+                // Resume if stopped
+                if (!this.isAnimating) {
+                    this.isAnimating = true;
+                    this.animate();
+                }
+            } else {
+                // Freeze
+                if (this.isAnimating) {
+                    this.isAnimating = false;
+                    // Render one last frame to ensure we have content?
+                    // actually animate() renders then requests.
+                    // If we set false, next frame won't be requested.
+                    // The canvas retains the last render.
+                } else {
+                     // If we are not animating (e.g. loaded directly on subpage),
+                     // make sure we render at least one static frame so it's not blank.
+                     this.renderer.render(this.scene, this.camera);
+                }
+            }
+        }
+
+        init() {
+            // Scene
+            this.scene = new THREE.Scene();
+
+            // Camera
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            // Use an orthographic camera or perspective? Original used perspective logic.
+            // But we are drawing on a 2D grid basically.
+            // Let's use Perspective to get the depth effect naturally.
+            // FOV 75, aspect ratio, near 0.1, far 2000
+            this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 2000);
+            this.camera.position.x = this.params.cameraX;
+            this.camera.position.y = this.params.cameraY;
+            this.camera.position.z = this.params.cameraZ;
+
+            // Renderer
+            this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            this.renderer.setSize(this.width, this.height);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
+            this.container.appendChild(this.renderer.domElement);
+
+            // Particles
+            this.createParticles();
+        }
+
+        createParticles() {
+            if (this.points) {
+                this.scene.remove(this.points);
+                this.geometry.dispose();
+            }
+
+            // Generate grid
+            const particles = [];
+            // We need to center the grid
+            // Original code: x from 0 to width, y from 0 to height.
+            // In Three.js, (0,0) is center.
+            
+            // INCREASE GRID SIZE to cover screen when rotated or moved
+            // We'll multiply the width/height by a factor
+            const extra = 1200; // Increased buffer
+            const gridWidth = this.width + extra * 2;
+            const gridHeight = this.height + extra * 2;
+            
+            const cols = Math.floor(gridWidth / this.params.gap);
+            const rows = Math.floor(gridHeight / this.params.gap);
+            
+            const startX = -(gridWidth / 2);
+            const startY = (gridHeight / 2); // Top
+
+            for (let i = 0; i <= cols; i++) {
+                for (let j = 0; j <= rows; j++) {
+                    const x = startX + i * this.params.gap;
+                    const y = startY - j * this.params.gap;
+                    particles.push(x, y, 0);
+                }
+            }
+
+            this.geometry = new THREE.BufferGeometry();
+            this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(particles, 3));
+
+            // Shader Material
+            this.material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uSpeed: { value: this.params.speed },
+                    uFrequency: { value: this.params.frequency },
+                    uAmplitude: { value: this.params.amplitude },
+                    uAngle: { value: this.params.angle },
+                    uZAxis: { value: this.params.zAxis },
+                    uFocalLength: { value: this.params.focalLength },
+                    uColor: { value: new THREE.Color(this.accentColor) },
+                    uOpacity: { value: this.params.opacity },
+                    uBlurStrength: { value: this.params.blurStrength },
+                    uBaseSize: { value: this.params.baseSize },
+                    uRotationX: { value: this.params.rotationX },
+                    uRotationY: { value: this.params.rotationY },
+                    uRotationZ: { value: this.params.rotationZ }
+                },
+                vertexShader: `
+                    uniform float uTime;
+                    uniform float uSpeed;
+                    uniform float uFrequency;
+                    uniform float uAmplitude;
+                    uniform float uAngle;
+                    uniform float uZAxis;
+                    uniform float uFocalLength;
+                    uniform float uBaseSize;
+                    uniform float uRotationX;
+                    uniform float uRotationY;
+                    uniform float uRotationZ;
+
+                    varying float vAlpha;
+                    varying float vDepth;
+                    varying float vWave;
+
+                    // Pseudo-random noise function
+                    float random(vec2 st) {
+                        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+                    }
+
+                    void main() {
+                        vec3 pos = position;
+                        
+                        float angleRad = radians(uAngle);
+                        float dx = cos(angleRad);
+                        float dy = sin(angleRad);
+                        
+                        // Complex wave: Sum of sines
+                        // Main wave
+                        float dist = pos.x * dx + pos.y * dy;
+                        float wave1 = sin(dist * uFrequency - uTime * uSpeed);
+                        
+                        // Secondary crossing wave for "rolling" feel
+                        float wave2 = sin((pos.x * dy - pos.y * dx) * (uFrequency * 1.5) - uTime * (uSpeed * 0.7));
+                        
+                        // Third interference wave
+                        float wave3 = sin(dist * (uFrequency * 2.0) - uTime * (uSpeed * 1.3));
+                        
+                        // Combine waves
+                        float wave = (wave1 + wave2 * 0.5 + wave3 * 0.25) / 1.75;
+                        
+                        // Displacements
+                        float zOffset = wave * uZAxis;
+                        float yOffset = wave * uAmplitude;
+                        
+                        // Apply wave displacement
+                        pos.z += zOffset;
+                        // We keep y flat mostly, but maybe a bit of vertical movement adds to organic feel?
+                        // Let's stick to Z displacement primarily for the "paper thickness" feel
+                        // but Y offset helps with the "flow" look in 2D projection
+                        // pos.y += yOffset * 0.2; 
+                        
+                        // ROTATION
+                        // Rotate around X axis
+                        float rx = radians(uRotationX);
+                        float cx = cos(rx);
+                        float sx = sin(rx);
+                        vec3 rotatedPos = pos;
+                        // Rotate Y and Z around X
+                        float y = pos.y * cx - pos.z * sx;
+                        float z = pos.y * sx + pos.z * cx;
+                        rotatedPos.y = y;
+                        rotatedPos.z = z;
+                        
+                        // Rotate around Y axis
+                        float ry = radians(uRotationY);
+                        float cy = cos(ry);
+                        float sy = sin(ry);
+                        // Rotate X and Z around Y
+                        float x = rotatedPos.x * cy + rotatedPos.z * sy;
+                        z = -rotatedPos.x * sy + rotatedPos.z * cy;
+                        rotatedPos.x = x;
+                        rotatedPos.z = z;
+                        
+                        // Rotate around Z axis
+                        float rz = radians(uRotationZ);
+                        float cz = cos(rz);
+                        float sz = sin(rz);
+                        // Rotate X and Y around Z
+                        x = rotatedPos.x * cz - rotatedPos.y * sz;
+                        y = rotatedPos.x * sz + rotatedPos.y * cz;
+                        rotatedPos.x = x;
+                        rotatedPos.y = y;
+                        
+                        vec4 mvPosition = modelViewMatrix * vec4(rotatedPos, 1.0);
+                        gl_Position = projectionMatrix * mvPosition;
+                        
+                        // Size attenuation
+                        float depth = uFocalLength - rotatedPos.z;
+                        float scale = (depth > 0.0) ? (uFocalLength / depth) : 10.0;
+                        
+                        // Base size * wave factor * scale
+                        gl_PointSize = (uBaseSize + (wave + 1.0)) * scale * 0.5;
+                        
+                        // Pass to frag
+                        vAlpha = (wave + 1.0) * 0.5;
+                        vDepth = rotatedPos.z;
+                        vWave = wave; // Pass normalized wave for lighting
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 uColor;
+                    uniform float uOpacity;
+                    uniform float uBlurStrength;
+
+                    varying float vAlpha;
+                    varying float vDepth;
+                    varying float vWave;
+
+                    // Noise for grain
+                    float random(vec2 st) {
+                        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+                    }
+
+                    void main() {
+                        // Soft circle
+                        vec2 center = gl_PointCoord - 0.5;
+                        float r = length(center);
+                        if (r > 0.5) discard;
+                        
+                        // Softness (simulated blur)
+                        float blur = 0.0;
+                        if (vDepth > 0.0) {
+                            blur = (vDepth / 50.0) * uBlurStrength * 0.1;
+                        }
+                        
+                        float edge = 0.5;
+                        float soft = max(0.05, blur); 
+                        float alpha = smoothstep(edge, edge - soft, r);
+                        
+                        // METALLIC / GLOW EFFECT
+                        // Use wave height to simulate catching light
+                        // Higher points (vWave near 1.0) are brighter
+                        float light = smoothstep(-0.5, 1.0, vWave);
+                        vec3 finalColor = uColor + (vec3(1.0) - uColor) * light * 0.5;
+                        
+                        // GRAIN
+                        float grain = random(gl_FragCoord.xy * 0.01 + vDepth) * 0.2;
+                        finalColor += grain;
+                        
+                        gl_FragColor = vec4(finalColor, alpha * uOpacity * (0.5 + light * 0.5));
+                    }
+                `,
+                transparent: true,
+                depthTest: false, // Disable depth test to allow transparency blending nicely? Or true? 
+                // If false, draw order matters. We are not sorting in shader.
+                // Three.js doesn't sort points in BufferGeometry by depth automatically per frame.
+                // We should enable blending.
+                blending: THREE.NormalBlending
+            });
+
+            this.points = new THREE.Points(this.geometry, this.material);
+            this.scene.add(this.points);
+        }
+
+        updateColors() {
+            const styles = getComputedStyle(document.documentElement);
+            const colorStr = styles.getPropertyValue('--accent-regular').trim();
+            this.accentColor = colorStr || '#ff4949';
+            if (this.material) {
+                this.material.uniforms.uColor.value.set(this.accentColor);
+            }
+        }
+
+        resize() {
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            
+            this.camera.aspect = this.width / this.height;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(this.width, this.height);
+            
+            // Recreate particles to fill new size
+            this.createParticles();
+        }
+
+        // EASTER EGG - DEBUG SETUP
+        // Do not remove. This is intended to be redesigned later.
         setupDebug() {
             const controls = document.getElementById('debug-controls');
-            const toggle = document.getElementById('toggle-debug');
+            const toggle = document.getElementById('toggle-debug-btn');
 
             if (toggle && controls) {
                 toggle.addEventListener('click', () => {
@@ -164,7 +532,37 @@
                             this.params[key] = val;
                             valDisplay.textContent = String(val);
                             
-                            // If gap changes, we might need to clear or handle it in draw loop
+                            // Update uniforms
+                            if (this.material) {
+                                switch(key) {
+                                    case 'speed': this.material.uniforms.uSpeed.value = val; break;
+                                    case 'frequency': this.material.uniforms.uFrequency.value = val; break;
+                                    case 'amplitude': this.material.uniforms.uAmplitude.value = val; break;
+                                    case 'angle': this.material.uniforms.uAngle.value = val; break;
+                                    case 'zAxis': this.material.uniforms.uZAxis.value = val; break;
+                                    case 'focalLength': this.material.uniforms.uFocalLength.value = val; break;
+                                    case 'opacity': this.material.uniforms.uOpacity.value = val; break;
+                                    case 'blurStrength': this.material.uniforms.uBlurStrength.value = val; break;
+                                    case 'baseSize': this.material.uniforms.uBaseSize.value = val; break;
+                                    case 'rotationX': this.material.uniforms.uRotationX.value = val; break;
+                                    case 'rotationY': this.material.uniforms.uRotationY.value = val; break;
+                                    case 'rotationZ': this.material.uniforms.uRotationZ.value = val; break;
+                                    case 'cameraX':
+                                        this.camera.position.x = val;
+                                        break;
+                                    case 'cameraY': 
+                                        this.camera.position.y = val; 
+                                        break;
+                                    case 'cameraZ':
+                                        this.camera.position.z = val;
+                                        break;
+                                }
+                            }
+
+                            // Re-init particles if gap changes
+                            if (key === 'gap') {
+                                this.createParticles();
+                            }
                         });
                     }
                 };
@@ -175,71 +573,33 @@
                 bindInput('amplitude', 'in-amp');
                 bindInput('opacity', 'in-op');
                 bindInput('angle', 'in-angle');
+                bindInput('zAxis', 'in-zAxis');
+                bindInput('focalLength', 'in-focal');
+                bindInput('blurStrength', 'in-blur');
+                bindInput('baseSize', 'in-size');
+                bindInput('rotationX', 'in-rotX');
+                bindInput('rotationY', 'in-rotY');
+                bindInput('rotationZ', 'in-rotZ');
+                bindInput('cameraX', 'in-camX');
+                bindInput('cameraY', 'in-camY');
+                bindInput('cameraZ', 'in-camZ');
             }
         }
 
-        updateColors() {
-            const styles = getComputedStyle(document.documentElement);
-            this.accentColor = styles.getPropertyValue('--accent-regular').trim();
-        }
+        animate() {
+            // Check animation state each frame in case we need to stop
+            if (!this.isAnimating) return;
 
-		resize() {
-			this.width = window.innerWidth;
-			this.height = window.innerHeight;
-			this.canvas.width = this.width;
-			this.canvas.height = this.height;
-		}
-
-		animate() {
-			this.ctx.clearRect(0, 0, this.width, this.height);
+            requestAnimationFrame(this.animate);
             
-            // Calculate direction vector from angle
-            const angleRad = this.params.angle * (Math.PI / 180);
-            const dx = Math.cos(angleRad);
-            const dy = Math.sin(angleRad);
-
-            this.ctx.fillStyle = this.accentColor || '#ff4949';
-
-            // Draw grid of points
-            for (let x = 0; x < this.width; x += this.params.gap) {
-                for (let y = 0; y < this.height; y += this.params.gap) {
-                    
-                    // Wave calculation
-                    // Project position onto direction vector for wave propagation
-                    const dist = x * dx + y * dy;
-                    
-                    // Z offset driven by sine wave
-                    // Use amplitude to offset Y position for 3D effect (isometric-ish look)
-                    const z = Math.sin(dist * this.params.frequency - this.time * this.params.speed) * this.params.amplitude;
-                    
-                    // Normalize Z for opacity/size logic (approximate range -1 to 1 -> 0 to 1)
-                    // Note: z is now scaled by amplitude, so we need to normalize based on that
-                    const normalizedZ = (Math.sin(dist * this.params.frequency - this.time * this.params.speed) + 1) / 2;
-                    
-                    // Dynamic opacity based on wave height
-                    const alpha = this.params.opacity * normalizedZ;
-                    
-                    // Only draw if visible
-                    if (alpha > 0.01) {
-                        this.ctx.globalAlpha = alpha;
-                        this.ctx.beginPath();
-                        
-                        // Isometric-like offset: shift Y by Z
-                        const drawX = x;
-                        const drawY = y - z; // Move up/down based on wave height
-
-                        // Size oscillation slightly
-                        const size = 0.5 + normalizedZ * 0.5; 
-                        this.ctx.arc(drawX, drawY, size, 0, Math.PI * 2);
-                        this.ctx.fill();
-                    }
-                }
+            const elapsedTime = (Date.now() - this.startTime) / 1000;
+            if (this.material) {
+                this.material.uniforms.uTime.value = elapsedTime;
             }
-
-            this.time++;
-			requestAnimationFrame(this.animate);
-		}
-	}
+            
+            this.renderer.render(this.scene, this.camera);
+        }
+    }
 
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
