@@ -6,7 +6,9 @@ import Grid from '../../components/Grid.astro';
 import PortfolioPreview from '../../components/PortfolioPreview.astro';
 import Hero from '../../components/Hero.astro';
 
-const projects = (await getCollection('work')).sort(
+const projects = (await getCollection('work'))
+	.filter((project) => project.data.title === 'Omniscience UI' || project.data.title === 'OpenNode Design System')
+	.sort(
 	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 ---
