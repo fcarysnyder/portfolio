@@ -1,10 +1,10 @@
 ---
-title: OpenNode Design System
+title: OpenNode Design System Foundations
 publishDate: 2025-02-25 16:00:00
 img: /assets/OpenNode-design-system.png
-img_alt: Some examples of UI elements from OpenNode's design system.
+img_alt: Some examples of UI elements from OpenNode's design system foundation.
 description: |
-  Established OpenNode's first design system and pattern library optimized for both mobile and web applications across platforms. Championed implementation of the new system with the development team.
+  Established the foundational design system and component library in Figma, setting rigorous standards for future development implementation. Focused on atomic component thinking and cross-platform consistency.
 tags:
   - Design System
 color:
@@ -12,15 +12,35 @@ color:
 url:
   https://www.figma.com/file/viIVQ1hupoE8o9uSrIc74Y/OpenNode-Design-System---v2.3?node-id=88%3A1027
 cta:
-  see project
+  view figma
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.
+### Establishing the Foundation
 
-Integer vitae nibh elit. Suspendisse eget urna eu neque bibendum pharetra. Sed interdum lectus sem, in pulvinar magna dignissim vel. Quisque maximus at urna nec laoreet. Suspendisse potenti. Vestibulum rhoncus sem ut mi pellentesque, in vestibulum erat blandit. Aliquam sodales dui ac maximus consectetur. Duis quis est vehicula, imperdiet nisl nec, fermentum erat. Duis tortor diam, pharetra eu euismod in, vehicula non eros. Curabitur facilisis dui at erat ultrices gravida. In at nunc ultricies, pulvinar mi vel, sagittis mauris. Praesent pharetra posuere purus ac imperdiet. Nulla facilisi.
+At OpenNode, I recognized the need for a unified design language as the product scaled across web and mobile platforms. While a fully coded design system was the long-term goal, the immediate priority was to stop the design debt and create a "single source of truth" for the design team.
 
-Sed pulvinar porttitor mi in ultricies. Etiam non dolor gravida eros pulvinar pellentesque et dictum ex. Proin eu ornare ligula, sed condimentum dui. Vivamus tincidunt tellus mi, sed semper ipsum pharetra a. Suspendisse sollicitudin at sapien nec volutpat. Etiam justo urna, laoreet ac lacus sed, ultricies facilisis dolor. Integer posuere, metus vel viverra gravida, risus elit ornare magna, id feugiat erat risus ullamcorper libero. Proin vitae diam auctor, laoreet lorem vitae, varius tellus.
+I spearheaded the creation of the **OpenNode Design System Foundation**—a robust Figma-based system that standardized our UI and streamlined the design-to-development handover.
 
-Mauris sed eros in ex maximus volutpat. Suspendisse potenti. Donec lacinia justo consectetur sagittis tempor. Proin ullamcorper nisi vitae auctor rhoncus. Sed tristique aliquam augue. Pellentesque vitae fringilla ligula. Nulla arcu elit, efficitur eu nunc malesuada, eleifend tincidunt orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer mattis orci in bibendum ultricies. Quisque a dui erat. Phasellus et vulputate ipsum. Proin metus ex, lobortis nec ornare eget, bibendum ut sapien. Aliquam in dolor lobortis, aliquam tellus a, congue augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+### Core Objectives
 
-Aenean pretium purus augue, ut bibendum erat convallis quis. Cras condimentum quis velit ac mollis. Suspendisse non purus fringilla, venenatis nisl porta, finibus odio. Curabitur aliquet metus faucibus libero interdum euismod. Morbi sed magna nisl. Morbi odio nibh, facilisis vel sapien eu, tempus tincidunt erat. Nullam erat velit, sagittis at purus quis, tristique scelerisque tortor. Pellentesque lacinia tortor id est aliquam viverra. Vestibulum et diam ac ipsum mollis fringilla.
+#### 1. Component Thinking & Atomization
+I moved the team away from page-based design to a component-based mindset. By breaking interfaces down into atomic elements (buttons, inputs, typography styles), we ensured that every mockup produced was consistent by default. This "Figma-first" library allowed us to:
+- Rapidly prototype new features using pre-approved blocks.
+- Maintain visual consistency across different product verticals.
+- Reduce decision fatigue for designers.
+
+#### 2. Cross-Platform Considerations
+The system wasn't just for the web dashboard. I established guidelines for how components should adapt between:
+- **Web**: Responsive desktop and mobile web views.
+- **Mobile App**: Native iOS and Android patterns.
+This involved defining fluid typography, spacing tokens that worked on touch targets, and interaction states that made sense for both mouse and touch.
+
+#### 3. Documentation & Standards
+A design system is only as good as its documentation. I focused heavily on documenting the *intent* and *behavior* of components, not just their look.
+- **Redlining & Specs**: Detailed annotations for developers on spacing, behavior, and edge cases.
+- **Usage Guidelines**: Clear "Do's and Don'ts" for other designers on the team.
+- **Implementation Roadmap**: While this was a design-side foundation, it was built with code in mind, using structure and naming conventions that mapped to standard CSS/development practices to ease the future engineering implementation.
+
+### Results
+
+This foundational work dramatically increased our design velocity. We stopped reinventing the wheel for every feature and started building a cohesive product ecosystem. It served as the critical bridge, preparing the organization for a full-scale code implementation while immediately solving consistency issues in our design output.
