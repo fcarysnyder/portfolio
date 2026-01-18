@@ -12,7 +12,7 @@ import { getCollection } from 'astro:content';
 
 // Content Fetching: List five most recent work projects
 const projects = (await getCollection('work'))
-	.filter((project) => project.data.title === 'Omniscience UI' || project.data.title === 'OpenNode Design System')
+	.filter((project) => project.data.title === 'Omniscience UI' || project.data.title === 'OpenNode Design System Foundations')
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 const title = "Hi, I'm F Cary Snyder";
@@ -31,7 +31,7 @@ const title = "Hi, I'm F Cary Snyder";
 				/>
 				<Hero align="start" title="Hi, I'm F Cary Snyder">
 					<Fragment slot="tagline">
-						I am a multi-disciplinary product designer based in Santa Barbara, CA. I'm committed to developing aesthetically pleasing and user-friendly digital products, websites, and mobile applications. Currently, I design software aimed at energy conservation for <a href="https://crossnokaye.com" class="company-link">CrossnoKaye.</a>
+						I'm a Senior UX Designer who codes. Currently designing next-generation industrial control software that improves energy savings at <a href="https://crossnokaye.com" class="company-link">CrossnoKaye</a>. Previously built design systems and satellite constellation C3 interfaces. I love solving complex problems at the intersection of design and engineering.
 					</Fragment>
 				</Hero>
 			</header>
