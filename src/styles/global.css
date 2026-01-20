@@ -146,6 +146,26 @@ a {
 	color: var(--link-color);
 }
 
+/* Global focus ring styles - brand red for all interactive elements */
+*:focus-visible {
+	outline: 2px solid var(--accent-regular);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+/* Ensure focus rings work for all interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible {
+	outline: 2px solid var(--accent-regular);
+	outline-offset: 2px;
+}
+
 h1,
 h2,
 h3,
@@ -268,8 +288,9 @@ h5 {
 	cursor: pointer;
 }
 
-.menu-button:focus {
-	outline: none !important;
+.menu-button:focus-visible {
+	outline: 2px solid var(--accent-regular);
+	outline-offset: 2px;
 }
 
 .menu-button[data-state='open'] { /* Radix uses data-state for open/closed */
@@ -320,8 +341,12 @@ h5 {
 }
 
 .link[data-highlighted] {
-	outline: none !important;
 	border: none !important;
+}
+
+.link[data-highlighted]:focus-visible {
+	outline: 2px solid var(--accent-regular);
+	outline-offset: 2px;
 }
 
 .link[aria-current] {
