@@ -6,9 +6,9 @@ img_alt: Some examples of UI elements from OpenNode's design system foundation.
 description: |
   Established the foundational design system and component library in Figma, setting rigorous standards for future development implementation. Built with atomic design principles and cross-platform consistency in mind.
 tags:
-  - Design System
+  - OpenNode
 color:
-  hsla(212, 85%, 61%, 1.00)
+  hsla(245, 56.25%, 56.078%, 1.00)
 url:
   https://www.figma.com/file/viIVQ1hupoE8o9uSrIc74Y/OpenNode-Design-System---v2.3?node-id=88%3A1027
 cta:
