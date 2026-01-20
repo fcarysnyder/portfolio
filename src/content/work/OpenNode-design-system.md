@@ -1,10 +1,10 @@
 ---
-title: OpenNode Design System Foundations
+title: OpenNode Design System 
 publishDate: 2025-02-25 16:00:00
 img: /assets/OpenNode-design-system.png
 img_alt: Some examples of UI elements from OpenNode's design system foundation.
 description: |
-  Established the foundational design system and component library in Figma, setting rigorous standards for future development implementation. Focused on atomic component thinking and cross-platform consistency.
+  Established the foundational design system and component library in Figma, setting rigorous standards for future development implementation. Built with atomic design principles and cross-platform consistency in mind.
 tags:
   - Design System
 color:

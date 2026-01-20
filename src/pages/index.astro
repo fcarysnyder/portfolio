@@ -12,7 +12,7 @@ import { getCollection } from 'astro:content';
 
 // Content Fetching: List five most recent work projects
 const projects = (await getCollection('work'))
-	.filter((project) => project.data.title === 'Omniscience UI' || project.data.title === 'OpenNode Design System Foundations')
+	.filter((project) => project.data.title === 'Omniscience UI' || project.data.title === 'OpenNode Design System')
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 const title = "Hi, I'm F Cary Snyder";
