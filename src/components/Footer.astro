@@ -1,23 +1,27 @@
 ---
-import Icon from './Icon.astro';
+import FooterTyper from './FooterTyper';
+import FooterSocials from './FooterSocials';
+
 const currentYear = new Date().getFullYear();
+const footerText = "Designed & developed in Santa Barbara, California";
+const socialDelay = 2000; // Delay for social section to start after footer text
+
+const socialLinks = [
+	{ label: "Twitter", url: "https://twitter.com/fcarysnyder" },
+	{ label: "LinkedIn", url: "https://linkedin.com/in/fcarysnyder" },
+	{ label: "Instagram", url: "https://instagram.com/fcarysnyder" },
+	{ label: "Github", url: "https://github.com/fcarysnyder" }
+];
 ---
 
 <footer>
 	<div class="group">
 		<p class="footer-text">
-			Designed & developed in Santa Barbara, California
+			<FooterTyper client:visible initialText={footerText} />
 		</p>
 	</div>
 	<div class="socials">
-		<p class="socials-label">@fcarysnyder on</p>
-		<a href="https://twitter.com/fcarysnyder"> Twitter</a>
-		<p>·</p>
-		<a href="https://linkedin.com/in/fcarysnyder"> LinkedIn</a>
-		<p>·</p>
-		<a href="https://instagram.com/fcarysnyder"> Instagram</a>
-		<p>·</p>
-		<a href="https://github.com/fcarysnyder">Github</a>
+		<FooterSocials client:visible initialText="@fcarysnyder on" links={socialLinks} delay={socialDelay} />
 	</div>
 </footer>
 <style>
@@ -26,9 +30,9 @@ const currentYear = new Date().getFullYear();
 		color: var(--gray-400);
 		flex-direction: column;
 		margin-top: auto;
-		padding: 2.5rem 0rem;
+		padding: 2.5rem 1.5rem; /* Updated horizontal padding to match .wrapper (1.5rem) */
 		font-size: var(--text-sm);
-		max-width: 1280px;
+		max-width: 83rem; /* Updated max-width to match .wrapper (83rem) */
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
@@ -36,7 +40,8 @@ const currentYear = new Date().getFullYear();
 		gap: 1rem;
 	}
 
-	footer a {
+	/* Target the links inside the React component */
+	footer :global(.social-link) {
 		color: var(--gray-400);
 		text-decoration: 1px solid underline transparent;
 		text-underline-offset: 0.25em;
@@ -44,7 +49,7 @@ const currentYear = new Date().getFullYear();
 		color: var(--accent-regular) !important;
 	}
 
-	footer a:hover, footer a:focus {
+	footer :global(.social-link:hover), footer :global(.social-link:focus) {
 		text-decoration-color: var(--accent-dark);
 		color: var(--accent-dark) !important;
 	}
@@ -60,30 +65,24 @@ const currentYear = new Date().getFullYear();
 		color: var(--gray-400);
 		text-transform: uppercase;
 		padding: 0px 12px 0px 0px;
+		margin: 0;
 	}
 
 	.socials {
 		display: flex;
 		justify-content: flex-start;
-		column-gap: 0.75rem;
+		/* column-gap: 0.75rem; -- Handled by React component now */
 		flex-wrap: wrap;
 		text-transform: uppercase;
-
 	}
 
-	.socials-label {
-		font-size: var(--text-sm);
-		color: var(--gray-400);
-		text-transform: uppercase;
-
-
-	}
+	/* Since React component handles layout, we might need fewer styles here but keeping basics */
 
 	@media (min-width: 1024px) {
 		footer {
 			flex-direction: row;
 			justify-content: space-between;
-			padding: 2.5rem 0rem;
+			padding: 2.5rem 1.5rem; /* Ensure matching padding on desktop too */
 			text-align: left !important;
 			gap: 1rem !important;
 			
@@ -94,12 +93,6 @@ const currentYear = new Date().getFullYear();
 			gap: 2rem !important;
 			flex-wrap: wrap;
 			margin-bottom: 1rem !important;
-		}
-
-		.socials-label {
-			
-			padding: 0px 10px 0px 0px;
-			text-align: left;
 		}
 
 		.footer-text {
