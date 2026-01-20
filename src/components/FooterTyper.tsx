@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ScrambleText from './ScrambleText';
 
 interface FooterTyperProps {
@@ -8,8 +8,29 @@ interface FooterTyperProps {
 }
 
 const FooterTyper: React.FC<FooterTyperProps> = ({ initialText, showCursor = false, delay = 0 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
   return (
-    <span style={{ display: 'grid', gridTemplateColumns: '1fr', width: 'fit-content' }}>
+    <span ref={containerRef} style={{ display: 'grid', gridTemplateColumns: '1fr', width: 'fit-content' }}>
        {/* Ghost Layer */}
        <span 
           className="footer-typer-wrapper" 
@@ -26,7 +47,7 @@ const FooterTyper: React.FC<FooterTyperProps> = ({ initialText, showCursor = fal
           speed={30}
           scrambleSpeed={50}
           showCursor={showCursor}
-          start={true}
+          start={isVisible}
           delay={delay}
         />
       </span>

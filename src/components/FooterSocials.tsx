@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ScrambleText from './ScrambleText';
 
 interface SocialLink {
@@ -14,6 +14,26 @@ interface FooterSocialsProps {
 
 const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay = 0 }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
 
   // Helper to render the content (used for both ghost and active layers)
   const renderContent = (isGhost: boolean) => (
@@ -28,11 +48,11 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
         pointerEvents: isGhost ? 'none' : 'auto'
       }}
     >
-      <span className="socials-label">
+      <span className="socials-label" style={{ marginRight: '6px' }}>
         {isGhost ? initialText : (
           <ScrambleText 
               text={initialText} 
-              start={true} 
+              start={isVisible} 
               delay={delay}
               onComplete={() => setCurrentStep(1)}
               showCursor={false}
@@ -44,7 +64,6 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
           const linkStartStep = 1 + (index * 2);
           const separatorStartStep = linkStartStep - 1; 
           const isFirst = index === 0;
-          const isLast = index === links.length - 1;
           
           return (
             <React.Fragment key={link.label}>
@@ -67,7 +86,7 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
                           text={link.label} 
                           start={currentStep >= linkStartStep}
                           onComplete={() => setCurrentStep(linkStartStep + 1)}
-                          showCursor={isLast} 
+                          showCursor={false} 
                       />
                     )}
                 </a>
@@ -78,7 +97,7 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
   );
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
+    <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
         {/* Ghost Layer - Reserves space to prevent "right-to-left" typing shift */}
         <div style={{ gridArea: '1 / 1', opacity: 0 }} aria-hidden="true">
             {renderContent(true)}
