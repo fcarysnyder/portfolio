@@ -42,7 +42,20 @@ const { tagline, title } = Astro.props;
 
 	.carousel-container {
 		overflow: hidden;
-		mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+		mask-image: linear-gradient(
+			to right, 
+			rgba(0,0,0,0.2) 0%,
+			black 15%,
+			black 90%,
+			rgba(0,0,0,0.2) 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to right, 
+			rgba(0,0,0,0.2) 0%,
+			black 15%,
+			black 90%,
+			rgba(0,0,0,0.2) 100%
+		);
         padding-bottom: 2rem;
 	}
 

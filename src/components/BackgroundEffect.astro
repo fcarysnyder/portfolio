@@ -235,6 +235,8 @@
                     this.isAnimating = true;
                     this.animate();
                 }
+                // Remove blur on home page
+                this.container.style.filter = 'none';
             } else {
                 // Freeze
                 if (this.isAnimating) {
@@ -248,6 +250,8 @@
                      // make sure we render at least one static frame so it's not blank.
                      this.renderer.render(this.scene, this.camera);
                 }
+                // Add blur on non-home pages for better text readability
+                this.container.style.filter = 'blur(2px)';
             }
         }
 
