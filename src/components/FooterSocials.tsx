@@ -80,7 +80,11 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
                         )}
                     </span>
                 )}
-                <a href={link.url} className="social-link">
+                <a 
+                    href={link.url} 
+                    className="social-link"
+                    aria-label={`Visit my ${link.label} profile`}
+                >
                     {isGhost ? link.label : (
                       <ScrambleText 
                           text={link.label} 
