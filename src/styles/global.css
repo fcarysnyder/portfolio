@@ -342,11 +342,11 @@ h5 {
 
 .link[data-highlighted] {
 	border: none !important;
+	outline: none; /* Prevent focus ring on hover - hover bg provides feedback */
 }
 
 .link[data-highlighted]:focus-visible {
-	outline: 2px solid var(--accent-regular);
-	outline-offset: 2px;
+	outline: none; /* Override global focus-visible for dropdown items */
 }
 
 .link[aria-current] {
