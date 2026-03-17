@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+const sortedByDate = [...posts].sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const sortedByTitle = [...posts].sort(
+	(a, b) => a.data.title.localeCompare(b.data.title)
+);
+---
+
+<BaseLayout title="Writing | F Cary Snyder" description="Writing by F Cary Snyder">
+	<main class="wrapper writing">
+		<h1>Writing</h1>
+		<div class="section-header">
+			<div class="header-content">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M12 7v14"/>
+					<path d="M16 12h2"/>
+					<path d="M16 8h2"/>
+					<path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H12"/>
+					<path d="M6 12h2"/>
+					<path d="M6 8h2"/>
+					<path d="m2 21 6-3 4 2 4-2 6 3"/>
+				</svg>
+				<h3>All Posts</h3>
+				<div class="sort-options">
+					<a href="?sort=date" class="sort-option" data-sort="date">Date</a>
+					<span class="sort-dot" aria-hidden="true">&middot;</span>
+					<a href="?sort=title" class="sort-option" data-sort="title">Title (A-Z)</a>
+				</div>
+			</div>
+		</div>
+		<ul class="post-list" data-list>
+			{sortedByDate.map((post) => (
+				<li data-title={post.data.title} data-date={post.data.publishDate.valueOf()}>
+					<a href={`/writing/${post.id}/`}>{post.data.title}</a>
+					<time datetime={post.data.publishDate.toISOString()}>
+						{post.data.publishDate.toLocaleDateString('en-US', {
+							month: 'long',
+							day: 'numeric',
+							year: 'numeric',
+						})}
+					</time>
+				</li>
+			))}
+		</ul>
+	</main>
+</BaseLayout>
+
+<script>
+	function applySort(sort: string) {
+		// Highlight active sort option
+		document.querySelectorAll('.sort-option').forEach((el) => {
+			if (el instanceof HTMLAnchorElement) {
+				el.classList.toggle('active', el.dataset.sort === sort);
+			}
+		});
+
+		// Sort the list
+		const list = document.querySelector('[data-list]');
+		if (!list) return;
+
+		const items = [...list.querySelectorAll('li')];
+		items.sort((a, b) => {
+			if (sort === 'title') {
+				return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+			}
+			return Number(b.dataset.date) - Number(a.dataset.date);
+		});
+
+		items.forEach((item) => list.appendChild(item));
+	}
+
+	function initSort() {
+		const params = new URLSearchParams(window.location.search);
+		applySort(params.get('sort') || 'date');
+
+		document.querySelectorAll('.sort-option').forEach((el) => {
+			el.addEventListener('click', (e) => {
+				e.preventDefault();
+				const sort = (el as HTMLAnchorElement).dataset.sort || 'date';
+				history.replaceState(null, '', `?sort=${sort}`);
+				applySort(sort);
+			});
+		});
+	}
+
+	initSort();
+	document.addEventListener('astro:after-swap', initSort);
+</script>
+
+<style>
+	.writing {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	h1 {
+		font-size: var(--text-3xl);
+		color: var(--gray-0);
+	}
+
+	.section-header {
+		font-size: var(--text-lg);
+		width: 100%;
+	}
+
+	.header-content {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid var(--gray-200);
+		color: var(--gray-200);
+	}
+
+	.header-content svg {
+		flex-shrink: 0;
+	}
+
+	h3 {
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		color: var(--gray-200);
+		margin: 0;
+	}
+
+	.sort-options {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-left: auto;
+	}
+
+	.sort-dot {
+		color: var(--gray-400);
+	}
+
+	.sort-option {
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--gray-400);
+		transition: color var(--theme-transition);
+	}
+
+	.sort-option:hover,
+	.sort-option:focus,
+	.sort-option.active {
+		color: var(--accent-regular);
+	}
+
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.post-list li {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+	}
+
+	.post-list a {
+		color: var(--gray-0);
+		text-decoration: none;
+		font-size: var(--text-lg);
+		font-weight: 500;
+	}
+
+	.post-list a:hover,
+	.post-list a:focus {
+		color: var(--accent-regular);
+	}
+
+	.post-list time {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		white-space: nowrap;
+	}
+</style>
