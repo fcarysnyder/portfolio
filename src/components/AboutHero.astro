@@ -64,7 +64,6 @@ const { tagline, title } = Astro.props;
 		display: flex;
 		gap: var(--gap);
 		width: max-content;
-		animation: scroll 40s linear infinite;
 		will-change: transform;
 	}
 
@@ -74,15 +73,6 @@ const { tagline, title } = Astro.props;
 		object-fit: cover;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-md);
-	}
-
-	@keyframes scroll {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(calc(-50% - (var(--gap) / 2)));
-		}
 	}
 
 	@media (min-width: 60em) {
@@ -97,4 +87,61 @@ const { tagline, title } = Astro.props;
 			height: 250px;
 		}
 	}
-</style> 
+</style>
+
+<script>
+	const containers = document.querySelectorAll('.carousel-container');
+
+	containers.forEach((container) => {
+		const track = container.querySelector('.carousel-track') as HTMLElement;
+		if (!track) return;
+
+		const gap = parseFloat(getComputedStyle(track).gap) || 0;
+		const totalDistance = track.scrollWidth / 2 + gap / 2;
+		const baseSpeed = totalDistance / 40000;
+
+		let currentSpeed = baseSpeed;
+		let targetSpeed = baseSpeed;
+		let position = 0;
+		let lastTime = performance.now();
+		let transitionStartTime: number | null = null;
+		let transitionStartSpeed = baseSpeed;
+		const TRANSITION_MS = 400;
+
+		function easeInOutCubic(t: number) {
+			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+		}
+
+		function animate(now: number) {
+			const dt = now - lastTime;
+			lastTime = now;
+
+			if (transitionStartTime !== null) {
+				const progress = Math.min((now - transitionStartTime) / TRANSITION_MS, 1);
+				currentSpeed =
+					transitionStartSpeed +
+					(targetSpeed - transitionStartSpeed) * easeInOutCubic(progress);
+				if (progress >= 1) {
+					transitionStartTime = null;
+					currentSpeed = targetSpeed;
+				}
+			}
+
+			position = (position + currentSpeed * dt) % totalDistance;
+			track.style.transform = `translateX(${-position}px)`;
+
+			requestAnimationFrame(animate);
+		}
+
+		function setTargetSpeed(speed: number) {
+			transitionStartTime = performance.now();
+			transitionStartSpeed = currentSpeed;
+			targetSpeed = speed;
+		}
+
+		container.addEventListener('mouseenter', () => setTargetSpeed(0));
+		container.addEventListener('mouseleave', () => setTargetSpeed(baseSpeed));
+
+		requestAnimationFrame(animate);
+	});
+</script>
