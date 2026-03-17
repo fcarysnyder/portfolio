@@ -17,4 +17,13 @@ export const collections = {
 			cta: z.string().optional(),
 		}),
 	}),
+	blog: defineCollection({
+		loader: glob({ base: './src/content/blog', pattern: '**/*.mdx' }),
+		schema: z.object({
+			title: z.string(),
+			description: z.string(),
+			publishDate: z.coerce.date(),
+			tags: z.array(z.string()).optional(),
+		}),
+	}),
 };

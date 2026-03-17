@@ -1,0 +1,267 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const sorted = posts.sort(
+		(a, b) => a.data.publishDate.valueOf() - b.data.publishDate.valueOf()
+	);
+
+	return sorted.map((post, index) => ({
+		params: { slug: post.id },
+		props: {
+			post,
+			prevPost: sorted[index - 1] ?? null,
+			nextPost: sorted[index + 1] ?? null,
+		},
+	}));
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description}>
+	<main class="wrapper post-layout">
+		<article>
+			<header class="post-header">
+				<a href="/writing/" class="back-link">&larr; Back</a>
+				<h1>{post.data.title}</h1>
+				<time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+			</header>
+
+			<div class="post-content">
+				<Content />
+			</div>
+
+			<footer class="post-footer">
+				<div class="post-meta">
+					<div class="meta-row">
+						<span class="meta-label">Date</span>
+						<span class="meta-value">{formattedDate}</span>
+					</div>
+					{post.data.tags && post.data.tags.length > 0 && (
+						<div class="meta-row">
+							<span class="meta-label">Tags</span>
+							<span class="meta-value">{post.data.tags.join(', ')}</span>
+						</div>
+					)}
+				</div>
+
+				<nav class="post-nav">
+					<div class="nav-prev">
+						{prevPost && (
+							<a href={`/writing/${prevPost.id}/`}>&larr; Previous</a>
+						)}
+					</div>
+					<div class="nav-next">
+						{nextPost && (
+							<a href={`/writing/${nextPost.id}/`}>Next &rarr;</a>
+						)}
+					</div>
+				</nav>
+			</footer>
+		</article>
+	</main>
+</BaseLayout>
+
+<style>
+	.post-layout {
+		display: flex;
+		flex-direction: column;
+	}
+
+	article {
+		width: 100%;
+	}
+
+	/* Back link — absolute so it doesn't push the title down */
+	.post-header {
+		position: relative;
+		padding-top: 2rem;
+	}
+
+	.back-link {
+		position: absolute;
+		top: 0;
+		left: 0;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--accent-regular);
+		text-decoration: none;
+		transition: color var(--theme-transition);
+	}
+
+	.back-link:hover,
+	.back-link:focus {
+		color: var(--accent-dark);
+	}
+
+	.post-header h1 {
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		color: var(--gray-0);
+		margin-bottom: 0.5rem;
+	}
+
+	.post-header time {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	/* MDX content styles */
+	.post-content {
+		margin-top: 2.5rem;
+	}
+
+	.post-content :global(h2) {
+		font-size: var(--text-2xl);
+		font-weight: 400;
+		color: var(--gray-0);
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.post-content :global(h3) {
+		font-size: var(--text-xl);
+		font-weight: 400;
+		color: var(--gray-0);
+		margin-top: 2rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.post-content :global(p) {
+		font-size: var(--text-base);
+		line-height: 1.7;
+		color: var(--gray-200);
+	}
+
+	.post-content :global(p + p) {
+		margin-top: 1.5em;
+	}
+
+	.post-content :global(a) {
+		color: var(--accent-regular);
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.post-content :global(a:hover),
+	.post-content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	.post-content :global(img) {
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+		margin: 2rem 0;
+		max-width: 100%;
+		height: auto;
+	}
+
+	.post-content :global(ul),
+	.post-content :global(ol) {
+		color: var(--gray-200);
+		font-size: var(--text-base);
+		line-height: 1.7;
+		padding-left: 1.5em;
+		margin-top: 1em;
+	}
+
+	.post-content :global(li + li) {
+		margin-top: 0.5em;
+	}
+
+	.post-content :global(hr) {
+		border: none;
+		border-top: 1px solid var(--gray-800);
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	/* Front matter metadata */
+	.post-footer {
+		margin-top: 3rem;
+	}
+
+	.post-meta {
+		border-top: 1px solid var(--gray-800);
+		padding-top: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.meta-row {
+		display: flex;
+		gap: 1rem;
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+	}
+
+	.meta-label {
+		color: var(--gray-400);
+		text-transform: uppercase;
+		min-width: 4rem;
+	}
+
+	.meta-value {
+		color: var(--gray-200);
+	}
+
+	/* Prev / Next navigation */
+	.post-nav {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 2rem;
+		padding: 1.5rem 0;
+		border-top: 1px solid var(--gray-800);
+	}
+
+	.nav-prev,
+	.nav-next {
+		display: flex;
+	}
+
+	.nav-next {
+		margin-left: auto;
+	}
+
+	.post-nav a {
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--accent-regular);
+		text-decoration: none;
+		transition: color var(--theme-transition);
+	}
+
+	.post-nav a:hover,
+	.post-nav a:focus {
+		color: var(--accent-dark);
+	}
+
+	/* Desktop: center column like about page */
+	@media (min-width: 60em) {
+		.post-layout {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		article {
+			grid-column: 2;
+		}
+
+		.post-header h1 {
+			font-size: var(--text-3xl);
+		}
+	}
+</style>
