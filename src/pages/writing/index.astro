@@ -102,8 +102,14 @@ const sortedByTitle = [...posts].sort(
 	}
 
 	h1 {
-		font-size: var(--text-3xl);
+		font-size: var(--text-2xl);
 		color: var(--gray-0);
+	}
+
+	@media (min-width: 60em) {
+		h1 {
+			font-size: var(--text-3xl);
+		}
 	}
 
 	.section-header {
