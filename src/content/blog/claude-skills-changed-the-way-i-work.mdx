@@ -1,0 +1,94 @@
+---
+title: "Claude's Skills Changed the Way I Work as a Designer"
+description: "How I went from copy-pasting context into AI presets to building an interconnected system that scales my design expertise across an entire organization."
+publishDate: 2026-03-17
+tags:
+  - AI
+  - designing with AI
+  - Claude
+typora-root-url: ../../../public
+---
+
+import Tweet from '../../components/Tweet.tsx';
+
+I'm not new to using AI in my workflow. I've been using AI as a thinking partner, and it's enhanced my performance across mediums - not just design. At work, I've been building GPTs, writing system instructions, and loading context into Raycast presets for months. In Raycast, I have a UX copywriting preset, a design feedback preset, a stakeholder communication preset - each one stuffed with context about who I am, what my team builds, and how I want feedback delivered. It worked, but it felt slow. I would watch videos on YouTube of people one-shotting beautiful mockups and documentation, and couldn't help but think "what am I missing?"
+
+The problem with presets and GPTs is that each one is an island. You fill a text window with context, you use that preset, and it gives you a decent result within those boundaries. But those presets don't talk to each other. They don't exist in a way that lets you organize and evolve what the presets are; what they do. Crucially, the context you can fit into a single text window is limited. You end up with these narrow tools that do one thing okay but can't think holistically about your work.
+
+My wife is a water policy researcher who runs into the same thing with her ChatGPT projects. She sets up a project, loads it with context, and it works for that session. But the context doesn't grow. It doesn't update itself as the work evolves. She's always managing a snapshot of what you knew when you set it up, not what you know now. She ends up always having to manually "connect" a bunch of Google Drive files, but there is no logic about which one to use in what context. 
+
+I also found that the rigidity cuts both ways. A preset that says "give feedback in this specific format" works great when the format is right. But it doesn't adapt. It doesn't know when to pull in information from your design system documentation or the Figma file you're working in. It's static in a way that feels increasingly limiting the more ambitious you get.
+
+So I asked my colleague Chris Rathgeb - an engineer I've been building our design system with at CrossnoKaye and something of an AI guru - about something I'd been hearing about. "Skills," I asked. "Do you think it could mitigate these issues?"
+
+He showed me how he'd been using Claude skills to orchestrate entire programs. Not just single prompts, but interconnected instructions that feed into each other, build context, and produce consistent output every time. Something clicked. I knew my life as a designer would never be the same.
+
+## What is a skill, exactly?
+
+![Neo learning kung fu in The Matrix](/assets/blog/neo-matrix-kung-fu.webp)
+
+A skill is a set of instructions that tells AI how to do something specific, your way. It's a markdown file - plain text - that Claude reads and follows when you ask it to do a certain task. Think of it less like code and more like systematized thinking that an AI can act upon.
+
+If you've seen The Matrix, you know the scene. Neo sits in the chair, they upload kung fu directly into his brain, and he opens his eyes knowing how to fight. Skills work like that. You do the thinking once - what are the inputs, what are the steps, what does good output look like - and from that point forward, you can call on that knowledge instantly.
+
+Skills work best in Claude Code, which runs in the terminal or the desktop app. I've been using the terminal. And unlike a preset locked inside one tool, skills can reference each other, share context, and work together as a system. You're not building isolated islands. You're building an interconnected workflow that compounds over time and learns from itself.
+
+The difference between a skill and a Raycast preset or a custom GPT is scope and dynamism. A preset is a fixed set of instructions in a text box. A skill is a living document that can pull in context from your codebase, your Figma files, your documentation, your decision logs - whatever it needs. And it can trigger other skills, chain actions together, and adapt to what you're working on.
+
+## The day everything changed
+
+Chris showed me his setup at 11am on a workday. By 11pm that night, I had built a full orchestration for our design system documentation.
+
+In practice: I created a set of skills that takes in various inputs - our component code, our design intentions - and exports three things: a Claude skill to help agents use the component, a human-readable design documentation page, and a human-readable engineering documentation page. All based on what we use, what we decided, and why.
+
+By noon the next day, I had an Astro documentation site hosting all of it, with a pipeline that watches for new documents and updates the site automatically. Two different repositories, wired together with GitHub Actions.
+
+I went from concept to a working documentation system in a single day. Before AI, before these skills, this process would have taken weeks, maybe longer, to build by hand. Remember, I'm a designer. I didn't write traditional code to make this happen. I wrote instructions in natural language that described what I wanted and Claude executed it.
+
+I've since used skills to build Slack Apps for decision log generation (think the Jira action in Slack - "Create a Jira Ticket...") and create some skills to codify some of my other thinking - how I write, what my goals are, who I work with - but this is just the beginning. The tooling is getting so good it changes the entire approach to work. If you find yourself doing something repeatedly, the question to ask yourself should be "Can I articulate my problem and process well enough to automate 90-100% of this?"  
+
+## Skills help you stop making "AI stuff"
+
+Let's be honest: most AI-generated work looks like AI-generated work. In AI-generated copy, the telltale sign of AI usage is a liberal use of emdashes. In UI, the tells are more subtle. They standardize to specific font choices like Roboto or Inter, specific blue to purple gradients, and a specific flavor of UX copy that screams "a machine made this."  Once you learn to see these tells, you can't unsee them.
+
+Skills are how you fix that.
+
+<Tweet client:load url="https://x.com/allgarbled/status/2033698785529082144" />
+
+
+
+Look at what Anthropic did with their own [frontend-design](https://github.com/anthropics/claude-code/blob/main/plugins/frontend-design/skills/frontend-design/SKILL.md) skill. They wrote instructions that specifically ban "default" fonts, generic gradients, and other visual clichés that AI normalizes on. The result is that Claude, when using that skill, is more likely to produce interfaces that look like a human designer made intentional choices. Because a human designer *did* make intentional choices - they just made them once, in the skill, and now every output reflects those decisions. 
+
+You can do the same thing for your own work. Document your design system's principles. Codify what "good" looks like for your team. Write down the things you'd catch in a design review - are dropdowns showing their full menu states? What is the animation on that drawer? Is the spacing following your grid? Put all of that into a skill, and now every audit, every component doc, every new page follows your standards. Every time.
+
+## "But doesn't that make me replaceable?"
+
+I hear this a lot. It's a reasonable question. If I write down everything I know how to do and teach an AI to do it, haven't I automated myself out of a job?
+
+No. And here's why.
+
+A skill is a static file. It's a snapshot of your thinking at a specific point in time. It doesn't update itself. It doesn't know when the business context has shifted, when a new customer segment changes your priorities, or when the design language needs to evolve because the brand is heading in a new direction. You decide when a skill is relevant, when it needs updating, when it should be retired entirely. Those are judgment calls based on taste, opinion, research, and the kind of contextual awareness that AI can't replicate (at least at time of writing).
+
+What makes you valuable isn't the ability to do repeatable work. It's the ability to decide *what* repeatable work should look like and *when* it should change. Skills don't replace that. They amplify it.
+
+Think about it from the other direction. If you can demonstrate that you've taken your expertise and extended it across an entire organization - that your design review process now runs consistently across every team, that your documentation standards are enforced automatically, that your component quality bar is maintained without you personally reviewing every single output - you're not obsolete. You're operating at a level that wasn't possible before and improving outcomes at scale.
+
+## The cat is out of the bag
+
+Even if every AI company stopped investing in new models tomorrow, the models we have today are good enough. Anthropic's Opus 4.6, OpenAI's GPT 5.4, Google's Gemini 3.1 - these models can already do everything I've described in this post. They can read your design system docs, generate documentation from your components, audit your Figma files, and chain complex workflows together.
+
+But AI companies are not stopping investment, they're accelerating it. Today is the worst these models will ever be. That's not a threat - it's a signal. Get involved.
+
+This isn't a hype cycle that's going to fizzle out. The capabilities exist today. The tools exist today. The question isn't whether AI will change the way designers work. It already has. The real question is whether you'll notice.
+
+The water is already warming. It won't feel like a dramatic shift. It'll feel like a Tuesday where your colleague finishes three iteration cycles, documents all of them, and ships a component library update before lunch - while you're still spending three hours building a boilerplate Figma file to start your work. Nobody will announce that the game changed. You'll just look up one day and realize everyone else is playing a different one.
+
+## What's next
+
+This is the first in a series. Future posts go deeper - how to structure a skill, how to build orchestrations that chain skills together, how to use the Figma MCP to review designs against your design system, and how to create skills that engineers on your team can use, extending your design thinking into their workflow.
+
+The learning curve is shorter than you think. Skills are markdown files. They are systems thinking in natural language - not code, not engineering, not a computer science degree. If you can articulate what good work looks like for your team, you can build a skill that enforces it. The gap between "I've never done this" and "I have a working system" is smaller than it's ever been, and it's shrinking.
+
+The designers who make AI work *their way* - with their taste, their standards, their judgment baked in - are the designers who will thrive. Once you start, you won't want to go back.
+
+*Shoutout to [Chris Rathgeb](https://github.com/crathgeb) for showing me what's possible and kicking off this whole journey.*

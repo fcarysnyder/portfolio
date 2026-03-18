@@ -26,3 +26,6 @@ yarn-error.log
 .vscode/
 .idea/ 
 .astro/data-store.json
+
+# Cross-post converted output (uploaded as artifacts instead)
+scripts/output/
