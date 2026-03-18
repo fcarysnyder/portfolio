@@ -6,5 +6,10 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.fcarysnyder.com',
-  integrations: [react(), mdx()]
+  integrations: [react(), mdx()],
+  vite: {
+    ssr: {
+      noExternal: ['react-tweet'],
+    },
+  },
 });
