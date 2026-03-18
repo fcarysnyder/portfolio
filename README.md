@@ -59,6 +59,21 @@ New blog posts are automatically converted to Medium-compatible Markdown when me
 - **Re-convert a post:** Actions tab → "Deploy to GitHub Pages" → Run workflow → enter the post slug → Run
 - **Skip a post:** Add the slug to `cross-post-status.json` with `"skipped": true` before merging
 
+### RSS Feed
+
+The site publishes an RSS feed at [`/rss.xml`](https://www.fcarysnyder.com/rss.xml) with all blog posts. This is used for cross-posting via IFTTT and can be consumed by any RSS reader.
+
+### IFTTT → Medium (Manual Trigger)
+
+To cross-post a new blog post to Medium via IFTTT:
+
+1. **One-time setup:** Create an IFTTT applet:
+   - **Trigger (If):** RSS Feed → "New feed item" → Feed URL: `https://www.fcarysnyder.com/rss.xml`
+   - **Action (Then):** Medium → "Create story"
+   - In the Medium action, set the **Canonical URL** to `{{EntryUrl}}` so your blog stays the SEO source
+   - Set **Content** to `{{EntryContent}}` and **Title** to `{{EntryTitle}}`
+2. **To cross-post:** After your post is live, manually run the IFTTT applet (or enable auto-run when you're ready to fully automate)
+
 ### Adding More Platforms
 
 The publisher system is pluggable. To add a new platform (e.g., Substack):
