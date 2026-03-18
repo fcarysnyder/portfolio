@@ -42,31 +42,22 @@ Work/portfolio entries live in `src/content/work/` as `.md` files.
 
 ## Cross-Posting to Medium
 
-New blog posts are automatically cross-posted to Medium as **drafts** when merged to `main`. Your site remains the canonical source for SEO.
+New blog posts are automatically converted to Medium-compatible Markdown when merged to `main`. Your site remains the canonical source for SEO.
 
 ### How It Works
 
 1. You merge a new `.mdx` blog post to `main`
-2. GitHub Actions deploys the site, then runs the cross-post script
+2. GitHub Actions deploys the site, then runs the conversion script
 3. The script converts MDX to Medium-compatible Markdown (resolves images, converts Tweet embeds, strips JSX)
-4. Posts to Medium API as a draft with your site's URL as the canonical
-5. Outputs a LinkedIn blurb in the Actions run summary
-6. The converted Markdown is uploaded as a downloadable artifact
-
-### Setup
-
-1. **Generate a Medium integration token:** Medium Settings → Security and apps → Integration tokens
-2. **Add to GitHub:** Repo → Settings → Secrets and variables → Actions → New secret: `MEDIUM_API_TOKEN`
+4. The converted Markdown is uploaded as a downloadable GitHub Actions artifact
+5. A LinkedIn blurb is output in the Actions run summary
+6. Download the artifact and paste into Medium's editor (or let IFTTT handle it via RSS — see below)
 
 ### Usage
 
-- **Normal flow:** Merge a new blog post → deploy + cross-post runs automatically → check the Actions summary for the LinkedIn blurb → review the draft on Medium → publish when ready
-- **Re-publish a post:** Actions tab → "Deploy to GitHub Pages" → Run workflow → enter the post slug → Run
+- **Normal flow:** Merge a new blog post → deploy + convert runs automatically → check the Actions summary for the LinkedIn blurb → download the converted Markdown artifact → paste into Medium
+- **Re-convert a post:** Actions tab → "Deploy to GitHub Pages" → Run workflow → enter the post slug → Run
 - **Skip a post:** Add the slug to `cross-post-status.json` with `"skipped": true` before merging
-
-### If the Medium API Fails
-
-The converted Markdown is always uploaded as a GitHub Actions artifact, even if the API call fails. Go to the Actions run → download the `converted-markdown` artifact → paste into Medium's editor.
 
 ### Adding More Platforms
 

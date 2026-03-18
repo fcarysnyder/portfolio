@@ -51,9 +51,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: Cross-post new blog posts
+      - name: Convert new blog posts for cross-posting
         env:
-          MEDIUM_API_TOKEN: ${{ secrets.MEDIUM_API_TOKEN }}
           SITE_URL: https://www.fcarysnyder.com
           FORCE_SLUG: ${{ inputs.slug }}
         run: node scripts/cross-post.js
