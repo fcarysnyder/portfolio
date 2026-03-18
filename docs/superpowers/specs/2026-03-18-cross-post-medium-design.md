@@ -30,11 +30,13 @@ Blog posts published as MDX on fcarysnyder.com need to be cross-posted to Medium
 scripts/
   cross-post.js            # Orchestrator — detects new posts, runs pipeline
   mdx-to-markdown.js       # MDX → Medium-compatible Markdown conversion
+  output/                  # Converted Markdown files (.gitignore'd, uploaded as artifacts)
   publishers/
     medium.js              # Medium API client
     # substack.js          # Future
 
 cross-post-status.json     # Tracks published posts (committed to repo)
+README.md                  # Includes cross-posting section (setup, usage, troubleshooting)
 ```
 
 ### MDX → Markdown Conversion (`mdx-to-markdown.js`)
@@ -103,10 +105,14 @@ Returns `{ id, url }` from the Medium API response.
 3. Load `cross-post-status.json` (default to `{}` if file does not exist)
 4. For each slug NOT in the status file (or forced via `FORCE_SLUG` env var from manual trigger):
    - Read and convert the MDX file
+   - Write converted Markdown to `scripts/output/{slug}.md` (for fallback/debugging)
    - Call each enabled publisher
    - Update status file with returned `{ id, url, publishedAt }`
 5. If any posts were published, commit updated `cross-post-status.json`
 6. Output LinkedIn blurb(s) to `$GITHUB_STEP_SUMMARY`
+7. Upload all files in `scripts/output/` as a GitHub Actions artifact (downloadable from the run page for 90 days)
+
+The `scripts/output/` directory is `.gitignore`d — these are derived artifacts, not source files.
 
 ### GitHub Actions Workflow
 
@@ -134,6 +140,15 @@ cross-post:
         SITE_URL: https://www.fcarysnyder.com
         FORCE_SLUG: ${{ inputs.slug }}
       run: node scripts/cross-post.js
+
+    - name: Upload converted Markdown
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: converted-markdown
+        path: scripts/output/
+        retention-days: 90
+        if-no-files-found: ignore
 
     - name: Commit cross-post status
       run: |
@@ -186,13 +201,13 @@ No file committed. Copy-paste from the Actions summary to LinkedIn.
 
 | Scenario | Behavior |
 |---|---|
-| Medium API fails | Workflow step fails, GitHub sends notification, `cross-post-status.json` not updated → retries on next run |
+| Medium API fails | Step fails, but converted Markdown is still uploaded as an artifact (the upload step uses `if: always()`). Download it from the Actions run page and paste into Medium manually. `cross-post-status.json` not updated → retries on next run |
 | No new posts | Script exits cleanly with success, no commit, no noise |
 | Multiple new posts | Processed sequentially, status updated after each success |
 | Image 404 on Medium fetch | Medium shows broken image — deploy job completing first prevents this |
 | Invalid/expired token | API returns 401, step fails, notification sent |
 
-**Known risk:** Medium's public API has been frozen since ~2017 and may be deprecated. If it stops working, the converted Markdown can be manually copy-pasted into Medium's editor as a fallback. The conversion module is still valuable regardless.
+**Known risk:** Medium's public API has been frozen since ~2017 and may be deprecated. If it stops working, download the converted Markdown from the Actions artifact and paste it into Medium's editor manually. The conversion module is still valuable regardless.
 
 ### Extensibility
 
@@ -236,6 +251,25 @@ Adding a new publisher (e.g., Substack):
 - **Medium API error:** Check the Actions log. Common issues: expired token (regenerate), rate limiting (wait and re-trigger)
 - **Images broken on Medium:** Ensure the deploy completed before cross-post ran. Re-trigger the workflow manually if needed.
 - **Want to skip a post:** Add the slug to `cross-post-status.json` with `"skipped": true` before merging
+
+## README
+
+The project does not currently have a `README.md`. The implementation should create one that covers the full project, with cross-posting as a dedicated section.
+
+**Suggested structure:**
+
+1. **Project overview** — Cary Snyder's portfolio site, built with Astro 6
+2. **Tech stack** — Astro, MDX, React, Three.js, Radix UI, deployed to GitHub Pages
+3. **Getting started** — `npm install`, `npm run dev`, `npm run build`
+4. **Content** — how blog posts work (`src/content/blog/*.mdx`), frontmatter schema, work projects (`src/content/work/*.md`)
+5. **Cross-Posting to Medium** — dedicated section covering:
+   - What it does — new blog posts auto-cross-post to Medium as drafts on merge to `main`
+   - Setup — generate and add the `MEDIUM_API_TOKEN` secret
+   - Usage — normal flow (merge → auto-publish), manual re-trigger (workflow_dispatch with slug), finding the LinkedIn blurb in the Actions summary
+   - Fallback — if the Medium API fails, download the converted Markdown from the Actions artifact and paste it into Medium manually
+   - Skipping posts — how to pre-populate `cross-post-status.json`
+   - Adding publishers — brief note on the pluggable pattern for future platforms
+6. **Deployment** — GitHub Actions to GitHub Pages, automatic on push to `main`
 
 ## Dependencies
 
