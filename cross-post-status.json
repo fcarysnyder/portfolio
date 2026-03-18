@@ -1,5 +1,12 @@
 {
   "how-to-protect-yourself-online": {
-    "medium": { "skipped": true }
+    "medium": {
+      "skipped": true
+    }
+  },
+  "claude-skills-changed-the-way-i-work": {
+    "medium": {
+      "convertedAt": "2026-03-18"
+    }
   }
 }
