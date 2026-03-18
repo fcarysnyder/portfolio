@@ -1,16 +1,18 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
+    inputs:
+      slug:
+        description: ‘Force re-publish a specific post slug (leave empty for normal detection)’
+        required: false
+        type: string
 
 # Allow this job to clone the repo and create a page deployment
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -35,3 +37,40 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  cross-post:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Convert new blog posts for cross-posting
+        env:
+          SITE_URL: https://www.fcarysnyder.com
+          FORCE_SLUG: ${{ inputs.slug }}
+        run: node scripts/cross-post.js
+
+      - name: Upload converted Markdown
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: converted-markdown
+          path: scripts/output/
+          retention-days: 90
+          if-no-files-found: ignore
+
+      - name: Commit cross-post status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cross-post-status.json
+          git diff --staged --quiet || git commit -m "chore: update cross-post status"
+          git pull --rebase
+          git push

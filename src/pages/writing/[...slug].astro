@@ -160,12 +160,17 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 		text-decoration-color: currentColor;
 	}
 
+	.post-content :global(.react-tweet-theme) {
+		margin: 2rem auto;
+	}
+
 	.post-content :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-md);
-		margin: 2rem 0;
-		max-width: 100%;
-		height: auto;
+		margin: 2rem auto;
 	}
 
 	.post-content :global(ul),
