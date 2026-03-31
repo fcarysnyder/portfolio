@@ -21,6 +21,9 @@ export async function getStaticPaths() {
 const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 
+const firstImageMatch = post.body?.match(/!\[.*?\]\(([^)]+)\)/);
+const socialImage = firstImageMatch ? firstImageMatch[1] : undefined;
+
 const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 	month: 'long',
 	day: 'numeric',
@@ -28,7 +31,7 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 });
 ---
 
-<BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description}>
+<BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description} image={socialImage}>
 	<main class="wrapper post-layout">
 		<article>
 			<header class="post-header">
