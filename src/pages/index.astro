@@ -6,7 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Grid from '../components/Grid.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
-import Icon from '../components/Icon.astro';
+import { PenTool } from '@lucide/astro';
 
 import { getCollection } from 'astro:content';
 
@@ -41,7 +41,7 @@ const title = "Hi, I'm F Cary Snyder";
 			<section class="section with-background with-cta">
 				<header class="section-header stack gap-2 lg:gap-4">
 					<div class="header-content">
-						<Icon icon='pen-nib' color='var(--icon-color, var(--gray-200))' size="16px"/>
+						<PenTool size={16} color="var(--icon-color, var(--gray-200))" />
 						<h3>Selected Projects</h3>
 					</div>
 				</header>

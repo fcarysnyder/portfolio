@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Pill from '../components/Pill.astro'
-import Icon from '../components/Icon.astro'
+import { ArrowRight } from '@lucide/astro'
 
 interface Props {
 	project: CollectionEntry<'work'>;
@@ -18,7 +18,7 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 				{firstTag && <Pill color={data.color}>{firstTag}</Pill>}
 				<h3 class='title'> {data.title}</h3>
 				<p class="description">{data.description}</p>
-				<span class="faux-button">{data.cta} <Icon icon="arrow-right" size=" var(--text-sm)" /></span>
+				<span class="faux-button">{data.cta} <ArrowRight size="1em" /></span>
 			
 		</div>
 	</a>

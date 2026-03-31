@@ -1,41 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowRight, Mail } from 'lucide-react';
 import ScrambleText from './ScrambleText';
-
-interface HeroTyperProps {
-  title: string;
-  taglinePart1: string;
-  linkText: string;
-  linkUrl: string;
-}
-
-// Arrow Right Icon SVG
-const ArrowRightIcon = () => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 256 256"
-    width="1em" 
-    height="1em" 
-    fill="currentColor"
-    style={{ display: 'inline-block', verticalAlign: 'middle' }}
-  >
-     <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" d="M40 128h176m-72-72 72 72-72 72"/>
-  </svg>
-);
-
-// Envelope Icon SVG
-const EnvelopeIcon = () => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 256 256"
-    width="1em" 
-    height="1em" 
-    fill="currentColor"
-    style={{ display: 'inline-block', verticalAlign: 'middle' }}
-  >
-    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" d="M32,56H224a8,8,0,0,1,8,8V192a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V64A8,8,0,0,1,32,56Z"/>
-    <polyline fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" points="224 64 128 128 32 64"/>
-  </svg>
-);
 
 const HeroTyper: React.FC<HeroTyperProps> = ({ 
   title, 
@@ -97,10 +62,10 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
             </p>
             <div style={buttonContainerStyle}>
                 <a className="button">
-                    See selected work <ArrowRightIcon />
+                    See selected work <ArrowRight size="1em" />
                 </a>
                 <a className="button secondary">
-                    Drop me a line <EnvelopeIcon />
+                    Drop me a line <Mail size="1em" />
                 </a>
             </div>
         </div>
@@ -139,10 +104,10 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
                 visibility: step >= 3 ? 'visible' : 'hidden' 
             }}>
                 <a href="/work/" className="button">
-                    See selected work <ArrowRightIcon />
+                    See selected work <ArrowRight size="1em" />
                 </a>
                 <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" className="button secondary">
-                    Drop me a line <EnvelopeIcon />
+                    Drop me a line <Mail size="1em" />
                 </a>
             </div>
         </div>

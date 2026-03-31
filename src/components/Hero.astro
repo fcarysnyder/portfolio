@@ -1,5 +1,5 @@
 ---
-import Icon from './Icon.astro';
+import { ArrowRight } from '@lucide/astro';
 
 interface Props {
 	title?: string;
@@ -19,7 +19,7 @@ const { align = 'center', title, button = true } = Astro.props;
 			<slot name="tagline" />
 		</p>}
 		<slot />
-		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <Icon icon="arrow-right"/></a>}
+		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <ArrowRight size="1em" /></a>}
 	</div>
 </div>
 

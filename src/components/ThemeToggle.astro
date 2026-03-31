@@ -1,12 +1,12 @@
 ---
-import Icon from './Icon.astro';
+import { Sun, MoonStar } from '@lucide/astro';
 ---
 
 <theme-toggle>
 	<button>
 		<span class="sr-only">Dark theme</span>
-		<span class="icon light"><Icon icon="sun" /></span>
-		<span class="icon dark"><Icon icon="moon-stars" /></span>
+		<span class="icon light"><Sun size="1em" /></span>
+		<span class="icon dark"><MoonStar size="1em" /></span>
 	</button>
 </theme-toggle>
 
