@@ -1,5 +1,5 @@
 ---
-title: "How to Hear 'Yes, And' When Users Say 'But'"
+title: 'How to Hear "Yes, And" When Users Say "But"'
 description: "Notes on recognizing when you've built software people actually want. Design, product instinct, and the gap between what users say and what they mean."
 publishDate: 2026-03-31
 tags: 
@@ -11,7 +11,7 @@ A product manager on my team presented a dashboard to a client last week. The da
 
 My colleague messaged me on Slack right after. I told him that's the type of feedback we love to hear. "This is good, but you know what would be great..." - that sentence means the client already sees the value. They're not questioning whether the dashboard should exist; they're imagining how they'd use it every morning. That's not criticism. That's validation in disguise.
 
-## "Yes, and" vs "Yes, but"
+## "Yes, and" vs 'Yes, but'
 
 There's a distinction every designer and PM needs to internalize: the difference between feedback that builds on your work and feedback that questions whether the work should exist. These sound similar. They mean very different things.
 
