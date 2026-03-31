@@ -1,7 +1,7 @@
 // src/components/NavDropdown.tsx
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { List } from 'phosphor-react';
+import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import '../styles/global.css';
 
@@ -37,7 +37,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
         onClick={() => setOpen((prev) => !prev)}
       >
         <span className="sr-only">Menu</span>
-        <List size={16} />
+        <Menu size={16} />
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
