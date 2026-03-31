@@ -23,7 +23,12 @@ npm run preview  # Preview production build
 
 ### Blog Posts
 
-Blog posts live in `src/content/blog/` as `.mdx` files. Frontmatter schema:
+Blog posts live in `src/content/blog/` and can be either `.md` or `.mdx` files.
+
+- Use `.md` for standard writing (headings, links, images, lists, etc.).
+- Use `.mdx` when you need component embeds (for example, custom Astro/React components).
+
+Frontmatter schema:
 
 ```yaml
 ---
@@ -46,9 +51,9 @@ New blog posts are automatically converted to Medium-compatible Markdown when me
 
 ### How It Works
 
-1. You merge a new `.mdx` blog post to `main`
+1. You merge a new blog post to `main`
 2. GitHub Actions deploys the site, then runs the conversion script
-3. The script converts MDX to Medium-compatible Markdown (resolves images, converts Tweet embeds, strips JSX)
+3. The script converts supported posts to Medium-compatible Markdown (resolves images, converts Tweet embeds, strips JSX)
 4. The converted Markdown is uploaded as a downloadable GitHub Actions artifact
 5. A LinkedIn blurb is output in the Actions run summary
 6. Download the artifact and paste into Medium's editor (or let IFTTT handle it via RSS — see below)
@@ -58,6 +63,8 @@ New blog posts are automatically converted to Medium-compatible Markdown when me
 - **Normal flow:** Merge a new blog post → deploy + convert runs automatically → check the Actions summary for the LinkedIn blurb → download the converted Markdown artifact → paste into Medium
 - **Re-convert a post:** Actions tab → "Deploy to GitHub Pages" → Run workflow → enter the post slug → Run
 - **Skip a post:** Add the slug to `cross-post-status.json` with `"skipped": true` before merging
+
+> Note: the current cross-post converter processes `.mdx` posts. `.md` posts publish on the site normally, but are not yet included in the Medium conversion step.
 
 ### RSS Feed
 
