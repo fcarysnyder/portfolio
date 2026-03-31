@@ -29,7 +29,9 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
             <div transition:persist>
                 <BackgroundEffect />
             </div>
-			<Nav />
+			<div transition:persist>
+				<Nav />
+			</div>
 			<div class="stack animated-fade-in main-content-wrapper">
 				<slot />
 				<Footer />
