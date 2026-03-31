@@ -7,9 +7,6 @@ tags:
 - feedback
 typora-root-url: ../../../public
 ---
-
-# How to Hear "Yes, And" When Users Say "But"
-
 A product manager on my team presented a dashboard to a client this week. The dashboard showed synthetic readings for energy usage, rates, and equipment efficiency for large, industrial cold storage facilities. The data visualizations cover standard time ranges of the last 1, 7, 30, and 90 days. The client looked at it, nodded, and said: "This is great. Can we get week over week and month over month comparisons too?"
 
 My colleague messaged me on Slack right after. I told him that's the type of feedback we love to hear. "This is good, but you know what would be great..." - that sentence means the client already sees the value. They already want it. They're not questioning whether the dashboard should exist; they're imagining how they'd use it every morning. That's not criticism. That's validation in disguise.
