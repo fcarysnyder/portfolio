@@ -1,3 +1,32 @@
+/* Aktiv Grotesk local font-face mappings */
+@font-face {
+	font-family: 'Aktiv Grotesk';
+	src: local('Aktiv Grotesk'), local('AktivGrotesk-Regular');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Aktiv Grotesk';
+	src: local('Aktiv Grotesk Medium'), local('AktivGrotesk-Medium');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Aktiv Grotesk';
+	src: local('Aktiv Grotesk SemiBold'), local('AktivGrotesk-SemiBold');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Aktiv Grotesk';
+	src: local('Aktiv Grotesk Bold'), local('AktivGrotesk-Bold');
+	font-weight: 700;
+	font-style: normal;
+}
+
 /* Global variables */
 :root {
 	/* Colors */
