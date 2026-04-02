@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import { BookOpen } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
@@ -17,17 +18,14 @@ const sortedByTitle = [...posts].sort(
 <BaseLayout title="Writing | F Cary Snyder" description="Writing by F Cary Snyder">
 	<main class="wrapper writing">
 		<h1>Writing</h1>
-		<div class="section-header">
-			<div class="header-content">
-				<BookOpen size={18} />
-				<h3>All Posts</h3>
-				<div class="sort-options">
-					<a href="?sort=date" class="sort-option" data-sort="date">Date</a>
-					<span class="sort-dot" aria-hidden="true">&middot;</span>
-					<a href="?sort=title" class="sort-option" data-sort="title">Title (A-Z)</a>
-				</div>
-			</div>
-		</div>
+		<SectionHeader label="All Posts">
+			<BookOpen slot="icon" size={18} />
+			<Fragment slot="filters">
+				<a href="?sort=date" class="filter-option" data-sort="date">Date</a>
+				<span class="filter-dot" aria-hidden="true">&middot;</span>
+				<a href="?sort=title" class="filter-option" data-sort="title">Title (A-Z)</a>
+			</Fragment>
+		</SectionHeader>
 		<ul class="post-list" data-list>
 			{sortedByDate.map((post) => (
 				<li data-title={post.data.title} data-date={post.data.publishDate.valueOf()}>
@@ -48,7 +46,7 @@ const sortedByTitle = [...posts].sort(
 <script>
 	function applySort(sort: string) {
 		// Highlight active sort option
-		document.querySelectorAll('.sort-option').forEach((el) => {
+		document.querySelectorAll('.filter-option').forEach((el) => {
 			if (el instanceof HTMLAnchorElement) {
 				el.classList.toggle('active', el.dataset.sort === sort);
 			}
@@ -73,7 +71,7 @@ const sortedByTitle = [...posts].sort(
 		const params = new URLSearchParams(window.location.search);
 		applySort(params.get('sort') || 'date');
 
-		document.querySelectorAll('.sort-option').forEach((el) => {
+		document.querySelectorAll('.filter-option').forEach((el) => {
 			el.addEventListener('click', (e) => {
 				e.preventDefault();
 				const sort = (el as HTMLAnchorElement).dataset.sort || 'date';
@@ -103,56 +101,6 @@ const sortedByTitle = [...posts].sort(
 		h1 {
 			font-size: var(--text-3xl);
 		}
-	}
-
-	.section-header {
-		font-size: var(--text-lg);
-		width: 100%;
-	}
-
-	.header-content {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		padding-bottom: 8px;
-		border-bottom: 1px solid var(--gray-200);
-		color: var(--gray-200);
-	}
-
-	.header-content :global(svg) {
-		flex-shrink: 0;
-	}
-
-	h3 {
-		font-size: var(--text-sm);
-		text-transform: uppercase;
-		color: var(--gray-200);
-		margin: 0;
-	}
-
-	.sort-options {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-left: auto;
-	}
-
-	.sort-dot {
-		color: var(--gray-400);
-	}
-
-	.sort-option {
-		font-size: var(--text-sm);
-		text-transform: uppercase;
-		text-decoration: none;
-		color: var(--gray-400);
-		transition: color var(--theme-transition);
-	}
-
-	.sort-option:hover,
-	.sort-option:focus,
-	.sort-option.active {
-		color: var(--accent-regular);
 	}
 
 	.post-list {
