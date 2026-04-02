@@ -62,10 +62,10 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
             /* ... existing vars ... */
 
             .main-content-wrapper {
-                flex: 1;
+                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                justify-content: space-between;
+                gap: 4rem;
             }
 
 			:root.theme-dark {
