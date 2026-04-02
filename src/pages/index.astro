@@ -6,6 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Grid from '../components/Grid.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 import { PenTool } from '@lucide/astro';
 
 import { getCollection } from 'astro:content';
@@ -39,12 +40,11 @@ const title = "Hi, I'm F Cary Snyder";
 
 		<main class="wrapper stack gap-20 lg:gap-48">
 			<section class="section with-background with-cta">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<div class="header-content">
-						<PenTool size={16} color="var(--icon-color, var(--gray-200))" />
-						<h3>Selected Projects</h3>
-					</div>
-				</header>
+				<div class="section-header-wrapper">
+					<SectionHeader label="Selected Projects">
+						<PenTool slot="icon" size={18} color="var(--icon-color, var(--gray-200))" />
+					</SectionHeader>
+				</div>
 				<div class="gallery">
 					<Grid >
 						{
@@ -167,33 +167,8 @@ const title = "Hi, I'm F Cary Snyder";
 		width: 100%;
 	}
 
-	.section-header {
+	.section-header-wrapper {
 		grid-area: header;
-		font-size: var(--text-lg);
-		width: 100%;
-		display: block;
-	}
-
-	.header-content {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		padding-bottom: 8px;
-		border-bottom: 1px solid;
-		border-color: var(--gray-200);
-		width: 100%;
-	}
-
-	.section-header h3 {
-		font-size: var(--text-sm);
-		text-transform: uppercase;
-		color: var(--gray-200);
-		margin: 0;
-	}
-
-	.with-cta .section-header {
-		justify-self: flex-start;
-		text-align: left;
 		width: 100%;
 	}
 
@@ -215,8 +190,4 @@ const title = "Hi, I'm F Cary Snyder";
 		}
 	}
 
-	.section-header.stack {
-		display: flex;
-		flex-direction: column;
-	}
 </style>

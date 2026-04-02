@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import { Image } from '@lucide/astro';
+import PhotoGallery from '../../components/photography/PhotoGallery';
+import { photos } from '../../data/photos';
+
+const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
+---
+
+<BaseLayout title="Photography | F Cary Snyder" description="Photography by F Cary Snyder">
+	<main class="wrapper photography">
+		<h1>Photography</h1>
+		<SectionHeader label="Organize by" filterId="filter-options">
+			<Image slot="icon" size={18} />
+			<Fragment slot="filters">
+				<button class="filter-option active" data-year="all">All</button>
+				{years.map((year) => (
+					<>
+						<span class="filter-dot" aria-hidden="true">&middot;</span>
+						<button class="filter-option" data-year={String(year)}>{year}</button>
+					</>
+				))}
+			</Fragment>
+		</SectionHeader>
+		<PhotoGallery client:load photos={photos} years={years} />
+	</main>
+</BaseLayout>
+
+<style>
+	.photography {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	h1 {
+		font-size: var(--text-2xl);
+		color: var(--gray-0);
+	}
+
+	@media (min-width: 60em) {
+		h1 {
+			font-size: var(--text-3xl);
+		}
+	}
+</style>
