@@ -35,6 +35,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
       document.querySelectorAll('.filter-option').forEach((btn) => btn.classList.remove('active'));
       target.classList.add('active');
 
+      setModalIndex(null);
       const yearValue = target.getAttribute('data-year');
       if (yearValue === 'all') {
         setSelectedYear(null);
