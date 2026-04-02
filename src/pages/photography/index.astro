@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Camera } from '@lucide/astro';
+import PhotoGallery from '../../components/photography/PhotoGallery';
+import { photos } from '../../data/photos';
+
+const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
+---
+
+<BaseLayout title="Photography | F Cary Snyder" description="Photography by F Cary Snyder">
+	<main class="wrapper photography">
+		<h1>Photography</h1>
+		<div class="section-header">
+			<div class="header-content">
+				<Camera size={18} />
+				<h3>Organize by</h3>
+				<div class="filter-options" id="filter-options">
+					<button class="filter-option active" data-year="all">Grid</button>
+					<span class="filter-dot" aria-hidden="true">&middot;</span>
+					<button class="filter-option" data-year="year">Year</button>
+				</div>
+			</div>
+		</div>
+		<PhotoGallery client:load photos={photos} years={years} />
+	</main>
+</BaseLayout>
+
+<style>
+	.photography {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	h1 {
+		font-size: var(--text-2xl);
+		color: var(--gray-0);
+	}
+
+	@media (min-width: 60em) {
+		h1 {
+			font-size: var(--text-3xl);
+		}
+	}
+
+	.section-header {
+		font-size: var(--text-lg);
+		width: 100%;
+	}
+
+	.header-content {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid;
+		border-color: var(--gray-200);
+		width: 100%;
+	}
+
+	.header-content :global(svg) {
+		flex-shrink: 0;
+	}
+
+	h3 {
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		color: var(--gray-200);
+		margin: 0;
+	}
+
+	.filter-options {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-left: auto;
+	}
+
+	.filter-dot {
+		color: var(--gray-400);
+	}
+
+	.filter-option {
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--gray-400);
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: color var(--theme-transition);
+	}
+
+	.filter-option:hover,
+	.filter-option:focus,
+	.filter-option.active {
+		color: var(--accent-regular);
+	}
+
+</style>
