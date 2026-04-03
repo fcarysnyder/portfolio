@@ -25,14 +25,14 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
         <ClientRouter />
 	</head>
 	<body>
-		<div class:list={['stack', 'backgrounds', 'use-animated-bg']}>
+		<div class:list={['flex', 'flex-col', 'backgrounds', 'use-animated-bg']}>
             <div transition:persist>
                 <BackgroundEffect />
             </div>
 			<div transition:persist>
 				<Nav />
 			</div>
-			<div class="stack animated-fade-in main-content-wrapper">
+			<div class="animated-fade-in main-content-wrapper">
 				<slot />
 				<Footer />
 			</div>

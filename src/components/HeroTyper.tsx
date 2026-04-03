@@ -45,22 +45,19 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
   };
 
   const buttonContainerStyle: React.CSSProperties = {
-      marginTop: '20px',
-      display: 'flex',
-      gap: '1rem',
       flexWrap: 'wrap'
   };
 
   return (
     <div style={containerStyle}>
         {/* Ghost Layer - RESERVES SPACE */}
-        <div style={ghostStyle} aria-hidden="true" className="stack gap-2">
+        <div style={ghostStyle} aria-hidden="true" className="flex flex-col gap-2">
             <h1 className="title">{title}</h1>
             <p className="tagline">
                 {taglinePart1}
                 <a href={linkUrl} className="company-link">{linkText}</a>
             </p>
-            <div style={buttonContainerStyle}>
+            <div style={buttonContainerStyle} className="mt-5 flex gap-4">
                 <a className="button">
                     See selected work <ArrowRight size="1em" />
                 </a>
@@ -71,7 +68,7 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
         </div>
 
         {/* Active Layer - ANIMATION */}
-        <div style={activeStyle} className="stack gap-2">
+        <div style={activeStyle} className="flex flex-col gap-2">
             <h1 className="title">
                 <ScrambleText 
                     text={title} 
@@ -97,11 +94,11 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
                 </a>
             </p>
             
-            <div style={{ 
+            <div className="mt-5 flex gap-4" style={{
                 ...buttonContainerStyle,
-                opacity: showButtons ? 1 : 0, 
+                opacity: showButtons ? 1 : 0,
                 transition: 'opacity 0.8s ease',
-                visibility: step >= 3 ? 'visible' : 'hidden' 
+                visibility: step >= 3 ? 'visible' : 'hidden'
             }}>
                 <a href="/work/" className="button">
                     See selected work <ArrowRight size="1em" />

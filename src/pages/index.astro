@@ -20,7 +20,7 @@ const title = "Hi, I'm F Cary Snyder";
 ---
 
 <BaseLayout title={title} useAnimatedBackground={true}>
-	<div class="stack full-height-container gap-20 lg:gap-20">
+	<div class="flex flex-col full-height-container gap-20">
 		<div class="hero-wrapper">
 			<header class="hero wrapper">
 				<img
@@ -38,7 +38,7 @@ const title = "Hi, I'm F Cary Snyder";
 			</header>
 		</div>
 
-		<main class="wrapper stack gap-20 lg:gap-48">
+		<main class="wrapper flex flex-col gap-20 lg:gap-48">
 			<section class="section with-background with-cta">
 				<div class="section-header-wrapper">
 					<SectionHeader label="Selected Projects">

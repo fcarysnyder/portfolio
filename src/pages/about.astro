@@ -4,7 +4,7 @@ import AboutHero from '../components/AboutHero.astro';
 ---
 
 <BaseLayout title="About | F Cary Snyder" description="About F Cary Snyder">
-	<div class="stack">
+	<div class="flex flex-col">
 		<AboutHero
 			title="About me"
 			
@@ -84,7 +84,7 @@ import AboutHero from '../components/AboutHero.astro';
 						<li>Drawing</li>
 						<li>Calisthenics</li>
 						<li>Logo design</li>
-					</p>
+					</ul>
 				</div>
 			</section>
 		</main>
@@ -133,7 +133,7 @@ import AboutHero from '../components/AboutHero.astro';
 
 	.section-title {
 		grid-column-start: 1;
-		font-size: var(--text-xl);
+		font-size: var(--font-size-xl);
 		color: var(--gray-0);
 	}
 
@@ -168,7 +168,7 @@ import AboutHero from '../components/AboutHero.astro';
 
 		section {
 			display: contents;
-			font-size: var(--text-lg);
+			font-size: var(--font-size-lg);
 		}
 	}
 </style>
