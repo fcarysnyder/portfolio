@@ -1,5 +1,67 @@
 @import "tailwindcss";
 
+@theme {
+  /* Colors — bridge to existing CSS vars */
+  --color-gray-0: var(--gray-0);
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  --color-gray-999: var(--gray-999);
+
+  --color-accent-light: var(--accent-light);
+  --color-accent: var(--accent-regular);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-overlay: var(--accent-overlay);
+  --color-accent-overlay-hover: var(--accent-overlay-hover);
+  --color-accent-text-over: var(--accent-text-over);
+  --color-link: var(--link-color);
+
+  /* Typography — project's actual values, NOT Tailwind defaults */
+  --font-size-xs: 0.750rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.625rem;
+  --font-size-2xl: 2.125rem;
+  --font-size-3xl: 2.625rem;
+  --font-size-4xl: 3.5rem;
+  --font-size-5xl: 4.5rem;
+
+  /* Font families */
+  --font-family-body: 'Aktiv Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family-brand: 'Aktiv Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'Roboto Mono', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  /* Spacing — 4px base grid */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-15: 3.75rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-30: 7.5rem;
+  --spacing-48: 12rem;
+
+  /* Breakpoint */
+  --breakpoint-lg: 60em;
+}
+
 /* Aktiv Grotesk local font-face mappings */
 @font-face {
 	font-family: 'Aktiv Grotesk';
@@ -83,23 +145,23 @@
 		0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
 
 	/* Text Sizes */
-	--text-xs: 0.750rem;
-	--text-sm: 0.875rem;
-	--text-base: 1rem;
-	--text-md: 1.125rem;
-	--text-lg: 1.25rem;
-	--text-xl: 1.625rem;
-	--text-2xl: 2.125rem;
-	--text-3xl: 2.625rem;
-	--text-4xl: 3.5rem;
-	--text-5xl: 4.5rem;
+	--font-size-xs: 0.750rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-md: 1.125rem;
+	--font-size-lg: 1.25rem;
+	--font-size-xl: 1.625rem;
+	--font-size-2xl: 2.125rem;
+	--font-size-3xl: 2.625rem;
+	--font-size-4xl: 3.5rem;
+	--font-size-5xl: 4.5rem;
 
 	/* Fonts */
 	--font-system: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--font-body: 'Aktiv Grotesk', var(--font-system);
-	--font-brand: 'Aktiv Grotesk', var(--font-system);
-	--font-mono: 'Roboto Mono', var(--font-system);
+	--font-family-body: 'Aktiv Grotesk', var(--font-system);
+	--font-family-brand: 'Aktiv Grotesk', var(--font-system);
+	--font-family-mono: 'Roboto Mono', var(--font-system);
 
 	/* Transitions */
 	--theme-transition: 0.2s ease-in-out;
@@ -156,7 +218,7 @@ body {
 body {
 	background-color: var(--gray-999);
 	color: var(--gray-200);
-	font-family: var(--font-body);
+	font-family: var(--font-family-body);
 	-webkit-font-smoothing: antialiased;
 	line-height: 1.5;
 }
@@ -203,29 +265,29 @@ h3,
 h4,
 h5 {
 	line-height: 1.1;
-	font-family: var(--font-brand);
+	font-family: var(--font-family-brand);
 	font-weight: 600;
 	color: var(--gray-100);
 }
 
 h1 {
-	font-size: var(--text-5xl);
+	font-size: var(--font-size-5xl);
 }
 
 h2 {
-	font-size: var(--text-4xl);
+	font-size: var(--font-size-4xl);
 }
 
 h3 {
-	font-size: var(--text-3xl);
+	font-size: var(--font-size-3xl);
 }
 
 h4 {
-	font-size: var(--text-2xl);
+	font-size: var(--font-size-2xl);
 }
 
 h5 {
-	font-size: var(--text-xl);
+	font-size: var(--font-size-xl);
 }
 
 /* Utilities */
@@ -348,7 +410,7 @@ h5 {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-	font-size: var(--text-sm);
+	font-size: var(--font-size-sm);
 	line-height: 150%;
 	list-style: none;
 	padding: 8px;

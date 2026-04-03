@@ -25,13 +25,13 @@ const { align = 'center', title, button = true } = Astro.props;
 
 <style>
 	.hero {
-		font-size: var(--text-lg);
+		font-size: var(--font-size-lg);
 		width: 100%;
 	}
 
 	.title, :global(.hero .title) {
 		max-width: 37ch;
-		font-size: var(--text-2xl);
+		font-size: var(--font-size-2xl);
 		color: var(--gray-0);
 		margin-bottom: 0.75rem;
 	}
@@ -69,7 +69,7 @@ const { align = 'center', title, button = true } = Astro.props;
 
 	@media (min-width: 60em) {
 		.hero {
-			font-size: var(--text-2xl);
+			font-size: var(--font-size-2xl);
 		}
 
 		.start {
@@ -85,7 +85,7 @@ const { align = 'center', title, button = true } = Astro.props;
 		}
 
 		.title, :global(.hero .title) {
-			font-size: var(--text-3xl);
+			font-size: var(--font-size-3xl);
 		}
 	}
 </style>
