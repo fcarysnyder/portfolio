@@ -25,6 +25,7 @@
     "tailwindcss": "^4.2.2",
     "three": "^0.172.0"
   },
+  "//overrides": "Pin Vite to v7: @tailwindcss/vite pulls Vite 8, but Astro 6 requires Vite 7. Remove when Astro supports Vite 8.",
   "overrides": {
     "vite": "^7"
   }
