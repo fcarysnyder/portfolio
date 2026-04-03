@@ -24,7 +24,8 @@ yarn-error.log
 
 # IDE / Editor specific
 .vscode/
-.idea/ 
+.idea/
+.claude/
 .astro/data-store.json
 
 # Cross-post converted output (uploaded as artifacts instead)

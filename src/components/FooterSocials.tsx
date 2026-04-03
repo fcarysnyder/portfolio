@@ -37,18 +37,14 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
 
   // Helper to render the content (used for both ghost and active layers)
   const renderContent = (isGhost: boolean) => (
-    <span 
-      className="socials-container" 
-      style={{ 
-        display: 'inline-flex', 
-        flexWrap: 'wrap', 
-        alignItems: 'center', 
-        gap: '0.25rem',
+    <span
+      className="socials-container inline-flex flex-wrap items-center gap-1"
+      style={{
         visibility: isGhost ? 'hidden' : 'visible',
         pointerEvents: isGhost ? 'none' : 'auto'
       }}
     >
-      <span className="socials-label" style={{ marginRight: '6px' }}>
+      <span className="socials-label mr-2">
         {isGhost ? initialText : (
           <ScrambleText 
               text={initialText} 
@@ -68,7 +64,7 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
           return (
             <React.Fragment key={link.label}>
                 {!isFirst && (
-                    <span className="separator" style={{ margin: '0 0.25rem', userSelect: 'none' }}>
+                    <span className="mx-1 select-none separator">
                         {isGhost ? '·' : (
                           <ScrambleText 
                               text="·" 
