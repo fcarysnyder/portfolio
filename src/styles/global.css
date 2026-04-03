@@ -234,7 +234,6 @@ body {
 *::after,
 *::before {
 	box-sizing: border-box;
-	margin: 0;
 }
 
 img {
