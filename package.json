@@ -6,7 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "encrypt-content": "tsx scripts/gate/encrypt-content.ts",
+    "grant-access": "tsx scripts/gate/grant-access.ts",
+    "rotate-master": "tsx scripts/gate/rotate-master.ts",
+    "gate-doctor": "tsx scripts/gate/gate-doctor.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.1",
@@ -28,5 +34,9 @@
   "//overrides": "Pin Vite to v7: @tailwindcss/vite pulls Vite 8, but Astro 6 requires Vite 7. Remove when Astro supports Vite 8.",
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "vitest": "^4.1.5"
   }
 }
