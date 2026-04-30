@@ -1,0 +1,64 @@
+---
+title: "Prototype Discipline"
+description: "AI removed the cost of building prototypes, but not the cost of building the wrong thing. When velocity is the metric, nobody slows down long enough to figure out which is which."
+publishDate: 2026-04-30
+tags:
+  - design
+  - AI
+  - product development
+  - prototyping
+---
+
+"AI makes it too easy to sprint in the wrong direction."
+
+An engineer I work with said this recently, and I haven't been able to stop thinking about it. Right now, the dominant narrative is that AI is replacing everything. Design is dead. Frontend development is dead. The people getting the most attention are the ones pushing AI the furthest, the fastest, and showing the receipts on LinkedIn. Questioning that narrative feels like admitting you can't keep up.
+
+But there's a difference between pushing boundaries and ignoring risks. We talk about AI velocity constantly - how fast you can ship, how many iterations you can run, how quickly a prototype goes from idea to working code. [Companies are even creating tokenmaxxing leaderboards now](https://www.theinformation.com/articles/meta-employees-vie-ai-token-legend-status). Velocity *is* the metric. But velocity without direction is just expensive movement, and the tools we have today make expensive movement trivially easy. Nowhere is this more visible than in prototyping, where the line between pushing boundaries and ignoring risks has gotten dangerously thin.
+
+## The governor is gone
+
+Prototypes used to have a natural cost. If you wanted to test an idea before AI, you had options, and none of them were free. You could sketch it on paper. You could learn Figma and build a clickable prototype. You could write actual code, which meant days or weeks of work before you had anything to show. That cost was a governor. It forced you to be intentional about *what* you were testing and *why*, because you couldn't afford to test everything.
+
+But the cost did something else, too. It forced you to think about what you were building *while* you were building it. Every line you wrote, every screen you laid out, every interaction you wired up was a moment where you had to confront your own assumptions. Does this make sense? Is this the right flow? Am I solving the right problem? The friction was a thinking process. Designers call it design thinking - the discipline of diverging into possibilities before converging on a solution. You don't have to be a designer to practice it; you just have to be willing to sit with uncertainty long enough to learn something.
+
+If you outsource design thinking to an AI, you remove the governor. You can describe a general idea and have it make a hundred thousand decisions on your behalf in an afternoon. You get a working application, backend, APIs, real data, and enough polish to demo to stakeholders. The cost of building a prototype has dropped to nearly zero. The cost of building the *wrong* thing has not. And the thinking process that used to be embedded in the building? It gets skipped more often than anyone admits, because the output looks like someone already did the thinking. A polished prototype feels like evidence of good decisions, even when no decisions were made - just defaults the AI chose on your behalf.
+
+When building is cheap, people build more. More output means more noise, and the ratio of good ideas to bad ones doesn't improve just because the volume went up. The problem is that AI makes it difficult to tell signal from noise, because noise now has commit history, a URL, a color scheme, real data. Bad ideas become indistinguishable from good ones, and when velocity is the metric, nobody slows down long enough to figure out which is which.
+
+## Maximum viable product
+
+There's a reason the industry landed on "minimum viable product" as a concept. You build the smallest thing that tests an assumption. You show it to real people. You learn from what they tell you. You iterate. The emphasis is on *viable*, not *impressive*, and on *minimum*, not *everything you can think of*. You keep each bet small enough that you can afford to be wrong.
+
+AI inverts this. When building is nearly free, the instinct is to build everything. Why ship a simple prototype to test one assumption when you can ship a full-featured application that covers all of them? Why sketch a wireframe when you can generate production-ready code? The result is what I'd call maximum viable product: something that looks complete, feels complete, and creates a pressure to be right that makes it almost impossible to walk back. The more you've built, the less you can afford to be wrong, so you double down instead of stepping back.
+
+The pressure to be right is the trap. Once you've spent real tokens, real time, and real human thinking on a polished prototype, your psychology works against you. We are wired to protect our investments. The more we put into something, the harder it becomes to walk away from it, even when walking away is the right call. This is the [sunk cost fallacy](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow), one of the most common logical errors in decision-making. The question shifts from "is this the right thing to build?" to "how do we ship what we've already built?" And the more polished the prototype, the harder that question is to ask, because the artifact itself argues against asking it.
+
+It's also what makes maximum viable prototyping attractive to businesses chasing quick wins. If we can build something this polished this fast, why not skip straight to market? The speed feels like a competitive advantage. But speed without validation is just a faster way to build something nobody asked for. There's no shortcut to making better decisions, and the sunk cost makes it harder to admit that once you've committed.
+
+## Could vs. should
+
+Ian Malcolm has a line in Jurassic Park that I think about constantly: "Your scientists were so preoccupied with whether or not they could, they didn't stop to think if they should."
+
+Jurassic Park is a parable about deploying powerful technology without humility about what you don't understand. The technology worked. The park looked finished. The gift shop was stocked. And the whole thing collapsed because Hammond assumed the system would behave the way he designed it to, and ignored every warning that it wouldn't. He didn't fail because the science was bad. He failed because confidence outpaced understanding.
+
+That's what happens when a strong technical person with decent product instincts gets access to AI tooling. They can build something impressive in hours. The building feels productive. The output looks convincing. And the question "should we build this, for whom, and why" gets skipped, not out of arrogance, but because the output creates confidence before understanding catches up. It's hard to ask "should this exist" when it already does.
+
+The most dangerous version of this isn't the person who knows they're guessing. It's the person whose confidence has outpaced their understanding and doesn't realize it. A rough sketch on a whiteboard feels like a guess. A working application with real data and a polished UI feels like understanding. One invites scrutiny. The other discourages it.
+
+## Curiosity as discipline
+
+The antidote isn't to stop building prototypes. It's to remember what they're *for*, and that's the thing Hammond got wrong. The park wasn't a prototype. It was a maximum viable product. Hammond skipped straight to T-Rex when the MVP was a smaller predator, with lower risk, to see if containment actually worked. By the time it was built, there was nothing left to learn from it, only things to defend.
+
+Prototypes used to have a clear purpose: test an interaction, validate a layout, prove a concept, get feedback. The constraint forced clarity about what you were trying to learn. That clarity is still available. It just requires discipline now, because the constraints won't impose it for you.
+
+The best teams I've worked with approach prototypes with curiosity, not conviction. They build something to learn, not to prove they're right. They show it to users and ask "what are we missing?" instead of "isn't this great?" They treat the prototype as a question, not an answer. And they stay humble enough to know that no matter how polished the output, they probably don't have the full picture yet.
+
+## The infinite game
+
+Building products is an [infinite game](https://en.wikipedia.org/wiki/The_Infinite_Game). You're not solving the customer's problem and moving on. You're committing to a cycle of building, learning, and improving that never really ends. That's what MVP actually is - not a shortcut, but a posture. Maximum viable product assumes you got it right the first time. Hammond assumed he got it right the first time. The infinite game assumes you didn't, and that's the point.
+
+Maximum viable prototypes aren't always wrong. A time-boxed sprint to explore a new direction, scoped as throwaway from day one - that's a legitimate tool. I've done it. The difference is whether thinking was applied. A prototype that captures what you learned, what you tested, and what you'd do differently is evidence of understanding. A prototype that just exists, polished and undocumented, is confidence dressed up as design. The danger is when nobody scopes it as throwaway. The rough thinking behind a polished output gets mistaken for a finished decision, and the prototype quietly becomes the product.
+
+Next time someone hands you a polished prototype, ask what it was built to test. If there's no answer, there isn't one.
+
+*This is the second in a series. Previously: [Design is Not How It Looks](/writing/design-is-not-how-it-looks). Next: why a design system is specification infrastructure, not a Figma file.*

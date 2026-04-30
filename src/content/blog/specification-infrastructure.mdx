@@ -1,0 +1,56 @@
+---
+title: "Specification Infrastructure"
+description: "A design system is not a Figma file. It's the full set of rules, patterns, and decision-making frameworks that define what correct looks like at scale - and it's what makes AI-assisted development actually work."
+publishDate: 2026-04-30
+tags:
+  - design
+  - AI
+  - design systems
+  - product development
+---
+
+Think about a spam email. A good one uses patterns you already expect: first-name-dot-last-name-@-outlook-dot-com, the Microsoft logo at the top, the same layout you've seen a hundred times. It works because it matches your mental model of what a legitimate email looks like. Now imagine one detail is off. The logo is pixelated. The domain is misspelled. The layout doesn't quite match. You notice. You lose trust. You delete it.
+
+The same psychology applies to every product your customers use. You build trust through consistency, and consistency is a design problem. When a product is consistent, users stop thinking about the interface and start thinking about their work. The product feels reliable, intentional, worth the money they're paying for it. When consistency breaks, the opposite happens. One component that's styled different from the rest. One data visualization that doesn't match the others on the same page. The customer might not be able to articulate what's wrong, but they feel it. The product looks cheaper. Less trustworthy. Less like something a serious team built.
+
+This applies beyond software. The same dress on a rack at Marshalls and on a display at a boutique feels like a different product. The environment shapes how you perceive what's inside it, and your product's interface is that environment.
+
+## A design system is not a Figma file
+
+Ask someone if their team has a design system and they'll usually point you to a Figma file. Components, color tokens, spacing scales, maybe some auto-layout best practices. That's the visible layer. It's also about 10% of what a design system actually is.
+
+A design system is specification infrastructure. It's the full set of rules, documentation, patterns, and decision-making frameworks that define what correct looks like at scale. The Figma components are an abstraction layer for designing quickly and visualizing intent. They're useful. They're also the part everyone mistakes for the whole thing.
+
+## What happens without specification
+
+Take something as simple as an accordion component. One page has a group of accordions that work correctly - consistent padding, aligned content, predictable behavior. An engineer on another team needs accordions for a new feature, copies that group as a starting point, and extends it. But without a specification to build against, the extensions drift. The content padding doesn't match. The expand behavior is slightly different. The alignment between the accordion header and the body content is off by a few pixels. It's close, but close isn't the same as correct.
+
+That's the first-order problem. The second-order problem is worse. That drifted code is now in the codebase. The next time someone prompts an AI to build a feature, the AI reads that code as a reference. It doesn't know what's intentional and what's drift. It treats the misalignment as a pattern and extends it further. Now you're two generations removed from the original specification, each one a little more off than the last. The deviation compounds. What started as a few pixels of misalignment becomes a product that looks like nobody is paying attention.
+
+This is sprinting in the wrong direction (a pattern I wrote about in [Prototype Discipline](/writing/prototype-discipline)), just at the component level instead of the product level. Every unspecified decision becomes a seed for more unspecified decisions, and AI makes the cycle faster. One component that looks good feels like proof the system is working. But the gap between one component and a consistent product at scale is enormous, and you don't see it until it's expensive to fix.
+
+## What specification infrastructure actually looks like
+
+A Figma file with components is useful. But here's what's underneath it in a design system that actually works:
+
+**Usage documentation.** Not just what a component looks like, but when to use it and how. Two buttons next to each other - primary on the right or the left? Can you stack five in a row? Do they hug their content or fill the container? These aren't styling questions. They're product decisions that need to be made once, documented, and followed everywhere.
+
+**Patterns.** This is how we do tables. This is how inline editing works. If you see the yellow banner, you're in an editing session. Patterns codify the behavioral language of the product so that every feature speaks the same dialect.
+
+**Component architecture.** The accordion component shouldn't know about page-level alignment. The component is boiled down to its simplest elements. Alignment, padding, spacing relationships - those live at the template level or the app level, depending on the context. Knowing which level of control belongs where is an architectural decision, and getting it wrong means every new feature becomes a special case.
+
+**Decision logs.** You make a decision about how something should work. You document the alternatives, the pros and cons, what you considered. The delta between the decision and what's currently in the product becomes a backlog you can chip away at. Without decision logs, the same debates happen over and over because nobody remembers why things are the way they are.
+
+**Open design challenges.** Not everything has an answer yet. Some problems are being explored. Having a visible list of unsolved challenges is different from having no opinion - it means the team is actively thinking about it, not ignoring it.
+
+**AI skills and implementation guidance.** This is newer but increasingly important. You can write skills that teach an AI how to implement your components correctly, how to follow your patterns, how to respect your constraints. The specification becomes machine-readable, meaning AI-assisted development can actually be held accountable to your standards instead of generating plausible approximations.
+
+## The specification is what makes AI work
+
+Without a specification, AI generates plausible output. With one, AI generates output you can evaluate. The specification is the thing that tells you whether the AI did a good job or just produced something that looks close enough. It's the difference between "this looks right" and "this *is* right, and here's how we know."
+
+But specification infrastructure isn't something you build once and defend. It's a contribution cycle. Someone proposes a change, it gets reviewed, and if nobody objects, it ships. You put your best foot forward and update as you learn more. That should sound familiar. It's the same posture as the MVP from the [previous post](/writing/prototype-discipline) - not a shortcut, but a commitment to getting better over time. The specification is a living document because the product is a living thing.
+
+The specification is the design, not the components. And teams that invest in it will build products that hold together, earn trust, and scale without requiring a redesign every time a new person ships a feature. The ones that don't will ship twenty different versions of the same component and wonder why their product looks like it was built by twenty different people. Because it was.
+
+*This is the third in a series. Previously: [Design is Not How It Looks](/writing/design-is-not-how-it-looks) and [Prototype Discipline](/writing/prototype-discipline).*

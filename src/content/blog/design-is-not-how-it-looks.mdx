@@ -1,0 +1,47 @@
+---
+title: "Design is Not How It Looks"
+description: "AI can make anything look production-ready. The hard part was never the styling - it was the judgment about what to build, where to put it, and whether the structure reflects reality."
+publishDate: 2026-04-30
+tags:
+  - design
+  - AI
+  - product development
+---
+
+"If you're just using ShadCN, does design even exist?"
+
+A smart engineer asked me this recently. It's a completely reasonable question if you think design is about the building blocks and their visual style. Component libraries give you spacing, hierarchy, color systems, accessibility. AI tools give you layouts, responsive behavior, polished interactions. Between the two, you can ship something that looks like a real product in an afternoon.
+
+This conclusion is built on an incomplete premise. If design is how something *looks*, then yes, the tools have caught up. But design is how something *works*, and that's a fundamentally different problem.
+
+## The styling trap
+
+Design got reduced to "making things pretty" somewhere along the way, and you can see why. Most design work is invisible. The research, the structural decisions, the trade-offs between competing user needs - none of that shows up in a screenshot. What shows up is the surface: colors, typography, spacing, polish. When the most visible design work is aesthetic, people draw a reasonable conclusion: design is aesthetics. If that's true, then yes, AI probably does replace it.
+
+But here's what makes this moment dangerous. AI doesn't just make styling easy. It makes styling *convincing*. You can use Anthropic's frontend design skill, or V0, or any number of tools to generate a product that has hierarchy, spacing, a dark mode color system, and enough visual polish to feel production-ready. And it is production-ready, in the same way that a movie set is a real building. It looks right from every angle until you try to move in.
+
+[The medium becomes the message](https://en.wikipedia.org/wiki/The_medium_is_the_message). When a prototype is built in real code with real components and real styling, people treat it like a real product. That's not a failure of the people; it's a natural response to a convincing artifact. The problem is that convincing and correct are not the same thing, and the gap between them is where the real work is.
+
+## Design is how it works
+
+I watched this play out on a project recently. A product manager built a solid prototype for a feature that would surface performance data - charts, readings, key metrics - for a set of AI-powered applications. The PM had done real research, talked to users, and written strong requirement documentation. The initial concept combined everything into one view: performance charts on top, application settings below. See how things are performing, configure your controls, all in one place.
+
+It sounds logical until you think about who's actually using it. A facility manager overseeing multiple sites wants to check how things are performing. An on-site operator needs to tweak settings and adjust controls. An internal user just wants to edit the apps without noise. Those are three different people with three different jobs. Combining their workflows into a single page forces all of them to navigate past information that isn't for them to reach information that is.
+
+The design process is what surfaced this. Iterating through mockups on a canvas, talking to data scientists who said "that's not how these relationships work," socializing ideas across the team. We tried breaking the pages apart by category, by persona, by data type. Each attempt revealed assumptions that didn't hold up - categories that weren't independent, relationships between systems that a single page structure couldn't represent. Several iterations later, the answer became clear: a dedicated performance page, separated from settings entirely, that aggregates readings across the whole system.
+
+The PM's dashboard concept is ultimately what we shipped. The charts, the key metrics, the data visualizations - those ideas were right. But where they lived in the product, how they related to settings and applications, and which persona they served changed completely through the design process.
+
+The PM's work was good. The team arrived at the decision together, and to the PM's credit, they were open to the direction even after investing real time in the original structure. But the design process is what challenged the structural assumptions, explored the options that didn't work, and gave us a framework to evaluate whether the prototype's logic held up against how the system actually works. The process mattered more than who led it. What mattered was that someone slowed down long enough to ask how the system actually works, not just what it could look like.
+
+## The components were never the design
+
+So back to the question: "If you're just using ShadCN, does design even exist?"
+
+The components are building blocks. They're good building blocks. They handle spacing, accessibility, interaction patterns, visual consistency. But they're the communication layer, not the thinking. Styling is how you convey how a product works - the visual hierarchy that tells a user what matters, the consistency that builds trust, the patterns that make behavior predictable. That communication only works when there's something coherent underneath it. Get that right, and the components do their job.
+
+The design is the judgment about what to build with those components, where to put it, how the pieces relate to each other, and whether the structure reflects reality or just looks like it does. That judgment isn't in the component library. It isn't in the AI. It's the thing that separates a product people actually want from a product that merely looks like one.
+
+Design has always been about exercising judgment. There's no shortcut to making better decisions - not a component library, not a Figma file, not an AI. The teams that ship great products are the ones that do the thinking, then use the tools to execute it.
+
+*This is the first in a series. Next: [Prototype Discipline](/writing/prototype-discipline) - why the disappearing cost of prototypes is the most underrated risk in product development right now.*
