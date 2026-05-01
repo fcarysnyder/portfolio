@@ -30,3 +30,11 @@ yarn-error.log
 
 # Cross-post converted output (uploaded as artifacts instead)
 scripts/output/
+
+# Gate — defense-in-depth (these paths should not exist in this repo)
+private/
+.env.local
+.env.*.local
+
+# Atomic-write temp files
+public/data/*.locked.json.tmp
