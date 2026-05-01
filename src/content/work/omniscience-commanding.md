@@ -4,7 +4,7 @@ publishDate: 2025-03-01 00:00:00
 img: /assets/Umbra.jpg
 img_alt: Umbra's C3 platform, Omniscience.
 description: |
-  Redesigned the manual commanding experience in Umbra's satellite C3 software — creating a dedicated "focus mode" that cuts through UI friction during 5–10 minute satellite passes. The team shipped exactly what I designed.
+  Redesigned the manual commanding experience in Umbra's satellite C3 software, creating a dedicated "focus mode" that cuts through UI friction during 5–10 minute satellite passes. The team shipped exactly what I designed and improved mission critical operations.
 tags:
   - Umbra Space
   - Product Design
