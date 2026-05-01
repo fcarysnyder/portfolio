@@ -220,6 +220,11 @@ img {
 	height: auto;
 }
 
+::selection {
+	background-color: var(--accent-overlay-hover);
+	color: var(--accent-dark);
+}
+
 a {
 	color: var(--link-color);
 }

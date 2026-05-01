@@ -10,7 +10,7 @@ interface PasswordModalProps {
 
 const MAILTO_HREF =
   'mailto:fcarysnyder@gmail.com' +
-  '?subject=' + encodeURIComponent('Synthetic Readings Case Study — Access Request') +
+  '?subject=' + encodeURIComponent('Synthetic Readings Case Study - Access Request') +
   '&body=' + encodeURIComponent(
     "Hi Cary,\n\n" +
     "I'd like access to the Synthetic Readings case study on your portfolio.\n\n" +
@@ -97,7 +97,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
       <form
         onSubmit={handleSubmit}
         style={{
-          background: 'var(--gradient-subtle)',
+          background: 'var(--gray-999)',
           border: '1px solid var(--gray-800)',
           borderRadius: '0.75rem',
           boxShadow: 'var(--shadow-md)',
@@ -107,6 +107,19 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           fontFamily: 'var(--font-family-body)',
         }}
       >
+        <a
+          href="/"
+          style={{
+            display: 'inline-block',
+            fontSize: 'var(--font-size-sm)',
+            fontWeight: 500,
+            color: 'var(--accent-regular)',
+            textDecoration: 'none',
+            marginBottom: '1.5rem',
+          }}
+        >
+          &larr; Back
+        </a>
         <h2
           id="gate-title"
           style={{
@@ -155,7 +168,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
             width: '100%',
             padding: '0.75rem',
             fontSize: 'var(--font-size-base)',
-            background: 'var(--gray-999)',
+            background: 'var(--gray-900)',
             border: `1px solid ${displayedError ? 'hsl(0 80% 60%)' : 'var(--gray-800)'}`,
             borderRadius: '0.5rem',
             color: 'var(--gray-0)',
@@ -198,41 +211,12 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           {isSubmitting ? 'Unlocking…' : 'Unlock case study'}
         </button>
 
-        <div
-          style={{
-            paddingTop: '1.25rem',
-            borderTop: '1px solid var(--gray-800)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-          }}
-        >
-          <a
-            href={MAILTO_HREF}
-            style={{
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--accent-regular)',
-              textDecoration: 'none',
-            }}
-          >
-            Don't have a password? Ask for access →
+        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: 'var(--gray-400)' }}>Don't have a password?</span>
+          <a href={MAILTO_HREF} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
+            Ask for access →
           </a>
-          <button
-            type="button"
-            onClick={onDismiss}
-            style={{
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--gray-400)',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              textAlign: 'left',
-            }}
-          >
-            Dismiss
-          </button>
-        </div>
+        </p>
       </form>
     </div>,
     document.body,

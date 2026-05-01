@@ -33,6 +33,9 @@
     "cta": {
       "type": "string"
     },
+    "gated": {
+      "type": "boolean"
+    },
     "$schema": {
       "type": "string"
     }
