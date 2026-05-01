@@ -20,16 +20,27 @@ declare global {
 export default function NavDropdown({ links }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
 
-  // Client-side check function that safely uses the window property
   const checkIsCurrentPage = (href: string): boolean => {
     if (typeof window !== 'undefined' && window.isCurrentPageClient) {
       return window.isCurrentPageClient(href);
     }
-    return false; // Default if function not available
+    return false;
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (!newOpen) {
+      setTimeout(() => {
+        const trigger = document.querySelector('.menu-button') as HTMLElement;
+        if (trigger && document.activeElement === trigger && !trigger.matches(':focus-visible')) {
+          trigger.blur();
+        }
+      }, 0);
+    }
   };
 
   return (
-    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+    <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
       <DropdownMenu.Trigger
         className="menu-button"
         aria-label="Menu"
