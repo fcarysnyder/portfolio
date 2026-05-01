@@ -2,15 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import PasswordModal from './PasswordModal';
 import type { LockedFile } from '../../lib/crypto/schema';
 
-const SESSION_KEY = 'unlock:synthetic-readings';
-
 interface Props {
   lockedDataUrl: string;
+  caseStudyTitle?: string;
 }
 
 type Status = 'loading' | 'locked' | 'unlocking' | 'unlocked' | 'load-error';
 
-export default function GatedContent({ lockedDataUrl }: Props) {
+export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
+  const sessionKey = `unlock:${lockedDataUrl.replace(/^\/data\//, '').replace(/\.locked\.json$/, '')}`;
   const [status, setStatus] = useState<Status>('loading');
   const [html, setHtml] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export default function GatedContent({ lockedDataUrl }: Props) {
 
     const cached = (() => {
       try {
-        return sessionStorage.getItem(SESSION_KEY);
+        return sessionStorage.getItem(sessionKey);
       } catch {
         return null;
       }
@@ -56,7 +56,7 @@ export default function GatedContent({ lockedDataUrl }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [lockedDataUrl]);
+  }, [lockedDataUrl, sessionKey]);
 
   const handleSubmit = (password: string) => {
     if (!lockedFileRef.current) return;
@@ -85,7 +85,7 @@ export default function GatedContent({ lockedDataUrl }: Props) {
       const result = event.data as { ok: true; html: string } | { ok: false };
       if (result.ok) {
         try {
-          sessionStorage.setItem(SESSION_KEY, result.html);
+          sessionStorage.setItem(sessionKey, result.html);
         } catch {
           // sessionStorage disabled or quota exceeded; continue without caching
         }
@@ -160,6 +160,7 @@ export default function GatedContent({ lockedDataUrl }: Props) {
           errorMessage={errorMessage}
           isSubmitting={status === 'unlocking'}
           onDismiss={handleDismiss}
+          caseStudyTitle={caseStudyTitle}
         />
       )}
     </>

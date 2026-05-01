@@ -6,12 +6,18 @@ import { atomicWriteJson } from './lib/atomic';
 import { bytesToB64, b64ToBytes, utf8ToBytes } from '../../src/lib/crypto/codec';
 import type { LockedFile, WrappedKey } from '../../src/lib/crypto/schema';
 
-const LOCKED_PATH = path.resolve(process.cwd(), 'public/data/synthetic-readings.locked.json');
-
 async function main() {
+  const slug = process.argv[2];
+  if (!slug) {
+    console.error('Usage: npx tsx scripts/gate/encrypt-content.ts <slug>');
+    console.error('Example: npx tsx scripts/gate/encrypt-content.ts omniscience-commanding');
+    process.exit(2);
+  }
+  const LOCKED_PATH = path.resolve(process.cwd(), `public/data/${slug}.locked.json`);
+
   const sourcePath = process.env.PRIVATE_CONTENT_PATH;
   if (!sourcePath) {
-    throw new Error("PRIVATE_CONTENT_PATH not set. Point it at the source MDX file (e.g., ~/code/portfolio-private/synthetic-readings.mdx).");
+    throw new Error(`PRIVATE_CONTENT_PATH not set. Point it at the source MDX file (e.g., ~/code/portfolio-private/${slug}.mdx).`);
   }
   let mdx: string;
   try {

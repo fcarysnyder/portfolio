@@ -38,3 +38,6 @@ private/
 
 # Atomic-write temp files
 public/data/*.locked.json.tmp
+
+# Playwright MCP debug artifacts
+.playwright-mcp/
