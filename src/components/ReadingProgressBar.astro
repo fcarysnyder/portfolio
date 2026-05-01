@@ -1,0 +1,83 @@
+<div class="reading-progress-track" data-progress-bar>
+  <div class="reading-progress-bar"></div>
+</div>
+
+<style is:global>
+  .reading-progress-track {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 10000;
+    pointer-events: none;
+  }
+
+  .reading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--gray-999), var(--accent-regular));
+    position: relative;
+  }
+
+  .reading-progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3px;
+    height: 3px;
+    background: var(--gray-999);
+  }
+</style>
+
+<script>
+  let cleanup: (() => void) | null = null;
+
+  const init = () => {
+    cleanup?.();
+    cleanup = null;
+
+    const tracks = document.querySelectorAll<HTMLElement>('[data-progress-bar]');
+    if (tracks.length === 0) return;
+
+    // Keep the most recent track and discard duplicates left from prior swaps.
+    const track = tracks[tracks.length - 1];
+    tracks.forEach((t) => {
+      if (t !== track) t.remove();
+    });
+    if (track.parentElement !== document.body) {
+      document.body.appendChild(track);
+    }
+
+    const bar = track.querySelector<HTMLElement>('.reading-progress-bar');
+    if (!bar) return;
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollable <= 0) {
+          track.style.display = 'none';
+        } else {
+          track.style.display = '';
+          const progress = Math.min(100, (window.scrollY / scrollable) * 100);
+          bar.style.width = `${progress}%`;
+        }
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    cleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
