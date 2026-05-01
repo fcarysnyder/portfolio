@@ -65,7 +65,13 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                gap: 4rem;
+                gap: 2.5rem;
+            }
+
+            @media (min-width: 60em) {
+                .main-content-wrapper {
+                    gap: 4rem;
+                }
             }
 
 			:root.theme-dark {
