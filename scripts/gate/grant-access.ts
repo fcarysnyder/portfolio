@@ -8,14 +8,15 @@ import { appendGrant } from './lib/grants-log';
 import { bytesToB64, b64ToBytes, utf8ToBytes } from '../../src/lib/crypto/codec';
 import { LockedFileSchema, type LockedFile, type WrappedKey } from '../../src/lib/crypto/schema';
 
-const LOCKED_PATH = path.resolve(process.cwd(), 'public/data/synthetic-readings.locked.json');
-
 async function main() {
-  const label = process.argv[2];
-  if (!label) {
-    console.error('Usage: npm run grant-access -- "<label>"');
+  const slug = process.argv[2];
+  const label = process.argv[3];
+  if (!slug || !label) {
+    console.error('Usage: npx tsx scripts/gate/grant-access.ts <slug> "<label>"');
+    console.error('Example: npx tsx scripts/gate/grant-access.ts omniscience-commanding "Dan - Acme Corp"');
     process.exit(2);
   }
+  const LOCKED_PATH = path.resolve(process.cwd(), `public/data/${slug}.locked.json`);
 
   // Load and validate locked.json
   let locked: LockedFile;
@@ -55,6 +56,7 @@ async function main() {
   await atomicWriteJson(LOCKED_PATH, updated);
 
   await appendGrant({
+    slug,
     label,
     entryIndex: updated.wrappedKeys.length - 1,
     timestamp: new Date().toISOString(),

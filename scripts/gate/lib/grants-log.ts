@@ -2,6 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 export interface GrantEntry {
+  slug: string;
   label: string;
   entryIndex: number;
   timestamp: string;

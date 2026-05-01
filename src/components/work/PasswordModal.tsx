@@ -6,19 +6,20 @@ interface PasswordModalProps {
   errorMessage: string | null;
   isSubmitting: boolean;
   onDismiss: () => void;
+  caseStudyTitle?: string;
 }
 
-const MAILTO_HREF =
-  'mailto:fcarysnyder@gmail.com' +
-  '?subject=' + encodeURIComponent('Synthetic Readings Case Study - Access Request') +
-  '&body=' + encodeURIComponent(
-    "Hi Cary,\n\n" +
-    "I'd like access to the Synthetic Readings case study on your portfolio.\n\n" +
-    "About me / why I'm reading: \n\n" +
-    "Thanks,\n",
-  );
-
-export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, onDismiss }: PasswordModalProps) {
+export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, onDismiss, caseStudyTitle }: PasswordModalProps) {
+  const title = caseStudyTitle ?? 'Case Study';
+  const mailtoHref =
+    'mailto:fcarysnyder@gmail.com' +
+    '?subject=' + encodeURIComponent(`${title} - Access Request`) +
+    '&body=' + encodeURIComponent(
+      "Hi Cary,\n\n" +
+      `I'd like access to the ${title} case study on your portfolio.\n\n` +
+      "About me / why I'm reading: \n\n" +
+      "Thanks,\n",
+    );
   const overlayRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -213,7 +214,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
 
         <p style={{ fontSize: 'var(--font-size-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ color: 'var(--gray-400)' }}>Don't have a password?</span>
-          <a href={MAILTO_HREF} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
+          <a href={mailtoHref} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
             Ask for access →
           </a>
         </p>
