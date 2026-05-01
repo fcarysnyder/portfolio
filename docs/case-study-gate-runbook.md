@@ -1,24 +1,31 @@
-# Synthetic Readings Gate — Operator Runbook
+# Case Study Gate — Operator Runbook
+
+The gate protects multiple case studies; each one has its own `<slug>.locked.json` under `public/data/`. Commands that operate on a single case study take the slug as a positional arg.
+
+Current slugs: `synthetic-readings`, `omniscience-commanding`.
 
 ## Part 1 — TL;DR cheat sheet
 
 ### Grant access to a recipient
 1. `op signin`
-2. `npm run grant-access -- "Recipient Label"`
+2. `npm run grant-access -- <slug> "Recipient Label"`
 3. Copy the printed password
-4. `git add public/data/synthetic-readings.locked.json && git commit -m "grant: <label>" && git push`
+4. `git add public/data/<slug>.locked.json && git commit -m "grant: <slug> <label>" && git push`
 5. Email password to recipient (Cloudflare Pages auto-deploys in ~2 min)
 
-### Update the case study content
-1. Edit `~/code/portfolio-private/synthetic-readings.mdx`
-2. `npm run encrypt-content`
-3. `git add public/data/synthetic-readings.locked.json && git commit -m "content: <what changed>" && git push`
+Example: `npm run grant-access -- omniscience-commanding "Dan @ Acme"`
 
-### Rotate the master key (panic button — invalidates all passwords)
+### Update a case study's content
+1. Edit the source MDX (e.g., `~/code/portfolio-private/<slug>.mdx`)
+2. `export PRIVATE_CONTENT_PATH=~/code/portfolio-private/<slug>.mdx`
+3. `npm run encrypt-content -- <slug>`
+4. `git add public/data/<slug>.locked.json && git commit -m "content: <slug> <what changed>" && git push`
+
+### Rotate the master key (panic button — invalidates all passwords on every case study)
 1. `npm run rotate-master` (type 'rotate' to confirm)
-2. Copy the recovery password
-3. `git add public/data/synthetic-readings.locked.json && git commit -m "rotate master" && git push`
-4. Re-issue passwords to anyone still active via `grant-access`
+2. Copy the recovery password — it unlocks every rotated case study
+3. `git add public/data/*.locked.json && git commit -m "rotate master" && git push`
+4. Re-issue passwords to anyone still active via `grant-access` (per slug)
 
 ---
 
@@ -30,6 +37,8 @@
 - Primary: `op://Personal/portfolio-case-study-master-key/password` — base64 32-byte AES-256-GCM key
 - Secondary: `op://Personal-Backup/portfolio-case-study-master-key/password` — same value (for rotation safety)
 
+The same master key encrypts every `<slug>.locked.json`. You don't have a per-case-study master.
+
 Generate the initial value: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
 
 If your vault names differ, override via env vars:
@@ -37,7 +46,7 @@ If your vault names differ, override via env vars:
 - `GATE_OP_SECONDARY_REF`
 
 **Env vars in your shell profile:**
-- `PRIVATE_CONTENT_PATH` — full path to the source MDX (e.g., `~/code/portfolio-private/synthetic-readings.mdx`)
+- `PRIVATE_CONTENT_PATH` — full path to the source MDX you're currently editing (e.g., `~/code/portfolio-private/<slug>.mdx`). Re-export per slug when switching.
 - `PRIVATE_GRANTS_LOG` — full path to the grants log (e.g., `~/code/portfolio-private/grants.log.json`)
 
 **Private content repo:**
@@ -52,43 +61,45 @@ First clone of this repo: `npm install` runs the `prepare` script, which sets `c
 
 **`npm run gate-doctor`**
 - Purpose: pre-flight verification before risky operations
-- Inputs: env vars, 1Password CLI session, locked.json
-- Outputs: pass/fail summary; non-zero exit if any fail
+- Inputs: env vars, 1Password CLI session, every `public/data/*.locked.json`
+- Outputs: pass/fail summary per file; non-zero exit if any fail
 - Side effects: none
 - Failure modes:
   - `op CLI installed → not found` → install via `brew install --cask 1password-cli`
   - `op signed in → not signed in` → `op signin`
   - `PRIVATE_CONTENT_PATH unset` → set in shell profile
-  - `locked.json parses + master decrypts → fail` → `npm run encrypt-content` or `npm run rotate-master`
+  - `<slug>: parses + master decrypts → fail` → `npm run encrypt-content -- <slug>` or `npm run rotate-master`
 
-**`npm run encrypt-content`**
-- Purpose: re-encrypt case study content from source MDX
-- Inputs: `PRIVATE_CONTENT_PATH`, master key from 1Password
-- Outputs: `public/data/synthetic-readings.locked.json` (atomic write; preserves existing wrappedKeys)
-- Side effects: locked.json is rewritten; existing passwords still work because wrappedKeys are preserved
+**`npm run encrypt-content -- <slug>`**
+- Purpose: re-encrypt one case study's content from source MDX
+- Inputs: `<slug>` positional arg, `PRIVATE_CONTENT_PATH`, master key from 1Password
+- Outputs: `public/data/<slug>.locked.json` (atomic write; preserves existing wrappedKeys)
+- Side effects: that single locked.json is rewritten; existing passwords still work because wrappedKeys are preserved
 - Run after: editing source MDX
 - Failure modes:
-  - `Source MDX not found` → check path
+  - Missing `<slug>` arg → usage hint
+  - `Source MDX not found` → check `PRIVATE_CONTENT_PATH`; you may have it pointed at a different slug's source
   - `Master key length invalid` → master key in 1Password is malformed; rotate
   - MDX compile error → fix syntax in the source
 
-**`npm run grant-access -- "Label"`**
-- Purpose: issue a new password to a recipient
-- Inputs: label (positional arg), master key from 1Password, existing locked.json
-- Outputs: appended wrappedKey in locked.json (atomic), grant entry appended to grants log, password printed once
-- Side effects: locked.json grows by one wrappedKey; grants log grows by one entry
+**`npm run grant-access -- <slug> "Label"`**
+- Purpose: issue a new password to a recipient, scoped to one case study
+- Inputs: `<slug>` and label (positional args), master key from 1Password, existing locked.json
+- Outputs: appended wrappedKey in `<slug>.locked.json` (atomic), grant entry appended to grants log (with slug), password printed once
+- Side effects: that locked.json grows by one wrappedKey; grants log grows by one entry
 - Run after: receiving an access request via email
 - Failure modes:
-  - Missing label → usage hint
-  - locked.json missing → `npm run encrypt-content` first
+  - Missing `<slug>` or label → usage hint
+  - locked.json missing → `npm run encrypt-content -- <slug>` first
 
 **`npm run rotate-master`**
-- Purpose: invalidate ALL existing passwords + rotate master key
+- Purpose: invalidate ALL existing passwords across ALL case studies + rotate master key
 - Inputs: confirmation prompt (type "rotate"), old master key, both 1Password vaults
-- Outputs: re-encrypted locked.json with fresh ciphertext + fresh master + single recovery wrappedKey; recovery password printed
-- Side effects: BOTH 1Password vaults are updated; if secondary write fails, primary is rolled back
-- Run after: suspected master key compromise OR you want bulk revocation
+- Outputs: every `public/data/*.locked.json` re-encrypted under the new master, each with a single shared recovery wrappedKey; one recovery password printed
+- Side effects: BOTH 1Password vaults are updated; if secondary write fails, primary is rolled back; no locked.json file is touched until both vault writes succeed
+- Run after: suspected master key compromise OR you want bulk revocation across the whole gate
 - Failure modes:
+  - Decrypt fails on any file → aborts before any writes (no partial state)
   - Primary vault write fails → no state change; rotation aborted
   - Secondary vault write fails → primary rolled back; rotation aborted
 
@@ -97,12 +108,14 @@ First clone of this repo: `npm install` runs the `prepare` script, which sets `c
 `PRIVATE_GRANTS_LOG` points to a JSON array of objects:
 ```json
 [
-  { "label": "Jane @ Acme", "entryIndex": 0, "timestamp": "2026-04-30T15:00:00.000Z" },
-  { "label": "Bob @ Beta",  "entryIndex": 1, "timestamp": "2026-05-01T09:00:00.000Z" }
+  { "slug": "synthetic-readings",   "label": "Jane @ Acme", "entryIndex": 0, "timestamp": "2026-04-30T15:00:00.000Z" },
+  { "slug": "omniscience-commanding", "label": "Bob @ Beta", "entryIndex": 1, "timestamp": "2026-05-01T09:00:00.000Z" }
 ]
 ```
 
-`entryIndex` corresponds to the position in `locked.json#wrappedKeys`. Use it to know which entry to remove if you want to revoke a single recipient (note: forward-only — see threat model).
+`entryIndex` corresponds to the position in `<slug>.locked.json#wrappedKeys`. `slug` tells you which file the entry belongs to. Use both to know which entry to remove if you want to revoke a single recipient (note: forward-only — see threat model).
+
+Older entries written before slug tracking was added will be missing the `slug` field; assume they were for `synthetic-readings`.
 
 ### Threat model
 
@@ -135,10 +148,10 @@ Out of scope (accepted risks):
 - Check `wrangler pages deployment list` or the Cloudflare dashboard. The build runs `astro build` — if it fails, the locked.json + assets must be out of sync. Run `npm run build` locally; fix; recommit.
 
 **"A recruiter says the password doesn't work."**
-- Check the grants log: did you actually issue them a password? Run `npm run gate-doctor` to verify locked.json is current. Generate a fresh password via `grant-access`. Sometimes copy-paste mangles characters — re-send.
+- Check the grants log: did you actually issue them a password for the right slug? Run `npm run gate-doctor` to verify locked.json is current. Generate a fresh password via `npm run grant-access -- <slug> "label"`. Sometimes copy-paste mangles characters — re-send.
 
 **"I suspect the master key was compromised."**
-- `npm run rotate-master`. Re-issue passwords to active recipients. Old bundles in caches are still attackable but new content is safe under the new master.
+- `npm run rotate-master`. Re-issue passwords to active recipients on each slug. Old bundles in caches are still attackable but new content is safe under the new master.
 
 ### Pre-commit hook
 

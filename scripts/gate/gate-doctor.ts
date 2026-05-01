@@ -6,13 +6,21 @@ import { readMasterKeyB64 } from './lib/op';
 import { LockedFileSchema, type LockedFile } from '../../src/lib/crypto/schema';
 import { b64ToBytes } from '../../src/lib/crypto/codec';
 
-const LOCKED_PATH = path.resolve(process.cwd(), 'public/data/synthetic-readings.locked.json');
+const LOCKED_DIR = path.resolve(process.cwd(), 'public/data');
 
 interface Check {
   name: string;
   ok: boolean;
   detail: string;
   remediation?: string;
+}
+
+async function listLockedFiles(): Promise<string[]> {
+  const entries = await fs.readdir(LOCKED_DIR);
+  return entries
+    .filter((f) => f.endsWith('.locked.json'))
+    .sort()
+    .map((f) => path.join(LOCKED_DIR, f));
 }
 
 async function run(): Promise<Check[]> {
@@ -44,7 +52,7 @@ async function run(): Promise<Check[]> {
   // 3. PRIVATE_CONTENT_PATH set + file exists
   const sourcePath = process.env.PRIVATE_CONTENT_PATH;
   if (!sourcePath) {
-    checks.push({ name: 'PRIVATE_CONTENT_PATH set', ok: false, detail: 'unset', remediation: 'export PRIVATE_CONTENT_PATH=~/code/portfolio-private/synthetic-readings.mdx' });
+    checks.push({ name: 'PRIVATE_CONTENT_PATH set', ok: false, detail: 'unset', remediation: 'export PRIVATE_CONTENT_PATH=~/code/portfolio-private/<slug>.mdx' });
   } else {
     try {
       await fs.access(sourcePath);
@@ -67,17 +75,36 @@ async function run(): Promise<Check[]> {
     }
   }
 
-  // 5. locked.json parses + master decrypts
+  // 5. Each locked.json parses + master decrypts
   if (masterB64) {
+    let lockedFiles: string[] = [];
     try {
-      const raw = await fs.readFile(LOCKED_PATH, 'utf8');
-      const locked = LockedFileSchema.parse(JSON.parse(raw)) as LockedFile;
+      lockedFiles = await listLockedFiles();
+    } catch (err: any) {
+      checks.push({ name: 'locked.json files discoverable', ok: false, detail: err.message });
+      return checks;
+    }
+    if (lockedFiles.length === 0) {
+      checks.push({ name: 'locked.json files present', ok: false, detail: `none found in ${LOCKED_DIR}`, remediation: "Run 'npm run encrypt-content -- <slug>'" });
+    } else {
       const masterRaw = b64ToBytes(masterB64);
       const masterKey = await webcrypto.subtle.importKey('raw', masterRaw, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-      await webcrypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBytes(locked.iv) }, masterKey, b64ToBytes(locked.ciphertext));
-      checks.push({ name: 'locked.json parses + master decrypts', ok: true, detail: `${locked.wrappedKeys.length} wrapped key(s)` });
-    } catch (err: any) {
-      checks.push({ name: 'locked.json parses + master decrypts', ok: false, detail: err.message, remediation: "Run 'npm run encrypt-content' or 'npm run rotate-master'" });
+      for (const file of lockedFiles) {
+        const slug = path.basename(file).replace(/\.locked\.json$/, '');
+        try {
+          const raw = await fs.readFile(file, 'utf8');
+          const locked = LockedFileSchema.parse(JSON.parse(raw)) as LockedFile;
+          await webcrypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBytes(locked.iv) }, masterKey, b64ToBytes(locked.ciphertext));
+          checks.push({ name: `${slug}: parses + master decrypts`, ok: true, detail: `${locked.wrappedKeys.length} wrapped key(s)` });
+        } catch (err: any) {
+          checks.push({
+            name: `${slug}: parses + master decrypts`,
+            ok: false,
+            detail: err.message,
+            remediation: `Run 'npm run encrypt-content -- ${slug}' or 'npm run rotate-master'`,
+          });
+        }
+      }
     }
   }
 

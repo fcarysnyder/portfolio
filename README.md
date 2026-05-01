@@ -45,6 +45,14 @@ tags:                          # optional
 
 Work/portfolio entries live in `src/content/work/` as `.md` files.
 
+### Gated case studies (password-protected)
+
+Some case studies are encrypted client-side and require a per-recipient password. To generate a password, update content, or rotate the master key, see [Case Study Gate Operator Runbook](docs/case-study-gate-runbook.md). Quick reference:
+
+- Generate a password: `npm run grant-access -- <slug> "Recipient Label"`
+- Re-encrypt content: `npm run encrypt-content -- <slug>`
+- Verify environment: `npm run gate-doctor`
+
 ## Cross-Posting to Medium
 
 New blog posts are automatically converted to Medium-compatible Markdown when merged to `main`. Your site remains the canonical source for SEO.

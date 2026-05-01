@@ -15,7 +15,7 @@ import { getCollection } from 'astro:content';
 const projects = (await getCollection('work'))
 	.filter((project) =>
 		project.data.title === 'Synthetic Readings - Performance Pages for ATLAS' ||
-		project.data.title === 'Omniscience UI' ||
+		project.data.title === 'Omniscience UI - Redesigning Manual Commanding' ||
 		project.data.title === 'OpenNode Design System',
 	)
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());

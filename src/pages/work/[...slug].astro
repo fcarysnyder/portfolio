@@ -22,15 +22,32 @@ const formattedDate = entry.data.publishDate.toLocaleDateString('en-US', {
 
 const lockedDataUrl = `/data/${entry.id}.locked.json`;
 
-const screenshots = [
-  { src: '/assets/synthetic-readings/facility-performance.png', alt: 'Facility performance dashboard' },
-  { src: '/assets/synthetic-readings/demand-events-table.png', alt: 'Demand events table' },
-  { src: '/assets/synthetic-readings/TOU-demand-event-feb.png', alt: 'TOU demand event - February' },
-  { src: '/assets/synthetic-readings/cp-events-table.png', alt: 'CP events table' },
-  { src: '/assets/synthetic-readings/cp-capacity-event-jan.png', alt: 'CP capacity event - January' },
-  { src: '/assets/synthetic-readings/CP-transmission-event-mar.png', alt: 'CP transmission event - March' },
-  { src: '/assets/synthetic-readings/TOU-demand-event-mar.png', alt: 'TOU demand event - March' },
-];
+const screenshotsBySlug: Record<string, { src: string; alt: string }[]> = {
+  'synthetic-readings': [
+    { src: '/assets/synthetic-readings/facility-performance.png', alt: 'Facility performance dashboard' },
+    { src: '/assets/synthetic-readings/demand-events-table.png', alt: 'Demand events table' },
+    { src: '/assets/synthetic-readings/TOU-demand-event-feb.png', alt: 'TOU demand event - February' },
+    { src: '/assets/synthetic-readings/cp-events-table.png', alt: 'CP events table' },
+    { src: '/assets/synthetic-readings/cp-capacity-event-jan.png', alt: 'CP capacity event - January' },
+    { src: '/assets/synthetic-readings/CP-transmission-event-mar.png', alt: 'CP transmission event - March' },
+    { src: '/assets/synthetic-readings/TOU-demand-event-mar.png', alt: 'TOU demand event - March' },
+  ],
+};
+const screenshots = screenshotsBySlug[entry.id] ?? [];
+
+const metaBySlug: Record<string, { role: string; collaborators: string; product: string }> = {
+  'synthetic-readings': {
+    role: 'Lead Product Designer',
+    collaborators: 'Product, Engineering, Applied Science, Prod. Success',
+    product: 'ATLAS industrial control platform',
+  },
+  'omniscience-commanding': {
+    role: 'Lead Product Designer',
+    collaborators: 'Product, Engineering, Space Operations',
+    product: 'Omniscience UI (C3 platform)',
+  },
+};
+const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborators: '', product: '' };
 ---
 
 <BaseLayout
@@ -46,26 +63,28 @@ const screenshots = [
         <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
       </header>
 
-      <CaseStudyCarousel images={screenshots} client:load />
+      {screenshots.length > 0 && (
+        <CaseStudyCarousel images={screenshots} client:load />
+      )}
 
       <div class="post-meta-top">
         <div class="meta-row">
           <span class="meta-label">Role</span>
-          <span class="meta-value">Lead Product Designer</span>
+          <span class="meta-value">{meta.role}</span>
         </div>
         <div class="meta-row">
           <span class="meta-label">Collaborators</span>
-          <span class="meta-value">Product, Engineering, Applied Science, Prod. Success</span>
+          <span class="meta-value">{meta.collaborators}</span>
         </div>
         <div class="meta-row">
           <span class="meta-label">Product</span>
-          <span class="meta-value">ATLAS industrial control platform</span>
+          <span class="meta-value">{meta.product}</span>
         </div>
       </div>
 
       <div class="post-content">
         {entry.data.gated ? (
-          <GatedContent lockedDataUrl={lockedDataUrl} client:load />
+          <GatedContent lockedDataUrl={lockedDataUrl} caseStudyTitle={entry.data.title} client:load />
         ) : null}
       </div>
 
@@ -196,7 +215,7 @@ const screenshots = [
     font-weight: 600;
     color: var(--gray-0);
     margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
   }
   .post-content :global(.gated-content p) {
     font-size: var(--font-size-base);
@@ -235,6 +254,7 @@ const screenshots = [
     line-height: 1.7;
     padding-left: 1.5em;
     margin-top: 1em;
+    margin-bottom: 1.5em;
     list-style: none;
   }
   .post-content :global(.gated-content ul li) {
@@ -257,6 +277,7 @@ const screenshots = [
     line-height: 1.7;
     padding-left: 1.5em;
     margin-top: 1em;
+    margin-bottom: 1.5em;
   }
   .post-content :global(.gated-content li + li) {
     margin-top: 0.5em;
