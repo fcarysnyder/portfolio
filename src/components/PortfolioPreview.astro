@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Pill from '../components/Pill.astro';
-import { ArrowRight, Lock } from '@lucide/astro';
+import { Lock } from '@lucide/astro';
 
 interface Props {
 	project: CollectionEntry<'work'>;
@@ -11,6 +11,7 @@ const { data, id } = Astro.props.project;
 const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 const href = data.gated ? `/work/${id}/` : (data.url ?? `/work/${id}/`);
 const cta = data.cta ?? (data.gated ? 'ask for access' : 'view project');
+const isExternal = !data.gated && !!data.url;
 const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 ---
 
@@ -35,7 +36,7 @@ const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 			</div>
 			<h3 class="title">{data.title}</h3>
 			<p class="description">{data.description}</p>
-			<span class="faux-button">{cta} <ArrowRight size="1em" /></span>
+			<span class="faux-button">{cta} <span class="arrow">{isExternal ? '↗' : '→'}</span></span>
 		</div>
 	</a>
 </div>
