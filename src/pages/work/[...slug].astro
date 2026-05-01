@@ -1,0 +1,304 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GatedContent from '../../components/work/GatedContent.tsx';
+import CaseStudyCarousel from '../../components/work/CaseStudyCarousel.tsx';
+
+export async function getStaticPaths() {
+  const all = await getCollection('work');
+  return all
+    .filter((entry) => entry.data.gated === true)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formattedDate = entry.data.publishDate.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const lockedDataUrl = `/data/${entry.id}.locked.json`;
+
+const screenshots = [
+  { src: '/assets/synthetic-readings/facility-performance.png', alt: 'Facility performance dashboard' },
+  { src: '/assets/synthetic-readings/demand-events-table.png', alt: 'Demand events table' },
+  { src: '/assets/synthetic-readings/TOU-demand-event-feb.png', alt: 'TOU demand event - February' },
+  { src: '/assets/synthetic-readings/cp-events-table.png', alt: 'CP events table' },
+  { src: '/assets/synthetic-readings/cp-capacity-event-jan.png', alt: 'CP capacity event - January' },
+  { src: '/assets/synthetic-readings/CP-transmission-event-mar.png', alt: 'CP transmission event - March' },
+  { src: '/assets/synthetic-readings/TOU-demand-event-mar.png', alt: 'TOU demand event - March' },
+];
+---
+
+<BaseLayout
+  title={`${entry.data.title} | F Cary Snyder`}
+  description={entry.data.description}
+  image={entry.data.img}
+>
+  <main class="wrapper post-layout">
+    <article>
+      <header class="post-header">
+        <a href="/" class="back-link">&larr; Back</a>
+        <h1>{entry.data.title}</h1>
+        <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
+      </header>
+
+      <CaseStudyCarousel images={screenshots} client:load />
+
+      <div class="post-meta-top">
+        <div class="meta-row">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Lead Product Designer</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Collaborators</span>
+          <span class="meta-value">Product, Engineering, Applied Science, Prod. Success</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Product</span>
+          <span class="meta-value">ATLAS industrial control platform</span>
+        </div>
+      </div>
+
+      <div class="post-content">
+        {entry.data.gated ? (
+          <GatedContent lockedDataUrl={lockedDataUrl} client:load />
+        ) : null}
+      </div>
+
+      <footer class="post-footer">
+        <div class="post-meta">
+          <div class="meta-row">
+            <span class="meta-label">Date</span>
+            <span class="meta-value">{formattedDate}</span>
+          </div>
+          {entry.data.tags && entry.data.tags.length > 0 && (
+            <div class="meta-row">
+              <span class="meta-label">Tags</span>
+              <span class="meta-value">{entry.data.tags.join(', ')}</span>
+            </div>
+          )}
+        </div>
+      </footer>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .post-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  article {
+    width: 100%;
+  }
+  .post-header {
+    position: relative;
+    padding-top: 2rem;
+  }
+  .back-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--accent-regular);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--accent-dark);
+  }
+  .post-header h1 {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--gray-0);
+    margin-bottom: 0.5rem;
+  }
+  .post-header time {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    color: var(--gray-400);
+  }
+
+  /* Carousel trigger */
+  article :global(.carousel-trigger) {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    margin-top: 2rem;
+  }
+  article :global(.carousel-trigger img) {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--theme-transition);
+  }
+  article :global(.carousel-trigger:hover img) {
+    box-shadow: var(--shadow-lg, var(--shadow-md));
+  }
+  article :global(.carousel-badge) {
+    display: block;
+    margin-top: 1rem;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-xs);
+    color: var(--gray-400);
+    text-align: center;
+  }
+
+  /* Metadata section (top) */
+  .post-meta-top {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .post-meta-top .meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .post-content {
+    margin-top: 2.5rem;
+  }
+
+  .post-content :global(.gated-placeholder) {
+    padding: 2rem;
+    background: var(--gradient-subtle);
+    border: 1px solid var(--gray-800);
+    border-radius: 0.75rem;
+    color: var(--gray-300);
+    text-align: center;
+  }
+
+  /* Decrypted HTML rendering */
+  .post-content :global(.gated-content h2) {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--gray-0);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .post-content :global(.gated-content h3) {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--gray-0);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .post-content :global(.gated-content p) {
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    color: var(--gray-200);
+  }
+  .post-content :global(.gated-content p + p) {
+    margin-top: 1.5em;
+  }
+  .post-content :global(.gated-content a) {
+    color: var(--accent-regular);
+  }
+  .post-content :global(.gated-content blockquote) {
+    border-left: 3px solid var(--accent-regular);
+    padding-left: 1rem;
+    color: var(--gray-200);
+    font-style: normal;
+    margin: 1.5rem 0;
+  }
+  .post-content :global(.gated-content img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    margin: 2rem auto;
+  }
+  /* Hide horizontal rules in decrypted content */
+  .post-content :global(.gated-content hr) {
+    display: none;
+  }
+  /* Bullet points -round circles in accent color */
+  .post-content :global(.gated-content ul) {
+    color: var(--gray-200);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    padding-left: 1.5em;
+    margin-top: 1em;
+    list-style: none;
+  }
+  .post-content :global(.gated-content ul li) {
+    position: relative;
+    padding-left: 0.25em;
+  }
+  .post-content :global(.gated-content ul li::before) {
+    content: '';
+    position: absolute;
+    left: -1.25em;
+    top: 0.65em;
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    background: var(--accent-regular);
+  }
+  .post-content :global(.gated-content ol) {
+    color: var(--gray-200);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    padding-left: 1.5em;
+    margin-top: 1em;
+  }
+  .post-content :global(.gated-content li + li) {
+    margin-top: 0.5em;
+  }
+
+  /* Footer */
+  .post-footer {
+    margin-top: 3rem;
+  }
+  .post-meta {
+    border-top: 1px solid var(--gray-800);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+  }
+  .meta-label {
+    color: var(--gray-400);
+    text-transform: uppercase;
+    min-width: 6rem;
+    flex-shrink: 0;
+  }
+  .meta-value {
+    color: var(--gray-200);
+  }
+  @media (min-width: 60em) {
+    .post-layout {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
+    article {
+      grid-column: 2;
+    }
+    .post-header h1 {
+      font-size: var(--font-size-3xl);
+    }
+  }
+</style>

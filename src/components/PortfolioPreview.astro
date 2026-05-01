@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import Pill from '../components/Pill.astro'
-import { ArrowRight } from '@lucide/astro'
+import Pill from '../components/Pill.astro';
+import { ArrowRight, Lock } from '@lucide/astro';
 
 interface Props {
 	project: CollectionEntry<'work'>;
@@ -9,27 +9,42 @@ interface Props {
 
 const { data, id } = Astro.props.project;
 const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
+const href = data.gated ? `/work/${id}/` : (data.url ?? `/work/${id}/`);
+const cta = data.cta ?? (data.gated ? 'ask for access' : 'view project');
+const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 ---
 
 <div>
-	<a class="card" href={data.url}>
-		<img src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
+	<a class="card" href={href}>
+		<div class="img-wrap">
+			<img src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
+		</div>
 		<div class="card-descrip">
-				{firstTag && <Pill color={data.color}>{firstTag}</Pill>}
-				<h3 class='title'> {data.title}</h3>
-				<p class="description">{data.description}</p>
-				<span class="faux-button">{data.cta} <ArrowRight size="1em" /></span>
-			
+			<div class="card-tags">
+				{firstTag && (
+					<span style={pillTextColor ? `--accent-text-over: ${pillTextColor}` : ''}>
+						<Pill color={data.color}>{firstTag}</Pill>
+					</span>
+				)}
+				{data.gated && (
+					<span class="lock-pill" aria-label="Password protected">
+						<Lock size="0.85em" />
+						<span>Gated</span>
+					</span>
+				)}
+			</div>
+			<h3 class="title">{data.title}</h3>
+			<p class="description">{data.description}</p>
+			<span class="faux-button">{cta} <ArrowRight size="1em" /></span>
 		</div>
 	</a>
 </div>
 
 <style>
 	.card {
-		display: grid;
-		grid-template: auto 1fr / auto 1fr;
-		/* height: 11rem; */
-		background: var(--gradient-subtle);
+		display: flex;
+		flex-direction: column;
+		background: var(--gray-999);
 		border: 1px solid var(--gray-800);
 		border-radius: 0.75rem;
 		overflow: hidden;
@@ -41,7 +56,6 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 		transition: box-shadow var(--theme-transition);
 		width: 100%;
 	}
-
 	.card:hover {
 		box-shadow: var(--shadow-md);
 	}
@@ -49,35 +63,49 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 		color: var(--gray-300);
 		font-size: 16px;
 	}
-
 	.faux-button {
 		grid-column-gap: 4px;
-    	grid-row-gap: 4px;
- 	   	align-items: center;
-    	display: flex;
+		grid-row-gap: 4px;
+		align-items: center;
+		display: flex;
 		font-size: var(--font-size-xs);
 		padding-top: 24px;
 		text-transform: uppercase;
-		color: var(--accent-regular)
+		color: var(--accent-regular);
 	}
 	.faux-button:hover {
-		color:var(--accent-dark);
+		color: var(--accent-dark);
 	}
-	.card-descrip{
+	.card-descrip {
 		grid-column-gap: 0px;
-
-    	object-fit: fill;
-    	border-radius: 0 0 8px 8px;
-    	flex-direction: column;
-    	flex: 1;
-    	align-items: flex-start;
-    	margin-right: 0;
-    	padding: 40px;
-    	display: flex;
+		object-fit: fill;
+		border-radius: 0 0 8px 8px;
+		flex-direction: column;
+		flex: 1;
+		align-items: flex-start;
+		margin-right: 0;
+		padding: 40px;
+		display: flex;
 	}
-
+	.card-tags {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.lock-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0.15rem 0.5rem;
+		border: 1px solid var(--gray-800);
+		border-radius: 999px;
+		font-size: var(--font-size-xs);
+		color: var(--gray-300);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
 	.title {
-		grid-area: 1 / 1 / 2 / 2;
 		z-index: 1;
 		color: var(--gray-200);
 		border-radius: 0.375rem;
@@ -85,19 +113,34 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 		padding-top: 12px;
 		padding-bottom: 24px;
 	}
-
 	img {
-		grid-area: 1 / 1 / 3 / 3;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
-
-	@media (min-width: 60em) {
+	@media (min-width: 70em) {
 		.card {
+			display: flex;
+			flex-direction: row;
 			border-radius: 1.5rem;
+			overflow: hidden;
 		}
-
+		.card-descrip {
+			flex: 3;
+			border-radius: 0;
+		}
+		.img-wrap {
+			flex: 2;
+			position: relative;
+			min-width: 0;
+		}
+		img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 		.title {
 			border-radius: 0.9375rem;
 		}

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Defense-in-depth: this hook blocks any commit that would reintroduce the
+# in-repo private content pattern. Source MDX for gated case studies must live
+# in a separate private repo / location pointed at by PRIVATE_CONTENT_PATH —
+# never inside this repo, even gitignored. If you're a future contributor and
+# this hook seems vestigial, READ docs/case-study-gate-runbook.md before
+# deleting it.
+set -e
+
+BLOCKED_PATHS_REGEX='^(private/|src/content/work/synthetic-readings/source\.mdx$)'
+
+if git diff --cached --name-only | grep -E "$BLOCKED_PATHS_REGEX" > /dev/null; then
+  echo "ERROR: Refusing to commit files under blocked paths:"
+  git diff --cached --name-only | grep -E "$BLOCKED_PATHS_REGEX"
+  echo ""
+  echo "Source MDX for gated case studies belongs in a separate private repo."
+  echo "See docs/case-study-gate-runbook.md."
+  exit 1
+fi
