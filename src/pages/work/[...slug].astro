@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReadingProgressBar from '../../components/ReadingProgressBar.astro';
 import GatedContent from '../../components/work/GatedContent.tsx';
 import CaseStudyCarousel from '../../components/work/CaseStudyCarousel.tsx';
 
@@ -55,6 +56,7 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   description={entry.data.description}
   image={entry.data.img}
 >
+  <ReadingProgressBar />
   <main class="wrapper post-layout">
     <article>
       <header class="post-header">

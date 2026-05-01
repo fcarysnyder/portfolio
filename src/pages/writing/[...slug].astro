@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReadingProgressBar from '../../components/ReadingProgressBar.astro';
+import { getReadingTime } from '../../utils/reading-time';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -29,15 +31,21 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 	day: 'numeric',
 	year: 'numeric',
 });
+
+const readingTime = getReadingTime(post.body ?? '');
 ---
 
 <BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description} image={socialImage}>
+	<ReadingProgressBar />
 	<main class="wrapper post-layout">
 		<article>
 			<header class="post-header">
 				<a href="/writing/" class="back-link">&larr; Back</a>
 				<h1>{post.data.title}</h1>
-				<time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+				<div class="post-date-row">
+					<time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+					<span class="reading-time">·&nbsp; {readingTime} min read</span>
+				</div>
 			</header>
 
 			<div class="post-content">
@@ -114,7 +122,10 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 		margin-bottom: 0.5rem;
 	}
 
-	.post-header time {
+	.post-date-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 		font-family: var(--font-family-mono);
 		font-size: var(--font-size-sm);
 		color: var(--gray-400);
