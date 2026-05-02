@@ -3,6 +3,9 @@ node_modules/
 # macOS
 .DS_Store
 
+# Scratch files
+Untitled.md
+
 # Astro
 .astro/
 
