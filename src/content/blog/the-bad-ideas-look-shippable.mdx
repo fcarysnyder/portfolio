@@ -1,0 +1,64 @@
+---
+title: "The Bad Ideas Look Shippable"
+description: "AI prototypes arrive at a fidelity that makes everyone skip the feasibility check. When unvalidated ideas are dressed in working code, the room stops asking whether they should ship and starts asking how."
+publishDate: 2026-05-01
+tags:
+  - design
+  - AI
+  - product development
+  - prototyping
+---
+
+A designer on my team was early in the design phase for a new project - exploring, seeking what's possible - when he decided to prototype with AI. He was working on an enterprise control platform configuration experience: tables, filters, dropdowns, tabbed navigation, all within scope of our design system. But inside a drawer, he went further. A flow chart depicting equipment states and their settings, hover interactions that highlight table rows and scroll the page, overlays with combo boxes and filters. All of it was functional, in react code. Most of it was not possible with our design system.
+
+The PMs saw it and they were shocked. Phrases like "this is what we've always dreamed of" were thrown around. "This is what design can produce? How do we ship it?"
+
+When work arrives at this level of fidelity, people are less likely to ask what it was built to test or question what it would take to get each interaction working against real data. The chart, the hover-scroll behavior, the overlay filters - each one would be a significant engineering effort to implement in production. But the assumption shifts: you wouldn't show me this unless it was already figured out. The prototype didn't look like a question, even if it was. It looked like an answer.
+
+The designer did excellent work. The problem wasn't the person. It was the fidelity.
+
+## Crude on purpose
+
+There's a reason low fidelity design exists. Crude wireframes, sketch-style mockups, boxes with X's where images would go; these aren't limitations of the tooling or the thinking. They are a deliberate choice about what kind of feedback the designer is looking for.
+
+Low fidelity takes many forms. Sketches, wireframes, even just design intent written out - the decisions you're making, the tradeoffs you're weighing, the problems you're trying to solve. The medium doesn't matter. What matters is that the fidelity matches the stage of thinking.
+
+Low fidelity forces everyone in the room to look past the surface and react to the structure. The flow. The logic. The decisions being made are forced into view because the visuals are non-existent. When a wireframe looks like a sketch, nobody says "I love the color scheme." They say "wait, why does this step come before that one?" or "where does the user go if they cancel here?" The crudeness directs attention to the right questions.
+
+The moment something looks polished, that changes. Stakeholders react to the surface - the spacing, the colors, the typography - instead of the interaction model underneath it. This isn't a failure of the people in the room. It's psychology. Crude fidelity protects teams from spinning on the wrong things. It is an epistemological tool, not an aesthetic limitation.
+
+## Two different questions
+
+A principal engineer I work with pushed back on something I wrote in [Prototype Discipline](/writing/prototype-discipline) and surfaced a distinction I'd been circling without naming it: there's a difference between prototyping visual design and prototyping interactions. These are different activities with different outputs and different risks.
+
+Prototyping visual design tests whether something looks right. Colors, typography, layout, spacing - does the surface match what we're going for? Prototyping interactions tests whether something *works*. Does the flow make sense? Does the logic hold? Is the user solving the problem we think they're solving? Are we even solving the right problem?
+
+Crude wireframes, sketch-style mockups, deliberately not engaging in visual design - these exist to keep teams focused on the second question before committing to the first. Test the interactions. Validate the logic. Confirm the flow works before you make it beautiful. That order matters, because once you invest in visual polish, the sunk cost makes it psychologically harder to change the structure underneath.
+
+That separation is now almost impossible to maintain. When AI can generate a polished, interactive, working prototype in an afternoon, it's far too easy to get both at once whether you intended to or not. The visual design and the interaction model arrive together, entangled, and the room reacts to the package they are presented. As that engineer put it: "with the cost of pixel-perfect wireframes having dropped to zero, we're weaker than ever before to our own desires." When something looks finished early on, the assumption is that the thinking underneath is already done. The polished surface is signal that the depths are sorted.
+
+## Where feasibility disappears
+
+In [Prototype Discipline](/writing/prototype-discipline), I wrote about the cost governor - how the expense of building prototypes used to force intentionality about what you were testing and why. This piece is about what that governor was specifically protecting: the feasibility check.
+
+Feasibility is the bridge between a concept and a product. Can we actually build this? With what data? Against which systems? At what cost? In what timeframe? These questions don't get answered by a prototype, no matter how polished it is. They get answered by engineering evaluation, by understanding the constraints of the production system, by doing the unglamorous work of figuring out what's possible.
+
+When a prototype looks shippable, the room often skips that bridge entirely. The question shifts from "is this feasible?" to "how do we ship this?" The code works. The interactions feel right. The data looks real. Why would anyone question whether this can ship?
+
+Working code in a sandbox is not the same as working code against production data. Functional interactions in a prototype are not the same as interactions that scale, handle edge cases, integrate with existing systems. The prototype demonstrates possibility. Feasibility requires proof. And the more polished the artifact, the harder it becomes to pump the brakes without sounding like you're the one blocking progress.
+
+Design grounded in feasibility - design that treats engineering constraints as creative parameters, not obstacles - is what separates a concept from a plan. When you skip that grounding, you hand a team a vision they may not be able to execute. And by the time everyone realizes the gap, the sunk cost has already set in.
+
+There's an old saying: slow is smooth, smooth is fast. I learned it from my father-in-law who was in the Coast Guard, where precision under pressure matters. Skipping the feasibility check feels fast. But every unvalidated assumption becomes drag downstream, and the velocity you gained upfront gets consumed by the chaos handed to engineering later. Design should produce clarity. When it produces a vision without feasibility, it produces the opposite.
+
+That discipline isn't slower. It's what keeps velocity sustainable. In an environment where, like it or not, velocity *is* the metric, the discipline of checking feasibility before committing to polish is how you maintain real speed without creating wreckage behind you.
+
+## The bad ideas look shippable now
+
+That's the whole problem. AI isn't making decisions; it's generating output at a fidelity that makes it look like someone already did. Unvalidated ideas that ran past feasibility without stopping - ideas that are too often wrong - are dressed in working code and real data.
+
+None of this is about slowing down. It is about keeping the question open long enough to find the right answer. That restraint is harder to practice now than it has ever been, which means it matters more.
+
+AI tools require discipline. They will produce whatever fidelity you ask for. The question is whether you're seeking the problem or solving it. Low fidelity is for problem seeking. High fidelity is for problem solving. The order matters.
+
+*This is the third in a series. Previously: [Prototype Discipline](/writing/prototype-discipline). Next: [Specification Infrastructure](/writing/specification-infrastructure) - why a design system is specification infrastructure, not a Figma file.*
