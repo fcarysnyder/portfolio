@@ -8,7 +8,7 @@ tags:
   - product development
 ---
 
-"If you're just using ShadCN, does design even exist?"
+"If you're just using [ShadCN](https://ui.shadcn.com/), does design even exist?"
 
 A smart engineer asked me this recently. It's a completely reasonable question if you think design is about the building blocks and their visual style. Component libraries give you spacing, hierarchy, color systems, accessibility. AI tools give you layouts, responsive behavior, polished interactions. Between the two, you can ship something that looks like a real product in an afternoon.
 
@@ -18,7 +18,9 @@ This conclusion is built on an incomplete premise. If design is how something *l
 
 Design got reduced to "making things pretty" somewhere along the way, and you can see why. Most design work is invisible. The research, the structural decisions, the trade-offs between competing user needs - none of that shows up in a screenshot. What shows up is the surface: colors, typography, spacing, polish. When the most visible design work is aesthetic, people draw a reasonable conclusion: design is aesthetics. If that's true, then yes, AI probably does replace it.
 
-But here's what makes this moment dangerous. AI doesn't just make styling easy. It makes styling *convincing*. You can use Anthropic's frontend design skill, or V0, or any number of tools to generate a product that has hierarchy, spacing, a dark mode color system, and enough visual polish to feel production-ready. And it is production-ready, in the same way that a movie set is a real building. It looks right from every angle until you try to move in.
+AI doesn't just make styling easy. It makes styling *convincing* - and that's what makes this moment dangerous. You can use Anthropic's frontend design skill, or V0, or any number of tools to generate a product that has hierarchy, spacing, a dark mode color system, and enough visual polish to feel production-ready. And it is production-ready, in the same way that a movie set is a real building. It looks right from every angle until you try to move in. The same thing happens when design decisions are made from the surface inward rather than from the structure out.
+
+Think about the pedals in a car. They're rarely perfectly centered in the footwell. If you didn't know why, you might read it as an oversight - the kind of thing a better designer would have fixed. But the placement isn't arbitrary. It's where the engine block, the chassis geometry, and the mechanical linkages put it. It's the visible residue of the system underneath. A designer who looks at that footwell and says "those pedals should be evenly spaced, more intentional, more considered" isn't wrong that it looks asymmetrical. They're wrong about what the asymmetry means. Moving the pedals without understanding what put them there doesn't improve the design; it adds complexity and new failure points to satisfy an aesthetic preference that never interrogated the "why" behind the existing design.
 
 [The medium becomes the message](https://en.wikipedia.org/wiki/The_medium_is_the_message). When a prototype is built in real code with real components and real styling, people treat it like a real product. That's not a failure of the people; it's a natural response to a convincing artifact. The problem is that convincing and correct are not the same thing, and the gap between them is where the real work is.
 
@@ -32,7 +34,7 @@ The design process is what surfaced this. Iterating through mockups on a canvas,
 
 The PM's dashboard concept is ultimately what we shipped. The charts, the key metrics, the data visualizations - those ideas were right. But where they lived in the product, how they related to settings and applications, and which persona they served changed completely through the design process.
 
-The PM's work was good. The team arrived at the decision together, and to the PM's credit, they were open to the direction even after investing real time in the original structure. But the design process is what challenged the structural assumptions, explored the options that didn't work, and gave us a framework to evaluate whether the prototype's logic held up against how the system actually works. The process mattered more than who led it. What mattered was that someone slowed down long enough to ask how the system actually works, not just what it could look like.
+The PM's work was good. The team arrived at the decision together, and to the PM's credit, they were open to the direction even after investing real time in the original structure. But the design process is what challenged the structural assumptions, explored the options that didn't work, and gave us a framework to evaluate whether the prototype's logic held up against how the system actually works. The process mattered more than who led it. What mattered was that someone slowed down long enough to understand why the system works the way it does, not just what it could look like. The why reshaped the what.
 
 ## The components were never the design
 
