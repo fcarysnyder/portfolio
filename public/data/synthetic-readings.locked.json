@@ -9,6 +9,11 @@
       "salt": "c7MmmySy1em7hxrPc0qxkA==",
       "iv": "BGgZfH3E4gmfhnZ0",
       "wrapped": "rb9bYtA3HipdJ94j1IHlXMDSqfMTJWglQQyrsKDXVMo/Vs3Ci18gXflZs79yZKQR"
+    },
+    {
+      "salt": "5EdodZ9Bf4x195+ymEbYRw==",
+      "iv": "Ia2ns0aw0pp3rQnh",
+      "wrapped": "jBGGHqSReuhrJIjX+eHDUolEvFtJrnus596Wc1Ufalmrh6xX2sEADhtR+kMVu79m"
     }
   ]
 }
