@@ -14,15 +14,23 @@ interface Props {
 	description?: string | undefined;
 	image?: string | undefined;
     useAnimatedBackground?: boolean;
+	useIntroAnimation?: boolean;
 }
 
-const { title, description, image, useAnimatedBackground = false } = Astro.props;
+const { title, description, image, useAnimatedBackground = false, useIntroAnimation = false } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<MainHead title={title} description={description} image={image} />
         <ClientRouter />
+		<script is:inline>
+			(function() {
+				if (sessionStorage.getItem('intro-played')) {
+					document.documentElement.classList.add('intro-played');
+				}
+			})();
+		</script>
 	</head>
 	<body>
 		<div class:list={['flex', 'flex-col', 'backgrounds', 'use-animated-bg']}>
@@ -32,15 +40,26 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
 			<div transition:persist>
 				<Nav />
 			</div>
-			<div class="animated-fade-in main-content-wrapper">
+			<div class:list={['main-content-wrapper', { 'animated-fade-in': useIntroAnimation }]}>
 				<slot />
 			</div>
 			<Footer />
 		</div>
 
 		<script>
-			// Add "loaded" class once the document has completely loaded.
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));
+
+			function handleIntroAnimation() {
+				const el = document.querySelector('.animated-fade-in');
+				if (!el) return;
+				if (sessionStorage.getItem('intro-played')) {
+					el.classList.remove('animated-fade-in');
+				} else {
+					sessionStorage.setItem('intro-played', 'true');
+				}
+			}
+			handleIntroAnimation();
+			document.addEventListener('astro:after-swap', handleIntroAnimation);
 		</script>
 
 		<style>
@@ -151,6 +170,11 @@ const { title, description, image, useAnimatedBackground = false } = Astro.props
 
 			.animated-fade-in {
 				animation: 1s ease-out forwards fadeInFromTop;
+			}
+
+			:root.intro-played .animated-fade-in {
+				animation: none;
+				opacity: 1;
 			}
 
 			@keyframes fadeInFromTop {
