@@ -14,6 +14,11 @@
       "salt": "5EdodZ9Bf4x195+ymEbYRw==",
       "iv": "Ia2ns0aw0pp3rQnh",
       "wrapped": "jBGGHqSReuhrJIjX+eHDUolEvFtJrnus596Wc1Ufalmrh6xX2sEADhtR+kMVu79m"
+    },
+    {
+      "salt": "+O3z7Ox1lkBFWhm7/IPSJw==",
+      "iv": "5bVvE/ViW+obhQIW",
+      "wrapped": "bokLxtmTrcz+nsY6VIndxZkSGGKn8Et0fm2oMA/a3PMyBp0f91iupXwFUS1GDomG"
     }
   ]
 }
