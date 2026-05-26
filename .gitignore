@@ -41,3 +41,6 @@ public/data/*.locked.json.tmp
 
 # Playwright MCP debug artifacts
 .playwright-mcp/
+
+# Case study screenshots — copied in at build time from portfolio-private (see scripts/prepare-assets.js)
+public/assets/synthetic-readings/

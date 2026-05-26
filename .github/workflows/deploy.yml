@@ -22,10 +22,18 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+      - name: Set up SSH for portfolio-private
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PORTFOLIO_PRIVATE_DEPLOY_KEY }}
+      - name: Clone portfolio-private (case study assets)
+        run: git clone --depth 1 git@github.com:fcarysnyder/portfolio-private.git /tmp/portfolio-private
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
           node-version: 22
+        env:
+          PORTFOLIO_PRIVATE_PATH: /tmp/portfolio-private
 
   deploy:
     needs: build
