@@ -105,14 +105,14 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           padding: '2rem',
           width: '100%',
           maxWidth: '28rem',
-          fontFamily: 'var(--font-family-body)',
+          fontFamily: 'var(--font-sans)',
         }}
       >
         <a
           href="/"
           style={{
             display: 'inline-block',
-            fontSize: 'var(--font-size-sm)',
+            fontSize: 'var(--text-sm)',
             fontWeight: 500,
             color: 'var(--accent-regular)',
             textDecoration: 'none',
@@ -124,7 +124,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         <h2
           id="gate-title"
           style={{
-            fontSize: 'var(--font-size-xl)',
+            fontSize: 'var(--text-2xl)',
             fontWeight: 600,
             color: 'var(--gray-0)',
             marginBottom: '0.5rem',
@@ -134,7 +134,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         </h2>
         <p
           style={{
-            fontSize: 'var(--font-size-base)',
+            fontSize: 'var(--text-base)',
             color: 'var(--gray-300)',
             marginBottom: '1.5rem',
             lineHeight: 1.6,
@@ -147,7 +147,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           htmlFor="gate-password"
           style={{
             display: 'block',
-            fontSize: 'var(--font-size-sm)',
+            fontSize: 'var(--text-sm)',
             color: 'var(--gray-200)',
             marginBottom: '0.5rem',
           }}
@@ -168,12 +168,12 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           style={{
             width: '100%',
             padding: '0.75rem',
-            fontSize: 'var(--font-size-base)',
+            fontSize: 'var(--text-base)',
             background: 'var(--gray-900)',
             border: `1px solid ${displayedError ? 'hsl(0 80% 60%)' : 'var(--gray-800)'}`,
             borderRadius: '0.5rem',
             color: 'var(--gray-0)',
-            fontFamily: 'var(--font-family-mono)',
+            fontFamily: 'var(--font-mono)',
             marginBottom: '0.5rem',
           }}
         />
@@ -183,7 +183,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
             id="gate-error"
             role="alert"
             style={{
-              fontSize: 'var(--font-size-sm)',
+              fontSize: 'var(--text-sm)',
               color: 'hsl(0 80% 65%)',
               marginBottom: '1rem',
             }}
@@ -198,7 +198,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           style={{
             width: '100%',
             padding: '0.75rem',
-            fontSize: 'var(--font-size-base)',
+            fontSize: 'var(--text-base)',
             background: 'var(--accent-regular)',
             color: 'var(--accent-text-over)',
             border: 'none',
@@ -212,7 +212,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           {isSubmitting ? 'Unlocking…' : 'Unlock case study'}
         </button>
 
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: 'var(--text-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ color: 'var(--gray-400)' }}>Don't have a password?</span>
           <a href={mailtoHref} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
             Ask for access →

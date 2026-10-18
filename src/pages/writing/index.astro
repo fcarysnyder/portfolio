@@ -93,13 +93,13 @@ const sortedByTitle = [...posts].sort(
 	}
 
 	h1 {
-		font-size: var(--font-size-2xl);
+		font-size: var(--text-3xl);
 		color: var(--gray-0);
 	}
 
 	@media (min-width: 60em) {
 		h1 {
-			font-size: var(--font-size-3xl);
+			font-size: var(--text-4xl);
 		}
 	}
 
@@ -122,7 +122,7 @@ const sortedByTitle = [...posts].sort(
 	.post-list a {
 		color: var(--gray-0);
 		text-decoration: none;
-		font-size: var(--font-size-lg);
+		font-size: var(--text-xl);
 		font-weight: 400;
 	}
 
@@ -132,8 +132,8 @@ const sortedByTitle = [...posts].sort(
 	}
 
 	.post-list time {
-		font-family: var(--font-family-mono);
-		font-size: var(--font-size-sm);
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
 		color: var(--gray-400);
 		white-space: nowrap;
 	}

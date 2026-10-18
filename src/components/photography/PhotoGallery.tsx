@@ -98,7 +98,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
           <div key={group.year} style={{ display: 'flex', flexDirection: 'column', gap: `${GAP}px` }}>
             <h2
               style={{
-                fontSize: 'var(--font-size-xl)',
+                fontSize: 'var(--text-2xl)',
                 color: 'var(--gray-0)',
                 margin: 0,
               }}

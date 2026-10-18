@@ -86,7 +86,7 @@ export default function CaseStudyCarousel({ images }: Props) {
               style={{
                 position: 'absolute', top: '1rem', right: '1rem',
                 background: 'none', border: 'none', color: 'white',
-                fontSize: '2rem', cursor: 'pointer', padding: '0.5rem',
+                fontSize: 'var(--text-3xl)', cursor: 'pointer', padding: '0.5rem',
                 lineHeight: 1, opacity: 0.7, zIndex: 1,
               }}
             >
@@ -99,7 +99,7 @@ export default function CaseStudyCarousel({ images }: Props) {
               style={{
                 position: 'absolute', left: '1rem', top: '50%',
                 transform: 'translateY(-50%)', background: 'none',
-                border: 'none', color: 'white', fontSize: '2.5rem',
+                border: 'none', color: 'white', fontSize: 'var(--text-4xl)',
                 cursor: 'pointer', padding: '0.5rem', lineHeight: 1,
                 opacity: 0.7, zIndex: 1,
               }}
@@ -113,7 +113,7 @@ export default function CaseStudyCarousel({ images }: Props) {
               style={{
                 position: 'absolute', right: '1rem', top: '50%',
                 transform: 'translateY(-50%)', background: 'none',
-                border: 'none', color: 'white', fontSize: '2.5rem',
+                border: 'none', color: 'white', fontSize: 'var(--text-4xl)',
                 cursor: 'pointer', padding: '0.5rem', lineHeight: 1,
                 opacity: 0.7, zIndex: 1,
               }}
@@ -127,7 +127,7 @@ export default function CaseStudyCarousel({ images }: Props) {
                 alt={images[modalIndex].alt}
                 style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain' }}
               />
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', marginTop: '0.75rem' }}>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-sm)', marginTop: '0.75rem' }}>
                 {modalIndex + 1} / {images.length} - {images[modalIndex].alt}
               </p>
             </div>

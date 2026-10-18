@@ -144,8 +144,8 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
                 color: 'var(--accent-text-over)',
                 border: 'none',
                 borderRadius: '0.5rem',
-                fontFamily: 'var(--font-family-body)',
-                fontSize: 'var(--font-size-sm)',
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'var(--text-sm)',
                 cursor: 'pointer',
               }}
             >

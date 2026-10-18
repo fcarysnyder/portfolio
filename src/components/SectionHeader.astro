@@ -22,7 +22,7 @@ const hasFilters = Astro.slots.has('filters');
 
 <style>
 	.section-header {
-		font-size: var(--font-size-lg);
+		font-size: var(--text-xl);
 		width: 100%;
 	}
 
@@ -43,7 +43,7 @@ const hasFilters = Astro.slots.has('filters');
 	}
 
 	h3 {
-		font-size: var(--font-size-sm);
+		font-size: var(--text-sm);
 		text-transform: uppercase;
 		color: var(--gray-200);
 		margin: 0;
@@ -61,8 +61,8 @@ const hasFilters = Astro.slots.has('filters');
 	}
 
 	.filter-options :global(.filter-option) {
-		font-size: var(--font-size-sm);
-		font-family: var(--font-family-body);
+		font-size: var(--text-sm);
+		font-family: var(--font-sans);
 		text-transform: uppercase;
 		text-decoration: none;
 		color: var(--gray-400);
