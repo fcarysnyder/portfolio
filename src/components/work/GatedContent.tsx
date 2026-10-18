@@ -115,7 +115,7 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
 
   if (status === 'unlocked') {
     return (
-      <div className="gated-content" dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="gated-content prose" dangerouslySetInnerHTML={{ __html: html }} />
     );
   }
 

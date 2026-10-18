@@ -1,0 +1,47 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	date: Date;
+	/** Minutes. Omit for case studies: their body is encrypted, so it can't be measured at build time. */
+	readingTime?: number;
+	backHref: string;
+}
+
+const { title, description, date, readingTime, backHref } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<header class="page-header">
+	<a href={backHref} class="t-small-link back-link">&larr; Back</a>
+	<p class="t-eyebrow eyebrow">
+		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
+	</p>
+	<h1 class="t-page-title">{title}</h1>
+	<p class="t-summary summary">{description}</p>
+</header>
+
+<style>
+	.page-header {
+		padding-top: 2rem;
+	}
+
+	/* On its own line, in normal flow */
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+	}
+
+	.eyebrow {
+		margin-bottom: 0.75rem;
+	}
+
+	.summary {
+		margin-top: 0.75rem;
+	}
+</style>

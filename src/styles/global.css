@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./type.css";
+@import "./prose.css";
 
 @theme {
   /* Colors — bridge to existing CSS vars */

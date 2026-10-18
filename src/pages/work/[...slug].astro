@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GatedContent from '../../components/work/GatedContent.tsx';
 import CaseStudyCarousel from '../../components/work/CaseStudyCarousel.tsx';
+import PageHeader from '../../components/PageHeader.astro';
 
 export async function getStaticPaths() {
   const all = await getCollection('work');
@@ -13,12 +14,6 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-
-const formattedDate = entry.data.publishDate.toLocaleDateString('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-});
 
 const lockedDataUrl = `/data/${entry.id}.locked.json`;
 
@@ -56,18 +51,19 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   image={entry.data.img}
 >
   <main class="wrapper post-layout">
-    <article>
-      <header class="post-header">
-        <a href="/" class="back-link">&larr; Back</a>
-        <h1 class="t-page-title">{entry.data.title}</h1>
-        <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
-      </header>
+    <article data-reader-enabled>
+      <PageHeader
+        title={entry.data.title}
+        description={entry.data.description}
+        date={entry.data.publishDate}
+        backHref="/"
+      />
 
       {screenshots.length > 0 && (
         <CaseStudyCarousel images={screenshots} client:load />
       )}
 
-      <div class="post-meta-top">
+      <div class="post-meta-top t-meta">
         <div class="meta-row">
           <span class="meta-label">Role</span>
           <span class="meta-value">{meta.role}</span>
@@ -89,18 +85,14 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
       </div>
 
       <footer class="post-footer">
-        <div class="post-meta">
-          <div class="meta-row">
-            <span class="meta-label">Date</span>
-            <span class="meta-value">{formattedDate}</span>
-          </div>
-          {entry.data.tags && entry.data.tags.length > 0 && (
+        {entry.data.tags && entry.data.tags.length > 0 && (
+          <div class="post-meta t-meta">
             <div class="meta-row">
               <span class="meta-label">Tags</span>
               <span class="meta-value">{entry.data.tags.join(', ')}</span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </footer>
     </article>
   </main>
@@ -114,31 +106,6 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   article {
     width: 100%;
   }
-  .post-header {
-    position: relative;
-    padding-top: 2rem;
-  }
-  .back-link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--accent-text);
-    text-decoration: none;
-  }
-  .back-link:hover {
-    color: var(--accent-text-hover);
-  }
-  .post-header h1 {
-    margin-bottom: 0.5rem;
-  }
-  .post-header time {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--gray-400);
-  }
-
   /* Carousel trigger */
   article :global(.carousel-trigger) {
     display: block;
@@ -186,8 +153,9 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     gap: 2rem;
   }
 
+  /* Decrypted HTML is styled by .prose (src/styles/prose.css) */
   .post-content {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
   }
 
   .post-content :global(.gated-placeholder) {
@@ -199,90 +167,9 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     text-align: center;
   }
 
-  /* Decrypted HTML rendering */
-  .post-content :global(.gated-content h2) {
-    font-size: var(--text-2xl);
-    font-weight: 600;
-    color: var(--gray-0);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  .post-content :global(.gated-content h3) {
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: var(--gray-0);
-    margin-top: 2rem;
-    margin-bottom: 1.25rem;
-  }
-  .post-content :global(.gated-content p) {
-    font-size: var(--text-base);
-    line-height: 1.7;
-    color: var(--gray-200);
-  }
-  .post-content :global(.gated-content p + p) {
-    margin-top: 1.5em;
-  }
-  .post-content :global(.gated-content a) {
-    color: var(--accent-text);
-  }
-  .post-content :global(.gated-content blockquote) {
-    border-left: 3px solid var(--brand);
-    padding-left: 1rem;
-    color: var(--gray-200);
-    font-style: normal;
-    margin: 1.5rem 0;
-  }
-  .post-content :global(.gated-content img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 1rem;
-    box-shadow: var(--shadow-md);
-    margin: 2rem auto;
-  }
-  /* Hide horizontal rules in decrypted content */
-  .post-content :global(.gated-content hr) {
-    display: none;
-  }
-  /* Bullet points -round circles in accent color */
-  .post-content :global(.gated-content ul) {
-    color: var(--gray-200);
-    font-size: var(--text-base);
-    line-height: 1.7;
-    padding-left: 1.5em;
-    margin-top: 1em;
-    margin-bottom: 1.5em;
-    list-style: none;
-  }
-  .post-content :global(.gated-content ul li) {
-    position: relative;
-    padding-left: 0.25em;
-  }
-  .post-content :global(.gated-content ul li::before) {
-    content: '';
-    position: absolute;
-    left: -1.25em;
-    top: 0.65em;
-    width: 0.45em;
-    height: 0.45em;
-    border-radius: 50%;
-    background: var(--brand);
-  }
-  .post-content :global(.gated-content ol) {
-    color: var(--gray-200);
-    font-size: var(--text-base);
-    line-height: 1.7;
-    padding-left: 1.5em;
-    margin-top: 1em;
-    margin-bottom: 1.5em;
-  }
-  .post-content :global(.gated-content li + li) {
-    margin-top: 0.5em;
-  }
-
   /* Footer */
   .post-footer {
-    margin-top: 3rem;
+    margin-top: 4rem;
   }
   .post-meta {
     border-top: 1px solid var(--gray-800);
@@ -295,8 +182,6 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
   }
   .meta-label {
     color: var(--gray-400);
