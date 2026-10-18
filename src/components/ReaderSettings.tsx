@@ -1,7 +1,8 @@
 // src/components/ReaderSettings.tsx
 //
 // "Aa" reading settings in the nav. Lives in the persisted Nav, so it mounts once and survives
-// View Transition navigations: visibility is recomputed on every astro:page-load.
+// View Transition navigations: visibility is recomputed on astro:after-swap and astro:page-load,
+// and the panel closes before a navigation so a portaled menu is never left in a replaced body.
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ALargeSmall, Check } from 'lucide-react';
@@ -73,7 +74,7 @@ function OptionGroup<T extends string | number>({
 }: OptionGroupProps<T>) {
   const labelId = useId();
   return (
-    <DropdownMenu.Group>
+    <>
       <DropdownMenu.Label className="t-eyebrow reader-label" id={labelId}>
         {label}
       </DropdownMenu.Label>
@@ -102,13 +103,14 @@ function OptionGroup<T extends string | number>({
           </DropdownMenu.RadioItem>
         ))}
       </DropdownMenu.RadioGroup>
-    </DropdownMenu.Group>
+    </>
   );
 }
 
 export default function ReaderSettings() {
   const [visible, setVisible] = useState(false);
   const [prefs, setPrefs] = useState<ReaderPrefs>(READER_DEFAULTS);
+  const [open, setOpen] = useState(false);
 
   // The persisted Nav is not re-rendered on navigation, so decide visibility from the live page.
   useEffect(() => {
@@ -117,8 +119,21 @@ export default function ReaderSettings() {
       setPrefs(readStoredPrefs());
     };
     sync();
+    // after-swap shows the button with the new page; page-load stays as the catch-all (first load, back/forward).
+    document.addEventListener('astro:after-swap', sync);
     document.addEventListener('astro:page-load', sync);
-    return () => document.removeEventListener('astro:page-load', sync);
+    return () => {
+      document.removeEventListener('astro:after-swap', sync);
+      document.removeEventListener('astro:page-load', sync);
+    };
+  }, []);
+
+  // Back/forward (or any navigation) with the panel open: close it so the portaled menu
+  // and its scroll lock don't outlive the page they were opened on.
+  useEffect(() => {
+    const close = () => setOpen(false);
+    document.addEventListener('astro:before-preparation', close);
+    return () => document.removeEventListener('astro:before-preparation', close);
   }, []);
 
   const commit = useCallback((next: ReaderPrefs) => {
@@ -134,9 +149,11 @@ export default function ReaderSettings() {
 
   return (
     <DropdownMenu.Root
-      onOpenChange={(open) => {
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next);
         // Pick up changes made in another tab before showing the current values.
-        if (open) setPrefs(readStoredPrefs());
+        if (next) setPrefs(readStoredPrefs());
       }}
     >
       <DropdownMenu.Trigger className="reader-trigger" aria-label="Reading settings">
