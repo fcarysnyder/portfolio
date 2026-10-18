@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en" data-variant="b" data-body="18">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reading Type Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* Throwaway mockup for the typography conversation. Not the site's CSS. */
+@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk'), local('AktivGrotesk-Regular'); font-weight: 400; }
+@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk Medium'), local('AktivGrotesk-Medium'); font-weight: 500; }
+@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk SemiBold'), local('AktivGrotesk-SemiBold'); font-weight: 600; }
+@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk Bold'), local('AktivGrotesk-Bold'); font-weight: 700; }
+
+:root {
+	--sans: 'Aktiv Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--serif: 'Literata', Georgia, 'Times New Roman', serif;
+	--mono: 'Roboto Mono', ui-monospace, Menlo, monospace;
+
+	/* Tailwind v3 type scale */
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.875rem;
+	--text-4xl: 2.25rem;
+	--text-5xl: 3rem;
+
+	/* Site palette (light) */
+	--gray-0: #090b11; --gray-100: #283044; --gray-200: #3d4663; --gray-300: #505d84; --gray-400: #6474a2;
+	--gray-800: #e3e6ee; --gray-900: #f3f4f7; --gray-999: #ffffff;
+	--accent: #ff4949; --accent-text: #d62828;
+}
+:root.dark {
+	--gray-0: #ffffff; --gray-100: #e3e6ee; --gray-200: #c3cadb; --gray-300: #a3acc8; --gray-400: #8490b5;
+	--gray-800: #283044; --gray-900: #141925; --gray-999: #090b11;
+	--accent-text: #ff4949;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--gray-999); color: var(--gray-200); font-family: var(--sans); -webkit-font-smoothing: antialiased; transition: background-color .2s, color .2s; }
+h1, h2, h3, p, ul, ol, figure, blockquote { margin: 0; }
+
+/* ---------- Control bar ---------- */
+.bar {
+	position: sticky; top: 0; z-index: 10;
+	display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center;
+	padding: 0.75rem 1.5rem;
+	background: color-mix(in srgb, var(--gray-999) 90%, transparent);
+	backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+	border-bottom: 1px solid var(--gray-800);
+	font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.03em;
+}
+.bar strong { font-family: var(--sans); text-transform: none; letter-spacing: 0; font-size: var(--text-sm); color: var(--gray-0); font-weight: 600; margin-right: auto; }
+.group { display: flex; align-items: center; gap: 0.5rem; color: var(--gray-400); }
+.seg { display: inline-flex; border: 1px solid var(--gray-800); border-radius: 999px; padding: 2px; }
+.seg button {
+	border: 0; background: none; color: var(--gray-300); cursor: pointer;
+	font: 500 var(--text-xs)/1 var(--mono); text-transform: uppercase; letter-spacing: 0.03em;
+	padding: 0.45rem 0.7rem; border-radius: 999px;
+}
+.seg button[aria-pressed="true"] { background: var(--gray-0); color: var(--gray-999); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Page frame ---------- */
+.layout { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 83rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+@media (min-width: 70em) { .layout { grid-template-columns: 1fr 18rem; align-items: start; } }
+
+.spec {
+	border: 1px solid var(--gray-800); border-radius: 0.75rem; padding: 1rem 1.1rem;
+	font-family: var(--mono); font-size: var(--text-xs); color: var(--gray-300);
+	display: flex; flex-direction: column; gap: 0.5rem;
+}
+@media (min-width: 70em) { .spec { position: sticky; top: 4.5rem; } }
+.spec h2 { font-family: var(--sans); font-size: var(--text-sm); color: var(--gray-0); font-weight: 600; }
+.spec dl { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 0.75rem; margin: 0; }
+.spec dt { color: var(--gray-400); }
+.spec dd { margin: 0; color: var(--gray-100); }
+.spec p { font-family: var(--sans); font-size: var(--text-sm); line-height: 1.5; color: var(--gray-300); }
+
+/* =====================================================================
+   ARTICLE — shared markup, three treatments
+   ===================================================================== */
+.article { width: 100%; margin-inline: auto; }
+.back { font-size: var(--text-sm); font-weight: 500; color: var(--accent); text-decoration: none; }
+.kicker { display: none; }
+.dek { display: none; }
+.byline { display: flex; gap: 0.5rem; align-items: center; }
+.figure-box { aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--gray-800), var(--gray-900)); }
+.post-meta { border-top: 1px solid var(--gray-800); display: flex; flex-direction: column; gap: 0.5rem; }
+.meta-row { display: flex; justify-content: space-between; gap: 1rem; }
+.sample-note { font-family: var(--mono); font-size: var(--text-xs); color: var(--gray-400); text-transform: uppercase; border-top: 1px dashed var(--gray-800); padding-top: 1rem; }
+
+/* ---------- A · Current (what ships today) ---------- */
+[data-variant="a"] .article { max-width: 48rem; } /* 60% of the 83rem wrapper on a wide screen */
+[data-variant="a"] .back { display: inline-block; margin-bottom: 0.5rem; }
+[data-variant="a"] h1 { font-size: 2.625rem; font-weight: 600; line-height: 1.1; color: var(--gray-0); margin-bottom: 0.5rem; }
+[data-variant="a"] .byline { font-family: var(--mono); font-size: var(--text-sm); color: var(--gray-400); }
+[data-variant="a"] .body { margin-top: 2.5rem; }
+[data-variant="a"] .body p { font-size: 1rem; line-height: 1.7; color: var(--gray-200); }
+[data-variant="a"] .body p + p { margin-top: 1.5em; }
+[data-variant="a"] .body h2 { font-size: 2.125rem; font-weight: 600; line-height: 1.1; color: var(--gray-0); margin: 2.5rem 0 1.5rem; }
+[data-variant="a"] .body h3 { font-size: 1.625rem; font-weight: 600; line-height: 1.1; color: var(--gray-0); margin: 2rem 0 0.75rem; }
+[data-variant="a"] .body a { color: var(--accent); text-decoration: none; }
+[data-variant="a"] .body ul { list-style: none; padding-left: 1.5em; margin-top: 1em; line-height: 1.7; color: var(--gray-200); }
+[data-variant="a"] .body li + li { margin-top: 0.5em; }
+[data-variant="a"] .body blockquote { padding: 0; margin: 1rem 0; color: var(--gray-200); }
+[data-variant="a"] .body figure { margin: 2rem 0; }
+[data-variant="a"] .figure-box { border-radius: 1.5rem; }
+[data-variant="a"] figcaption { display: none; }
+[data-variant="a"] .post-meta { margin-top: 3rem; padding-top: 1.5rem; font-family: var(--mono); font-size: var(--text-sm); }
+[data-variant="a"] .meta-row span:first-child { color: var(--gray-400); text-transform: uppercase; }
+
+/* ---------- B + C · Matter direction (shared) ---------- */
+[data-variant="b"] .article, [data-variant="c"] .article { max-width: 40rem; --body-size: var(--text-lg); }
+[data-body="20"][data-variant="b"] .article, [data-body="20"][data-variant="c"] .article { max-width: 42rem; --body-size: var(--text-xl); }
+[data-body="16"][data-variant="b"] .article, [data-body="16"][data-variant="c"] .article { max-width: 48rem; --body-size: var(--text-base); }
+[data-body="16"] .body p, [data-body="16"] .body li { line-height: 1.7 !important; }
+
+[data-variant="b"] .back, [data-variant="c"] .back { display: inline-block; margin-bottom: 2rem; }
+[data-variant="b"] .kicker, [data-variant="c"] .kicker {
+	display: block; font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); margin-bottom: 0.75rem;
+}
+[data-variant="b"] h1, [data-variant="c"] h1 {
+	font-family: var(--sans); font-size: var(--text-3xl); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0);
+}
+@media (min-width: 60em) { [data-variant="b"] h1, [data-variant="c"] h1 { font-size: var(--text-4xl); } }
+[data-variant="b"] .dek, [data-variant="c"] .dek {
+	display: block; font-family: var(--sans); font-size: var(--text-lg); line-height: 1.5; color: var(--gray-400); margin-top: 0.75rem;
+}
+[data-variant="b"] .byline, [data-variant="c"] .byline {
+	font-family: var(--mono); font-size: var(--text-sm); color: var(--gray-400); margin-top: 1.25rem;
+}
+[data-variant="b"] .avatar, [data-variant="c"] .avatar { width: 1.5rem; height: 1.5rem; border-radius: 999px; background: var(--gray-800); }
+[data-variant="b"] .body, [data-variant="c"] .body { margin-top: 3rem; font-size: var(--body-size); }
+[data-variant="b"] .body p, [data-variant="c"] .body p,
+[data-variant="b"] .body li, [data-variant="c"] .body li { font-size: var(--body-size); line-height: 1.75; color: var(--gray-100); }
+[data-variant="b"] .body p + p, [data-variant="c"] .body p + p { margin-top: 1.4em; }
+[data-variant="b"] .body h2, [data-variant="c"] .body h2 {
+	font-size: var(--text-2xl); font-weight: 700; line-height: 1.3; color: var(--gray-0); margin: 2.75em 0 0.75em;
+}
+[data-body="20"] .body h2 { font-size: var(--text-3xl) !important; }
+[data-variant="b"] .body h3, [data-variant="c"] .body h3 {
+	font-size: var(--text-xl); font-weight: 700; line-height: 1.35; color: var(--gray-0); margin: 2em 0 0.5em;
+}
+[data-body="20"] .body h3 { font-size: var(--text-2xl) !important; }
+[data-variant="b"] .body a, [data-variant="c"] .body a {
+	color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+	transition: color .15s, text-decoration-color .15s;
+}
+[data-variant="b"] .body a:hover, [data-variant="c"] .body a:hover { text-decoration-color: currentColor; }
+[data-variant="b"] .body ul, [data-variant="c"] .body ul { padding-left: 1.25em; margin-top: 1.4em; list-style: disc; }
+[data-variant="b"] .body li::marker, [data-variant="c"] .body li::marker { color: var(--accent); }
+[data-variant="b"] .body li + li, [data-variant="c"] .body li + li { margin-top: 0.4em; }
+[data-variant="b"] .body blockquote, [data-variant="c"] .body blockquote {
+	margin: 1.75em 0; padding-left: 1.25em; border-left: 2px solid var(--accent); font-style: normal;
+}
+[data-variant="b"] .body blockquote p, [data-variant="c"] .body blockquote p { color: var(--gray-200); }
+[data-variant="b"] .body figure, [data-variant="c"] .body figure { margin: 2.5em 0; }
+[data-variant="b"] .figure-box, [data-variant="c"] .figure-box { border-radius: 0.75rem; }
+[data-variant="b"] figcaption, [data-variant="c"] figcaption { font-family: var(--sans); font-size: var(--text-sm); color: var(--gray-400); margin-top: 0.75rem; text-align: center; }
+[data-variant="b"] .post-meta, [data-variant="c"] .post-meta { margin-top: 4rem; padding-top: 1.5rem; font-family: var(--mono); font-size: var(--text-sm); }
+[data-variant="b"] .meta-row span:first-child, [data-variant="c"] .meta-row span:first-child { color: var(--gray-400); }
+[data-variant="b"] .sample-note, [data-variant="c"] .sample-note { margin-top: 3em; }
+
+/* ---------- B · sans body ---------- */
+[data-variant="b"] .body { font-family: var(--sans); }
+
+/* ---------- C · serif body (title + chrome stay sans) ---------- */
+[data-variant="c"] .body, [data-variant="c"] .body h2, [data-variant="c"] .body h3 { font-family: var(--serif); }
+[data-variant="c"] .body h2, [data-variant="c"] .body h3 { font-weight: 700; letter-spacing: -0.005em; }
+[data-variant="c"] .body p, [data-variant="c"] .body li { line-height: 1.8; }
+
+/* Meta line: one line above the title, or split but styled the same */
+.kd { display: none; }
+[data-meta="below"]:is([data-variant="b"], [data-variant="c"]) .kicker { display: none; }
+[data-meta="one"]:is([data-variant="b"], [data-variant="c"]) .kd { display: inline; }
+[data-meta="one"]:is([data-variant="b"], [data-variant="c"]) .byline { display: none; }
+[data-meta="below"]:is([data-variant="b"], [data-variant="c"]) .byline,
+[data-meta="split"]:is([data-variant="b"], [data-variant="c"]) .byline { flex-wrap: wrap; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 1rem; }
+[data-variant="a"] [data-key="meta"] { opacity: 0.4; }
+
+.only-a { display: none; }
+[data-variant="a"] .only-a { display: inline; }
+[data-variant="a"] .not-a { display: none; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+	<strong>Reading type explorations</strong>
+	<div class="group">Treatment
+		<div class="seg" data-key="variant">
+			<button data-val="a">A · Current</button>
+			<button data-val="b">B · Matter sans</button>
+			<button data-val="c">C · Matter serif</button>
+			<button data-val="d">D · Proposed</button>
+		</div>
+	</div>
+	<div class="group">Body
+		<div class="seg" data-key="body">
+			<button data-val="18">18px</button>
+			<button data-val="20">20px</button>
+		</div>
+	</div>
+	<div class="group">Theme
+		<div class="seg" data-key="theme">
+			<button data-val="light">Light</button>
+			<button data-val="dark">Dark</button>
+		</div>
+	</div>
+</div>
+
+<div class="layout">
+	<article class="article">
+		<header>
+			<a class="back" href="#">&larr; Back</a>
+			<div class="kicker">July 21, 2026 · 9 min read</div>
+			<h1>Clarity is the Deliverable</h1>
+			<p class="dek">Product hands the team more requirements than it can build and engineering can build almost any of them. Design is the work of deciding which part is signal.</p>
+			<div class="byline">
+				<span>July 21, 2026</span><span>·</span><span>9 min read</span>
+			</div>
+		</header>
+
+		<div class="body">
+			<p>Every product development team has the same basic dynamic. Product owns the requirements, which arrive as volume: a Jira backlog hundreds of tickets deep, a channel of customer feedback, a running list of everything that could be built. Engineering sits on the other side, ready to build whatever it gets pointed at. So the team has a list of many things they <em>could</em> do and a crew that can build any of them.</p>
+			<p>Someone has to bring that direction. It means taking everything - business pressure, feasibility, conversations with the people who use the product - and coming back with a stance. Something like "here's the thing, for these users, and here's why it's the one we do now," with enough detail that engineering can build it and product can measure it.</p>
+			<p>That work is design. Not the noun; the verb. Someone trained as a designer is usually best equipped to do it, but nothing about it is role-bound.</p>
+
+			<h2>What does design actually do then?</h2>
+			<p>Design collapses an overwhelming field of possibilities into direction and momentum. Every decision is a small version of the same move: pick one, and put the rest to the side. The artifact of design records those decisions and makes them visible, but the value sits in the reduction itself.</p>
+			<p>Visual design is important, critical even. But it falls flat if the underlying decisions are poorly conceived. A tool has never made something well designed. Looking beautiful is downstream of deciding what the thing is, and crucially, what it isn't.</p>
+
+			<h2>How to deliver clarity</h2>
+			<p>The best way to bring clarity is to show up with a strong opinion, loosely held, about what to do next and let people react to it.</p>
+			<p>Asking what it would take to build is a different move, and <a href="#">that question makes a proposal better rather than safer</a>. But a map drawn before any contact with reality is a defense.</p>
+
+			<p class="sample-note">Elements below aren't in this post, but they appear in case studies and the About page</p>
+
+			<h3>A third-level heading</h3>
+			<p>Case studies use H3s for sub-sections. Here's how one sits against body copy.</p>
+			<ul>
+				<li>Lead Product Designer on ATLAS performance pages</li>
+				<li>Partnered with product, engineering and applied science</li>
+				<li>Shipped in two phases over one quarter</li>
+			</ul>
+			<blockquote><p>A clear wrong answer is more useful than a fuzzy right one, because a wrong answer can be argued with.</p></blockquote>
+			<figure>
+				<div class="figure-box" role="img" aria-label="Image placeholder"></div>
+				<figcaption>Facility performance dashboard, February demand event.</figcaption>
+			</figure>
+		</div>
+
+		<footer class="post-meta">
+			<div class="meta-row"><span>Date</span><span>July 21, 2026</span></div>
+			<div class="meta-row"><span>Tags</span><span>design thinking</span></div>
+		</footer>
+	</article>
+
+	<aside class="spec" id="spec" aria-live="polite"></aside>
+</div>
+
+<script>
+(function () {
+	var root = document.documentElement;
+	var state = { variant: 'd', body: '18', theme: 'light', meta: 'below' };
+	try { Object.assign(state, JSON.parse(localStorage.getItem('type-explorations') || '{}')); } catch (e) {}
+	if (state.body !== '18' && state.body !== '20') state.body = '18';
+	state.meta = 'one';
+
+	var specs = {
+		a: {
+			title: 'A · Current',
+			rows: [['Title', '42px / 600 · off-scale'], ['H2', '34px / 600 · off-scale'], ['H3', '26px / 600 · off-scale'], ['Body', '16px / 1.7 · sans'], ['H2 ÷ body', '2.1×'], ['Measure', '~48rem · ~95 chars'], ['Links', 'red, no underline'], ['Meta', 'Roboto Mono sm']],
+			note: 'What ships today. The H2 is more than twice the body size and the line runs about 95 characters on a wide screen, so headings shout and paragraphs feel long.'
+		},
+		b: {
+			title: 'B · Matter direction, sans',
+			rows: [['Title', 'text-3xl → 4xl / 700'], ['Label', 'Mono xs · section + first tag'], ['Dek', 'text-lg · description'], ['H2', 'text-2xl / 700'], ['H3', 'text-xl / 700'], ['Body', 'text-lg / 1.75'], ['H2 ÷ body', '1.33×'], ['Measure', '40rem · ~68 chars'], ['Links', 'red, underlined (#d62828 light)'], ['Meta', 'Roboto Mono sm · gray-400']],
+			note: 'Everything sits on the Tailwind v3 scale. Headings get their weight from boldness, not size, which is Matter\'s main move. The brand font stays the same everywhere.'
+		},
+		d: {
+			title: 'D · Proposed',
+			rows: [['Title', 'text-3xl → 4xl / 700'], ['Dek', 'text-lg · description'], ['Eyebrow', 'Mono xs uppercase · date · read time'], ['H2', 'text-2xl / 700'], ['H3', 'text-xl / 700'], ['Body', 'text-base / 1.7 (current)'], ['H2 ÷ body', '1.5×'], ['Width', '48rem (current)'], ['Links', 'red, underlined (#d62828 light)'], ['Meta', 'Roboto Mono sm · gray-400']],
+			note: 'Your current body text and column width, with the Matter-style header and the smaller H2/H3s. Every size is on the Tailwind v3 scale.'
+		},
+		c: {
+			title: 'C · Matter direction, serif body',
+			rows: [['Title', 'Aktiv · text-3xl → 4xl / 700'], ['Dek', 'Aktiv · text-lg'], ['H2', 'Literata · text-2xl / 700'], ['H3', 'Literata · text-xl / 700'], ['Body', 'Literata · text-lg / 1.8'], ['H2 ÷ body', '1.33×'], ['Measure', '40rem · ~65 chars'], ['Links', 'red, underlined (#d62828 light)'], ['Meta', 'Roboto Mono sm · gray-400']],
+			note: 'Closest to your Matter screenshots: sans for the chrome (title, byline, meta) and a text serif for the reading. Literata is a free stand-in for whatever serif you\'d settle on.'
+		}
+	};
+	var body20 = { b: [['Body', 'text-xl / 1.75'], ['H2', 'text-3xl / 700'], ['H3', 'text-2xl / 700'], ['Measure', '42rem · ~65 chars']], c: [['Body', 'Literata · text-xl / 1.8'], ['H2', 'Literata · text-3xl / 700'], ['H3', 'Literata · text-2xl / 700'], ['Measure', '42rem · ~62 chars']] };
+
+	function render() {
+		var isD = state.variant === 'd';
+		root.setAttribute('data-variant', isD ? 'b' : state.variant);
+		root.setAttribute('data-body', isD ? '16' : state.body);
+		root.classList.toggle('dark', state.theme === 'dark');
+		root.setAttribute('data-meta', state.meta);
+		document.querySelectorAll('.seg').forEach(function (seg) {
+			var key = seg.getAttribute('data-key');
+			seg.querySelectorAll('button').forEach(function (b) {
+				b.setAttribute('aria-pressed', String(b.getAttribute('data-val') === state[key]));
+				if (key === 'body') b.disabled = state.variant === 'a' || state.variant === 'd';
+			});
+		});
+		var s = specs[state.variant];
+		var rows = s.rows.slice();
+		var over = state.body === '20' && !isD ? body20 : {};
+		if (over[state.variant]) {
+			over[state.variant].forEach(function (o) {
+				for (var i = 0; i < rows.length; i++) if (rows[i][0] === o[0]) rows[i] = o;
+			});
+		}
+		document.getElementById('spec').innerHTML = '<h2>' + s.title + '</h2><dl>' +
+			rows.map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>'; }).join('') +
+			'</dl><p>' + s.note + '</p>';
+		try { localStorage.setItem('type-explorations', JSON.stringify(state)); } catch (e) {}
+	}
+
+	document.querySelectorAll('.seg').forEach(function (seg) {
+		seg.addEventListener('click', function (e) {
+			var b = e.target.closest('button');
+			if (!b || b.disabled) return;
+			state[seg.getAttribute('data-key')] = b.getAttribute('data-val');
+			render();
+		});
+	});
+	render();
+})();
+</script>
+</body>
+</html>
