@@ -15,7 +15,7 @@ function rules(css: string): { selectors: string[]; body: string }[] {
   const clean = css.replace(/\/\*[\s\S]*?\*\//g, '');
   const out: { selectors: string[]; body: string }[] = [];
   for (const m of clean.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const selectors = m[1].split(',').map((s) => s.trim().replace(/\s+/g, ' '));
+    const selectors = m[1].split(/,(?![^(]*\))/).map((s) => s.trim().replace(/\s+/g, ' '));
     if (selectors[0].startsWith('@')) continue;
     out.push({ selectors, body: m[2] });
   }
@@ -32,6 +32,9 @@ function decl(selector: string, prop: string): string | undefined {
   return found;
 }
 
+/** Prose font sizes must be em (rem would ignore the reader size) or the reader size variable itself. */
+const isAllowedFontSize = (v: string) => /^[\d.]+em$|^var\(--reader-size/.test(v);
+
 function allFontSizes(css: string): string[] {
   return [...css.matchAll(/font-size\s*:\s*([^;}\n]+)/g)].map((m) => m[1].trim());
 }
@@ -41,7 +44,22 @@ describe('prose styles', () => {
     expect(decl('.prose h2', 'font-size')).toBe('1.5em');
     expect(decl('.prose h3', 'font-size')).toBe('1.25em');
     expect(decl('.prose h4', 'font-size')).toBe('1.125em');
-    expect(allFontSizes(prose).filter((v) => !/em$|^var\(--reader-size/.test(v))).toEqual([]);
+    expect(allFontSizes(prose).filter((v) => !isAllowedFontSize(v))).toEqual([]);
+  });
+
+  it('lets prose headings follow the reader font instead of the base sans', () => {
+    expect(decl('.prose :is(h2, h3, h4)', 'font-family')).toBe('inherit');
+  });
+
+  it('keeps embedded images out of the article image styles', () => {
+    expect(decl('.prose img:not(.react-tweet-theme img)', 'width')).toBe('100%');
+    expect(rules(prose).some((r) => r.selectors.includes('.prose img'))).toBe(false);
+  });
+
+  it('guards font sizes against rem', () => {
+    expect(isAllowedFontSize('1.5em')).toBe(true);
+    expect(isAllowedFontSize('var(--reader-size, 1rem)')).toBe(true);
+    expect(isAllowedFontSize('1.5rem')).toBe(false);
   });
 
   it('reads reader preferences with defaults on the base rule', () => {

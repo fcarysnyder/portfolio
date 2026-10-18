@@ -60,6 +60,11 @@
 		margin: 1.5em 0 0.5em;
 	}
 
+	/* The element defaults in the base layer set headings to sans; in the serif reader mode they follow the reader font */
+	.prose :is(h2, h3, h4) {
+		font-family: inherit;
+	}
+
 	.prose a {
 		color: var(--accent-text);
 		text-decoration: underline;
@@ -108,7 +113,8 @@
 		margin: 1.75em 0;
 	}
 
-	.prose img {
+	/* Embeds (react-tweet) bring their own images, such as avatars; leave those alone */
+	.prose img:not(.react-tweet-theme img) {
 		display: block;
 		width: 100%;
 		height: auto;
