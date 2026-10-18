@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { readerBootstrap } from '../lib/reader-prefs';
 
 interface Props {
 	title?: string | undefined;
@@ -66,3 +67,8 @@ const socialImageURL = new URL(image, Astro.site);
 	// Re-apply theme after View Transitions swap to persist across navigation
 	document.addEventListener('astro:after-swap', applyTheme);
 </script>
+<!-- Reader preferences (font, size, line spacing). Applied before paint and again after View Transitions. -->
+<script
+	is:inline
+	set:html={`(${readerBootstrap.toString()})();document.addEventListener('astro:after-swap',function(){(${readerBootstrap.toString()})()});`}
+/>

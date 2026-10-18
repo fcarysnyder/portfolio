@@ -138,3 +138,35 @@
 		margin: 2.5em 0;
 	}
 }
+
+/*
+ * Reader preferences. src/lib/reader-prefs.ts sets data-reader-* on <html>; these hooks turn them
+ * into the custom properties the .prose base rule reads. They only apply inside [data-reader-enabled]
+ * (blog posts and case studies), so a saved preference never restyles another page.
+ * 16px and 1.7 are the defaults on .prose, so they need no rule.
+ */
+@layer components {
+	[data-reader-size='14'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-sm);
+	}
+
+	[data-reader-size='18'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-lg);
+	}
+
+	[data-reader-size='20'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-xl);
+	}
+
+	[data-reader-leading='1.5'] [data-reader-enabled] .prose {
+		--reader-leading: 1.5;
+	}
+
+	[data-reader-leading='1.9'] [data-reader-enabled] .prose {
+		--reader-leading: 1.9;
+	}
+
+	[data-reader-font='serif'] [data-reader-enabled] .prose {
+		--reader-font: var(--font-serif);
+	}
+}

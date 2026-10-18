@@ -69,4 +69,24 @@ describe('prose styles', () => {
       expect(src).toMatch(/<PageHeader/);
     }
   });
+
+  it('applies reader preference hooks only inside reader-enabled pages', () => {
+    const hooks: [string, string, string][] = [
+      ['size', '14', 'var(--text-sm)'],
+      ['size', '18', 'var(--text-lg)'],
+      ['size', '20', 'var(--text-xl)'],
+    ];
+    for (const [attr, value, size] of hooks) {
+      expect(decl(`[data-reader-${attr}='${value}'] [data-reader-enabled] .prose`, '--reader-size')).toBe(size);
+    }
+    expect(decl(`[data-reader-leading='1.5'] [data-reader-enabled] .prose`, '--reader-leading')).toBe('1.5');
+    expect(decl(`[data-reader-leading='1.9'] [data-reader-enabled] .prose`, '--reader-leading')).toBe('1.9');
+    expect(decl(`[data-reader-font='serif'] [data-reader-enabled] .prose`, '--reader-font')).toBe('var(--font-serif)');
+    // No hook may set a reader property outside the opt-in.
+    for (const rule of rules(prose)) {
+      if (/--reader-[a-z]+\s*:/.test(rule.body) && !rule.selectors.every((sel) => sel.includes('[data-reader-enabled]'))) {
+        throw new Error(`reader property set outside [data-reader-enabled]: ${rule.selectors.join(', ')}`);
+      }
+    }
+  });
 });
