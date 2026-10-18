@@ -67,8 +67,8 @@ const socialImageURL = new URL(image, Astro.site);
 	// Re-apply theme after View Transitions swap to persist across navigation
 	document.addEventListener('astro:after-swap', applyTheme);
 </script>
-<!-- Reader preferences (font, size, line spacing). Applied before paint and again after View Transitions. -->
+<!-- Reader preferences (font, size, line spacing). Applied before paint, to the incoming document before each View Transition swap (so its head already carries the Literata link), and again after the swap as a safety net. -->
 <script
 	is:inline
-	set:html={`(${readerBootstrap.toString()})();document.addEventListener('astro:after-swap',function(){(${readerBootstrap.toString()})()});`}
+	set:html={`(function(){var rb=(${readerBootstrap.toString()});rb();document.addEventListener('astro:before-swap',function(e){rb(e.newDocument)});document.addEventListener('astro:after-swap',function(){rb()})})();`}
 />

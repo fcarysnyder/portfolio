@@ -134,6 +134,20 @@ describe('readerBootstrap', () => {
     expect(doc.links[0].href).toBe(LITERATA_HREF);
   });
 
+  it('prepares an incoming document before a View Transition swap', () => {
+    const current = makeDoc();
+    const incoming = makeDoc();
+    const store = storeWith('{"font":"serif","size":18,"leading":1.9}');
+    readerBootstrap(asDoc(current), store);
+    readerBootstrap(asDoc(incoming), store);
+    expect(incoming.attrs).toEqual({ 'data-reader-font': 'serif', 'data-reader-size': '18', 'data-reader-leading': '1.9' });
+    expect(incoming.links).toHaveLength(1);
+    expect(incoming.links[0]).toMatchObject({ id: 'reader-serif-font', href: LITERATA_HREF });
+    // The safety-net run after the swap does not duplicate the link
+    readerBootstrap(asDoc(incoming), store);
+    expect(incoming.links).toHaveLength(1);
+  });
+
   it('re-adds the Literata link only when missing', () => {
     readerBootstrap(asDoc(doc), storeWith('{"font":"serif"}'));
     readerBootstrap(asDoc(doc), storeWith('{"font":"serif"}'));
