@@ -1,7 +1,11 @@
 ---
-import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Not Found" description="404 Error — this page was not found">
-	<Hero title="404 Error - this page was not found" tagline="Click the icon at the top left of the page to go back to the home page" button={false} />
+	<div class="flex flex-col gap-2 w-full text-center">
+		<div class="flex flex-col gap-2">
+			<h1 class="t-page-title mb-3 mx-auto max-w-[37ch]">404 Error - this page was not found</h1>
+			<p class="t-lead mx-auto w-full">Click the icon at the top left of the page to go back to the home page</p>
+		</div>
+	</div>
 </BaseLayout>

@@ -39,7 +39,7 @@ const readingTime = getReadingTime(post.body ?? '');
 		<article>
 			<header class="post-header">
 				<a href="/writing/" class="back-link">&larr; Back</a>
-				<h1>{post.data.title}</h1>
+				<h1 class="t-page-title">{post.data.title}</h1>
 				<div class="post-date-row">
 					<time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
 					<span class="reading-time">·&nbsp; {readingTime} min read</span>
@@ -114,9 +114,6 @@ const readingTime = getReadingTime(post.body ?? '');
 	}
 
 	.post-header h1 {
-		font-size: var(--text-3xl);
-		font-weight: 600;
-		color: var(--gray-0);
 		margin-bottom: 0.5rem;
 	}
 
@@ -284,10 +281,6 @@ const readingTime = getReadingTime(post.body ?? '');
 
 		article {
 			grid-column: 2;
-		}
-
-		.post-header h1 {
-			font-size: var(--text-4xl);
 		}
 	}
 </style>

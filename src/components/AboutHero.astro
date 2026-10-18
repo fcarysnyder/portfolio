@@ -9,8 +9,8 @@ const { tagline, title } = Astro.props;
 
 <div class="about-hero">
 	<div class="wrapper flex flex-col gap-2">
-		<h1 class="title">{title}</h1>
-		{tagline && <p class="tagline">{tagline}</p>}
+		<h1 class="title t-page-title">{title}</h1>
+		{tagline && <p class="tagline t-lead">{tagline}</p>}
 	</div>
 	<div class="carousel-container">
 		<div class="carousel-track">
@@ -30,13 +30,9 @@ const { tagline, title } = Astro.props;
 
 	.title {
 		max-width: 37ch;
-		font-size: var(--text-3xl);
-		color: var(--gray-0);
 	}
 
 	.tagline {
-		font-size: var(--text-2xl);
-		line-height: 2rem; /* 32px */
 		max-width: 60ch;
 	}
 
@@ -73,12 +69,6 @@ const { tagline, title } = Astro.props;
 		object-fit: cover;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-md);
-	}
-
-	@media (min-width: 60em) {
-		.title {
-			font-size: var(--text-4xl);
-		}
 	}
 
 	@media (max-width: 59.99em) {

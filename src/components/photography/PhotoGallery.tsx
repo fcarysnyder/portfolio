@@ -97,9 +97,8 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
         {yearGroups.map((group) => (
           <div key={group.year} style={{ display: 'flex', flexDirection: 'column', gap: `${GAP}px` }}>
             <h2
+              className="t-subheading"
               style={{
-                fontSize: 'var(--text-2xl)',
-                color: 'var(--gray-0)',
                 margin: 0,
               }}
             >

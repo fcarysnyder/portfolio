@@ -123,10 +123,8 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         </a>
         <h2
           id="gate-title"
+          className="t-subheading"
           style={{
-            fontSize: 'var(--text-2xl)',
-            fontWeight: 600,
-            color: 'var(--gray-0)',
             marginBottom: '0.5rem',
           }}
         >

@@ -10,7 +10,7 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 
 <BaseLayout title="Photography | F Cary Snyder" description="Photography by F Cary Snyder">
 	<main class="wrapper photography">
-		<h1>Photography</h1>
+		<h1 class="t-page-title">Photography</h1>
 		<SectionHeader label="Organize by" filterId="filter-options">
 			<Image slot="icon" size={18} />
 			<Fragment slot="filters">
@@ -32,16 +32,5 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
-	}
-
-	h1 {
-		font-size: var(--text-3xl);
-		color: var(--gray-0);
-	}
-
-	@media (min-width: 60em) {
-		h1 {
-			font-size: var(--text-4xl);
-		}
 	}
 </style>

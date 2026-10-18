@@ -1,0 +1,95 @@
+/*
+ * Type roles. Each role is defined once here and used by class on every page.
+ * Sizes come from Tailwind's default --text-* scale. Roles live in the components
+ * layer, so utilities can still adjust spacing, and component <style> blocks
+ * (unlayered) must not redeclare size, weight, line-height or color for an element
+ * that carries a role class.
+ */
+@layer components {
+	/* Home hero title only */
+	.t-display {
+		font-size: var(--text-4xl);
+		font-weight: 600;
+		line-height: 1.1;
+		color: var(--gray-0);
+	}
+
+	/* Title of every other page */
+	.t-page-title {
+		font-size: var(--text-3xl);
+		font-weight: 700;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Blog post and case study summary under the title */
+	.t-summary {
+		font-size: var(--text-lg);
+		line-height: 1.5;
+		color: var(--gray-400);
+	}
+
+	/* Date line on posts and case studies, Writing index dates */
+	.t-eyebrow {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--gray-400);
+	}
+
+	/* Hero taglines */
+	.t-lead {
+		font-size: var(--text-2xl);
+		line-height: var(--text-2xl--line-height);
+		color: var(--gray-200);
+	}
+
+	/* .prose h2, About section headings */
+	.t-section-heading {
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		line-height: 1.3;
+		color: var(--gray-0);
+	}
+
+	/* .prose h3, Photography year headings, PasswordModal title */
+	.t-subheading {
+		font-size: var(--text-xl);
+		font-weight: 700;
+		line-height: 1.35;
+		color: var(--gray-0);
+	}
+
+	/* Bottom-of-post meta, case-study Role / Collaborators / Product, footer */
+	.t-meta {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	/* Back, Prev / Next */
+	.t-small-link {
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--accent-text);
+		text-decoration: none;
+		transition: color var(--theme-transition);
+	}
+
+	.t-small-link:hover,
+	.t-small-link:focus {
+		color: var(--accent-text-hover);
+	}
+
+	@media (min-width: 60em) {
+		.t-display {
+			font-size: var(--text-5xl);
+		}
+
+		.t-page-title {
+			font-size: var(--text-4xl);
+		}
+	}
+}

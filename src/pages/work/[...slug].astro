@@ -59,7 +59,7 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     <article>
       <header class="post-header">
         <a href="/" class="back-link">&larr; Back</a>
-        <h1>{entry.data.title}</h1>
+        <h1 class="t-page-title">{entry.data.title}</h1>
         <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
       </header>
 
@@ -131,9 +131,6 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     color: var(--accent-text-hover);
   }
   .post-header h1 {
-    font-size: var(--text-3xl);
-    font-weight: 600;
-    color: var(--gray-0);
     margin-bottom: 0.5rem;
   }
   .post-header time {
@@ -317,9 +314,6 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     }
     article {
       grid-column: 2;
-    }
-    .post-header h1 {
-      font-size: var(--text-4xl);
     }
   }
 </style>
