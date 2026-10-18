@@ -182,7 +182,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
             role="alert"
             style={{
               fontSize: 'var(--text-sm)',
-              color: 'hsl(0 80% 65%)',
+              color: 'var(--accent-text)',
               marginBottom: '1rem',
             }}
           >
