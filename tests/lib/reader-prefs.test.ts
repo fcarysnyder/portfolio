@@ -143,6 +143,12 @@ describe('readerBootstrap', () => {
     expect(doc.links).toHaveLength(1);
   });
 
+  it('shares one Literata link id with applyReaderPrefs', () => {
+    readerBootstrap(asDoc(doc), storeWith('{"font":"serif"}'));
+    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 16, leading: 1.7 });
+    expect(doc.links).toHaveLength(1);
+  });
+
   it('agrees with parseReaderPrefs on the same inputs', () => {
     const inputs = [
       null,

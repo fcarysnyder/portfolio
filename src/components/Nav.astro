@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 import NavDropdown from './NavDropdown';
+import ReaderSettings from './ReaderSettings';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
@@ -27,6 +28,7 @@ const isCurrentPage = (href: string) => {
 		</a>	
 	</div>
 		<div class="menu-footer">
+			<ReaderSettings client:load />
 			<div class="theme-toggle">
 				<ThemeToggle />
 			</div>
