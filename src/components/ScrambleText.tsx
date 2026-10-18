@@ -176,8 +176,8 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
         <span 
           style={{ 
             opacity: cursorVisible ? 1 : 0,
-            color: 'var(--accent-regular)',
-            textShadow: '0 0 5px var(--accent-regular)',
+            color: 'var(--brand)',
+            textShadow: '0 0 5px var(--brand)',
             marginLeft: '2px',
             fontWeight: 'bold'
           }}

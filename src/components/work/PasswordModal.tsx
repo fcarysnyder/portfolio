@@ -114,7 +114,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
             display: 'inline-block',
             fontSize: 'var(--text-sm)',
             fontWeight: 500,
-            color: 'var(--accent-regular)',
+            color: 'var(--accent-text)',
             textDecoration: 'none',
             marginBottom: '1.5rem',
           }}
@@ -199,8 +199,8 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
             width: '100%',
             padding: '0.75rem',
             fontSize: 'var(--text-base)',
-            background: 'var(--accent-regular)',
-            color: 'var(--accent-text-over)',
+            background: 'var(--accent-fill)',
+            color: 'var(--on-accent)',
             border: 'none',
             borderRadius: '0.5rem',
             cursor: isSubmitting ? 'wait' : 'pointer',
@@ -214,7 +214,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
 
         <p style={{ fontSize: 'var(--text-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ color: 'var(--gray-400)' }}>Don't have a password?</span>
-          <a href={mailtoHref} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
+          <a href={mailtoHref} style={{ color: 'var(--accent-text)', textDecoration: 'none' }}>
             Ask for access →
           </a>
         </p>

@@ -17,7 +17,7 @@ import { Sun, MoonStar } from '@lucide/astro';
 		border-radius: 999rem;
 		padding: 0;
 		background-color: var(--gray-999);
-		box-shadow: inset 0 0 0 1px var(--accent-overlay);
+		box-shadow: inset 0 0 0 1px var(--brand);
 		cursor: pointer;
 	}
 
@@ -29,7 +29,7 @@ import { Sun, MoonStar } from '@lucide/astro';
 		width: 2rem;
 		height: 2rem;
 		font-size: var(--text-base);
-		color: var(--accent-overlay);
+		color: var(--brand);
 	}
 
 	.icon.light::before {
@@ -37,13 +37,13 @@ import { Sun, MoonStar } from '@lucide/astro';
 		z-index: -1;
 		position: absolute;
 		inset: 0;
-		background-color: var(--accent-regular);
+		background-color: var(--brand);
 		border-radius: 999rem;
 		transition: background-color var(--theme-transition), transform var(--theme-transition);
 	}
 
 	button:hover .icon.light::before {
-		background-color: var(--accent-dark);
+		background-color: var(--accent-fill);
 	}
 
 	:global(.theme-dark) .icon.light::before {
@@ -53,7 +53,7 @@ import { Sun, MoonStar } from '@lucide/astro';
 	:global(.theme-dark) .icon.dark,
 	:global(html:not(.theme-dark)) .icon.light,
 	button[aria-pressed='false'] .icon.light {
-		color: var(--accent-text-over);
+		color: var(--on-accent);
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

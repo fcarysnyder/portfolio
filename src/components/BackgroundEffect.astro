@@ -493,7 +493,7 @@
 
         updateColors() {
             const styles = getComputedStyle(document.documentElement);
-            const colorStr = styles.getPropertyValue('--accent-regular').trim();
+            const colorStr = styles.getPropertyValue('--brand').trim();
             this.accentColor = colorStr || '#ff4949';
             if (this.material) {
                 this.material.uniforms.uColor.value.set(this.accentColor);

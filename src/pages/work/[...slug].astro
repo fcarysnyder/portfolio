@@ -124,11 +124,11 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     left: 0;
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--accent-regular);
+    color: var(--accent-text);
     text-decoration: none;
   }
   .back-link:hover {
-    color: var(--accent-dark);
+    color: var(--accent-text-hover);
   }
   .post-header h1 {
     font-size: var(--text-3xl);
@@ -226,10 +226,10 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     margin-top: 1.5em;
   }
   .post-content :global(.gated-content a) {
-    color: var(--accent-regular);
+    color: var(--accent-text);
   }
   .post-content :global(.gated-content blockquote) {
-    border-left: 3px solid var(--accent-regular);
+    border-left: 3px solid var(--brand);
     padding-left: 1rem;
     color: var(--gray-200);
     font-style: normal;
@@ -269,7 +269,7 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     width: 0.45em;
     height: 0.45em;
     border-radius: 50%;
-    background: var(--accent-regular);
+    background: var(--brand);
   }
   .post-content :global(.gated-content ol) {
     color: var(--gray-200);

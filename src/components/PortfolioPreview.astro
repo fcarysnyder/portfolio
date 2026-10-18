@@ -23,7 +23,7 @@ const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 		<div class="card-descrip">
 			<div class="card-tags">
 				{firstTag && (
-					<span style={pillTextColor ? `--accent-text-over: ${pillTextColor}` : ''}>
+					<span style={pillTextColor ? `--on-accent: ${pillTextColor}` : ''}>
 						<Pill color={data.color}>{firstTag}</Pill>
 					</span>
 				)}
@@ -72,10 +72,10 @@ const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 		font-size: var(--text-xs);
 		padding-top: 24px;
 		text-transform: uppercase;
-		color: var(--accent-regular);
+		color: var(--accent-text);
 	}
 	.faux-button:hover {
-		color: var(--accent-dark);
+		color: var(--accent-text-hover);
 	}
 	.card-descrip {
 		grid-column-gap: 0px;

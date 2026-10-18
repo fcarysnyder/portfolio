@@ -3,7 +3,7 @@ interface Props {
 	color?: string;
 }
 
-const { color = 'var(--accent-regular)' } = Astro.props;
+const { color = 'var(--accent-fill)' } = Astro.props;
 ---
 
 <div class="pill" style={`--pill-color: ${color};`}><slot /></div>
@@ -13,9 +13,9 @@ const { color = 'var(--accent-regular)' } = Astro.props;
 		display: flex;
 		padding: 0.15rem 0.5rem;
 		gap: 0.5rem;
-		color: var(--accent-text-over);
-		border: 1px solid var(--pill-color, var(--accent-regular));
-		background-color: var(--pill-color, var(--accent-regular));
+		color: var(--on-accent);
+		border: 1px solid var(--pill-color, var(--accent-fill));
+		background-color: var(--pill-color, var(--accent-fill));
 		border-radius: 999px;
 		font-size: var(--text-xs);
 		line-height: 1.35;

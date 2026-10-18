@@ -140,8 +140,8 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
               style={{
                 marginTop: '0.75rem',
                 padding: '0.5rem 1rem',
-                background: 'var(--accent-regular)',
-                color: 'var(--accent-text-over)',
+                background: 'var(--accent-fill)',
+                color: 'var(--on-accent)',
                 border: 'none',
                 borderRadius: '0.5rem',
                 fontFamily: 'var(--font-sans)',
