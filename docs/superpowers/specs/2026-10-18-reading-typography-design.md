@@ -91,7 +91,7 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 | **Article title** | `text-3xl` → `lg:text-4xl` (30 → 36px), weight 600, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study (one step below the section pages) |
 | **Summary** | `text-lg`, line-height 1.5, `--gray-400` | Blog post and case study (from `description`) |
 | **Eyebrow** | Roboto Mono `text-xs`, uppercase, letter-spacing 0.06em, `--gray-400` | Date line on posts and case studies, and Writing-index post dates |
-| **Lead** | `text-2xl`, `--gray-200` | Hero taglines (home, About, 404) |
+| **Lead** | `text-xl` → `lg:text-2xl` (20 → 24px), `--gray-200` | Hero taglines (home, About, 404) |
 | **Section heading** | `text-2xl` (24px), weight 600, line-height 1.3, `--gray-0` | `.prose` h2, About section headings |
 | **Subheading** | `text-xl` (20px), weight 600, line-height 1.35, `--gray-0` | `.prose` h3, Photography year headings, PasswordModal title |
 | **Section label** | `text-sm`, weight 600, uppercase, `--gray-200` | SectionHeader (unchanged) |

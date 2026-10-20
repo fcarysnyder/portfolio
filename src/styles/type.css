@@ -57,8 +57,8 @@
 
 	/* Hero taglines */
 	.t-lead {
-		font-size: var(--text-2xl);
-		line-height: var(--text-2xl--line-height);
+		font-size: var(--text-xl);
+		line-height: var(--text-xl--line-height);
 		color: var(--gray-200);
 	}
 
@@ -120,6 +120,11 @@
 
 		.t-article-title {
 			font-size: var(--text-4xl);
+		}
+
+		.t-lead {
+			font-size: var(--text-2xl);
+			line-height: var(--text-2xl--line-height);
 		}
 	}
 }

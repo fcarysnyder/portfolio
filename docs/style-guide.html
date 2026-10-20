@@ -395,7 +395,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 .t-article-title { font-size: var(--text-3xl); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
 .t-summary { font-size: var(--text-lg); line-height: 1.5; color: var(--gray-400); }
 .t-eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); }
-.t-lead { font-size: var(--text-2xl); line-height: var(--text-2xl--line-height); color: var(--gray-200); }
+.t-lead { font-size: var(--text-xl); line-height: var(--text-xl--line-height); color: var(--gray-200); }
+@media (min-width: 60em) { .t-lead { font-size: var(--text-2xl); line-height: var(--text-2xl--line-height); } }
 .t-section-heading { font-size: var(--text-2xl); font-weight: 700; line-height: 1.3; color: var(--gray-0); }
 .t-subheading { font-size: var(--text-xl); font-weight: 700; line-height: 1.35; color: var(--gray-0); }
 .t-meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); }
@@ -1210,7 +1211,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		['Eyebrow', { cls: 't-eyebrow' }, 'July 21, 2026 · 9 min read',
 			['mono · xs · uppercase · +0.06em', 'gray-400'], 'Date line on posts and case studies, Writing-index dates', 'type.css .t-eyebrow'],
 		['Lead', { cls: 't-lead' }, 'I’m a Staff UX Designer who codes, currently designing industrial control software at CrossnoKaye.',
-			['2xl (24px) · 400 · 2rem', 'gray-200'], 'Hero taglines (home, About, 404)', 'type.css .t-lead'],
+			['xl → 2xl (20 → 24px) · 400', 'gray-200'], 'Hero taglines (home, About, 404)', 'type.css .t-lead'],
 		['Section heading', { cls: 't-section-heading' }, 'Why the bad ideas look shippable',
 			['2xl (24px) · 600 · 1.3', 'gray-0'], '.prose h2, About section headings', 'type.css .t-section-heading · prose.css h2 (4/3em)'],
 		['Subheading', { cls: 't-subheading' }, 'Choose the setting, not the size',
