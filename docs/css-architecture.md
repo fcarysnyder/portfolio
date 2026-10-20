@@ -53,11 +53,11 @@ The order is declared by Tailwind itself (theme, base, components, utilities), s
 
 ### `src/styles/type.css`
 
-All in the components layer. The eleven `.t-*` roles: `t-display`, `t-page-title`, `t-article-title`, `t-summary`, `t-eyebrow`, `t-lead`, `t-section-heading`, `t-subheading`, `t-meta`, `t-link`, `t-small-link`. Each role is defined once and used by class on every page. Sizes come from Tailwind's default `--text-*` scale, which is never redefined.
+All in the components layer. The thirteen `.t-*` roles: `t-display`, `t-page-title`, `t-article-title`, `t-card-title`, `t-summary`, `t-label`, `t-eyebrow`, `t-lead`, `t-section-heading`, `t-subheading`, `t-meta`, `t-link`, `t-small-link`. Each role is defined once and used by class on every page. Sizes come from Tailwind's default `--text-*` scale, which is never redefined.
 
 **Links.** There is one link treatment, `.t-link`: `--accent-text`, an underline that is transparent at rest, and on hover and keyboard focus the color goes to `--accent-text-hover` and the underline to `currentColor` (a 0.2s transition on both). Put the class on every inline text link, with no other color or underline utility on the element. `.t-small-link` is only the size and weight (sm, 500) of Back, Previous and Next; those anchors carry `t-small-link t-link`. Links inside article text follow the same rule through `.prose a` in `prose.css`, with one difference: the underline is faint (40% of the text color) at rest, so a link in body copy does not depend on color alone. The two rules repeat each other's values and point to each other in comments; `tests/styles/links.test.ts` fails if they drift.
 
-Links that are not inline text keep their own pattern, but their hover color is still `--accent-text-hover`: the project card, nav dropdown items, the Writing-list post titles and the Writing filters. (The primary button is the exception: it hovers its background, see "Buttons" below. The nav logo has no hover.) The test lists each one, with a reason, in an allow-list; any new `<a>` has to take `t-link` or join the list. The global `a` rule in `global.css` only sets the fallback color (`--accent-text`).
+**Hover moves one step.** Text that is not red at rest (the Writing-list post titles, the filters, nav and reader menu items) turns `--accent-text` on hover. Anything already red (inline links, Back/Prev/Next, the card CTA, the active filter, the current menu item) deepens to `--accent-text-hover`, which is defined as `var(--accent-fill-hover)`, so a red link and a button hover to the same red. Links that are not inline text keep their own pattern under that rule: (The primary button is the exception: it hovers its background, see "Buttons" below. The nav logo has no hover.) The test lists each one, with a reason, in an allow-list; any new `<a>` has to take `t-link` or join the list. The global `a` rule in `global.css` only sets the fallback color (`--accent-text`).
 
 ### Buttons
 
@@ -145,7 +145,7 @@ The reds have role tokens, and they resolve to the values main shipped: the logo
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
 | `--accent-text` | `#ff4949` | `#ff4949` | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
-| `--accent-text-hover` | `var(--accent-text)` | same | Hover for the above: the same red, so a link's hover is its underline and a list item's is the change from ink to red |
+| `--accent-text-hover` | `var(--accent-fill-hover)` | same | Hover for red text: the same red as the button hover |
 | `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds: `btn`, default pill, toggle knob |
 | `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |

@@ -58,7 +58,7 @@
 	--gray-999: #ffffff;
 	--brand: #ff4949;
 	--accent-text: #ff4949;
-	--accent-text-hover: var(--accent-text);
+	--accent-text-hover: var(--accent-fill-hover);
 	--accent-fill: #ff4949;
 	--accent-fill-hover: #f54c4c;
 	--on-accent: #ffffff;
@@ -580,7 +580,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<ol>
 					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
-					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the fill hover to <code>#f86161</code> (the reds themselves stay <code>#ff4949</code>), the shadows (dark shadows become white glows) and one gradient.</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the hover red to <code>#f86161</code> (the reds themselves stay <code>#ff4949</code>), the shadows (dark shadows become white glows) and one gradient.</li>
 					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
 				</ol>
 				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
@@ -779,14 +779,14 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#fff;border-color:#e3e6ee">
 						<span class="sg-badge bad" style="align-self:flex-start">Light · text #ff4949 · <span data-cr="#ff4949|#ffffff"></span></span>
 						<p style="color:#ff4949;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">A link in body copy on white. <b>VIEW PROJECT →</b></p>
-						<p style="color:#ff4949;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover: same red, underline shown, <span data-cr="#ff4949|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
+						<p style="color:#f54c4c;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f54c4c|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
 						<span class="site-button" style="background:#ff4949;color:#fff">Drop me a line →</span>
 						<span class="sg-small" style="color:#505d84">White on fill #ff4949 <span data-cr="#ffffff|#ff4949"></span> · hover fill #f54c4c <span data-cr="#ffffff|#f54c4c"></span></span>
 					</div>
 					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
 						<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff4949 · <span data-cr="#ff4949|#090b11"></span></span>
 						<p style="color:#ff4949;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">A link in body copy on the dark page. <b>VIEW PROJECT →</b></p>
-						<p style="color:#ff4949;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover: same red, underline shown, <span data-cr="#ff4949|#090b11"></span>. <b>VIEW PROJECT →</b></p>
+						<p style="color:#f86161;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f86161|#090b11"></span>. <b>VIEW PROJECT →</b></p>
 						<span class="site-button" style="background:#ff4949;color:#fff">Drop me a line →</span>
 						<span class="sg-small" style="color:#a3acc8">White on fill <span data-cr="#ffffff|#ff4949"></span> · hover fill #f86161 <span data-cr="#ffffff|#f86161"></span></span>
 					</div>
@@ -1172,9 +1172,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	var reds = [
 		['#ff4949', '--brand (both) · token only'],
 		['#ff4949', '--accent-text · --accent-fill (both)'],
-		['#ff4949', '--accent-text-hover = var(--accent-text): text keeps its red on hover'],
-		['#f54c4c', '--accent-fill-hover (light)'],
-		['#f86161', '--accent-fill-hover (dark)'],
+		['#f54c4c', '--accent-fill-hover · --accent-text-hover (light)'],
+		['#f86161', '--accent-fill-hover · --accent-text-hover (dark)'],
 		['#ffffff', '--on-accent (both) · text on fills'],
 		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
 		['#ff4949', 'BackgroundEffect fallback · hardcoded']

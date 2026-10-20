@@ -128,30 +128,32 @@ describe('link defaults and hover color', () => {
     expect(decl(read('src/styles/global.css'), 'a', 'color')).toBe('var(--accent-text)');
   });
 
-  it('uses --accent-text-hover as the hover color of every list and navigation item', () => {
+  // Hover moves one step: ink at rest turns the link red; red at rest deepens to the button hover.
+  it('turns ink-at-rest list and navigation items the link red on hover', () => {
     const items: [string, RegExp][] = [
-      ['src/pages/writing/index.astro', /hover:text-accent-text-hover/],
-      ['src/pages/writing/index.astro', /focus:text-accent-text-hover|focus-visible:text-accent-text-hover/],
-      ['src/components/NavDropdown.tsx', /hover:text-accent-text-hover/],
-      ['src/components/SectionHeader.astro', /\.filter-option:hover\]:text-accent-text-hover/],
-      ['src/components/SectionHeader.astro', /\.filter-option:focus(?:-visible)?\]:text-accent-text-hover/],
-      ['src/components/PortfolioPreview.astro', /hover:text-accent-text-hover/],
+      ['src/pages/writing/index.astro', /text-gray-0 [^"]*hover:text-accent-text(?![\w-])/],
+      ['src/pages/writing/index.astro', /focus-visible:text-accent-text(?![\w-])/],
+      ['src/components/NavDropdown.tsx', /text-gray-300 [^"]*hover:text-accent-text(?![\w-])/],
+      ['src/components/NavDropdown.tsx', /data-highlighted:text-accent-text(?![\w-])/],
+      ['src/components/ReaderSettings.tsx', /data-highlighted:text-accent-text(?![\w-])/],
+      ['src/components/SectionHeader.astro', /\.filter-option:hover\]:text-accent-text(?![\w-])/],
+      ['src/components/SectionHeader.astro', /\.filter-option:focus-visible\]:text-accent-text(?![\w-])/],
     ];
     for (const [file, pattern] of items) expect(read(file), `${file} ${pattern}`).toMatch(pattern);
   });
 
-  it('never hovers a link to the resting red', () => {
-    // hover:text-accent-text, focus:text-accent-text, [&_.x:hover]:text-accent-text ... all wrong: use -hover.
-    const RESTING_RED_ON_HOVER = /(?:hover|focus|focus-visible):text-accent-text(?![\w-])|:(?:hover|focus|focus-visible)\]:text-accent-text(?![\w-])/;
-    const hits: string[] = [];
-    for (const file of listFiles()) {
-      read(file).split('\n').forEach((line, i) => {
-        if (RESTING_RED_ON_HOVER.test(line)) {
-          hits.push(`${file}:${i + 1}`);
-        }
-      });
-    }
-    expect(hits).toEqual([]);
+  it('deepens red-at-rest items to --accent-text-hover', () => {
+    const items: [string, RegExp][] = [
+      ['src/components/NavDropdown.tsx', /aria-\[current\]:hover:text-accent-text-hover/],
+      ['src/components/NavDropdown.tsx', /aria-\[current\]:data-highlighted:text-accent-text-hover/],
+      ['src/components/SectionHeader.astro', /\.filter-option\.active:hover\]:text-accent-text-hover/],
+      ['src/components/PortfolioPreview.astro', /text-accent-text hover:text-accent-text-hover/],
+    ];
+    for (const [file, pattern] of items) expect(read(file), `${file} ${pattern}`).toMatch(pattern);
+  });
+
+  it('makes the link hover the same token as the button hover', () => {
+    expect(read('src/styles/global.css')).toMatch(/--accent-text-hover:\s*var\(--accent-fill-hover\);/);
   });
 });
 
@@ -198,9 +200,9 @@ const NOT_INLINE: { file: string; match: string; reason: string }[] = [
   { file: 'src/components/Hero.astro', match: 'class="button btn', reason: 'filled call-to-action button: the shared btn utility (dark text on the accent fill), not a text link' },
   { file: 'src/components/PortfolioPreview.astro', match: 'class="card', reason: 'whole project card is the link; its CTA line has its own hover' },
   { file: 'src/components/Nav.astro', match: 'href="/"', reason: 'site logo in the nav, gray text with no underline' },
-  { file: 'src/components/NavDropdown.tsx', match: 'href={href}', reason: 'nav dropdown items, a list pattern: gray at rest, accent-text-hover on hover, with a hover fill' },
+  { file: 'src/components/NavDropdown.tsx', match: 'href={href}', reason: 'nav dropdown items, a list pattern: gray at rest, accent-text on hover, with a hover fill' },
   { file: 'src/pages/writing/index.astro', match: 'class="filter-option t-label"', reason: 'sort filters in the section header, a toggle group styled by SectionHeader' },
-  { file: 'src/pages/writing/index.astro', match: 'text-gray-0', reason: 'post titles in the Writing list: gray-0 at rest, accent-text-hover on hover' },
+  { file: 'src/pages/writing/index.astro', match: 'text-gray-0', reason: 'post titles in the Writing list: gray-0 at rest, accent-text on hover' },
 ];
 
 describe('every <a> is a .t-link or on the allow-list', () => {

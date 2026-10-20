@@ -13,7 +13,7 @@ const hasFilters = Astro.slots.has('filters');
 		<slot name="icon" />
 		<h3 class="t-label text-gray-200">{label}</h3>
 		{hasFilters && (
-			<div class="filter-options flex items-center gap-2 ml-auto [&_.filter-dot]:text-gray-400 [&_.filter-option]:cursor-pointer [&_.filter-option]:border-none [&_.filter-option]:bg-transparent [&_.filter-option]:p-0 [&_.filter-option]:font-sans [&_.filter-option]:text-gray-400 [&_.filter-option]:no-underline [&_.filter-option]:[transition:color_var(--theme-transition)] [&_.filter-option.active]:text-accent-text [&_.filter-option:focus-visible]:text-accent-text-hover [&_.filter-option:hover]:text-accent-text-hover" id={filterId}>
+			<div class="filter-options flex items-center gap-2 ml-auto [&_.filter-dot]:text-gray-400 [&_.filter-option]:cursor-pointer [&_.filter-option]:border-none [&_.filter-option]:bg-transparent [&_.filter-option]:p-0 [&_.filter-option]:font-sans [&_.filter-option]:text-gray-400 [&_.filter-option]:no-underline [&_.filter-option]:[transition:color_var(--theme-transition)] [&_.filter-option.active]:text-accent-text [&_.filter-option:focus-visible]:text-accent-text [&_.filter-option:hover]:text-accent-text [&_.filter-option.active:focus-visible]:text-accent-text-hover [&_.filter-option.active:hover]:text-accent-text-hover" id={filterId}>
 				<slot name="filters" />
 			</div>
 		)}

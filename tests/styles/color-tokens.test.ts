@@ -78,18 +78,18 @@ describe('color tokens', () => {
     ).toEqual([]);
   });
 
-  // The owner rolled the reds back to what main shipped, under the role token names, then made red
-  // text keep the same red on hover. #ff4949 is
+  // The owner rolled the reds back to what main shipped, under the role token names, then made the link
+  // hover the button hover. #ff4949 is
   // not AA as text on white (3.3:1); that is a recorded choice, not an oversight.
   it.each([
-    ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#ff4949', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
-    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#ff4949', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
+    ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#f54c4c', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
+    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#f86161', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
   ] as const)('%s: the red tokens resolve to main\'s values', (mode, values) => {
     for (const [name, value] of Object.entries(values)) expect(tok(mode, name), name).toBe(value);
   });
 
-  it('defines the text hover as a reference to the text red, not a copy of it', () => {
-    expect(BLOCKS.light).toMatch(/--accent-text-hover:\s*var\(--accent-text\);/);
+  it('defines the text hover as a reference to the button hover, not a copy of it', () => {
+    expect(BLOCKS.light).toMatch(/--accent-text-hover:\s*var\(--accent-fill-hover\);/);
     expect(BLOCKS.dark).not.toMatch(/--accent-text-hover:/);
   });
 

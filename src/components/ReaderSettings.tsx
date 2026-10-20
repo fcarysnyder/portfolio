@@ -26,7 +26,7 @@ import '../styles/global.css';
 // A checked row is bold and gray-0, but a highlighted row's accent color wins (not-data-highlighted).
 // The focus ring is off (outline: none) because the highlight is the focus indicator.
 const ITEM =
-  'flex cursor-pointer items-center gap-2 rounded-md py-1.5 font-sans text-(length:--text-sm) leading-[1.4] text-gray-300 [outline:none] select-none data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text-hover data-[state=checked]:font-semibold data-[state=checked]:not-data-highlighted:text-gray-0 forced-colors:data-highlighted:[outline:2px_solid_Highlight]';
+  'flex cursor-pointer items-center gap-2 rounded-md py-1.5 font-sans text-(length:--text-sm) leading-[1.4] text-gray-300 [outline:none] select-none data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text data-[state=checked]:font-semibold data-[state=checked]:not-data-highlighted:text-gray-0 forced-colors:data-highlighted:[outline:2px_solid_Highlight]';
 
 const FONT_OPTIONS: { value: ReaderFont; label: string }[] = [
   { value: 'sans', label: 'Sans' },
