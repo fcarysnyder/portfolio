@@ -52,14 +52,18 @@ const { align = 'center', title, button = true } = Astro.props;
 		width: 100%;
 	}
 
+	/* Same underline as article links, but hidden until hover/focus */
 	:global(.company-link) {
 		color: var(--accent-text);
-		text-decoration: none;
-		transition: color 0.2s ease;
+		text-decoration: underline 1px transparent;
+		text-underline-offset: 0.2em;
+		transition: color var(--theme-transition), text-decoration-color var(--theme-transition);
 	}
-	
-	:global(.company-link:hover) {
+
+	:global(.company-link:hover),
+	:global(.company-link:focus-visible) {
 		color: var(--accent-text-hover);
+		text-decoration-color: currentColor;
 	}
 
 	@media (min-width: 60em) {
