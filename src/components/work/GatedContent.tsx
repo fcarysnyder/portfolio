@@ -122,7 +122,7 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
   if (status === 'load-error') {
     return (
       <div className="gated-placeholder">
-        <p>We couldn't load this case study. Try refreshing, or <a href="mailto:fcarysnyder@gmail.com">email me</a>.</p>
+        <p>We couldn't load this case study. Try refreshing, or <a href="mailto:fcarysnyder@gmail.com" className="t-link">email me</a>.</p>
       </div>
     );
   }

@@ -22,7 +22,7 @@ const { root: alignRoot, child: alignChild } = alignClasses[align];
 		{title && <h1 class:list={['title t-display mb-3 max-w-[37ch]', alignChild]}>
 			<slot name="title">{title}</slot>
 		</h1>}
-		{Astro.slots.has('tagline') && <p class:list={['tagline t-lead w-full [&_.company-link]:text-accent-text [&_.company-link]:underline [&_.company-link]:decoration-1 [&_.company-link]:decoration-transparent [&_.company-link]:underline-offset-[0.2em] [&_.company-link]:[transition:color_var(--theme-transition),text-decoration-color_var(--theme-transition)] [&_.company-link:hover]:text-accent-text-hover [&_.company-link:hover]:decoration-current [&_.company-link:focus-visible]:text-accent-text-hover [&_.company-link:focus-visible]:decoration-current', alignChild]}>
+		{Astro.slots.has('tagline') && <p class:list={['tagline t-lead w-full', alignChild]}>
 			<slot name="tagline" />
 		</p>}
 		<slot />

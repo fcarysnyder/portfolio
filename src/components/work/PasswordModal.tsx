@@ -89,7 +89,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         onSubmit={handleSubmit}
         className="w-full max-w-md rounded-xl border border-gray-800 bg-gray-999 p-8 font-sans elevation-md"
       >
-        <a href="/" className="mb-6 inline-block text-sm/[inherit] font-medium text-accent-text no-underline">
+        <a href="/" className="t-link mb-6 inline-block text-sm/[inherit] font-medium">
           &larr; Back
         </a>
         <h2 id="gate-title" className="t-subheading mb-2">
@@ -136,7 +136,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
 
         <p className="mt-2 flex items-center justify-between text-sm/[inherit]">
           <span className="text-gray-400">Don't have a password?</span>
-          <a href={mailtoHref} className="text-accent-text no-underline">
+          <a href={mailtoHref} className="t-link">
             Ask for access →
           </a>
         </p>

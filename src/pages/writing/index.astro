@@ -29,7 +29,7 @@ const sortedByTitle = [...posts].sort(
 		<ul class="post-list flex flex-col gap-4" data-list>
 			{sortedByDate.map((post) => (
 				<li class="flex items-baseline justify-between gap-4" data-title={post.data.title} data-date={post.data.publishDate.valueOf()}>
-					<a href={`/writing/${post.id}/`} class="text-(length:--text-xl) font-normal text-gray-0 no-underline hover:text-accent-text focus:text-accent-text">{post.data.title}</a>
+					<a href={`/writing/${post.id}/`} class="text-(length:--text-xl) font-normal text-gray-0 no-underline hover:text-accent-text-hover focus-visible:text-accent-text-hover">{post.data.title}</a>
 					<time class="t-eyebrow whitespace-nowrap" datetime={post.data.publishDate.toISOString()}>
 						{post.data.publishDate.toLocaleDateString('en-US', {
 							month: 'long',

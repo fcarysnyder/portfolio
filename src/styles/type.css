@@ -85,18 +85,28 @@
 		color: var(--gray-400);
 	}
 
-	/* Back, Prev / Next */
+	/* Every inline text link: accent red, an underline that fades in with the hover color on
+	   hover and keyboard focus. Keep in step with .prose a in prose.css, which is this link
+	   with a faint underline at rest. Add it with a class: t-link. */
+	.t-link {
+		color: var(--accent-text);
+		text-decoration: underline 1px transparent;
+		text-underline-offset: 0.2em;
+		transition:
+			color var(--theme-transition),
+			text-decoration-color var(--theme-transition);
+	}
+
+	.t-link:hover,
+	.t-link:focus-visible {
+		color: var(--accent-text-hover);
+		text-decoration-color: currentColor;
+	}
+
+	/* Size and weight of Back, Prev / Next. Color and underline come from .t-link on the same element. */
 	.t-small-link {
 		font-size: var(--text-sm);
 		font-weight: 500;
-		color: var(--accent-text);
-		text-decoration: none;
-		transition: color var(--theme-transition);
-	}
-
-	.t-small-link:hover,
-	.t-small-link:focus {
-		color: var(--accent-text-hover);
 	}
 
 	@media (min-width: 60em) {

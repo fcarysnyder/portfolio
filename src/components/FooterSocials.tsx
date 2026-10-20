@@ -76,7 +76,7 @@ const FooterSocials: React.FC<FooterSocialsProps> = ({ initialText, links, delay
                 )}
                 <a 
                     href={link.url} 
-                    className="social-link text-accent-text underline decoration-1 decoration-transparent underline-offset-[0.25em] [transition:text-decoration-color_var(--theme-transition)] hover:text-accent-text-hover hover:decoration-accent-text-hover focus:text-accent-text-hover focus:decoration-accent-text-hover"
+                    className="social-link t-link"
                     aria-label={`Visit my ${link.label} profile`}
                 >
                     {isGhost ? link.label : (

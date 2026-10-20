@@ -71,6 +71,8 @@
 		font-family: inherit;
 	}
 
+	/* The same link as .t-link in type.css (keep the two in step), except the underline is faint
+	   at rest, so a link in body text does not rely on color alone. */
 	.prose a {
 		color: var(--accent-text);
 		text-decoration: underline;
@@ -83,7 +85,7 @@
 	}
 
 	.prose a:hover,
-	.prose a:focus {
+	.prose a:focus-visible {
 		color: var(--accent-text-hover);
 		text-decoration-color: currentColor;
 	}

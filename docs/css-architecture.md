@@ -52,7 +52,11 @@ The order is declared by Tailwind itself (theme, base, components, utilities), s
 
 ### `src/styles/type.css`
 
-All in the components layer. The ten `.t-*` roles: `t-display`, `t-page-title`, `t-article-title`, `t-summary`, `t-eyebrow`, `t-lead`, `t-section-heading`, `t-subheading`, `t-meta`, `t-small-link`. Each role is defined once and used by class on every page. Sizes come from Tailwind's default `--text-*` scale, which is never redefined.
+All in the components layer. The eleven `.t-*` roles: `t-display`, `t-page-title`, `t-article-title`, `t-summary`, `t-eyebrow`, `t-lead`, `t-section-heading`, `t-subheading`, `t-meta`, `t-link`, `t-small-link`. Each role is defined once and used by class on every page. Sizes come from Tailwind's default `--text-*` scale, which is never redefined.
+
+**Links.** There is one link treatment, `.t-link`: `--accent-text`, an underline that is transparent at rest, and on hover and keyboard focus the color goes to `--accent-text-hover` and the underline to `currentColor` (a 0.2s transition on both). Put the class on every inline text link, with no other color or underline utility on the element. `.t-small-link` is only the size and weight (sm, 500) of Back, Previous and Next; those anchors carry `t-small-link t-link`. Links inside article text follow the same rule through `.prose a` in `prose.css`, with one difference: the underline is faint (40% of the text color) at rest, so a link in body copy does not depend on color alone. The two rules repeat each other's values and point to each other in comments; `tests/styles/links.test.ts` fails if they drift.
+
+Links that are not inline text keep their own pattern, but their hover color is still `--accent-text-hover`: the project card, the primary button, the nav logo, nav dropdown items, the Writing-list post titles and the Writing filters. The test lists each one, with a reason, in an allow-list; any new `<a>` has to take `t-link` or join the list. The global `a` rule in `global.css` only sets the fallback color (`--accent-text`).
 
 ### `src/styles/prose.css`
 

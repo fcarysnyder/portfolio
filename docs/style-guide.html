@@ -392,8 +392,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 .t-section-heading { font-size: var(--text-2xl); font-weight: 700; line-height: 1.3; color: var(--gray-0); }
 .t-subheading { font-size: var(--text-xl); font-weight: 700; line-height: 1.35; color: var(--gray-0); }
 .t-meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); }
-.t-small-link { font-size: var(--text-sm); font-weight: 500; color: var(--accent-text); text-decoration: none; transition: color var(--theme-transition); }
-.t-small-link:hover, .t-small-link:focus { color: var(--accent-text-hover); }
+.t-link { color: var(--accent-text); text-decoration: underline 1px transparent; text-underline-offset: 0.2em; transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
+.t-link:hover, .t-link:focus-visible { color: var(--accent-text-hover); text-decoration-color: currentColor; }
+.t-small-link { font-size: var(--text-sm); font-weight: 500; }
 @media (min-width: 60em) { .t-display { font-size: var(--text-5xl); } .t-page-title { font-size: var(--text-5xl); } .t-article-title { font-size: var(--text-4xl); } }
 
 /* Page header: components/PageHeader.astro */
@@ -414,7 +415,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 .site-prose h3 { font-size: calc(10em / 9); font-weight: 700; line-height: 1.35; color: var(--gray-0); margin: 2em 0 0.5em; }
 .site-prose h4 { font-size: 1em; font-weight: 600; line-height: 1.4; color: var(--gray-0); margin: 1.5em 0 0.5em; }
 .site-prose a { color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
-.site-prose a:hover, .site-prose a:focus { color: var(--accent-text-hover); text-decoration-color: currentColor; }
+.site-prose a:hover, .site-prose a:focus-visible { color: var(--accent-text-hover); text-decoration-color: currentColor; }
 .site-prose ul, .site-prose ol { padding-left: 1.25em; margin-top: 1.4em; }
 .site-prose ul { list-style-type: disc; }
 .site-prose ol { list-style-type: decimal; }
@@ -438,7 +439,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 /* Back / Prev / Next: on .t-small-link above */
 /* Footer */
 .site-footer { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); text-transform: uppercase; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
-.site-footer a { color: var(--accent-text); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -730,7 +730,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<li class="done"><div><b>Delete dead CSS.</b> The Nav, <code>data-theme</code>, index.astro and HeroTyper leftovers went with the Tailwind cleanup (F6). The unused gray and gradient tokens (F11) are still there. <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Rename tokens to the v4 namespaces.</b> <code>--text-*</code> and <code>--font-*</code> are done (F3, <code>ec1f4b9</code>). <code>--radius-*</code> and <code>--breakpoint-*</code> are not (F12). <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Add a semantic layer on top of the ramp.</b> The red half is done: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code>, with the contrast fixed (F2, F8, <code>fa7b83d</code>). The gray half (<code>--fg</code>, <code>--border</code>, <code>--surface</code>…) and <code>--danger</code> are not. <span class="sg-badge warn">partly done</span></div></li>
-					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines ten <code>.t-*</code> roles (<code>a480481</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
+					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines the <code>.t-*</code> roles (ten at <code>a480481</code>, eleven with <code>.t-link</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
 					<li class="done"><div><b>Layer it.</b> Element defaults are in <code>@layer base</code>, the roles and <code>.prose</code> are in <code>@layer components</code>, and component and page styling is Tailwind classes in the utilities layer. The old global component rules are gone, the overlays use classes, and there is no <code>!important</code> in <code>src/</code> (F7, F9). Only the token blocks, keyframes, About's cursors and library CSS stay unlayered. <span class="sg-badge ok">done</span></div></li>
 					<li class="done"><div><b>Reader controls.</b> Not in the original audit. Persisted preferences applied before paint (<code>e8dc511</code>) and the Aa panel (<code>ef80c07</code>). <span class="sg-badge ok">done</span></div></li>
 				</ol>
@@ -998,7 +998,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 				<h4 class="sg-h4">Page header (posts and case studies)</h4>
 				<div class="site-page-header" style="max-width:40rem">
-					<a class="t-small-link back-link" href="#components">← Back</a>
+					<a class="t-small-link t-link back-link" href="#components">← Back</a>
 					<p class="t-eyebrow eyebrow">July 21, 2026 · 9 min read</p>
 					<h1 class="t-article-title">Clarity is the deliverable</h1>
 					<p class="t-summary summary">Why a designer should arrive with a stance, concrete enough for the team to push against.</p>
@@ -1008,12 +1008,12 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 			<div class="sg-grid-2">
 				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
-					<h4 class="sg-h4">Links: four treatments</h4>
-					<p>1. Default: <a href="#components" style="text-decoration:none">global <code>a</code></a>, <code>--accent-text</code>, no underline (Preflight sets <code>text-decoration: inherit</code>)</p>
-					<p>2. Prose: <span class="site-prose" style="display:inline"><a href="#components">1px underline at 40%, full on hover</a></span></p>
-					<p>3. Small: <a class="t-small-link" href="#components">← Back</a> &nbsp; <a class="t-small-link" href="#components">Next →</a></p>
-					<p>4. Post list: <a href="#components" style="color:var(--gray-0);text-decoration:none;font-size:var(--text-xl)">gray-0, turns red on hover</a></p>
-					<p class="sg-src">global.css (base <code>a</code>) · prose.css · type.css Small link · writing/index. Hover is <code>--accent-text-hover</code> everywhere.</p>
+					<h4 class="sg-h4">Links: one treatment, plus the prose variant</h4>
+					<p>Inline link: <a class="t-link" href="#components">accent red, underline fades in on hover and focus</a>. <code>.t-link</code>, used on every inline text link: the home tagline, footer socials, the About list, the password modal.</p>
+					<p>With the small size: <a class="t-small-link t-link" href="#components">← Back</a> &nbsp; <a class="t-small-link t-link" href="#components">Next →</a></p>
+					<p>In article text: <span class="site-prose" style="display:inline"><a href="#components">the same link, with the underline at 40% at rest</a></span> so it does not rely on color alone.</p>
+					<p>Lists and navigation (own resting color, same hover): <a href="#components" style="color:var(--gray-0);text-decoration:none;font-size:var(--text-xl)">gray-0, turns red on hover</a></p>
+					<p class="sg-src">type.css .t-link · prose.css .prose a · writing/index, NavDropdown, SectionHeader. Hover is <code>--accent-text-hover</code> everywhere.</p>
 				</div>
 				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 					<h4 class="sg-h4">Meta (bottom of post)</h4>
@@ -1049,8 +1049,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 				<h4 class="sg-h4">Footer</h4>
-				<div class="site-footer"><span>Designed &amp; developed in Santa Barbara, California</span><span>@fcarysnyder on <a href="#components">Twitter</a> · <a href="#components">LinkedIn</a></span></div>
-				<p class="sg-src">Footer.astro · Meta role, uppercase · links <code>--accent-text</code></p>
+				<div class="site-footer"><span>Designed &amp; developed in Santa Barbara, California</span><span>@fcarysnyder on <a class="t-link" href="#components">Twitter</a> · <a class="t-link" href="#components">LinkedIn</a></span></div>
+				<p class="sg-src">Footer.astro · Meta role, uppercase · links are <code>.t-link</code></p>
 			</div>
 		</section>
 
@@ -1064,7 +1064,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<thead><tr><th>file</th><th>mechanism</th><th>owns</th></tr></thead>
 				<tbody>
 						<tr><td class="num">styles/global.css</td><td>Tailwind <code>@theme</code>, custom variants and utilities, <code>@layer base</code>, plus two unlayered token blocks</td><td>Tokens (<code>:root</code>, <code>:root.theme-dark</code>), the Tailwind bridges, fonts, spacing, <code>lg</code> = 60em, <code>--animate-*</code>, the <code>hover:</code> and <code>dark:</code> variants, <code>wrapper</code> and <code>elevation-*</code>, element defaults and the focus ring</td></tr>
-						<tr><td class="num">styles/type.css</td><td>@layer components</td><td>The ten <code>.t-*</code> type roles, defined once</td></tr>
+						<tr><td class="num">styles/type.css</td><td>@layer components</td><td>The eleven <code>.t-*</code> type roles, defined once (including <code>.t-link</code>)</td></tr>
 						<tr><td class="num">styles/prose.css</td><td>@layer components</td><td>The shared <code>.prose</code> article styles and the <code>[data-reader-*]</code> hooks</td></tr>
 						<tr><td class="num">components/*.astro, components/*.tsx, layouts/, pages/</td><td>Tailwind classes in the markup (utilities layer)</td><td>Everything else: layout, color, hover and focus states, the modals and lightboxes, the Nav and Aa dropdowns, the gallery. Hook classes (<code>card</code>, <code>pill</code>, <code>back-link</code>…) stay on elements for scripts and tests</td></tr>
 						<tr><td class="num">pages/about.astro</td><td>Scoped <code>&lt;style&gt;</code> with <code>:global()</code>, unlayered</td><td>The five emoji hover cursors. The only <code>&lt;style&gt;</code> block left, with a "Why not Tailwind:" comment</td></tr>
@@ -1209,8 +1209,10 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			['lg (18px) · 400 · 1.7', 'gray-100 · reader scales it'], '.prose', 'prose.css .prose'],
 		['Meta', { cls: 't-meta' }, 'Tags: design, process',
 			['mono · sm', 'gray-400 · labels uppercase'], 'Bottom-of-post meta, case-study Role / Collaborators / Product, footer', 'type.css .t-meta'],
-		['Small link', { cls: 't-small-link' }, '← Back      Next →',
-			['sm · 500', '--accent-text · hover --accent-text-hover'], 'Back, Prev / Next', 'type.css .t-small-link'],
+		['Link', { cls: 't-link' }, 'CrossnoKaye',
+			['inherits size · --accent-text', 'underline transparent, shown on hover and focus · hover --accent-text-hover'], 'Every inline text link, with the .prose a variant (underline at 40% at rest)', 'type.css .t-link · prose.css .prose a'],
+		['Small link', { cls: 't-small-link t-link' }, '← Back      Next →',
+			['sm · 500', 'color and underline from .t-link'], 'Back, Prev / Next', 'type.css .t-small-link + .t-link'],
 		['Tag / pill', { style: 'font-size:var(--text-xs);line-height:1.35;letter-spacing:0.05em;text-transform:uppercase;color:var(--gray-300)' }, 'Design systems · Gated',
 			['xs · 400 · 1.35 · +0.05em · uppercase', '--on-accent on --accent-fill (default)'], 'Pills (unchanged)', 'Pill.astro']
 	];

@@ -57,12 +57,12 @@ const readingTime = getReadingTime(post.body ?? '');
 				<nav class="post-nav mt-8 flex justify-between border-t border-t-gray-800 py-6">
 					<div class="nav-prev flex">
 						{prevPost && (
-							<a href={`/writing/${prevPost.id}/`} class="t-small-link">&larr; Previous</a>
+							<a href={`/writing/${prevPost.id}/`} class="t-small-link t-link">&larr; Previous</a>
 						)}
 					</div>
 					<div class="nav-next ml-auto flex">
 						{nextPost && (
-							<a href={`/writing/${nextPost.id}/`} class="t-small-link">Next &rarr;</a>
+							<a href={`/writing/${nextPost.id}/`} class="t-small-link t-link">Next &rarr;</a>
 						)}
 					</div>
 				</nav>

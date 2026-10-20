@@ -43,6 +43,7 @@ const ROLES = [
   't-section-heading',
   't-subheading',
   't-meta',
+  't-link',
   't-small-link',
 ];
 
