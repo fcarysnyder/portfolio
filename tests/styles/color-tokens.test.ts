@@ -82,15 +82,17 @@ describe('color tokens', () => {
     expect(contrast(tok(mode, '--accent-text-hover'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(7);
   });
 
-  it.each(['light', 'dark'])('%s: text on accent fill passes AAA', (mode) => {
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill'))).toBeGreaterThanOrEqual(7);
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(7);
+  // Light mode's fill is the logo red by the owner's choice, which holds AA with dark text; dark mode holds AAA.
+  it.each([['light', 4.5], ['dark', 7]] as const)('%s: text on accent fill passes %s:1', (mode, min) => {
+    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill'))).toBeGreaterThanOrEqual(min);
+    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(min);
   });
 
-  it('fills use the same light red in both themes, with dark text on them', () => {
-    expect(tok('light', '--accent-fill')).toBe(tok('dark', '--accent-fill'));
-    expect(tok('light', '--accent-fill-hover')).toBe(tok('dark', '--accent-fill-hover'));
+  it('light fills are the logo red with the default ink on them; hover lightens', () => {
+    expect(tok('light', '--accent-fill')).toBe('#ff4949');
+    expect(tok('light', '--on-accent')).toBe(tok('light', '--gray-0'));
     expect(tok('light', '--on-accent')).toBe(tok('dark', '--on-accent'));
+    expect(contrast(tok('light', '--on-accent'), tok('light', '--accent-fill-hover'))).toBeGreaterThan(contrast(tok('light', '--on-accent'), tok('light', '--accent-fill')));
   });
   it('dark mode uses one red: text and fill are the same token value', () => {
     expect(tok('dark', '--accent-fill')).toBe(tok('dark', '--accent-text'));

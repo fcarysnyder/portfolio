@@ -220,10 +220,12 @@
 	   (7:1) as text on white. Hover is darker and passes too. */
 	--accent-text: #b60000;
 	--accent-text-hover: #970000;
-	/* Fills (buttons, the toggle knob, pills) use the light logo-hue red in both themes, with
-	   dark text on them: #090b11 on #ff6969 is 7.0:1 (AAA). Hover is lighter (8.5:1). */
-	--accent-fill: #ff6969;
-	--accent-fill-hover: #ff8787;
+	/* Fills (buttons, the theme toggle knob, pills): the logo red, with the default ink (--gray-0)
+	   as text: #090b11 on #ff4949 is 5.9:1, AA (the owner's choice over a lighter AAA red). Hover
+	   is lighter, #ff6969 (7.0:1). The value matches --brand but is its own token, so UI code
+	   never reads --brand. */
+	--accent-fill: #ff4949;
+	--accent-fill-hover: #ff6969;
 	--on-accent: #090b11;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
@@ -261,9 +263,12 @@
 	--gray-999-basis: 225, 31%, 5%;
 	--gray-999: #090b11;
 	/* One red in dark mode: the lightest logo-hue red that passes AAA (7:1) on the dark page,
-	   used for text and fills alike. Fills carry dark text (white on it would fail). */
+	   used for text and fills alike. Fills keep the dark --on-accent text: #090b11 on #ff6969 is
+	   7.0:1 (AAA), hover 8.5:1 (white would fail). */
 	--accent-text: #ff6969;
 	--accent-text-hover: #ff8787;
+	--accent-fill: #ff6969;
+	--accent-fill-hover: #ff8787;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
