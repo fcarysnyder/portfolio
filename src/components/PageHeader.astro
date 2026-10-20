@@ -20,11 +20,11 @@ const formattedDate = date.toLocaleDateString('en-US', {
 
 <header class="page-header">
 	<a href={backHref} class="t-small-link back-link">&larr; Back</a>
-	<p class="t-eyebrow eyebrow">
-		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
-	</p>
 	<h1 class="t-page-title">{title}</h1>
 	<p class="t-summary summary">{description}</p>
+	<p class="t-eyebrow meta-line">
+		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
+	</p>
 </header>
 
 <style>
@@ -38,11 +38,12 @@ const formattedDate = date.toLocaleDateString('en-US', {
 		margin-bottom: 2rem;
 	}
 
-	.eyebrow {
-		margin-bottom: 0.75rem;
-	}
-
 	.summary {
 		margin-top: 0.75rem;
+	}
+
+	/* Date and read time under the summary, Medium-style (no byline) */
+	.meta-line {
+		margin-top: 1rem;
 	}
 </style>

@@ -85,7 +85,7 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 | Role | Spec | Used on |
 |---|---|---|
 | **Display title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 600 (as today), line-height 1.1, `--gray-0` | Home hero only |
-| **Page title** | `text-3xl` → `lg:text-4xl` (30 → 36px), weight 700, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study, Writing index, Photography, About, Work index (`/work/`), 404 |
+| **Page title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 700, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study, Writing index, Photography, About, Work index (`/work/`), 404 |
 | **Summary** | `text-lg`, line-height 1.5, `--gray-400` | Blog post and case study (from `description`) |
 | **Eyebrow** | Roboto Mono `text-xs`, uppercase, letter-spacing 0.06em, `--gray-400` | Date line on posts and case studies, and Writing-index post dates |
 | **Lead** | `text-2xl`, `--gray-200` | Hero taglines (home, About, 404) |
