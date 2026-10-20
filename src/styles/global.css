@@ -71,6 +71,10 @@
    applied on touch too (tap-hover), so keep the plain :hover selector. */
 @custom-variant hover (&:hover);
 
+/* The theme is a .theme-dark class on <html> (set by ThemeToggle and MainHead), not the OS
+   preference, so the dark: variant follows that class. :where() keeps its specificity at zero. */
+@custom-variant dark (&:where(.theme-dark, .theme-dark *));
+
 /* Tailwind's shadow-sm/md/lg inline their own default values, not the site's --shadow-* tokens
    (which flip in dark mode and go to none in Swiss). These utilities use the tokens. */
 @utility elevation-sm {

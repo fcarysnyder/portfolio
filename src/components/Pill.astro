@@ -3,25 +3,9 @@ interface Props {
 	color?: string;
 }
 
+// text-(color:--on-accent) reads the variable directly: PortfolioPreview overrides --on-accent on a
+// wrapper span, which text-on-accent (--color-on-accent is resolved once at :root) would not see.
 const { color = 'var(--accent-fill)' } = Astro.props;
 ---
 
-<div class="pill" style={`--pill-color: ${color};`}><slot /></div>
-
-<style>
-	.pill {
-		display: flex;
-		padding: 0.15rem 0.5rem;
-		gap: 0.5rem;
-		color: var(--on-accent);
-		border: 1px solid var(--pill-color, var(--accent-fill));
-		background-color: var(--pill-color, var(--accent-fill));
-		border-radius: 999px;
-		font-size: var(--text-xs);
-		line-height: 1.35;
-		white-space: nowrap;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		font-weight: 400;
-	}
-</style>
+<div class="pill flex gap-2 rounded-[999px] border border-[color:var(--pill-color,var(--accent-fill))] bg-[var(--pill-color,var(--accent-fill))] px-2 py-[0.15rem] text-xs/[1.35] font-normal tracking-[0.05em] whitespace-nowrap text-(color:--on-accent) uppercase" style={`--pill-color: ${color};`}><slot /></div>

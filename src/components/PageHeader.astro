@@ -19,31 +19,11 @@ const formattedDate = date.toLocaleDateString('en-US', {
 ---
 
 <header class="page-header">
-	<a href={backHref} class="t-small-link back-link">&larr; Back</a>
+	{/* Block (not inline-block) so the link doesn't sit on a text baseline and drift down a few px. No top padding on the header: the link's top lines up with the index pages' titles. */}
+	<a href={backHref} class="t-small-link back-link mb-8 block w-fit">&larr; Back</a>
 	<h1 class="t-article-title">{title}</h1>
-	<p class="t-summary summary">{description}</p>
-	<p class="t-eyebrow meta-line">
+	<p class="t-summary summary mt-3">{description}</p>
+	<p class="t-eyebrow meta-line mt-4">
 		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
 	</p>
 </header>
-
-<style>
-	/* No top padding: the back link's top lines up with the index pages' titles */
-
-	/* On its own line, in normal flow */
-	.back-link {
-		/* Block (not inline-block) so it doesn't sit on a text baseline and drift down a few px */
-		display: block;
-		width: fit-content;
-		margin-bottom: 2rem;
-	}
-
-	.summary {
-		margin-top: 0.75rem;
-	}
-
-	/* Date and read time under the summary, Medium-style (no byline) */
-	.meta-line {
-		margin-top: 1rem;
-	}
-</style>

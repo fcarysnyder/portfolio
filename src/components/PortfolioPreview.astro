@@ -16,139 +16,27 @@ const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 ---
 
 <div>
-	<a class="card" href={href}>
-		<div class="img-wrap">
-			<img src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
+	<a class="card flex w-full flex-col overflow-hidden rounded-xl border border-gray-800 bg-gray-999 font-sans text-(length:--text-xl) font-normal no-underline elevation-sm [transition:box-shadow_var(--theme-transition)] hover:elevation-md min-[70em]:flex-row min-[70em]:rounded-3xl" href={href}>
+		<div class="leading-[0] min-[70em]:relative min-[70em]:min-w-0 min-[70em]:flex-2">
+			<img class="block h-full w-full object-cover min-[70em]:absolute min-[70em]:inset-0" src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
 		</div>
-		<div class="card-descrip">
-			<div class="card-tags">
+		<div class="flex flex-1 flex-col items-start gap-x-0 rounded-b-lg p-10 min-[70em]:flex-3 min-[70em]:rounded-none">
+			<div class="flex flex-wrap items-center gap-2">
 				{firstTag && (
 					<span style={pillTextColor ? `--on-accent: ${pillTextColor}` : ''}>
 						<Pill color={data.color}>{firstTag}</Pill>
 					</span>
 				)}
 				{data.gated && (
-					<span class="lock-pill" aria-label="Password protected">
+					<span class="lock-pill inline-flex items-center gap-1 rounded-[999px] border border-gray-800 px-2 py-[0.15rem] text-(length:--text-xs) tracking-[0.05em] text-gray-300 uppercase" aria-label="Password protected">
 						<Lock size="0.85em" />
 						<span>Gated</span>
 					</span>
 				)}
 			</div>
-			<h3 class="title">{data.title}</h3>
-			<p class="description">{data.description}</p>
-			<span class="faux-button">{cta} <span class="arrow">{isExternal ? '↗' : '→'}</span></span>
+			<h3 class="title z-1 rounded-md pt-3 pb-6 text-(length:--text-2xl) text-gray-200 min-[70em]:rounded-[0.9375rem]">{data.title}</h3>
+			<p class="text-(length:--text-base) text-gray-300">{data.description}</p>
+			<span class="flex items-center gap-1 pt-6 text-(length:--text-xs) text-accent-text uppercase hover:text-accent-text-hover">{cta} <span>{isExternal ? '↗' : '→'}</span></span>
 		</div>
 	</a>
 </div>
-
-<style>
-	.card {
-		display: flex;
-		flex-direction: column;
-		background: var(--gray-999);
-		border: 1px solid var(--gray-800);
-		border-radius: 0.75rem;
-		overflow: hidden;
-		box-shadow: var(--shadow-sm);
-		text-decoration: none;
-		font-family: var(--font-sans);
-		font-size: var(--text-xl);
-		font-weight: 400;
-		transition: box-shadow var(--theme-transition);
-		width: 100%;
-	}
-	.card:hover {
-		box-shadow: var(--shadow-md);
-	}
-	.description {
-		color: var(--gray-300);
-		font-size: var(--text-base);
-	}
-	.faux-button {
-		grid-column-gap: 4px;
-		grid-row-gap: 4px;
-		align-items: center;
-		display: flex;
-		font-size: var(--text-xs);
-		padding-top: 24px;
-		text-transform: uppercase;
-		color: var(--accent-text);
-	}
-	.faux-button:hover {
-		color: var(--accent-text-hover);
-	}
-	.card-descrip {
-		grid-column-gap: 0px;
-		object-fit: fill;
-		border-radius: 0 0 8px 8px;
-		flex-direction: column;
-		flex: 1;
-		align-items: flex-start;
-		margin-right: 0;
-		padding: 40px;
-		display: flex;
-	}
-	.card-tags {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-	}
-	.lock-pill {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		padding: 0.15rem 0.5rem;
-		border: 1px solid var(--gray-800);
-		border-radius: 999px;
-		font-size: var(--text-xs);
-		color: var(--gray-300);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-	.title {
-		z-index: 1;
-		color: var(--gray-200);
-		border-radius: 0.375rem;
-		font-size: var(--text-2xl);
-		padding-top: 12px;
-		padding-bottom: 24px;
-	}
-	.img-wrap {
-		display: block;
-		line-height: 0;
-	}
-	img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-	@media (min-width: 70em) {
-		.card {
-			display: flex;
-			flex-direction: row;
-			border-radius: 1.5rem;
-			overflow: hidden;
-		}
-		.card-descrip {
-			flex: 3;
-			border-radius: 0;
-		}
-		.img-wrap {
-			flex: 2;
-			position: relative;
-			min-width: 0;
-		}
-		img {
-			position: absolute;
-			inset: 0;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-		.title {
-			border-radius: 0.9375rem;
-		}
-	}
-</style>

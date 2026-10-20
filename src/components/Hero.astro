@@ -8,79 +8,24 @@ interface Props {
 }
 
 const { align = 'center', title, button = true } = Astro.props;
+
+// Complete class strings, so Tailwind can see them.
+const alignClasses = {
+	start: { root: 'text-start lg:self-center', child: '' },
+	center: { root: 'text-center', child: 'mx-auto' },
+};
+const { root: alignRoot, child: alignChild } = alignClasses[align];
 ---
 
-<div class:list={['hero flex flex-col gap-2', align]}>
+<div class:list={['hero flex w-full flex-col gap-2 text-(length:--text-xl) lg:text-(length:--text-2xl)', alignRoot]}>
 	<div class="flex flex-col gap-2">
-		{title && <h1 class="title t-display mb-3">
+		{title && <h1 class:list={['title t-display mb-3 max-w-[37ch]', alignChild]}>
 			<slot name="title">{title}</slot>
 		</h1>}
-		{Astro.slots.has('tagline') && <p class="tagline t-lead">
+		{Astro.slots.has('tagline') && <p class:list={['tagline t-lead w-full [&_.company-link]:text-accent-text [&_.company-link]:underline [&_.company-link]:decoration-1 [&_.company-link]:decoration-transparent [&_.company-link]:underline-offset-[0.2em] [&_.company-link]:[transition:color_var(--theme-transition),text-decoration-color_var(--theme-transition)] [&_.company-link:hover]:text-accent-text-hover [&_.company-link:hover]:decoration-current [&_.company-link:focus-visible]:text-accent-text-hover [&_.company-link:focus-visible]:decoration-current', alignChild]}>
 			<slot name="tagline" />
 		</p>}
 		<slot />
 		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button mt-5 inline-flex h-10 w-fit cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-accent-fill px-4 text-sm/5 font-semibold text-on-accent uppercase no-underline hover:bg-accent-fill-hover">Drop me a line <ArrowRight size="1em" /></a>}
 	</div>
 </div>
-
-<style>
-	.hero {
-		font-size: var(--text-xl);
-		width: 100%;
-	}
-
-	.title, :global(.hero .title) {
-		max-width: 37ch;
-	}
-
-	.start {
-		text-align: start;
-	}
-
-	.center {
-		text-align: center;
-	}
-
-	.center .title,
-	.center :global(.title),
-	.center .tagline,
-	.center :global(.tagline) {
-		margin-inline: auto;
-	}
-
-	.tagline, :global(.hero .tagline) {
-		width: 100%;
-	}
-
-	/* Same underline as article links, but hidden until hover/focus */
-	:global(.company-link) {
-		color: var(--accent-text);
-		text-decoration: underline 1px transparent;
-		text-underline-offset: 0.2em;
-		transition: color var(--theme-transition), text-decoration-color var(--theme-transition);
-	}
-
-	:global(.company-link:hover),
-	:global(.company-link:focus-visible) {
-		color: var(--accent-text-hover);
-		text-decoration-color: currentColor;
-	}
-
-	@media (min-width: 60em) {
-		.hero {
-			font-size: var(--text-2xl);
-		}
-
-		.start {
-			text-align: start;
-			align-self: center;
-		}
-
-		.start .title,
-		.start :global(.title),
-		.start .tagline,
-		.start :global(.tagline) {
-			margin-inline: unset;
-		}
-	}
-</style>
