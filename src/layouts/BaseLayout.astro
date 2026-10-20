@@ -13,11 +13,10 @@ interface Props {
 	title?: string | undefined;
 	description?: string | undefined;
 	image?: string | undefined;
-    useAnimatedBackground?: boolean;
 	useIntroAnimation?: boolean;
 }
 
-const { title, description, image, useAnimatedBackground = false, useIntroAnimation = false } = Astro.props;
+const { title, description, image, useIntroAnimation = false } = Astro.props;
 ---
 
 <html lang="en">

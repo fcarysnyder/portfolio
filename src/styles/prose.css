@@ -1,15 +1,20 @@
 /*
+ * LAYER: components (everything in this file, including the reader hooks below).
+ *
  * Article body. One global class for blog posts (.post-content) and case studies
  * (.gated-content, whose HTML is decrypted and injected client-side, so scoped
- * styles cannot reach it).
+ * styles and utilities on the elements cannot reach it).
  *
  * Every size is in em, relative to .prose's own font size, so reader controls that
  * change --reader-size scale the whole article and keep the hierarchy. At the
  * default 18px (text-lg) the headings land on the type scale: h2 24px (4/3em),
  * h3 20px (10/9em), h4 18px (1em, set apart by weight).
  *
- * Lives in the components layer, so it beats the element defaults in the base layer.
- * Page <style> blocks are unlayered and would beat it: do not target prose content there.
+ * Why this layer: it beats the element defaults in the base layer (global.css), and a
+ * utility on the .prose element itself (a margin, say) still beats it. Do not move it
+ * out of the layer: an unlayered rule would beat every utility.
+ *
+ * See docs/css-architecture.md.
  */
 @layer components {
 	.prose {

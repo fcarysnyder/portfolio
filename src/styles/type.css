@@ -1,9 +1,16 @@
 /*
+ * LAYER: components (everything in this file).
+ *
  * Type roles. Each role is defined once here and used by class on every page.
- * Sizes come from Tailwind's default --text-* scale. Roles live in the components
- * layer, so utilities can still adjust spacing, and component <style> blocks
- * (unlayered) must not redeclare size, weight, line-height or color for an element
- * that carries a role class.
+ * Sizes come from Tailwind's default --text-* scale.
+ *
+ * Why this layer: it sits above the element defaults in global.css (base), so a role
+ * wins over `h1 { ... }` and `a { ... }`, and below utilities, so a page can still add
+ * spacing or an override with a class like mt-2. Nothing here is unlayered. The one
+ * unlayered scoped style left (about.astro) does not touch type, so no role needs
+ * to defend itself.
+ *
+ * See docs/css-architecture.md.
  */
 @layer components {
 	/* Home hero title only */

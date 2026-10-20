@@ -23,10 +23,10 @@ const projects = (await getCollection('work'))
 const title = "Hi, I'm F Cary Snyder";
 ---
 
-<BaseLayout title={title} useAnimatedBackground={true} useIntroAnimation={true}>
+<BaseLayout title={title} useIntroAnimation={true}>
 	<div class="flex flex-1 flex-col justify-center gap-20">
 		<div class="relative w-full max-w-full">
-			<header class="wrapper flex w-full flex-col items-start gap-4 max-lg:[&>.hero]:flex-1 max-lg:[&>.hero_.title]:inline max-lg:[&>.hero_.title]:mb-3 lg:grid lg:grid-cols-[1fr_3fr] lg:items-center lg:gap-8">
+			<header class="wrapper flex w-full flex-col items-start gap-4 lg:grid lg:grid-cols-[1fr_3fr] lg:items-center lg:gap-8">
 				<img
 					alt="Headshot of F Cary Snyder"
 					width="480"

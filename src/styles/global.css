@@ -1,6 +1,33 @@
+/*
+ * The entry stylesheet. Where each part ends up in the cascade
+ * (weakest first; full explanation in docs/css-architecture.md):
+ *
+ *   @import "tailwindcss"    builds the theme, base (Preflight), components and
+ *                            utilities layers, in that order
+ *   @theme                   layer theme: tokens that make Tailwind classes. They only
+ *                            define variables, so they are not rules in the cascade
+ *   @custom-variant          not CSS output: teaches Tailwind the hover: and dark: variants
+ *   @utility                 layer utilities: the wrapper and elevation-* classes
+ *   :root / :root.theme-dark UNLAYERED, on purpose: these are variables, not rules that
+ *                            style an element, so nothing competes with them. The dark
+ *                            block redefines the same names and wins on specificity.
+ *                            The Tailwind @theme tokens read these through var().
+ *   @layer base              element defaults, after Preflight, so any class overrides them
+ *   type.css, prose.css      layer components (imported below)
+ *
+ * Rule of thumb: nothing here may be an unlayered rule other than the two token blocks.
+ * An unlayered rule beats every utility. tests/styles/css-rules.test.ts enforces it.
+ */
 @import "tailwindcss";
 @import "./type.css";
 @import "./prose.css";
+
+/* Tailwind scans the whole project for class names. Docs, tests and notes mention class names
+   as examples; none of them are markup, so keep them out of the build. */
+@source not "../../docs";
+@source not "../../tests";
+@source not "../../.superpowers";
+@source not "../../README.md";
 
 @theme {
   /* Colors — bridge to existing CSS vars */
@@ -205,15 +232,15 @@
 		0px 16px 16px rgba(255, 255, 255, 0.1), 0px 4px 9px rgba(255, 255, 255, 0.12);
 }
 
-html,
-body {
-	min-height: 100%;
-	overflow-x: hidden;
-}
-
 /* Element defaults. In the base layer, after Preflight, so classes and utilities
    (type roles, Tailwind) override them. Headings carry no size; a type role sets it. */
 @layer base {
+	html,
+	body {
+		min-height: 100%;
+		overflow-x: hidden;
+	}
+
 	body {
 		background-color: var(--gray-999);
 		color: var(--gray-200);
