@@ -74,7 +74,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
                 <DropdownMenu.Item asChild>
                   <a
                     href={href}
-                    className="block rounded-sm border-none px-4 py-2 text-gray-300 no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text-hover data-[highlighted]:outline-none forced-colors:data-highlighted:[outline:2px_solid_Highlight] aria-[current]:font-bold aria-[current]:text-accent-text"
+                    className="block rounded-sm border-none px-4 py-2 text-gray-300 no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text-hover data-[highlighted]:outline-none forced-colors:data-highlighted:[outline:2px_solid_Highlight] aria-[current]:font-semibold aria-[current]:text-accent-text"
                     aria-current={checkIsCurrentPage(href) ? 'page' : undefined}
                   >
                     {label}

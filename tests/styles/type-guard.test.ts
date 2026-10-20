@@ -74,3 +74,36 @@ describe('type scale guard', () => {
     expect(read('src/styles/global.css')).not.toMatch(/@theme[^}]*--text-/s);
   });
 });
+
+// 600 is the heaviest weight on the site (owner's call). Covers CSS, Tailwind utilities,
+// arbitrary values and inline styles in every source file, BackgroundEffect included.
+const HEAVY_WEIGHT = /font-weight\s*:\s*(?:[7-9]00|bold(?:er)?)\b|fontWeight\s*:\s*['"]?(?:[7-9]00|bold)|(?<![\w-])(?:[a-z0-9-]+:)*font-(?:bold|extrabold|black|\[[7-9]00\])(?![\w-])/;
+
+function heavyWeights(): string[] {
+  const hits: string[] = [];
+  for (const file of listSourceFiles()) {
+    read(file).split('\n').forEach((line, i) => {
+      if (HEAVY_WEIGHT.test(line)) hits.push(`${file}:${i + 1}: ${line.trim()}`);
+    });
+  }
+  return hits;
+}
+
+describe('font weight cap', () => {
+  it('uses no weight above 600', () => {
+    expect(heavyWeights()).toEqual([]);
+  });
+
+  it('caps <b> and <strong>, which Preflight sets to bolder (700)', () => {
+    expect(read('src/styles/global.css')).toMatch(/b,\s*strong\s*\{\s*font-weight:\s*600;/);
+  });
+
+  it('recognises every heavy form (the check is not blind)', () => {
+    for (const bad of ['font-weight: 700;', 'font-weight:bold', 'font-bold', 'aria-[current]:font-bold', 'font-extrabold', 'font-[800]', "fontWeight: 'bold'", 'fontWeight: 700']) {
+      expect(HEAVY_WEIGHT.test(bad), bad).toBe(true);
+    }
+    for (const fine of ['font-weight: 600;', 'font-semibold', 'font-medium', 'font-[600]', 'font-bolder-x', 'wght@0,400..600']) {
+      expect(HEAVY_WEIGHT.test(fine), fine).toBe(false);
+    }
+  });
+});

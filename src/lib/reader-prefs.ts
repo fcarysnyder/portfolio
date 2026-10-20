@@ -21,7 +21,7 @@ export const READER_DEFAULTS: ReaderPrefs = { font: 'sans', size: 18, leading: 1
 export const READER_STORAGE_KEY = 'reader-prefs';
 
 export const LITERATA_HREF =
-	'https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap';
+	'https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap';
 
 const SERIF_LINK_ID = 'reader-serif-font';
 
@@ -104,7 +104,7 @@ export function readerBootstrap(doc: Document = document, storage?: Storage): vo
 		link.id = 'reader-serif-font';
 		link.rel = 'stylesheet';
 		link.href =
-			'https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap';
+			'https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap';
 		doc.head.appendChild(link);
 	}
 }

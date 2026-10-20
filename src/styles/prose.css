@@ -44,7 +44,7 @@
 
 	.prose h2 {
 		font-size: calc(4em / 3);
-		font-weight: 700;
+		font-weight: 600;
 		line-height: 1.3;
 		color: var(--gray-0);
 		margin: 2.75em 0 0.75em;
@@ -52,7 +52,7 @@
 
 	.prose h3 {
 		font-size: calc(10em / 9);
-		font-weight: 700;
+		font-weight: 600;
 		line-height: 1.35;
 		color: var(--gray-0);
 		margin: 2em 0 0.5em;

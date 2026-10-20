@@ -297,6 +297,12 @@
 		color: var(--gray-0);
 	}
 
+	/* 600 is the heaviest weight on the site; Preflight's `bolder` would make these 700 */
+	b,
+	strong {
+		font-weight: 600;
+	}
+
 	a {
 		color: var(--accent-text);
 	}

@@ -92,13 +92,15 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 | **Summary** | `text-lg`, line-height 1.5, `--gray-400` | Blog post and case study (from `description`) |
 | **Eyebrow** | Roboto Mono `text-xs`, uppercase, letter-spacing 0.06em, `--gray-400` | Date line on posts and case studies, and Writing-index post dates |
 | **Lead** | `text-2xl`, `--gray-200` | Hero taglines (home, About, 404) |
-| **Section heading** | `text-2xl` (24px), weight 700, line-height 1.3, `--gray-0` | `.prose` h2, About section headings |
-| **Subheading** | `text-xl` (20px), weight 700, line-height 1.35, `--gray-0` | `.prose` h3, Photography year headings, PasswordModal title |
+| **Section heading** | `text-2xl` (24px), weight 600, line-height 1.3, `--gray-0` | `.prose` h2, About section headings |
+| **Subheading** | `text-xl` (20px), weight 600, line-height 1.35, `--gray-0` | `.prose` h3, Photography year headings, PasswordModal title |
 | **Section label** | `text-sm`, weight 600, uppercase, `--gray-200` | SectionHeader (unchanged) |
 | **Body** | `text-lg` (18px), line-height 1.7 | `.prose` |
 | **Meta** | Roboto Mono `text-sm`, `--gray-400`; labels uppercase | Bottom-of-post meta, case-study Role/Collaborators/Product block, footer |
 | **Small link** | `text-sm`, weight 500, `--accent-text` | Back, Prev/Next |
 | **Tag / pill** | `text-xs`, uppercase, letter-spacing 0.05em | Pills (unchanged) |
+
+**Updated 2026-10-20: 600 is the heaviest weight on the site.** Titles, headings, `<b>`/`<strong>` and every utility top out at 600; `tests/styles/type-guard.test.ts` enforces it.
 
 The Work index and 404 currently borrow the home `Hero` component. They switch to the page-title role, so only the home page shows the display size. 404 keeps its tagline as a Lead.
 

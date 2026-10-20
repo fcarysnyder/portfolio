@@ -174,7 +174,7 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
       <span className="opacity-70">{displayContent.scrambled}</span>
       {shouldShowCursor && (
         <span
-          className={`ml-[2px] font-bold text-accent-text [text-shadow:0_0_5px_var(--accent-text)] ${
+          className={`ml-[2px] font-semibold text-accent-text [text-shadow:0_0_5px_var(--accent-text)] ${
             cursorVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
