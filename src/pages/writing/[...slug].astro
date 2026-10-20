@@ -78,5 +78,14 @@ const readingTime = getReadingTime(post.body ?? '');
 	   specific, so it centers the 550px embed in the column with the 2rem gap prose blocks use. */
 	.post-content :global(.react-tweet-theme) {
 		margin: 2rem auto;
+		/* 600 is the heaviest weight on the site; react-tweet uses 700 */
+		--tweet-actions-font-weight: 600;
+		--tweet-replies-font-weight: 600;
+	}
+
+	/* The rest of react-tweet's 700s are hard-coded on its CSS-module classes (author name,
+	   Follow, quoted author, video link), which Vite names _<class>_<hash>. */
+	.post-content :global(.react-tweet-theme :is([class*='_authorLinkText_'], [class*='_follow_'], [class*='_authorText_'], [class*='_anchor_'])) {
+		font-weight: 600;
 	}
 </style>
