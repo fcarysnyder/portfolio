@@ -6,7 +6,7 @@
 <title>fcarysnyder.com Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,700&display=swap" rel="stylesheet" />
 <script>
 	// Same mechanism as src/components/MainHead.astro: `.theme-dark` on <html>.
 	(function () {
@@ -24,10 +24,6 @@
    (it uses Tailwind directives a browser can't read), so if global.css
    changes, update here.
    ===================================================================== */
-@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk'), local('AktivGrotesk-Regular'); font-weight: 400; }
-@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk Medium'), local('AktivGrotesk-Medium'); font-weight: 500; }
-@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk SemiBold'), local('AktivGrotesk-SemiBold'); font-weight: 600; }
-@font-face { font-family: 'Aktiv Grotesk'; src: local('Aktiv Grotesk Bold'), local('AktivGrotesk-Bold'); font-weight: 700; }
 
 :root {
 	/* Type scale: Tailwind's default --text-* scale, the only size scale (global.css:26 says not to redefine it) */
@@ -43,7 +39,7 @@
 	--text-5xl: 3rem;
 
 	/* @theme font families (global.css:28-31) */
-	--font-sans: 'Aktiv Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-sans: 'Mona Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 	--font-serif: 'Literata', Georgia, serif;
 
@@ -105,11 +101,6 @@
 	--sg-ok: #4cc47f;
 	--sg-warn: #f0a941;
 	--sg-bad: #ff6b6b;
-}
-
-/* "Visitor preview": what people without Aktiv Grotesk installed see. */
-:root.sg-visitor-font {
-	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* =====================================================================
@@ -454,7 +445,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<span>fcarysnyder.com · snapshot 2026-10-18 · ef80c07</span>
 	</div>
 	<div class="sg-controls">
-		<button class="sg-toggle" id="sg-font-toggle" aria-pressed="false" title="Render with the fallback stack that visitors without Aktiv Grotesk installed see">Visitor font</button>
 		<button class="sg-toggle" id="sg-theme-toggle" aria-pressed="false">Dark</button>
 	</div>
 </header>
@@ -483,7 +473,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<div class="sg-intro">
 			<h1>How the site's styles actually fit together</h1>
 			<p>A style guide rebuilt from the code, not from Figma. Every value here was read out of <code>src/</code>, and each one notes where it's defined. The first half explains how the CSS gets assembled and what the audit found, with the findings the reading-typography work closed marked resolved. The second half is the style sheet itself, updated for the new type scale, type roles, red tokens, page header, article styles and reader controls.</p>
-			<p class="sg-small">The site's tokens are copied in at the top of this file, so it opens straight from disk with no build step. Toggle <b>Dark</b> to see the theme swap the way the site does it. Toggle <b>Visitor font</b> to see the page in the fallback font your visitors get (see finding F1). <span id="sg-font-detect"></span></p>
+			<p class="sg-small">The site's tokens are copied in at the top of this file, so it opens straight from disk with no build step. Toggle <b>Dark</b> to see the theme swap the way the site does it.</p>
 		</div>
 
 		<!-- ============================================================ -->
@@ -596,11 +586,12 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 			<div class="sg-findings">
 
-				<article class="sg-finding" data-sev="high">
+				<article class="sg-finding resolved" data-sev="high">
 					<div class="sg-finding-head"><span class="sg-badge bad">High</span><span class="id">F1 · fonts</span><h4>Aktiv Grotesk is never actually served to visitors</h4></div>
 					<p>All four <code>@font-face</code> rules use only <code>src: local(...)</code> (global.css:73-99). No woff2 is in <code>public/</code> and there's no Adobe Fonts kit. You see Aktiv Grotesk because it's installed on your Mac through Creative Cloud. Everyone else gets the next font in the stack: San Francisco on Apple devices, Segoe UI on Windows, Roboto on Android.</p>
-					<p>Your brand typeface is effectively a local preview. Click <b>Visitor font</b> in the top bar to see what most visitors get.</p>
+					<p>Your brand typeface is effectively a local preview.</p>
 					<div class="fix"><b>Fix:</b> add the Adobe Fonts web project embed (Aktiv Grotesk is on Adobe Fonts) or self-host licensed woff2 files with <code>font-display: swap</code>. Keep the <code>local()</code> entries first if you like.</div>
+					<div class="fix resolved-note"><b>Resolved by switching fonts.</b> Aktiv Grotesk is gone. The sans is now <b>Mona Sans</b> (GitHub, open source), served from Google Fonts as one variable file (weights 400–700, with italics), so every visitor gets it. The unused Public Sans and Rubik request was replaced in the same change.</div>
 				</article>
 
 				<article class="sg-finding resolved" data-sev="high">
@@ -725,7 +716,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-section-head"><span class="sg-num">03</span><h2>Suggested cleanup order</h2></div>
 			<p class="sg-lede">The original plan for this branch. Steps the reading-typography work completed are checked off, with the commits. Each step is small enough to review by itself, and the order keeps the visual changes separate from the plumbing.</p>
 			<ol class="sg-plan">
-					<li><div><b>Serve the font.</b> Add Aktiv Grotesk as a real webfont, drop Public Sans and Rubik, and trim Roboto Mono (F1, F10). This is the biggest visible change and the smallest diff. <span class="sg-badge muted">open</span></div></li>
+					<li class="done"><div><b>Serve the font.</b> Done by switching to Mona Sans from Google Fonts, which also dropped Public Sans and Rubik (F1, F10). Roboto Mono still loads its full weight range. <span class="sg-badge warn">partly done</span></div></li>
 					<li><div><b>Delete dead CSS.</b> Remove the Nav.astro dropdown rules, the <code>data-theme</code> rule, the index.astro leftovers, HeroTyper and the unused tokens (F6, F11). This should change nothing visually, so it's a good first refactor to check against screenshots. <span class="sg-badge muted">open</span></div></li>
 					<li class="done"><div><b>Rename tokens to the v4 namespaces.</b> <code>--text-*</code> and <code>--font-*</code> are done (F3, <code>ec1f4b9</code>). <code>--radius-*</code> and <code>--breakpoint-*</code> are not (F12). <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Add a semantic layer on top of the ramp.</b> The red half is done: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code>, with the contrast fixed (F2, F8, <code>fa7b83d</code>). The gray half (<code>--fg</code>, <code>--border</code>, <code>--surface</code>…) and <code>--danger</code> are not. <span class="sg-badge warn">partly done</span></div></li>
@@ -798,13 +789,13 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 			<div class="sg-grid-3">
 				<div class="sg-card sg-family">
-					<div class="sg-family-head"><b>Aktiv Grotesk</b><span id="sg-aktiv-badge" class="sg-badge warn">local only</span></div>
+					<div class="sg-family-head"><b>Mona Sans</b><span class="sg-badge ok">Google Fonts</span></div>
 					<div class="glyphs" style="font-family:var(--font-sans);font-weight:600">Aa Gg Rr 0123</div>
 					<div class="weights" style="font-family:var(--font-sans)">
 						<span style="font-weight:400">Regular 400</span><span style="font-weight:500">Medium 500</span><span style="font-weight:600">SemiBold 600</span><span style="font-weight:700">Bold 700</span>
 					</div>
-					<p class="sg-small"><code>--font-sans</code>. The body font and the reader's "Sans" option. 700 is now the weight of page titles, section headings and subheadings, 600 of the display title and bold text, 500 of small links, 400 of body. Still not served (F1).</p>
-					<p class="sg-src">global.css:29, 62-89</p>
+					<p class="sg-small"><code>--font-sans</code>. The body font and the reader's "Sans" option. 700 is now the weight of page titles, section headings and subheadings, 600 of the display title and bold text, 500 of small links, 400 of body. Variable weight 400–700 plus italics, by GitHub under the OFL.</p>
+					<p class="sg-src">global.css:29 · MainHead.astro (Google Fonts link)</p>
 				</div>
 				<div class="sg-card sg-family">
 					<div class="sg-family-head"><b>Roboto Mono</b><span class="sg-badge ok">Google Fonts</span></div>
@@ -859,7 +850,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<p>Blog posts and case studies get an "Aa" button in the nav, immediately left of the theme toggle. It opens a panel (<code>components/ReaderSettings.tsx</code>) with three settings and a reset. The choice is saved in <code>localStorage</code> as <code>reader-prefs</code> and applied as <code>data-reader-font|size|leading</code> on <code>&lt;html&gt;</code> by an inline script in <code>MainHead.astro</code> before paint and after every View Transition swap (<code>lib/reader-prefs.ts</code>).</p>
 				<ul>
-					<li><b>Font:</b> Sans (Aktiv Grotesk) or Serif (Literata). Default Sans.</li>
+					<li><b>Font:</b> Sans (Mona Sans) or Serif (Literata). Default Sans.</li>
 					<li><b>Size:</b> 14 / 16 / 18 / 20px, on the <code>.prose</code> base (<code>text-sm</code> / <code>base</code> / <code>lg</code> / <code>xl</code>). Default 16.</li>
 					<li><b>Line spacing:</b> 1.5 / 1.7 / 1.9. Default 1.7.</li>
 					<li><b>Scope:</b> only <code>.prose</code>, and only inside a page-level <code>[data-reader-enabled]</code> wrapper, so a saved preference never restyles the header, nav, footer, meta, About or the index pages. Everything inside <code>.prose</code> is in <code>em</code>, so the hierarchy scales with the setting.</li>
@@ -948,7 +939,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<!-- ============================================================ -->
 		<section class="sg-section" id="components">
 			<div class="sg-section-head"><span class="sg-num">09</span><h2>Components</h2></div>
-			<p class="sg-lede">Reproduced from source. These respond to the Dark and Visitor font toggles the same way the site does.</p>
+			<p class="sg-lede">Reproduced from source. These respond to the Dark toggle the same way the site does.</p>
 
 			<div class="sg-grid-2">
 				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
@@ -1093,7 +1084,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 	// ---------- Toggles ----------
 	var themeBtn = document.getElementById('sg-theme-toggle');
-	var fontBtn = document.getElementById('sg-font-toggle');
 	function syncTheme() { themeBtn.setAttribute('aria-pressed', String(root.classList.contains('theme-dark'))); }
 	themeBtn.addEventListener('click', function () {
 		var dark = !root.classList.contains('theme-dark');
@@ -1101,30 +1091,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		try { localStorage.setItem('sg-theme', dark ? 'dark' : 'light'); } catch (e) {}
 		syncTheme();
 	});
-	fontBtn.addEventListener('click', function () {
-		var on = !root.classList.contains('sg-visitor-font');
-		root.classList.toggle('sg-visitor-font', on);
-		fontBtn.setAttribute('aria-pressed', String(on));
-	});
 	syncTheme();
 
-	// ---------- Is Aktiv Grotesk installed on this machine? ----------
-	function aktivInstalled() {
-		var c = document.createElement('canvas').getContext('2d');
-		var s = 'mmmmmmmmmwwwwwwwiiiiilllll 0123456789';
-		c.font = '72px monospace'; var a = c.measureText(s).width;
-		c.font = '72px "Aktiv Grotesk", monospace'; var b = c.measureText(s).width;
-		return Math.abs(a - b) > 1;
-	}
-	function reportFont() {
-		var yes = aktivInstalled();
-		document.getElementById('sg-font-detect').innerHTML = yes
-			? 'Aktiv Grotesk <b>is</b> installed on this machine, so you\'re seeing it right now. Most visitors don\'t have it.'
-			: 'Aktiv Grotesk is <b>not</b> installed on this machine, so this page is already showing the fallback.';
-		var badge = document.getElementById('sg-aktiv-badge');
-		badge.textContent = yes ? 'local only · installed here' : 'local only · missing here';
-	}
-	if (document.fonts && document.fonts.ready) document.fonts.ready.then(reportFont); else reportFont();
 
 	// ---------- Contrast ----------
 	function lum(hex) {

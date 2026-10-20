@@ -25,7 +25,7 @@ The owner wants three things:
 ## Non-goals
 
 - Layout changes beyond what's listed here. The home page, About layout, grids, cards and nav keep their structure; only their type sizes move onto the scale.
-- Serving Aktiv Grotesk as a webfont (F1). Still a known problem: the "sans" option shows the system font for visitors without Aktiv installed.
+- ~~Serving Aktiv Grotesk as a webfont (F1).~~ Superseded 2026-10-20: the site switched to Mona Sans from Google Fonts, which every visitor gets.
 - Dead CSS cleanup (F6/F10/F11) as a goal in itself. Delete only what this work directly replaces.
 - Changing the reading column width. The owner likes the current width.
 
@@ -51,7 +51,7 @@ The owner wants three things:
 ### 1. Type tokens (`src/styles/global.css`)
 
 - Delete the `--font-size-*` entries from `@theme`, so Tailwind's default `--text-*` scale is the only size scale.
-- Font families use v4 namespaces: `--font-sans` (current Aktiv Grotesk stack), `--font-mono` (current Roboto Mono stack), and a new `--font-serif: 'Literata', Georgia, serif` for the reader option. Drop `--font-family-brand`; it's identical to body.
+- Font families use v4 namespaces: `--font-sans` (Mona Sans from Google Fonts; was Aktiv Grotesk, local-only), `--font-mono` (current Roboto Mono stack), and a new `--font-serif: 'Literata', Georgia, serif` for the reader option. Drop `--font-family-brand`; it's identical to body.
 - Replace every `var(--font-size-*)` / `var(--font-family-*)` in `src/` (about 80 references). **Map by value or by role, never by name.** The old names are one step off from Tailwind's, so a plain rename silently shrinks text:
 
 | Old token | Old value | Replace with |
@@ -172,7 +172,7 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 
 - **Where:** an "Aa" icon button in the nav, immediately left of the theme toggle, matching its size and treatment. Shown only on blog posts and case studies.
 - **Panel** (styled after Matter's reader panel: rounded card, `--gray-999` surface, `--gray-800` border, `--shadow-lg`):
-  - **Font:** Sans (Aktiv Grotesk) / Serif (Literata). Default Sans.
+  - **Font:** Sans (Mona Sans) / Serif (Literata). Default Sans.
   - **Size:** 14 / 16 / 18 / 20px on the `.prose` base (`text-sm` / `base` / `lg` / `xl`). Default 16.
   - **Line spacing:** 1.5 / 1.7 / 1.9. Default 1.7.
   - **Reset to default.**
