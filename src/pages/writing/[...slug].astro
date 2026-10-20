@@ -40,7 +40,7 @@ const readingTime = getReadingTime(post.body ?? '');
 				backHref="/writing/"
 			/>
 
-			<div class="post-content prose mt-12 [&_.react-tweet-theme]:mx-auto [&_.react-tweet-theme]:my-8">
+			<div class="post-content prose mt-12">
 				<Content />
 			</div>
 
@@ -70,3 +70,13 @@ const readingTime = getReadingTime(post.body ?? '');
 		</article>
 	</main>
 </BaseLayout>
+
+<style>
+	/* Why not Tailwind: react-tweet's stylesheet is unlayered and sets the embed's margin on its own
+	   root (margin: var(--tweet-container-margin), 1.5rem 0). Unlayered CSS beats every layer, so a
+	   utility on the wrapper loses whatever its specificity. This rule is unlayered too and more
+	   specific, so it centers the 550px embed in the column with the 2rem gap prose blocks use. */
+	.post-content :global(.react-tweet-theme) {
+		margin: 2rem auto;
+	}
+</style>

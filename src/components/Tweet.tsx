@@ -47,7 +47,8 @@ export default function Tweet({ url }: { url: string }) {
     fetch(`${TWEET_API}/api/tweet/${id}`)
       .then((res) => res.json())
       .then((json) => {
-        if (json.data) setTweet(json.data);
+        // The API now omits empty entity lists, and react-tweet iterates them unchecked.
+        if (json.data) setTweet({ ...json.data, entities: { hashtags: [], urls: [], user_mentions: [], symbols: [], ...json.data.entities } });
         else setError(true);
       })
       .catch(() => setError(true))
