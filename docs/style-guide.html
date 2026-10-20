@@ -638,7 +638,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<li>SectionHeader renders its 14px uppercase label as an <code>&lt;h3&gt;</code>, so the document outline jumps from h1 to h3.</li>
 					</ul>
 					<div class="fix"><b>Fix:</b> name the roles (display, title, heading, subheading, lead, body, label, meta, caption) as classes in one file. Then set the global <code>h1–h5</code> rules to what pages really use, or delete them.</div>
-						<div class="fix resolved-note"><b>Resolved in <code>a480481</code>.</b> The nine roles are classes in <code>src/styles/type.css</code> (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-summary</code>, <code>.t-eyebrow</code>, <code>.t-lead</code>, <code>.t-section-heading</code>, <code>.t-subheading</code>, <code>.t-meta</code>, <code>.t-small-link</code>), and every page uses them. The global <code>h1–h5</code> defaults no longer carry a size. The <code>!important</code> on the card title is gone. The SectionHeader outline issue (h3 for a label) was not part of this change and is still open.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>a480481</code>.</b> The ten roles are classes in <code>src/styles/type.css</code> (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-article-title</code>, <code>.t-summary</code>, <code>.t-eyebrow</code>, <code>.t-lead</code>, <code>.t-section-heading</code>, <code>.t-subheading</code>, <code>.t-meta</code>, <code>.t-small-link</code>), and every page uses them. The global <code>h1–h5</code> defaults no longer carry a size. The <code>!important</code> on the card title is gone. The SectionHeader outline issue (h3 for a label) was not part of this change and is still open.</div>
 					</article>
 
 				<article class="sg-finding resolved" data-sev="medium">
@@ -681,7 +681,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F8 · color</span><h4>Nine reds, and the hover state is barely visible</h4></div>
 					<p>Light-mode hover goes from <code>#ff4949</code> to <code>#f54c4c</code>, which is almost the same color, so hovering a button or link shows almost no change. The naming is also reversed: <code>--accent-light</code> is <code>#600202</code>, the <em>darkest</em> red, and nothing uses it. Hardcoded reds appear in PasswordModal (<code>hsl(0 80% 60%)</code>, <code>hsl(0 80% 65%)</code>), BackgroundEffect (<code>#ff4949</code> fallback) and gradients (<code>#ca7879</code>).</p>
 					<div class="fix"><b>Fix:</b> <code>--accent</code>, <code>--accent-hover</code> (a visible 8–12% shift), <code>--on-accent</code> and <code>--danger</code>. That's four roles, each with a light and dark value.</div>
-						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> Seven tokens replaced nine reds: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code> and <code>--accent-overlay-hover</code>. Hover is now a visible step (<code>#d62828</code> to <code>#b71c1c</code> in light mode, <code>#ff4949</code> to <code>#ff7a7a</code> in dark; see F2 for today's values). The old <code>--accent-regular/-dark/-light/-overlay</code> and <code>--link-color</code> are removed. A <code>--danger</code> token was not added; the PasswordModal error message now uses <code>--accent-text</code> instead of its own hardcoded reds.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> Seven tokens replaced nine reds: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code> and <code>--accent-overlay-hover</code>. Hover is now a visible step (<code>#d62828</code> to <code>#b71c1c</code> in light mode, <code>#ff4949</code> to <code>#ff7a7a</code> in dark; see F2 for today's values). The old <code>--accent-regular/-dark/-light/-overlay</code> and <code>--link-color</code> are removed. A <code>--danger</code> token was not added; the PasswordModal error message now uses <code>--accent-text</code>, but its error border is still a hardcoded <code>hsl(0 80% 60%)</code>.</div>
 					</article>
 
 				<article class="sg-finding resolved" data-sev="medium">
@@ -707,7 +707,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F12 · scales</span><h4>Radius, spacing and breakpoints have no shared scale</h4></div>
 					<ul>
 						<li><b>13 distinct radii</b>: 2px, 0.25, 0.375, 0.5rem, 8px, 0.75, 0.9375, 1rem, 20px, 1.5rem, 50%, 999px, 999rem.</li>
-						<li><b>Spacing tokens</b> exist, but only Tailwind utilities use them. Scoped CSS writes raw values (<code>40px</code>, <code>24px</code>, <code>2.5rem</code>, <code>3.5rem</code>…).</li>
+						<li><b>Spacing tokens</b> exist, but only Tailwind utilities use them. At audit time scoped CSS wrote raw values (<code>40px</code>, <code>24px</code>, <code>2.5rem</code>, <code>3.5rem</code>…). That scoped CSS is gone; where an exact value is off the scale, a class now uses an arbitrary value (<code>gap-[10px]</code>) instead of rounding.</li>
 						<li><b>Five breakpoints</b>: 50em, 59.99em / 60em, 64em (written as <code>1024px</code> in Footer), 70em. Tailwind only knows <code>lg = 60em</code>, and its <code>sm/md/xl</code> are still the defaults.</li>
 						<li>The 83rem wrapper is redefined by hand in Nav.astro:58-61 and Footer.astro:32-38 instead of using <code>.wrapper</code>. The reading-column grid (<code>1fr 60% 1fr</code>) is copied 3 times.</li>
 					</ul>
@@ -730,7 +730,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<li class="done"><div><b>Delete dead CSS.</b> The Nav, <code>data-theme</code>, index.astro and HeroTyper leftovers went with the Tailwind cleanup (F6). The unused gray and gradient tokens (F11) are still there. <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Rename tokens to the v4 namespaces.</b> <code>--text-*</code> and <code>--font-*</code> are done (F3, <code>ec1f4b9</code>). <code>--radius-*</code> and <code>--breakpoint-*</code> are not (F12). <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Add a semantic layer on top of the ramp.</b> The red half is done: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code>, with the contrast fixed (F2, F8, <code>fa7b83d</code>). The gray half (<code>--fg</code>, <code>--border</code>, <code>--surface</code>…) and <code>--danger</code> are not. <span class="sg-badge warn">partly done</span></div></li>
-					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines nine <code>.t-*</code> roles (<code>a480481</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
+					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines ten <code>.t-*</code> roles (<code>a480481</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
 					<li class="done"><div><b>Layer it.</b> Element defaults are in <code>@layer base</code>, the roles and <code>.prose</code> are in <code>@layer components</code>, and component and page styling is Tailwind classes in the utilities layer. The old global component rules are gone, the overlays use classes, and there is no <code>!important</code> in <code>src/</code> (F7, F9). Only the token blocks, keyframes, About's cursors and library CSS stay unlayered. <span class="sg-badge ok">done</span></div></li>
 					<li class="done"><div><b>Reader controls.</b> Not in the original audit. Persisted preferences applied before paint (<code>e8dc511</code>) and the Aa panel (<code>ef80c07</code>). <span class="sg-badge ok">done</span></div></li>
 				</ol>
@@ -886,7 +886,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<!-- ============================================================ -->
 		<section class="sg-section" id="space">
 			<div class="sg-section-head"><span class="sg-num">06</span><h2>Spacing &amp; layout</h2></div>
-			<p class="sg-lede">A 4px-based scale lives in <code>@theme</code>, but only Tailwind utilities read it. Scoped CSS mostly writes raw rem and px values that happen to land on the same grid.</p>
+			<p class="sg-lede">A 4px-based scale lives in <code>@theme</code>, and Tailwind's spacing utilities read it. Where an exact value is off the scale, the class uses an arbitrary value (<code>gap-[10px]</code>) rather than rounding to a nearby step.</p>
 			<div class="sg-grid-2">
 				<div class="sg-card" id="sg-spacing"></div>
 				<div class="sg-card sg-prose">
@@ -1161,6 +1161,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		['#ffffff', '--on-accent (light) · text on fills'],
 		['#090b11', '--on-accent (dark) · text on fills'],
 		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
+		['hsl(0 80% 60%)', 'PasswordModal error border · hardcoded'],
 		['#ff4949', 'BackgroundEffect fallback · hardcoded']
 	];	document.getElementById('sg-reds').innerHTML = reds.map(function (r) {
 		return '<div class="sg-red"><i style="background:' + r[0] + '"></i><b>' + r[0] + '</b><span>' + r[1] + '</span></div>';

@@ -69,13 +69,13 @@ Component and page files carry no CSS of their own. Their styling is Tailwind cl
 
 This is the full list, read from the built CSS. Nothing else is outside a layer.
 
-| Rule | Where | Why it can't or needn't be layered |
+| Rule | Where | Why it is outside a layer |
 |------|-------|------------------------------------|
-| `:root { ... }` and `:root.theme-dark { ... }` | `global.css` | **Variables, not rules.** They don't style any element; they just define values that other rules read. Nothing competes with them, because only the dark block redefines the same names, and it wins by being more specific (`:root.theme-dark` beats `:root`). They must be redefined for dark mode, which is why the colors live here and not only in `@theme`. |
+| `:root { ... }` and `:root.theme-dark { ... }` | `global.css` | **Variables, not rules, so they needn't be layered.** They don't style any element; they just define values that other rules read. Nothing competes with them, because only the dark block redefines the same names, and it wins by being more specific (`:root.theme-dark` beats `:root`). A layered copy would work too; they are left plain because layers add nothing for variables. The guard test checks that every declaration in these two blocks is a custom property, so a real rule can't slip in. They are also why dark mode works: the colors live here, and `@theme` only bridges to them. |
 | `@keyframes modalFadeIn`, `reader-fade-in`, `fadeInFromTop` | written in `@theme` in `global.css`, emitted by Tailwind | Keyframes are named animations, not rules that match elements, so there is nothing for layers to order. The `animate-*` utilities (in the utilities layer) are what apply them. |
 | `@property --tw-*` | emitted by Tailwind | Tailwind registers its internal variables. Not ours, not rules. |
 | Five hover cursors: `:global(.about-img-1:hover)` to `-5` | `src/pages/about.astro`, its only `<style>` block | Each cursor is a data-URI SVG containing quotes, angle brackets and an emoji. As a Tailwind arbitrary value it would need heavy escaping and be unreadable. The block has a "Why not Tailwind:" comment, and the guard test requires one on any `<style>`. The rules only set `cursor`, which no utility sets on those images, so being unlayered beats nothing it shouldn't. |
-| `.astro-route-announcer` and the `astro*` view-transition keyframes | injected by Astro's `<ClientRouter />` | Framework CSS. Not ours to change. |
+| `.astro-route-announcer`, the `astro*` view-transition keyframes, and an unlayered `@media (prefers-reduced-motion)` view-transition rule | injected by Astro's `<ClientRouter />` | Framework CSS. Not ours to change. |
 | react-tweet's stylesheet (`.react-tweet-theme` and its parts) | loaded on pages that embed a tweet | Third-party CSS, unlayered. Because it beats our layers, we scope around it: `.prose img:not(.react-tweet-theme img)` leaves its avatars alone, and the blog post adds spacing with `[&_.react-tweet-theme]:` utilities on the wrapper. |
 
 Library CSS also contains a few `!important` declarations (Preflight's `[hidden]` rule, Astro's reduced-motion rule). The ban is on our own source in `src/`.
@@ -99,7 +99,9 @@ Two related rules, both enforced:
 - No `<style>` tag inside a `.tsx` file (React components used to inject their own).
 - Any `.astro` file with a `<style>` block must say `Why not Tailwind:` inside it.
 
-**Not covered:** a few scripts set inline styles at runtime for state that is not styling: the About carousel moves its track with `transform`, the three overlays (PasswordModal, PhotoModal, CaseStudyCarousel) lock page scroll with `body.style.overflow`, and BackgroundEffect blurs its canvas. These are JavaScript assignments, not markup attributes, so the test doesn't see them. They are deliberate and should stay few.
+**Not covered:** a few scripts set inline styles at runtime for state that is not styling: the About carousel moves its track with `transform`, the three overlays (PasswordModal, PhotoModal, CaseStudyCarousel) lock page scroll with `body.style.overflow`, and BackgroundEffect sets a `filter` (blur) on its container. These are JavaScript assignments, not markup attributes. The test lists exactly these uses and fails on any other `.style.x =`, `setAttribute('style', …)` or injected `<style>`, so they stay few.
+
+**Also not covered:** in a template-literal style, a `${…}` is trusted to carry a value. The test makes sure each one sits after a `--name:` (so ``style={`--a: ${x}`}`` passes and ``style={`--a: 1; ${x}`}`` fails), but it can't check what the expression evaluates to.
 
 ## How to add a style
 
@@ -154,7 +156,7 @@ All in `tests/styles/`. Run them with `npx vitest run tests`.
 
 | File | Locks |
 |------|-------|
-| `css-rules.test.ts` | No `!important` or `!` modifier in `src/`; inline `style` only sets custom properties; no `<style>` in `.tsx`; every `.astro` `<style>` has `Why not Tailwind:`; `type.css` and `prose.css` are entirely in `@layer components`; `global.css` leaves only `:root` and `:root.theme-dark` unlayered; there are exactly three stylesheets |
+| `css-rules.test.ts` | No `!important` or `!` modifier in `src/`; inline `style` only sets custom properties; no `<style>` in `.tsx`, and runtime `.style.x =` uses are an allow-list; every `.astro` `<style>` has `Why not Tailwind:`; `type.css` and `prose.css` are entirely in `@layer components`; `global.css` leaves only `:root` and `:root.theme-dark` unlayered, and those hold only custom properties; there are exactly three stylesheets |
 | `type-guard.test.ts` | Every font size is on Tailwind's scale; the scale is never redefined; no old v3 token names |
 | `type-roles.test.ts` | The roles exist and pages use them |
 | `prose.test.ts` | `.prose` sizes, margins and reader hooks |
