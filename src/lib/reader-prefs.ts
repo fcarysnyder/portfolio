@@ -16,7 +16,7 @@ export interface ReaderPrefs {
 	leading: ReaderLeading;
 }
 
-export const READER_DEFAULTS: ReaderPrefs = { font: 'sans', size: 16, leading: 1.7 };
+export const READER_DEFAULTS: ReaderPrefs = { font: 'sans', size: 18, leading: 1.7 };
 
 export const READER_STORAGE_KEY = 'reader-prefs';
 
@@ -93,7 +93,7 @@ export function readerBootstrap(doc: Document = document, storage?: Storage): vo
 	}
 	const o = data && typeof data === 'object' ? data : {};
 	const font = ['sans', 'serif'].indexOf(o.font) !== -1 ? o.font : 'sans';
-	const size = [14, 16, 18, 20].indexOf(o.size) !== -1 ? o.size : 16;
+	const size = [14, 16, 18, 20].indexOf(o.size) !== -1 ? o.size : 18;
 	const leading = [1.5, 1.7, 1.9].indexOf(o.leading) !== -1 ? o.leading : 1.7;
 	const root = doc.documentElement;
 	root.setAttribute('data-reader-font', font);

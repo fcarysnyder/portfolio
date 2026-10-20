@@ -5,14 +5,15 @@
  *
  * Every size is in em, relative to .prose's own font size, so reader controls that
  * change --reader-size scale the whole article and keep the hierarchy. At the
- * default 1rem the sizes land on the type scale: h2 24px, h3 20px, h4 18px.
+ * default 18px (text-lg) the headings land on the type scale: h2 24px (4/3em),
+ * h3 20px (10/9em), h4 18px (1em, set apart by weight).
  *
  * Lives in the components layer, so it beats the element defaults in the base layer.
  * Page <style> blocks are unlayered and would beat it: do not target prose content there.
  */
 @layer components {
 	.prose {
-		font-size: var(--reader-size, 1rem);
+		font-size: var(--reader-size, var(--text-lg));
 		line-height: var(--reader-leading, 1.7);
 		font-family: var(--reader-font, var(--font-sans));
 		color: var(--gray-100);
@@ -37,7 +38,7 @@
 	}
 
 	.prose h2 {
-		font-size: 1.5em;
+		font-size: calc(4em / 3);
 		font-weight: 700;
 		line-height: 1.3;
 		color: var(--gray-0);
@@ -45,7 +46,7 @@
 	}
 
 	.prose h3 {
-		font-size: 1.25em;
+		font-size: calc(10em / 9);
 		font-weight: 700;
 		line-height: 1.35;
 		color: var(--gray-0);
@@ -53,7 +54,7 @@
 	}
 
 	.prose h4 {
-		font-size: 1.125em;
+		font-size: 1em;
 		font-weight: 600;
 		line-height: 1.4;
 		color: var(--gray-0);
@@ -149,15 +150,15 @@
  * Reader preferences. src/lib/reader-prefs.ts sets data-reader-* on <html>; these hooks turn them
  * into the custom properties the .prose base rule reads. They only apply inside [data-reader-enabled]
  * (blog posts and case studies), so a saved preference never restyles another page.
- * 16px and 1.7 are the defaults on .prose, so they need no rule.
+ * 18px and 1.7 are the defaults on .prose, so they need no rule.
  */
 @layer components {
 	[data-reader-size='14'] [data-reader-enabled] .prose {
 		--reader-size: var(--text-sm);
 	}
 
-	[data-reader-size='18'] [data-reader-enabled] .prose {
-		--reader-size: var(--text-lg);
+	[data-reader-size='16'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-base);
 	}
 
 	[data-reader-size='20'] [data-reader-enabled] .prose {

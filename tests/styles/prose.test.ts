@@ -33,7 +33,8 @@ function decl(selector: string, prop: string): string | undefined {
 }
 
 /** Prose font sizes must be em (rem would ignore the reader size) or the reader size variable itself. */
-const isAllowedFontSize = (v: string) => /^[\d.]+em$|^var\(--reader-size/.test(v);
+// em, or an exact em ratio like calc(4em / 3) (24px at the 18px default), or the reader size itself
+const isAllowedFontSize = (v: string) => /^[\d.]+em$|^calc\([\d.]+em \/ [\d.]+\)$|^var\(--reader-size/.test(v);
 
 function allFontSizes(css: string): string[] {
   return [...css.matchAll(/font-size\s*:\s*([^;}\n]+)/g)].map((m) => m[1].trim());
@@ -41,9 +42,10 @@ function allFontSizes(css: string): string[] {
 
 describe('prose styles', () => {
   it('sizes every prose element in em so reader settings keep the hierarchy', () => {
-    expect(decl('.prose h2', 'font-size')).toBe('1.5em');
-    expect(decl('.prose h3', 'font-size')).toBe('1.25em');
-    expect(decl('.prose h4', 'font-size')).toBe('1.125em');
+    expect(decl('.prose', 'font-size')).toBe('var(--reader-size, var(--text-lg))');
+    expect(decl('.prose h2', 'font-size')).toBe('calc(4em / 3)');
+    expect(decl('.prose h3', 'font-size')).toBe('calc(10em / 9)');
+    expect(decl('.prose h4', 'font-size')).toBe('1em');
     expect(allFontSizes(prose).filter((v) => !isAllowedFontSize(v))).toEqual([]);
   });
 
@@ -63,7 +65,7 @@ describe('prose styles', () => {
   });
 
   it('reads reader preferences with defaults on the base rule', () => {
-    expect(decl('.prose', 'font-size')).toBe('var(--reader-size, 1rem)');
+    expect(decl('.prose', 'font-size')).toBe('var(--reader-size, var(--text-lg))');
     expect(decl('.prose', 'line-height')).toBe('var(--reader-leading, 1.7)');
     expect(decl('.prose', 'font-family')).toBe('var(--reader-font, var(--font-sans))');
   });
@@ -91,7 +93,7 @@ describe('prose styles', () => {
   it('applies reader preference hooks only inside reader-enabled pages', () => {
     const hooks: [string, string, string][] = [
       ['size', '14', 'var(--text-sm)'],
-      ['size', '18', 'var(--text-lg)'],
+      ['size', '16', 'var(--text-base)'],
       ['size', '20', 'var(--text-xl)'],
     ];
     for (const [attr, value, size] of hooks) {

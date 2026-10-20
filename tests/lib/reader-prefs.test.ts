@@ -69,7 +69,7 @@ describe('parseReaderPrefs', () => {
 
   it('falls back per field', () => {
     expect(parseReaderPrefs('{"font":"comic","size":17}')).toEqual(READER_DEFAULTS);
-    expect(parseReaderPrefs('{"font":"serif","size":17,"leading":1.5}')).toEqual({ font: 'serif', size: 16, leading: 1.5 });
+    expect(parseReaderPrefs('{"font":"serif","size":17,"leading":1.5}')).toEqual({ font: 'serif', size: 18, leading: 1.5 });
   });
 
   it('rejects wrong types', () => {
@@ -121,7 +121,7 @@ describe('readerBootstrap', () => {
 
   it('survives a throwing storage', () => {
     readerBootstrap(asDoc(doc), throwingStorage);
-    expect(doc.attrs['data-reader-size']).toBe('16');
+    expect(doc.attrs['data-reader-size']).toBe('18');
     expect(doc.attrs['data-reader-font']).toBe('sans');
     expect(doc.attrs['data-reader-leading']).toBe('1.7');
   });
