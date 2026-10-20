@@ -3,10 +3,10 @@ import { Sun, MoonStar } from '@lucide/astro';
 ---
 
 <theme-toggle>
-	<button class="group flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-0 [box-shadow:inset_0_0_0_1px_var(--brand)]">
+	<button class="group flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-0 [box-shadow:inset_0_0_0_1px_var(--accent-text)]">
 		<span class="sr-only">Dark theme</span>
-		<span class="relative z-1 flex size-8 p-2 text-(length:--text-base) motion-safe:[transition:transform_var(--theme-transition),color_var(--theme-transition)] text-on-accent dark:text-brand dark:group-aria-[pressed=false]:text-on-accent before:absolute before:inset-0 before:-z-1 before:rounded-[999rem] before:bg-brand before:content-[''] before:[transition:background-color_var(--theme-transition),transform_var(--theme-transition)] motion-safe:before:[transition:transform_var(--theme-transition),color_var(--theme-transition)] group-hover:before:bg-accent-fill dark:before:[transform:translateX(100%)] forced-colors:before:bg-[SelectedItem]"><Sun size="1em" /></span>
-		<span class="relative z-1 flex size-8 p-2 text-(length:--text-base) motion-safe:[transition:transform_var(--theme-transition),color_var(--theme-transition)] text-brand dark:text-on-accent"><MoonStar size="1em" /></span>
+		<span class="relative z-1 flex size-8 p-2 text-(length:--text-base) motion-safe:[transition:transform_var(--theme-transition),color_var(--theme-transition)] text-on-accent dark:text-accent-text dark:group-aria-[pressed=false]:text-on-accent before:absolute before:inset-0 before:-z-1 before:rounded-[999rem] before:bg-accent-fill before:content-[''] before:[transition:background-color_var(--theme-transition),transform_var(--theme-transition)] motion-safe:before:[transition:transform_var(--theme-transition),color_var(--theme-transition)] group-hover:before:bg-accent-fill-hover dark:before:[transform:translateX(100%)] forced-colors:before:bg-[SelectedItem]"><Sun size="1em" /></span>
+		<span class="relative z-1 flex size-8 p-2 text-(length:--text-base) motion-safe:[transition:transform_var(--theme-transition),color_var(--theme-transition)] text-accent-text dark:text-on-accent"><MoonStar size="1em" /></span>
 	</button>
 </theme-toggle>
 
