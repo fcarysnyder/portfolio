@@ -288,7 +288,6 @@ describe('inline style', () => {
     const all = markupFiles().flatMap((f) => inlineStyles(f).map((s) => ({ f, ...s })));
     const files = new Set(all.map((s) => s.f));
     expect(files).toContain('src/components/Pill.astro');
-    expect(files).toContain('src/components/PortfolioPreview.astro');
     expect(files).toContain('src/components/photography/PhotoGallery.tsx');
   });
 

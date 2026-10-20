@@ -12,7 +12,6 @@ const firstTag = data.tags && data.tags.length > 0 ? data.tags[0] : '';
 const href = data.gated ? `/work/${id}/` : (data.url ?? `/work/${id}/`);
 const cta = data.cta ?? (data.gated ? 'ask for access' : 'view project');
 const isExternal = !data.gated && !!data.url;
-const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 ---
 
 <div>
@@ -23,9 +22,7 @@ const pillTextColor = firstTag === 'CrossnoKaye' ? '#000' : undefined;
 		<div class="flex flex-1 flex-col items-start gap-x-0 rounded-b-lg p-10 min-[70em]:flex-3 min-[70em]:rounded-none">
 			<div class="flex flex-wrap items-center gap-2">
 				{firstTag && (
-					<span style={pillTextColor ? `--on-accent: ${pillTextColor}` : ''}>
-						<Pill color={data.color}>{firstTag}</Pill>
-					</span>
+					<Pill color={data.color}>{firstTag}</Pill>
 				)}
 				{data.gated && (
 					<span class="lock-pill inline-flex items-center gap-1 rounded-[999px] border border-gray-800 px-2 py-[0.15rem] text-(length:--text-xs) tracking-[0.05em] text-gray-300 uppercase" aria-label="Password protected">

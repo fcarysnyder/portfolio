@@ -1,11 +1,15 @@
 ---
+import { pillTextColor } from '../lib/pill-text';
+
 interface Props {
 	color?: string;
 }
 
-// text-(color:--on-accent) reads the variable directly: PortfolioPreview overrides --on-accent on a
-// wrapper span, which text-on-accent (--color-on-accent is resolved once at :root) would not see.
-const { color = 'var(--accent-fill)' } = Astro.props;
+// A project color gets white or near-black text, whichever reads better (src/lib/pill-text.ts).
+// Without one the pill uses the accent fill and its --on-accent text. The fill, border and text
+// utilities read the two variables set inline below.
+const { color } = Astro.props;
+const text = color ? pillTextColor(color) : undefined;
 ---
 
-<div class="pill flex gap-2 rounded-[999px] border border-[color:var(--pill-color,var(--accent-fill))] bg-[var(--pill-color,var(--accent-fill))] px-2 py-[0.15rem] text-xs/[1.35] font-normal tracking-[0.05em] whitespace-nowrap text-(color:--on-accent) uppercase" style={`--pill-color: ${color};`}><slot /></div>
+<div class="pill flex gap-2 rounded-[999px] border border-[color:var(--pill-color,var(--accent-fill))] bg-[var(--pill-color,var(--accent-fill))] px-2 py-[0.15rem] text-xs/[1.35] font-normal tracking-[0.05em] whitespace-nowrap text-[color:var(--pill-text,var(--on-accent))] uppercase" style={`--pill-color: ${color ?? 'var(--accent-fill)'}; --pill-text: ${text ?? 'var(--on-accent)'};`}><slot /></div>
