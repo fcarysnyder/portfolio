@@ -583,7 +583,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<ol>
 					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
-					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the red (<code>--accent-text</code> and <code>--accent-fill</code> become <code>#ff6969</code>, hover <code>#ff8787</code>, and <code>--on-accent</code> flips to near-black), the shadows (dark shadows become white glows) and two gradients.</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the text red (<code>--accent-text</code> becomes <code>#ff6969</code>, hover <code>#ff8787</code>; the fill, <code>#ff6969</code> with <code>#090b11</code> text, is the same in both themes), the shadows (dark shadows become white glows) and two gradients.</li>
 					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
 				</ol>
 				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
@@ -616,7 +616,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<p><code>#ff4949</code> on white is <b>3.33:1</b>, and AA needs 4.5:1 for normal-size text. Red text is used for every link, the back/prev/next links, footer socials, active filters, and the card CTA. The CTA is the worst case: 12px uppercase, the smallest text on the site at the lowest contrast. The primary button (white on red, 14px/600) is also 3.33:1. In dark mode the same red passes at 5.9:1.</p>
 					<div class="fix"><b>Fix:</b> split the accent into a <em>fill</em> role and a <em>text</em> role. Keep <code>#ff4949</code> as the dark-mode text color and the decorative fill. For light-mode text and button fills use something like <code>#d62828</code> (5.0:1 on white, 5.0:1 with white text on it). See the comparison in <a href="#color">Color</a>.</div>
 						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> The accent split into a brand red and accessible text/fill reds. Light-mode text and every button fill use <code>#d62828</code> (5.0:1 on white and under white text); dark-mode text keeps <code>#ff4949</code> (5.9:1). Dark-mode buttons also moved to <code>#d62828</code>, because white on <code>#ff4949</code> fails in both themes. Measured values are in <a href="#color">Color</a>.</div>
-						<div class="fix resolved-note"><b>Updated since.</b> The two-red split was later replaced by one red per theme, picked at the logo's hue as the lightest shade that passes AAA (7:1): light <code>#b60000</code> (7.03:1 on white) for text and fills, dark <code>#ff6969</code> (7.00:1), with hovers <code>#970000</code> and <code>#ff8787</code>. Dark mode now puts near-black text on its fill, because white on the light red would fail. <code>#ff4949</code> stays as <code>--brand</code>, a token no UI code reads. Current numbers are in <a href="#color">Color</a>.</div>
+						<div class="fix resolved-note"><b>Updated since.</b> The two-red split was later replaced by one red per theme, picked at the logo's hue as the lightest shade that passes AAA (7:1): light <code>#b60000</code> (7.03:1 on white) for text, dark <code>#ff6969</code> (7.00:1), with hovers <code>#970000</code> and <code>#ff8787</code>. Fills use <code>#ff6969</code> with near-black <code>#090b11</code> text in both themes, because white on the light red would fail. <code>#ff4949</code> stays as <code>--brand</code>, a token no UI code reads. Current numbers are in <a href="#color">Color</a>.</div>
 					</article>
 
 				<article class="sg-finding resolved" data-sev="high">
@@ -783,8 +783,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<span class="sg-badge ok" style="align-self:flex-start">Light · text #b60000 · <span data-cr="#b60000|#ffffff"></span></span>
 						<p style="color:#b60000;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">A link in body copy on white. <b>VIEW PROJECT →</b></p>
 						<p style="color:#970000;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">The same link on hover, <span data-cr="#970000|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
-						<span class="site-button" style="background:#b60000;color:#fff">Drop me a line →</span>
-						<span class="sg-small" style="color:#505d84">White on fill <span data-cr="#ffffff|#b60000"></span> · hover fill #970000 <span data-cr="#ffffff|#970000"></span></span>
+						<span class="site-button" style="background:#ff6969;color:#090b11">Drop me a line →</span>
+						<span class="sg-small" style="color:#505d84">#090b11 on fill #ff6969 <span data-cr="#090b11|#ff6969"></span> · hover fill #ff8787 <span data-cr="#090b11|#ff8787"></span></span>
 					</div>
 					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
 						<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff6969 · <span data-cr="#ff6969|#090b11"></span></span>
@@ -1174,14 +1174,12 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	// ---------- Reds ----------
 	var reds = [
 		['#ff4949', '--brand (both) · token only'],
-		['#b60000', '--accent-text · --accent-fill (light)'],
-		['#ff6969', '--accent-text · --accent-fill (dark)'],
-		['#970000', '--accent-text-hover · --accent-fill-hover (light)'],
-		['#ff8787', '--accent-text-hover · --accent-fill-hover (dark)'],
-		['#ffffff', '--on-accent (light) · text on fills'],
-		['#090b11', '--on-accent (dark) · text on fills'],
+		['#b60000', '--accent-text (light)'],
+		['#970000', '--accent-text-hover (light)'],
+		['#ff6969', '--accent-text (dark) · --accent-fill (both)'],
+		['#ff8787', '--accent-text-hover (dark) · --accent-fill-hover (both)'],
+		['#090b11', '--on-accent (both) · text on fills'],
 		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
-		['hsl(0 80% 60%)', 'PasswordModal error border · hardcoded'],
 		['#ff4949', 'BackgroundEffect fallback · hardcoded']
 	];	document.getElementById('sg-reds').innerHTML = reds.map(function (r) {
 		return '<div class="sg-red"><i style="background:' + r[0] + '"></i><b>' + r[0] + '</b><span>' + r[1] + '</span></div>';

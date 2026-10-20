@@ -171,10 +171,10 @@
   }
 }
 
-/* The round icon control: the menu, the Aa reader trigger and the theme toggle. A white circle
-   with an --accent-text ring and icon, tinted on hover and while its menu is open. It sets no size:
-   the 2rem comes from the icon box inside (size-8 p-2, the icon at 1em), so the theme toggle's
-   two-segment pill can share the same ring and tint. */
+/* The round icon control: the menu, the Aa reader trigger and the theme toggle. A page-colored
+   circle (--gray-999) with an --accent-text ring and icon, tinted on hover and while its menu is
+   open. It sets no size: the 2rem comes from the icon box inside (size-8 p-2, the icon at 1em), so
+   the theme toggle's two-segment pill can share the same ring and tint. */
 @utility icon-control {
   display: flex;
   border: none;

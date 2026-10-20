@@ -244,7 +244,7 @@ function isFillToken(token: string): boolean {
   const parts = token.split(':');
   const utility = parts.pop()!;
   if (parts.some((v) => v === 'before' || v === 'after')) return false; // a pseudo-element, like the toggle knob
-  return /^bg-(?:accent-fill(?:-hover)?|\[[^\]]*accent-fill[^\]]*\])$/.test(utility);
+  return /^bg-(?:accent-fill(?:-hover)?|\[[^\]]*accent-fill[^\]]*\]|\([^)]*accent-fill[^)]*\))(?:\/[\w.\[\]%-]+)?$/.test(utility);
 }
 
 const hasFill = (tag: string) => tag.split(/[\s"'`{}]+/).some(isFillToken);
@@ -263,6 +263,8 @@ describe('every accent-fill background is a btn or allow-listed', () => {
     expect(filled.length).toBeGreaterThanOrEqual(1);
     expect(hasFill('<a class="rounded-lg bg-accent-fill px-4">')).toBe(true);
     expect(hasFill('<a class="hover:bg-accent-fill-hover">')).toBe(true);
+    expect(hasFill('<a class="bg-(--accent-fill)">')).toBe(true);
+    expect(hasFill('<a class="bg-accent-fill/50">')).toBe(true);
     expect(hasFill('<span class="before:bg-accent-fill group-hover:before:bg-accent-fill-hover">')).toBe(false);
   });
 
