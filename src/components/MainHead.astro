@@ -45,12 +45,9 @@ const socialImageURL = new URL(image, Astro.site);
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <!-- Mona Sans (GitHub, OFL): the site's sans for everything except metadata. Variable weight 400–700, with italics for prose. -->
 <link
-	href={import.meta.env.DEV
-		? 'https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,400..700;1,75..125,400..700&display=swap'
-		: 'https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,400..700;1,400..700&display=swap'}
+	href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,400..700;1,400..700&display=swap"
 	rel="stylesheet"
 />
-<!-- (dev loads the width axis too, for the Swiss experiment's condensed titles) -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <!-- Theme. Applied before paint, and to the incoming document before each View Transition swap:
      the server renders every page without .theme-dark and Astro copies the new <html> attributes,
@@ -59,19 +56,6 @@ const socialImageURL = new URL(image, Astro.site);
 	is:inline
 	set:html={`(function(){var tb=(${themeBootstrap.toString()});tb();document.addEventListener('astro:before-swap',function(e){tb(e.newDocument)});document.addEventListener('astro:after-swap',function(){tb()})})();`}
 />
-{import.meta.env.DEV && (
-	<script is:inline>
-		// Dev-only: Swiss experiment toggle state (components/dev/SwissToggle.astro), applied before
-		// paint and to the incoming page before each swap so it doesn't flicker on navigation.
-		(function () {
-			var on = function () { try { return localStorage.getItem('dev-swiss') === '1'; } catch (e) { return false; } };
-			var apply = function (d) { d.documentElement.classList.toggle('swiss', on()); };
-			apply(document);
-			document.addEventListener('astro:before-swap', function (e) { apply(e.newDocument); });
-			document.addEventListener('astro:after-swap', function () { apply(document); });
-		})();
-	</script>
-)}
 <!-- Reader preferences (font, size, line spacing). Applied before paint, to the incoming document before each View Transition swap (so its head already carries the Literata link), and again after the swap as a safety net. -->
 <script
 	is:inline

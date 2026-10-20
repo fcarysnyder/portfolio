@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "./type.css";
 @import "./prose.css";
-@import "./swiss.css"; /* dev-only experiment; inert unless <html> has .swiss */
 
 @theme {
   /* Colors — bridge to existing CSS vars */
@@ -76,7 +75,7 @@
 @custom-variant dark (&:where(.theme-dark, .theme-dark *));
 
 /* Tailwind's shadow-sm/md/lg inline their own default values, not the site's --shadow-* tokens
-   (which flip in dark mode and go to none in Swiss). These utilities use the tokens. */
+   (which flip in dark mode). These utilities use the tokens. */
 @utility elevation-sm {
   box-shadow: var(--shadow-sm);
 }
