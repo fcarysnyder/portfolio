@@ -13,7 +13,7 @@
  *                            block redefines the same names and wins on specificity.
  *                            The Tailwind @theme tokens read these through var().
  *   @layer base              element defaults, after Preflight, so any class overrides them
- *   type.css, prose.css      layer components (imported below)
+ *   type.css, prose.css      layer components (imported above)
  *
  * Rule of thumb: nothing here may be an unlayered rule other than the two token blocks.
  * An unlayered rule beats every utility. tests/styles/css-rules.test.ts enforces it.
@@ -210,8 +210,6 @@
 	--gray-700: #c3cadb;
 	--gray-800: #e3e6ee;
 	--gray-900: #f3f4f7;
-	--gray-999-basis: 0, 0%, 100%;
-	--gray-999_40: hsla(var(--gray-999-basis), 0.4);
 	--gray-999: #ffffff;
 
 	/* Brand red: the logo. UI code reads the role tokens below, never --brand. */
@@ -227,7 +225,6 @@
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-900), var(--gray-700));
 
 	/* Shadows */
 	--shadow-sm: 0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01),
@@ -257,15 +254,12 @@
 	--gray-700: #3d4663;
 	--gray-800: #283044;
 	--gray-900: #141925;
-	--gray-999-basis: 225, 31%, 5%;
 	--gray-999: #090b11;
 	/* Dark mode keeps the logo red; only the hovers change, to main's dark hover red. */
 	--accent-text-hover: #f86161;
 	--accent-fill-hover: #f86161;
-	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 
 	--shadow-sm: 0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01),
 		0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);

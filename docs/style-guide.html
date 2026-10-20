@@ -343,8 +343,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	font-family: var(--font-sans);
 }
 .site-button:hover { background-color: var(--accent-fill-hover); }
-.site-button.secondary { background-color: transparent; color: var(--accent-text); }
-.site-button.secondary:hover { background-color: var(--accent-overlay-hover); color: var(--accent-text-hover); }
 /* @utility icon-control in global.css: no size of its own; the icon box (2rem, p-2) sets it */
 .site-icon-control {
 	display: flex; border: none; border-radius: 999rem; padding: 0;
@@ -357,7 +355,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 .site-icon-control.toggle > span.knob { position: relative; z-index: 1; color: var(--on-accent); }
 .site-icon-control.toggle > span.knob::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 999rem; background: var(--accent-fill); }
 .site-icon-control.toggle:hover > span.knob::before { background: var(--accent-fill-hover); }
-/* Pill.astro:11-26 */
+/* Pill.astro (project pills pick their own text color; see src/lib/pill-text.ts) */
 .site-pill {
 	display: inline-flex; padding: 0.15rem 0.5rem; color: var(--on-accent);
 	border: 1px solid var(--pill-color, var(--accent-fill)); background-color: var(--pill-color, var(--accent-fill));
@@ -580,7 +578,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<ol>
 					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
-					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the red hovers to <code>#f86161</code> (the reds themselves stay <code>#ff4949</code>), the shadows (dark shadows become white glows) and two gradients.</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the red hovers to <code>#f86161</code> (the reds themselves stay <code>#ff4949</code>), the shadows (dark shadows become white glows) and one gradient.</li>
 					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
 				</ol>
 				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
@@ -1188,9 +1186,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		['base', 1, 8, 'card description, reader 16px'],
 		['lg', 1.125, 3, 'summary, .prose body (the 18px default)'],
 		['xl', 1.25, 11, 'subheading, post list, About body ≥60em, reader 20px'],
-		['2xl', 1.5, 5, 'lead, section heading, nav icons'],
+		['2xl', 1.5, 5, 'lead, section heading'],
 		['3xl', 1.875, 2, 'article title (mobile), lightbox close'],
-		['4xl', 2.25, 5, 'page title (≥60em), article title (≥60em), display title (mobile)'],
+		['4xl', 2.25, 5, 'page title (mobile), article title (≥60em), display title (mobile)'],
 		['5xl', 3, 2, 'display and page title (≥60em)']
 	];	document.getElementById('sg-scale').innerHTML = scale.map(function (s) {
 		return '<div class="sg-scale-row' + (s[2] === 0 ? ' unused' : '') + '">' +

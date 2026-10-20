@@ -70,7 +70,7 @@ The owner wants three things:
 | Where | Today | Becomes |
 |---|---|---|
 | Hero tagline (Hero.astro, AboutHero.astro, index.astro) | `1.5rem / 2rem` | `text-2xl` (same value; the line-height is Tailwind's default `2rem`) |
-| `.button` (global.css) | `14px / 20px` | `text-sm` (same value) |
+| `.button` (global.css, now `@utility btn`) | `14px / 20px` | `text-sm` (same value) |
 | Card title (PortfolioPreview.astro:113) | `24px !important` | `text-2xl`, no `!important` |
 | Card description (PortfolioPreview.astro:65) | `16px` | `text-base` |
 | Nav menu button / dropdown icon (`1.5rem`) | `1.5rem` | `text-2xl` |
@@ -166,7 +166,7 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 
 ### 7. Index pages
 
-- **Writing index:** Page title. Post links stay as today in size (`--font-size-lg` → `text-xl`), `--gray-0`, hover `--accent-text`. Dates use the Eyebrow role.
+- **Writing index:** Page title. Post links stay as today in size (`--font-size-lg` → `text-xl`), `--gray-0`, hover `--accent-text-hover`. Dates use the Eyebrow role.
 - **Photography:** Page title. Year headings use the Subheading role.
 - **Work index:** Page title instead of the Hero component.
 

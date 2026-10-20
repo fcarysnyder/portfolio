@@ -108,7 +108,7 @@ function stripVariants(token: string): string {
 }
 
 // What is left of a class token must look like a utility (flex, mt-0, w-[50%], [mask:none]), not a URL or a sentence.
-const UTILITY = /^(?:[a-z][a-z0-9]*(?:-[^\s@?]*)?|\[[^\s@?]*\])$/;
+const UTILITY = /^(?:-?[a-z][a-z0-9]*(?:-[^\s@?]*)?|\[[^\s@?]*\])$/;
 
 /** Tailwind's important modifier: a `!` at the start or end of a utility, after any variants. */
 export function isImportantToken(token: string): boolean {
@@ -152,10 +152,10 @@ describe('no !important', () => {
   });
 
   it('recognises the modifier in every form (the check is not blind)', () => {
-    for (const bad of ['!hidden', 'hidden!', '!flex', 'mt-0!', '!mt-0', 'lg:!flex', 'lg:hover:flex!', 'max-lg:[&>.x]:!block', 'data-[state=open]:p-2!', '[mask:none]!', 'min-[50em]:!p-4']) {
+    for (const bad of ['!hidden', 'hidden!', '!flex', 'mt-0!', '!mt-0', 'lg:!flex', 'lg:hover:flex!', 'max-lg:[&>.x]:!block', 'data-[state=open]:p-2!', '[mask:none]!', 'min-[50em]:!p-4', '-mt-2!', '!-mt-2', 'lg:-translate-y-1/2!']) {
       expect(isImportantToken(bad), bad).toBe(true);
     }
-    for (const fine of ['hidden', 'mt-0', 'lg:flex', '!', 'Thanks!', 'mailto:me@example.com?subject=Hi%20there!', 'group-hover/card:flex', 'w-[50%]']) {
+    for (const fine of ['hidden', 'mt-0', 'lg:flex', '!', 'Thanks!', 'mailto:me@example.com?subject=Hi%20there!', 'group-hover/card:flex', 'w-[50%]', '-mt-2']) {
       expect(isImportantToken(fine), fine).toBe(false);
     }
     // multi-line template literal, with a ${} in the middle
