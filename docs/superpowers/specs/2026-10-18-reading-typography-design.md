@@ -117,7 +117,7 @@ Global `h1–h5` defaults in global.css (4.5rem / 3.5rem / …) describe nothing
 |---|---|---|---|
 | `--brand` | `#ff4949` | `#ff4949` | The logo red. No UI code reads it; a test keeps it out of components. |
 | `--accent-text` | `#ff4949` | `#ff4949` | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
-| `--accent-text-hover` | `#f54c4c` | `#f86161` | Hover for the above |
+| `--accent-text-hover` | `var(--accent-text)` | same | Hover for the above: the same red (owner's call, so every red on the page matches) |
 | `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds under button text: `btn`, default Pill, toggle knob |
 | `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
@@ -169,7 +169,7 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 
 ### 7. Index pages
 
-- **Writing index:** Page title. Post links stay as today in size (`--font-size-lg` → `text-xl`), `--gray-0`, hover `--accent-text-hover`. Dates use the Eyebrow role.
+- **Writing index:** Page title. Post links stay as today in size (`--font-size-lg` → `text-xl`), `--gray-0`, hover `--accent-text` (the active-filter red). Dates use the Eyebrow role.
 - **Photography:** Page title. Year headings use the Subheading role.
 - **Work index:** Page title instead of the Hero component.
 

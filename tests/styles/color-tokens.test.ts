@@ -46,13 +46,14 @@ const BLOCKS: Record<string, string> = {
   dark: block(/^:root\.theme-dark\s*\{([\s\S]*?)^\}/m),
 };
 
-// Value of a hex token, falling back to the light value when dark doesn't redefine it.
+// Hex value of a token, following var() references, and falling back to the light value when
+// dark doesn't redefine it.
 function tok(mode: string, name: string): string {
-  const pattern = new RegExp(`${name}\\s*:\\s*(#[0-9a-fA-F]{3,8})\\s*;`);
-  const own = BLOCKS[mode].match(pattern);
-  const value = own ?? BLOCKS.light.match(pattern);
-  if (!value) throw new Error(`Token ${name} not found as a hex value in ${mode}`);
-  return value[1].toLowerCase();
+  const pattern = new RegExp(`${name}\\s*:\\s*(#[0-9a-fA-F]{3,8}|var\\(--[\\w-]+\\))\\s*;`);
+  const value = BLOCKS[mode].match(pattern) ?? BLOCKS.light.match(pattern);
+  if (!value) throw new Error(`Token ${name} not found as a hex value or var() in ${mode}`);
+  const ref = value[1].match(/^var\((--[\w-]+)\)$/);
+  return ref ? tok(mode, ref[1]) : value[1].toLowerCase();
 }
 
 function luminance(hex: string): number {
@@ -77,13 +78,19 @@ describe('color tokens', () => {
     ).toEqual([]);
   });
 
-  // The owner rolled the reds back to what main shipped, under the role token names. #ff4949 is
+  // The owner rolled the reds back to what main shipped, under the role token names, then made red
+  // text keep the same red on hover. #ff4949 is
   // not AA as text on white (3.3:1); that is a recorded choice, not an oversight.
   it.each([
-    ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#f54c4c', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
-    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#f86161', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
+    ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#ff4949', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
+    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#ff4949', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
   ] as const)('%s: the red tokens resolve to main\'s values', (mode, values) => {
     for (const [name, value] of Object.entries(values)) expect(tok(mode, name), name).toBe(value);
+  });
+
+  it('defines the text hover as a reference to the text red, not a copy of it', () => {
+    expect(BLOCKS.light).toMatch(/--accent-text-hover:\s*var\(--accent-text\);/);
+    expect(BLOCKS.dark).not.toMatch(/--accent-text-hover:/);
   });
 
   it('uses the brand red only as a token (the logo is an image), never directly in UI code', () => {

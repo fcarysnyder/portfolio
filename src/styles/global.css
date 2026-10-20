@@ -214,11 +214,12 @@
 
 	/* Brand red: the logo. UI code reads the role tokens below, never --brand. */
 	--brand: #ff4949;
-	/* The reds, by role. They resolve to the values main shipped: the logo red for text and fills,
-	   a slightly deeper red on hover, white text on fills. Not AA as text: #ff4949 on white is
+	/* The reds, by role: main's values, the logo red for text and fills, white text on fills.
+	   Red text keeps the same red on hover (a link's hover is its underline, a list item's is
+	   the change from ink to red); fills deepen slightly. Not AA as text: #ff4949 on white is
 	   3.3:1 (the owner's call, keeping the brand look). */
 	--accent-text: #ff4949;
-	--accent-text-hover: #f54c4c;
+	--accent-text-hover: var(--accent-text);
 	--accent-fill: #ff4949;
 	--accent-fill-hover: #f54c4c;
 	--on-accent: #ffffff;
@@ -255,8 +256,7 @@
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
-	/* Dark mode keeps the logo red; only the hovers change, to main's dark hover red. */
-	--accent-text-hover: #f86161;
+	/* Dark mode keeps the logo red; only the fill hover changes, to main's dark hover red. */
 	--accent-fill-hover: #f86161;
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);

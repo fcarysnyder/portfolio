@@ -145,7 +145,7 @@ The reds have role tokens, and they resolve to the values main shipped: the logo
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
 | `--accent-text` | `#ff4949` | `#ff4949` | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
-| `--accent-text-hover` | `#f54c4c` | `#f86161` | Hover for the above |
+| `--accent-text-hover` | `var(--accent-text)` | same | Hover for the above: the same red, so a link's hover is its underline and a list item's is the change from ink to red |
 | `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds: `btn`, default pill, toggle knob |
 | `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
