@@ -143,11 +143,12 @@
 
 	/* Brand red: logo and decoration only. Never use it for text or under text. */
 	--brand: #ff4949;
-	/* Action reds: pass WCAG AA (4.5:1) as text on the page and under --on-accent */
-	--accent-text: #d62828;
-	--accent-text-hover: #b71c1c;
-	--accent-fill: #d62828;
-	--accent-fill-hover: #b71c1c;
+	/* Action reds: the logo's hue (hsl 0 100%) at the lightest lightness that passes WCAG AAA
+	   (7:1) as text on the page and under --on-accent. Hovers are darker and pass too. */
+	--accent-text: #b60000;
+	--accent-text-hover: #970000;
+	--accent-fill: #b60000;
+	--accent-fill-hover: #970000;
 	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
@@ -184,8 +185,13 @@
 	--gray-900: #141925;
 	--gray-999-basis: 225, 31%, 5%;
 	--gray-999: #090b11;
-	--accent-text: #ff4949;
-	--accent-text-hover: #ff7a7a;
+	/* One red in dark mode: the lightest logo-hue red that passes AAA (7:1) on the dark page,
+	   used for text and fills alike. Fills carry dark text (white on it would fail). */
+	--accent-text: #ff6969;
+	--accent-text-hover: #ff8787;
+	--accent-fill: #ff6969;
+	--accent-fill-hover: #ff8787;
+	--on-accent: #090b11;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
@@ -241,10 +247,10 @@ body {
 		color: var(--accent-text-hover);
 	}
 
-	/* Global focus ring: brand red for all interactive elements. In the base layer so a
+	/* Global focus ring: the accent red for all interactive elements. In the base layer so a
 	   utility (data-[highlighted]:outline-none, rounded-*) can override it, like any default. */
 	*:focus-visible {
-		outline: 2px solid var(--brand);
+		outline: 2px solid var(--accent-text);
 		outline-offset: 2px;
 		border-radius: 2px;
 	}
@@ -258,7 +264,7 @@ body {
 	[tabindex]:focus-visible,
 	[role="button"]:focus-visible,
 	[role="link"]:focus-visible {
-		outline: 2px solid var(--brand);
+		outline: 2px solid var(--accent-text);
 		outline-offset: 2px;
 	}
 }

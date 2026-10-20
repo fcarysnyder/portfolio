@@ -102,12 +102,12 @@
 	}
 
 	.prose ul li::marker {
-		color: var(--brand);
+		color: var(--accent-text);
 	}
 
 	.prose blockquote {
 		font-style: normal;
-		border-left: 2px solid var(--brand);
+		border-left: 2px solid var(--accent-text);
 		padding-left: 1.25em;
 		color: var(--gray-200);
 		margin: 1.75em 0;

@@ -77,16 +77,22 @@ describe('color tokens', () => {
     ).toEqual([]);
   });
 
-  it.each(['light', 'dark'])('%s: accent text passes AA on the page background', (mode) => {
-    expect(contrast(tok(mode, '--accent-text'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(4.5);
-    expect(contrast(tok(mode, '--accent-text-hover'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(4.5);
+  it.each(['light', 'dark'])('%s: accent text passes AAA on the page background', (mode) => {
+    expect(contrast(tok(mode, '--accent-text'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(7);
+    expect(contrast(tok(mode, '--accent-text-hover'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(7);
   });
 
-  it.each(['light', 'dark'])('%s: text on accent fill passes AA', (mode) => {
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill'))).toBeGreaterThanOrEqual(4.5);
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(4.5);
+  it.each(['light', 'dark'])('%s: text on accent fill passes AAA', (mode) => {
+    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill'))).toBeGreaterThanOrEqual(7);
+    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(7);
   });
 
+  it.each(['light', 'dark'])('%s: the UI uses one red (text and fill are the same token value)', (mode) => {
+    expect(tok(mode, '--accent-fill')).toBe(tok(mode, '--accent-text'));
+  });
+  it('uses the brand red only as a token (the logo is an image), never directly in UI code', () => {
+    expect(grepSrc(/var\(--brand\)|\btext-brand\b|\bbg-brand\b|\bborder-brand\b/).filter((h) => !h.startsWith('src/styles/global.css:'))).toEqual([]);
+  });
   it('keeps the brand red', () => {
     expect(tok('light', '--brand')).toBe('#ff4949');
     expect(tok('dark', '--brand')).toBe('#ff4949');
