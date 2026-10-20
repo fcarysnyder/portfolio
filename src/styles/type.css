@@ -14,9 +14,18 @@
 		color: var(--gray-0);
 	}
 
-	/* Title of every other page */
+	/* Title of the main section pages: Writing, Photography, Work, About, 404 */
 	.t-page-title {
 		font-size: var(--text-4xl);
+		font-weight: 700;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Title of a blog post or case study: one step smaller than the section pages */
+	.t-article-title {
+		font-size: var(--text-3xl);
 		font-weight: 700;
 		line-height: 1.15;
 		letter-spacing: -0.01em;
@@ -90,6 +99,10 @@
 
 		.t-page-title {
 			font-size: var(--text-5xl);
+		}
+
+		.t-article-title {
+			font-size: var(--text-4xl);
 		}
 	}
 }

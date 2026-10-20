@@ -85,7 +85,8 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 | Role | Spec | Used on |
 |---|---|---|
 | **Display title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 600 (as today), line-height 1.1, `--gray-0` | Home hero only |
-| **Page title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 700, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study, Writing index, Photography, About, Work index (`/work/`), 404 |
+| **Page title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 700, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Writing index, Photography, About, Work index (`/work/`), 404 |
+| **Article title** | `text-3xl` → `lg:text-4xl` (30 → 36px), weight 700, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study (one step below the section pages) |
 | **Summary** | `text-lg`, line-height 1.5, `--gray-400` | Blog post and case study (from `description`) |
 | **Eyebrow** | Roboto Mono `text-xs`, uppercase, letter-spacing 0.06em, `--gray-400` | Date line on posts and case studies, and Writing-index post dates |
 | **Lead** | `text-2xl`, `--gray-200` | Hero taglines (home, About, 404) |
@@ -125,7 +126,7 @@ Applies to `src/pages/writing/[...slug].astro` and `src/pages/work/[...slug].ast
 
 1. **Back link** (Small link role) on its own line, in normal flow (no longer absolutely positioned), about 2rem above the eyebrow. Never on the eyebrow's line.
 2. **Eyebrow**: `JULY 21, 2026 · 9 MIN READ`. Case studies show the date only (their body is encrypted, so read time can't be computed at build time). No section label, tags or author.
-3. **Page title**.
+3. **Article title**.
 4. **Summary**: the entry's `description` (required in both collections), about 0.75rem below the title.
 
 The article body starts about 3rem below. Case studies keep their screenshot carousel and Role / Collaborators / Product block below the header. Build it once (e.g. `PageHeader.astro` with `title`, `description`, `date` and optional `readingTime`).

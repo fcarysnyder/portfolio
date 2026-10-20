@@ -87,10 +87,17 @@ const sortedByTitle = [...posts].sort(
 </script>
 
 <style>
+	/* A little tighter on small screens, where the title takes more of the view */
 	.writing {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 60em) {
+		.writing {
+			gap: 2rem;
+		}
 	}
 
 	.post-list {

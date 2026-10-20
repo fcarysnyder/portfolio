@@ -36,6 +36,7 @@ function grepSrc(pattern: RegExp, { exclude = [] }: { exclude?: string[] } = {})
 const ROLES = [
   't-display',
   't-page-title',
+  't-article-title',
   't-summary',
   't-eyebrow',
   't-lead',

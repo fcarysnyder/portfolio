@@ -28,9 +28,16 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 </BaseLayout>
 
 <style>
+	/* A little tighter on small screens, where the title takes more of the view */
 	.photography {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 60em) {
+		.photography {
+			gap: 2rem;
+		}
 	}
 </style>

@@ -20,7 +20,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
 
 <header class="page-header">
 	<a href={backHref} class="t-small-link back-link">&larr; Back</a>
-	<h1 class="t-page-title">{title}</h1>
+	<h1 class="t-article-title">{title}</h1>
 	<p class="t-summary summary">{description}</p>
 	<p class="t-eyebrow meta-line">
 		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
