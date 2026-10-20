@@ -82,8 +82,10 @@
 }
 
 /* 5. Flush left everywhere; tabular dates */
-:root.swiss main :is(.text-center, .mx-auto) {
+:root.swiss main .not-found {
 	text-align: left;
+}
+:root.swiss main .not-found :is(h1, p) {
 	margin-inline: 0;
 }
 
