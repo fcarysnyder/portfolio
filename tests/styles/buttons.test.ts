@@ -92,7 +92,7 @@ describe('@utility btn', () => {
   });
 
   it('lightens the fill on hover and shows a wait cursor when disabled', () => {
-    expect(nested(body ?? '', '&:hover')).toMatchObject({ 'background-color': 'var(--accent-fill-hover)' });
+    expect(nested(body ?? '', '&:hover:not(:disabled)')).toMatchObject({ 'background-color': 'var(--accent-fill-hover)' });
     expect(nested(body ?? '', '&:disabled')).toMatchObject({ cursor: 'wait' });
   });
 });
@@ -218,5 +218,65 @@ describe('no button carries its own accent fill', () => {
   it('uses bg-accent-fill on no <button> or button-like <a>', () => {
     const hits = buttons().filter((b) => /(?<![\w-])bg-accent-fill(?![\w-])/.test(b.tag));
     expect(hits.map((b) => `${b.file}:${b.line}`)).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Any fill background in src/ is a btn, or is allow-listed. This scan does not depend on the
+// element already looking like a button, so a new hand-styled <a> or <div> with its own accent
+// fill is caught too.
+// ---------------------------------------------------------------------------
+
+/** Every opening tag in .astro and .tsx files. */
+function allTags(): { file: string; line: number; tag: string }[] {
+  const out: { file: string; line: number; tag: string }[] = [];
+  for (const file of listFiles()) {
+    const text = read(file).replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '));
+    for (const m of text.matchAll(/<[A-Za-z][\w.]*(?=[\s>/])/g)) {
+      out.push({ file, line: text.slice(0, m.index!).split('\n').length, tag: text.slice(m.index!, tagEnd(text, m.index!) + 1) });
+    }
+  }
+  return out;
+}
+
+/** True if a class token is a background in the accent fill (bg-accent-fill, its hover, or an arbitrary bg-[...accent-fill...]) on the element itself. */
+function isFillToken(token: string): boolean {
+  const parts = token.split(':');
+  const utility = parts.pop()!;
+  if (parts.some((v) => v === 'before' || v === 'after')) return false; // a pseudo-element, like the toggle knob
+  return /^bg-(?:accent-fill(?:-hover)?|\[[^\]]*accent-fill[^\]]*\])$/.test(utility);
+}
+
+const hasFill = (tag: string) => tag.split(/[\s"'`{}]+/).some(isFillToken);
+
+/** Elements with a fill background that are not a btn. `match` must appear in the opening tag; a stale entry fails. */
+const FILL_ALLOWED: { file: string; match: string; reason: string }[] = [
+  { file: 'src/components/Pill.astro', match: 'class="pill', reason: 'the tag pill: a label, not a control, filled with --pill-color (the accent fill by default)' },
+];
+
+describe('every accent-fill background is a btn or allow-listed', () => {
+  const filled = allTags().filter((t) => hasFill(t.tag));
+  const notBtn = filled.filter((t) => !hasClass(t.tag, 'btn'));
+  const entryMatches = (e: (typeof FILL_ALLOWED)[number], t: (typeof filled)[number]) => t.file === e.file && t.tag.includes(e.match);
+
+  it('finds the fills (the scan is not blind)', () => {
+    expect(filled.length).toBeGreaterThanOrEqual(1);
+    expect(hasFill('<a class="rounded-lg bg-accent-fill px-4">')).toBe(true);
+    expect(hasFill('<a class="hover:bg-accent-fill-hover">')).toBe(true);
+    expect(hasFill('<span class="before:bg-accent-fill group-hover:before:bg-accent-fill-hover">')).toBe(false);
+  });
+
+  it('has no element with its own fill outside btn and the allow-list', () => {
+    const unlisted = notBtn.filter((t) => !FILL_ALLOWED.some((e) => entryMatches(e, t)));
+    expect(unlisted.map((t) => `${t.file}:${t.line}: ${t.tag.replace(/\s+/g, ' ').slice(0, 110)}`)).toEqual([]);
+  });
+
+  it('has no stale allow-list entry', () => {
+    const stale = FILL_ALLOWED.filter((e) => !notBtn.some((t) => entryMatches(e, t)));
+    expect(stale.map((e) => `${e.file}: ${e.match}`)).toEqual([]);
+  });
+
+  it('gives every allow-list entry a reason', () => {
+    for (const e of FILL_ALLOWED) expect(e.reason.length, `${e.file} ${e.match}`).toBeGreaterThan(10);
   });
 });

@@ -163,7 +163,7 @@
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--accent-fill-hover);
   }
   &:disabled {
