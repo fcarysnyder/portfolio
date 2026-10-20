@@ -8,7 +8,7 @@
  * Why this file is unlayered: it has to beat the Astro scoped <style> blocks it overrides, and
  * those are unlayered too (unlayered CSS always beats any @layer, regardless of specificity).
  * Every rule starts with `:root.swiss`, which adds two classes of specificity, so it also wins
- * against scoped selectors (which carry one extra attribute) without needing !important.
+ * against scoped selectors (which carry one extra attribute) without needing an important override.
  *
  * The ideas, roughly in order of impact:
  *   1. Off-center grid on posts: back link and date in a left rail, text to the right.

@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Mail } from 'lucide-react';
 import ScrambleText from './ScrambleText';
 
+// `button` / `secondary` stay as hook classes (swiss.css targets .button); the look is utilities.
+const BUTTON =
+  'button mt-5 inline-flex h-10 w-fit cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-accent-fill px-4 text-sm/5 font-semibold text-on-accent uppercase no-underline hover:bg-accent-fill-hover';
+const BUTTON_SECONDARY =
+  'button secondary mt-5 inline-flex h-10 w-fit cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-transparent px-4 text-sm/5 font-semibold text-accent-text uppercase no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover';
+
 const HeroTyper: React.FC<HeroTyperProps> = ({ 
   title, 
   taglinePart1, 
@@ -58,10 +64,10 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
                 <a href={linkUrl} className="company-link">{linkText}</a>
             </p>
             <div style={buttonContainerStyle} className="mt-5 flex gap-4">
-                <a className="button">
+                <a className={BUTTON}>
                     See selected work <ArrowRight size="1em" />
                 </a>
-                <a className="button secondary">
+                <a className={BUTTON_SECONDARY}>
                     Drop me a line <Mail size="1em" />
                 </a>
             </div>
@@ -100,10 +106,10 @@ const HeroTyper: React.FC<HeroTyperProps> = ({
                 transition: 'opacity 0.8s ease',
                 visibility: step >= 3 ? 'visible' : 'hidden'
             }}>
-                <a href="/work/" className="button">
+                <a href="/work/" className={BUTTON}>
                     See selected work <ArrowRight size="1em" />
                 </a>
-                <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" className="button secondary">
+                <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" className={BUTTON_SECONDARY}>
                     Drop me a line <Mail size="1em" />
                 </a>
             </div>

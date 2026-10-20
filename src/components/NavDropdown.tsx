@@ -2,7 +2,7 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import '../styles/global.css';
 
 interface NavDropdownProps {
@@ -19,6 +19,7 @@ declare global {
 
 export default function NavDropdown({ links }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const checkIsCurrentPage = (href: string): boolean => {
     if (typeof window !== 'undefined' && window.isCurrentPageClient) {
@@ -40,12 +41,13 @@ export default function NavDropdown({ links }: NavDropdownProps) {
   };
 
   return (
-    <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
+    <DropdownMenu.Root open={open} onOpenChange={handleOpenChange} modal={false}>
       <DropdownMenu.Trigger
-        className="menu-button"
+        ref={triggerRef}
+        className="menu-button relative flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-[0.65rem] text-2xl/[inherit] text-accent-text active:outline-2 active:outline-offset-2 active:outline-brand data-[state=open]:outline-2 data-[state=open]:outline-offset-2 data-[state=open]:outline-brand"
         aria-label="Menu"
         onPointerDown={(e) => e.preventDefault()}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => handleOpenChange(!open)}
       >
         <span className="sr-only">Menu</span>
         <Menu size={16} />
@@ -53,19 +55,24 @@ export default function NavDropdown({ links }: NavDropdownProps) {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="menu-content"
+          className="menu-content z-[1000] max-w-[280px] min-w-[200px] rounded-lg border border-gray-800 bg-gray-999 [box-shadow:var(--shadow-lg)]"
           sideOffset={5}
           align="end"
           collisionPadding={16}
           avoidCollisions={true}
+          // Non-modal menus treat a press on the trigger as an outside press and close on pointerdown,
+          // then the trigger's own onClick would reopen it. Let onClick alone do the toggle.
+          onInteractOutside={(e) => {
+            if (triggerRef.current?.contains(e.target as Node)) e.preventDefault();
+          }}
         >
-          <ul className="nav-items">
+          <ul className="flex flex-col gap-1 border-none p-2 text-sm/[150%]">
             {links.map(({ label, href }) => (
               <li key={href}>
                 <DropdownMenu.Item asChild>
                   <a
                     href={href}
-                    className="link"
+                    className="block rounded-sm border-none px-4 py-2 text-gray-300 no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover data-[highlighted]:outline-none aria-[current]:font-bold aria-[current]:text-accent-text"
                     aria-current={checkIsCurrentPage(href) ? 'page' : undefined}
                   >
                     {label}

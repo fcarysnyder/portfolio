@@ -30,18 +30,17 @@ const FooterTyper: React.FC<FooterTyperProps> = ({ initialText, showCursor = fal
   }, [isVisible]);
 
   return (
-    <span ref={containerRef} style={{ display: 'grid', gridTemplateColumns: '1fr', width: 'fit-content' }}>
+    <span ref={containerRef} className="grid w-fit grid-cols-[1fr]">
        {/* Ghost Layer */}
        <span 
-          className="footer-typer-wrapper" 
-          style={{ gridArea: '1 / 1', opacity: 0, visibility: 'hidden', pointerEvents: 'none' }} 
+          className="footer-typer-wrapper pointer-events-none invisible col-start-1 row-start-1 opacity-0"
           aria-hidden="true"
         >
           {initialText}
        </span>
 
        {/* Active Layer */}
-       <span className="footer-typer-wrapper" style={{ gridArea: '1 / 1', zIndex: 1 }}>
+       <span className="footer-typer-wrapper z-1 col-start-1 row-start-1">
         <ScrambleText 
           text={initialText}
           speed={30}

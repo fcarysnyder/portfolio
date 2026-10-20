@@ -21,19 +21,19 @@ const isCurrentPage = (href: string) => {
 };
 ---
 
-<nav>
-	<div class="menu-header">
-		<a href="/" class="site-title">
+<nav class="wrapper relative z-[9999] mb-14 flex items-center justify-between py-6 font-sans font-medium">
+	<div class="flex items-center gap-2">
+		<a href="/" class="flex items-center gap-2 leading-[1.1] text-gray-0 no-underline min-[50em]:text-xl">
 			<img src="/assets/Icon.svg" alt="F Cary Snyder" height="28" width="28" />
-		</a>	
+		</a>
 	</div>
-		<div class="menu-footer">
-			<ReaderSettings client:load />
-			<div class="theme-toggle">
-				<ThemeToggle />
-			</div>
-			<NavDropdown client:load links={textLinks} />
+	<div class="flex items-center gap-3 bg-transparent">
+		<ReaderSettings client:load />
+		<div class="theme-toggle flex h-10 items-center min-[50em]:h-9">
+			<ThemeToggle />
 		</div>
+		<NavDropdown client:load links={textLinks} />
+	</div>
 </nav>
 
 <script define:vars={{ baseFromServer: import.meta.env.BASE_URL }}>
@@ -46,179 +46,3 @@ const isCurrentPage = (href: string) => {
 		};
 	}
 </script>
-
-<style>
-	nav {
-		z-index: 9999;
-		position: relative;
-		font-family: var(--font-sans);
-		font-weight: 500;
-		margin-bottom: 3.5rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1.5rem;
-		width: 100%;
-		max-width: 83rem;
-		margin-inline: auto;
-	}
-
-	.menu-header {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.site-title {
-		display: flex;
-		gap: 0.5rem;
-		align-items: center;
-		line-height: 1.1;
-		color: var(--gray-0);
-		text-decoration: none;
-	}
-
-	.menu-button {
-		position: relative;
-		display: flex;
-		border: 0;
-		border-radius: 999rem;
-		padding: 0.5rem;
-		font-size: var(--text-2xl);
-		color: var(--gray-300);
-		background: radial-gradient(var(--gray-900), var(--gray-800) 150%);
-		box-shadow: var(--shadow-md);
-	}
-
-	.menu-button[aria-expanded='true'] {
-		color: var(--gray-0);
-		background: linear-gradient(180deg, var(--gray-600), transparent),
-			radial-gradient(var(--gray-900), var(--gray-800) 150%);
-	}
-
-	.menu-button[hidden] {
-		display: none;
-	}
-
-	.menu-button::before {
-		position: absolute;
-		inset: -1px;
-		content: '';
-		background: var(--gradient-stroke);
-		border-radius: 999rem;
-		z-index: -1;
-	}
-
-	.menu-content {
-		position: absolute;
-		right: 1.5rem;
-		top: 100%;
-		margin-top: 0.5rem;
-		background-color: var(--gray-999);
-		border: 1px solid var(--gray-800);
-		border-radius: 0.5rem;
-		box-shadow: var(--shadow-lg);
-		animation: slideDownAndFade 0.2s ease-out;
-	}
-
-	@keyframes slideDownAndFade {
-		from {
-			opacity: 0;
-			transform: translateY(-10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.nav-items {
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		font-size: var(--text-lg);
-		line-height: 1.2;
-		list-style: none;
-		padding: 2rem;
-		background-color: var(--gray-999);
-		border-bottom: 1px solid var(--gray-800);
-	}
-
-	.link {
-		display: inline-block;
-		color: var(--gray-300);
-		text-decoration: none;
-	}
-
-	.link[aria-current] {
-		color: var(--gray-0);
-	}
-
-	.menu-footer {
-		--icon-size: var(--text-2xl);
-		--icon-padding: 0.5rem;
-
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		background-color: transparent;
-	}
-
-	.socials {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.625rem;
-		font-size: var(--text-2xl); /* matches --icon-size */
-	}
-
-	.social:focus {
-		color: var(--accent-text);
-	}
-
-	.theme-toggle {
-		display: flex;
-		align-items: center;
-		height: calc(var(--icon-size) + 2 * var(--icon-padding));
-	}
-
-	@media (min-width: 50em) {
-		nav {
-			padding-inline: 1.5rem;
-		}
-
-		.menu-header {
-			padding: 0;
-		}
-
-		.site-title {
-			font-size: var(--text-xl);
-		}
-
-		.menu-footer {
-			--icon-padding: 0.375rem;
-			align-items: center;
-			padding: 0;
-			background-color: transparent;
-			box-shadow: none;
-		}
-
-		.socials {
-			display: flex;
-			gap: 0;
-		}
-	}
-
-	@media (min-width: 60em) {
-		.socials {
-			display: flex;
-			justify-content: flex-end;
-			gap: 0;
-		}
-	}
-	@media (forced-colors: active) {
-		.link[aria-current='page'] {
-			color: SelectedItem;
-		}
-	}
-</style>

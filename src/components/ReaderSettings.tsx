@@ -129,7 +129,7 @@ export default function ReaderSettings() {
   }, []);
 
   // Back/forward (or any navigation) with the panel open: close it so the portaled menu
-  // and its scroll lock don't outlive the page they were opened on.
+  // doesn't outlive the page it was opened on.
   useEffect(() => {
     const close = () => setOpen(false);
     document.addEventListener('astro:before-preparation', close);
@@ -151,6 +151,7 @@ export default function ReaderSettings() {
 
   return (
     <DropdownMenu.Root
+      modal={false}
       open={open}
       onOpenChange={(next) => {
         setOpen(next);
