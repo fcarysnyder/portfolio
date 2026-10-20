@@ -28,13 +28,13 @@ const formattedDate = date.toLocaleDateString('en-US', {
 </header>
 
 <style>
-	.page-header {
-		padding-top: 2rem;
-	}
+	/* No top padding: the back link's top lines up with the index pages' titles */
 
 	/* On its own line, in normal flow */
 	.back-link {
-		display: inline-block;
+		/* Block (not inline-block) so it doesn't sit on a text baseline and drift down a few px */
+		display: block;
+		width: fit-content;
 		margin-bottom: 2rem;
 	}
 
