@@ -145,7 +145,9 @@ export default function ReaderSettings() {
   const update = (patch: Partial<ReaderPrefs>) => commit({ ...prefs, ...patch });
   const reset = () => commit({ ...READER_DEFAULTS });
 
-  if (!visible) return null;
+  // An empty fragment, not null: Astro's React renderer only recognizes a component that
+  // returns an element, and a null return during SSR makes it log "Invalid hook call".
+  if (!visible) return <></>;
 
   return (
     <DropdownMenu.Root
