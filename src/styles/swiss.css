@@ -1,0 +1,150 @@
+/*
+ * SWISS EXPERIMENT (dev only)
+ *
+ * Toggled by the "Swiss" button that appears in `npm run dev` (components/dev/SwissToggle.astro),
+ * which adds `.swiss` to <html>. Nothing here applies unless that class is present, and the class
+ * is never set in production builds, so the live site is unchanged.
+ *
+ * Why this file is unlayered: it has to beat the Astro scoped <style> blocks it overrides, and
+ * those are unlayered too (unlayered CSS always beats any @layer, regardless of specificity).
+ * Every rule starts with `:root.swiss`, which adds two classes of specificity, so it also wins
+ * against scoped selectors (which carry one extra attribute) without needing !important.
+ *
+ * The ideas, roughly in order of impact:
+ *   1. Off-center grid on posts: back link and date in a left rail, text to the right.
+ *   2. No decoration: square corners, no shadows, no animated background.
+ *   3. Neutral grays (no blue tint) with red kept for links and actions.
+ *   4. Condensed, tightly tracked titles using Mona Sans's width axis.
+ *   5. Everything flush left; dates in tabular figures, in a fixed rail on the Writing list.
+ */
+
+/* 3. Neutral gray ramp, same steps and contrast roles as the blue-gray one */
+:root.swiss {
+	--gray-0: #0a0a0a;
+	--gray-50: #171717;
+	--gray-100: #262626;
+	--gray-200: #3a3a3a;
+	--gray-300: #525252;
+	--gray-400: #6b6b6b;
+	--gray-500: #8a8a8a;
+	--gray-600: #a3a3a3;
+	--gray-700: #c4c4c4;
+	--gray-800: #e5e5e5;
+	--gray-900: #f4f4f4;
+	--gray-999: #ffffff;
+	--shadow-sm: none;
+	--shadow-md: none;
+	--shadow-lg: none;
+}
+
+:root.swiss.theme-dark {
+	--gray-0: #ffffff;
+	--gray-50: #f4f4f4;
+	--gray-100: #e5e5e5;
+	--gray-200: #c4c4c4;
+	--gray-300: #a3a3a3;
+	--gray-400: #8a8a8a;
+	--gray-500: #6b6b6b;
+	--gray-600: #525252;
+	--gray-700: #3a3a3a;
+	--gray-800: #262626;
+	--gray-900: #171717;
+	--gray-999: #0a0a0a;
+	--shadow-sm: none;
+	--shadow-md: none;
+	--shadow-lg: none;
+}
+
+/* 2. No decoration */
+:root.swiss #canvas-container {
+	display: none;
+}
+
+:root.swiss :is(img, .card, .button, .pill, .lock-pill, .menu-content, .reader-content, .prose img, .gated-placeholder) {
+	border-radius: 0;
+}
+
+:root.swiss .pill,
+:root.swiss .lock-pill {
+	border-radius: 2px;
+}
+
+/* 4. Condensed, tight titles (needs the wdth axis, which MainHead loads in dev) */
+:root.swiss :is(.t-display, .t-page-title, .t-article-title) {
+	font-stretch: 87.5%;
+	letter-spacing: -0.025em;
+	line-height: 1.05;
+}
+
+:root.swiss .prose :is(h2, h3) {
+	font-stretch: 92%;
+	letter-spacing: -0.015em;
+}
+
+/* 5. Flush left everywhere; tabular dates */
+:root.swiss main :is(.text-center, .mx-auto) {
+	text-align: left;
+	margin-inline: 0;
+}
+
+:root.swiss :is(time, .t-eyebrow, .t-meta) {
+	font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 60em) {
+	/* 5. Writing list: dates in a fixed left rail, titles beside them */
+	:root.swiss .post-list li {
+		display: grid;
+		grid-template-columns: 12rem minmax(0, 1fr);
+		column-gap: 3rem;
+		align-items: baseline;
+	}
+
+	:root.swiss .post-list time {
+		order: -1;
+	}
+
+	/* 1. Posts and case studies: left rail + text column, left-anchored instead of centered */
+	:root.swiss .post-layout {
+		display: block;
+	}
+
+	:root.swiss .post-layout article {
+		display: grid;
+		grid-template-columns: 12rem minmax(0, 44rem);
+		column-gap: 3rem;
+		align-items: start;
+	}
+
+	:root.swiss .post-layout article > * {
+		grid-column: 2;
+	}
+
+	:root.swiss .post-layout .page-header {
+		display: contents;
+	}
+
+	:root.swiss .post-layout .page-header .back-link {
+		grid-column: 1;
+		grid-row: 1;
+		margin: 0;
+		padding-top: 0.6em;
+	}
+
+	:root.swiss .post-layout .page-header :is(.t-article-title) {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	:root.swiss .post-layout .page-header .summary {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	:root.swiss .post-layout .page-header .meta-line {
+		grid-column: 1;
+		grid-row: 2;
+		margin: 0.75rem 0 0;
+		padding-top: 0.35em;
+	}
+}

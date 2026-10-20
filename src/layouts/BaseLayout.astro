@@ -7,6 +7,7 @@ import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import BackgroundEffect from '../components/BackgroundEffect.astro';
+import SwissToggle from '../components/dev/SwissToggle.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -45,6 +46,7 @@ const { title, description, image, useAnimatedBackground = false, useIntroAnimat
 			</div>
 			<Footer />
 		</div>
+		{import.meta.env.DEV && <SwissToggle />}
 
 		<script>
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));

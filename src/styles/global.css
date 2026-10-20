@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./type.css";
 @import "./prose.css";
+@import "./swiss.css"; /* dev-only experiment; inert unless <html> has .swiss */
 
 @theme {
   /* Colors — bridge to existing CSS vars */

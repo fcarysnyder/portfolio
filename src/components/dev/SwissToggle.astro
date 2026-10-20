@@ -1,0 +1,53 @@
+---
+// Dev-only switch for the Swiss experiment (src/styles/swiss.css). BaseLayout only renders this in
+// `npm run dev`; MainHead applies the saved state before paint and before each page swap.
+---
+
+<swiss-toggle data-dev-only>
+	<button type="button" class="swiss-toggle" aria-pressed="false">Swiss</button>
+</swiss-toggle>
+
+<style>
+	.swiss-toggle {
+		position: fixed;
+		left: 1rem;
+		bottom: 1rem;
+		z-index: 10001;
+		padding: 0.4rem 0.75rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999);
+		color: var(--gray-300);
+		font: 500 var(--text-xs) / 1 var(--font-mono);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		cursor: pointer;
+	}
+
+	.swiss-toggle[aria-pressed='true'] {
+		background: var(--accent-fill);
+		border-color: var(--accent-fill);
+		color: var(--on-accent);
+	}
+</style>
+
+<script>
+	class SwissToggle extends HTMLElement {
+		connectedCallback() {
+			const button = this.querySelector('button')!;
+			const sync = () => button.setAttribute('aria-pressed', String(document.documentElement.classList.contains('swiss')));
+			button.addEventListener('click', () => {
+				const on = !document.documentElement.classList.contains('swiss');
+				document.documentElement.classList.toggle('swiss', on);
+				try {
+					localStorage.setItem('dev-swiss', on ? '1' : '0');
+				} catch {
+					// Storage blocked: the toggle still works for this page view.
+				}
+				sync();
+			});
+			sync();
+			document.addEventListener('astro:page-load', sync);
+		}
+	}
+	if (!customElements.get('swiss-toggle')) customElements.define('swiss-toggle', SwissToggle);
+</script>
