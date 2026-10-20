@@ -35,10 +35,10 @@ import AboutHero from '../components/AboutHero.astro';
 				alt="F Cary Snyder"
 			/>
 		</AboutHero>
-		<main class="wrapper about">
-			<section>
-				<h2 class="section-title t-section-heading">Background</h2>
-				<div class="content">
+		<main class="wrapper about flex flex-col gap-14 lg:grid lg:grid-cols-[1fr_60%_1fr] lg:[&>:first-child]:col-start-2">
+			<section class="flex flex-col gap-2 text-gray-200 lg:contents lg:text-(length:--text-xl)">
+				<h2 class="section-title t-section-heading col-start-1">Background</h2>
+				<div class="content col-[2/4] [&_p+p]:mt-[1.5em] [&_a]:underline [&_a]:decoration-1 [&_a]:decoration-transparent [&_a]:underline-offset-[0.25em] [&_a]:[transition:text-decoration-color_var(--theme-transition)] [&_a:hover]:decoration-current [&_a:focus]:decoration-current">
 					<p>
 						Seriously — my name is just the letter "F", but you can call me Cary.
 					</p>
@@ -56,9 +56,9 @@ import AboutHero from '../components/AboutHero.astro';
 					</p>
 				</div>
 			</section>
-			<section>
-				<h2 class="section-title t-section-heading">Skills</h2>
-				<div class="content">
+			<section class="flex flex-col gap-2 text-gray-200 lg:contents lg:text-(length:--text-xl)">
+				<h2 class="section-title t-section-heading col-start-1">Skills</h2>
+				<div class="content col-[2/4] [&_p+p]:mt-[1.5em] [&_a]:underline [&_a]:decoration-1 [&_a]:decoration-transparent [&_a]:underline-offset-[0.25em] [&_a]:[transition:text-decoration-color_var(--theme-transition)] [&_a:hover]:decoration-current [&_a:focus]:decoration-current">
 					<ul>
 						<li>Product design</li>
 						<li>UI/UX design</li>
@@ -74,9 +74,9 @@ import AboutHero from '../components/AboutHero.astro';
 					</ul>
 				</div>
 			</section>
-			<section>
-				<h2 class="section-title t-section-heading">Current Interests</h2>
-				<div class="content">
+			<section class="flex flex-col gap-2 text-gray-200 lg:contents lg:text-(length:--text-xl)">
+				<h2 class="section-title t-section-heading col-start-1">Current Interests</h2>
+				<div class="content col-[2/4] [&_p+p]:mt-[1.5em] [&_a]:underline [&_a]:decoration-1 [&_a]:decoration-transparent [&_a]:underline-offset-[0.25em] [&_a]:[transition:text-decoration-color_var(--theme-transition)] [&_a:hover]:decoration-current [&_a:focus]:decoration-current">
 					<ul>
 						<li>Building with Claude and Cursor</li>
 						<li>Three.js</li>
@@ -92,81 +92,31 @@ import AboutHero from '../components/AboutHero.astro';
 </BaseLayout>
 
 <style>
-	.about {
-		display: flex;
-		flex-direction: column;
-		gap: 3.5rem;
-	}
-
-	img {
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
+	/* Why not Tailwind: each emoji cursor is a data-URI SVG whose markup contains quotes, angle
+	   brackets and an emoji. As an arbitrary utility value it would need heavy escaping and be
+	   unreadable, so the five hover cursors stay as plain CSS. */
 	:global(.about-img-1:hover) {
 		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">👋</text></svg>'),
 			auto;
 	}
+
 	:global(.about-img-2:hover) {
 		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🐣</text></svg>'),
 			auto;
 	}
+
 	:global(.about-img-3:hover) {
 		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🇮🇹</text></svg>'),
 			auto;
 	}
+
 	:global(.about-img-4:hover) {
 		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🚲</text></svg>'),
 			auto;
 	}
+
 	:global(.about-img-5:hover) {
 		cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 100 100" style="fill:black;font-size:24px;"><text y="50%">🕺</text></svg>'),
 			auto;
-	}
-
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		color: var(--gray-200);
-	}
-
-	.section-title {
-		grid-column-start: 1;
-	}
-
-	.content {
-		grid-column: 2 / 4;
-	}
-
-	.content p + p {
-		margin-top: 1.5em;
-	}
-
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
-
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
-	}
-
-	@media (min-width: 60em) {
-		.about {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
-
-		.about > :global(:first-child) {
-			grid-column-start: 2;
-		}
-
-		section {
-			display: contents;
-			font-size: var(--text-xl);
-		}
 	}
 </style>

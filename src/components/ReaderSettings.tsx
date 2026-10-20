@@ -19,7 +19,14 @@ import {
   type ReaderSize,
 } from '../lib/reader-prefs';
 import '../styles/global.css';
-import './ReaderSettings.css';
+
+// Reader settings: the "Aa" trigger matches ThemeToggle's 2rem circle; the panel matches the nav menu.
+// An option row's horizontal padding is added where it is used: the Reset row indents its label
+// to line up with the option labels (check slot width plus gaps), so it can't share px-2.
+// A checked row is bold and gray-0, but a highlighted row's accent color wins (not-data-highlighted).
+// The focus ring is off (outline: none) because the highlight is the focus indicator.
+const ITEM =
+  'flex cursor-pointer items-center gap-2 rounded-md py-1.5 font-sans text-(length:--text-sm) leading-[1.4] text-gray-300 [outline:none] select-none data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text-hover data-[state=checked]:font-semibold data-[state=checked]:not-data-highlighted:text-gray-0 forced-colors:data-highlighted:[outline:2px_solid_Highlight]';
 
 const FONT_OPTIONS: { value: ReaderFont; label: string }[] = [
   { value: 'sans', label: 'Sans' },
@@ -75,7 +82,7 @@ function OptionGroup<T extends string | number>({
   const labelId = useId();
   return (
     <>
-      <DropdownMenu.Label className="t-eyebrow reader-label" id={labelId}>
+      <DropdownMenu.Label className="t-eyebrow px-2 pt-2 pb-1" id={labelId}>
         {label}
       </DropdownMenu.Label>
       <DropdownMenu.RadioGroup
@@ -90,16 +97,16 @@ function OptionGroup<T extends string | number>({
           <DropdownMenu.RadioItem
             key={String(o.value)}
             value={String(o.value)}
-            className="reader-item"
+            className={`${ITEM} px-2`}
             onSelect={(e) => e.preventDefault()}
           >
-            <span className="reader-item-check">
+            <span className="inline-flex size-3.5 text-accent-text">
               <DropdownMenu.ItemIndicator>
                 <Check size={14} aria-hidden="true" />
               </DropdownMenu.ItemIndicator>
             </span>
             <span>{o.label}</span>
-            {showValue && <span className="reader-item-value">{showValue(o.value)}</span>}
+            {showValue && <span className="ml-auto font-normal text-gray-400">{showValue(o.value)}</span>}
           </DropdownMenu.RadioItem>
         ))}
       </DropdownMenu.RadioGroup>
@@ -159,15 +166,18 @@ export default function ReaderSettings() {
         if (next) setPrefs(readStoredPrefs());
       }}
     >
-      <DropdownMenu.Trigger className="reader-trigger" aria-label="Reading settings">
-        <span className="reader-trigger-icon">
+      <DropdownMenu.Trigger
+        className="reader-trigger flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-0 [box-shadow:inset_0_0_0_1px_var(--accent-text)] hover:bg-accent-overlay-hover data-[state=open]:bg-accent-overlay-hover"
+        aria-label="Reading settings"
+      >
+        <span className="flex size-8 p-2 text-(length:--text-base) text-accent-text">
           <ALargeSmall size="1em" aria-hidden="true" />
         </span>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="reader-content"
+          className="reader-content z-10000 min-w-[14rem] rounded-xl border border-gray-800 bg-gray-999 p-2 elevation-lg motion-safe:animate-reader-fade-in"
           sideOffset={8}
           align="end"
           collisionPadding={16}
@@ -191,9 +201,9 @@ export default function ReaderSettings() {
             options={LEADING_OPTIONS}
             onChange={(leading) => update({ leading })}
           />
-          <DropdownMenu.Separator className="reader-separator" />
+          <DropdownMenu.Separator className="mx-1 my-2 h-px bg-gray-800" />
           <DropdownMenu.Item
-            className="reader-item reader-reset"
+            className={`${ITEM} pr-2 pl-[calc(0.5rem_+_0.875rem_+_0.5rem)]`}
             onSelect={(e) => {
               e.preventDefault();
               reset();

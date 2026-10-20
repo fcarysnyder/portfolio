@@ -9,7 +9,7 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 ---
 
 <BaseLayout title="Photography | F Cary Snyder" description="Photography by F Cary Snyder">
-	<main class="wrapper photography">
+	<main class="wrapper photography flex flex-col gap-6 lg:gap-8">
 		<h1 class="t-page-title">Photography</h1>
 		<SectionHeader label="Organize by" filterId="filter-options">
 			<Image slot="icon" size={18} />
@@ -26,18 +26,3 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 		<PhotoGallery client:load photos={photos} years={years} />
 	</main>
 </BaseLayout>
-
-<style>
-	/* A little tighter on small screens, where the title takes more of the view */
-	.photography {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-
-	@media (min-width: 60em) {
-		.photography {
-			gap: 2rem;
-		}
-	}
-</style>

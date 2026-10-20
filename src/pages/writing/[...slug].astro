@@ -30,8 +30,8 @@ const readingTime = getReadingTime(post.body ?? '');
 ---
 
 <BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description} image={socialImage}>
-	<main class="wrapper post-layout">
-		<article data-reader-enabled>
+	<main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_60%_1fr]">
+		<article class="w-full lg:col-2" data-reader-enabled>
 			<PageHeader
 				title={post.data.title}
 				description={post.data.description}
@@ -40,27 +40,27 @@ const readingTime = getReadingTime(post.body ?? '');
 				backHref="/writing/"
 			/>
 
-			<div class="post-content prose">
+			<div class="post-content prose mt-12 [&_.react-tweet-theme]:mx-auto [&_.react-tweet-theme]:my-8">
 				<Content />
 			</div>
 
-			<footer class="post-footer">
+			<footer class="post-footer mt-16">
 				{post.data.tags && post.data.tags.length > 0 && (
-					<div class="post-meta t-meta">
-						<div class="meta-row">
-							<span class="meta-label">Tags</span>
-							<span class="meta-value">{post.data.tags.join(', ')}</span>
+					<div class="post-meta t-meta flex flex-col gap-2 border-t border-t-gray-800 pt-6">
+						<div class="meta-row flex justify-between gap-4">
+							<span class="meta-label min-w-16 text-gray-400 uppercase">Tags</span>
+							<span class="meta-value text-gray-200">{post.data.tags.join(', ')}</span>
 						</div>
 					</div>
 				)}
 
-				<nav class="post-nav">
-					<div class="nav-prev">
+				<nav class="post-nav mt-8 flex justify-between border-t border-t-gray-800 py-6">
+					<div class="nav-prev flex">
 						{prevPost && (
 							<a href={`/writing/${prevPost.id}/`} class="t-small-link">&larr; Previous</a>
 						)}
 					</div>
-					<div class="nav-next">
+					<div class="nav-next ml-auto flex">
 						{nextPost && (
 							<a href={`/writing/${nextPost.id}/`} class="t-small-link">Next &rarr;</a>
 						)}
@@ -70,82 +70,3 @@ const readingTime = getReadingTime(post.body ?? '');
 		</article>
 	</main>
 </BaseLayout>
-
-<style>
-	.post-layout {
-		display: flex;
-		flex-direction: column;
-	}
-
-	article {
-		width: 100%;
-	}
-
-	/* Article body styles live in .prose (src/styles/prose.css) */
-	.post-content {
-		margin-top: 3rem;
-	}
-
-	.post-content :global(.react-tweet-theme) {
-		margin: 2rem auto;
-	}
-
-	/* Bottom-of-post meta: Tags only (the date is in the header) */
-	.post-footer {
-		margin-top: 4rem;
-	}
-
-	.post-meta {
-		border-top: 1px solid var(--gray-800);
-		padding-top: 1.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.meta-row {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-	}
-
-	.meta-label {
-		color: var(--gray-400);
-		text-transform: uppercase;
-		min-width: 4rem;
-	}
-
-	.meta-value {
-		color: var(--gray-200);
-	}
-
-	/* Prev / Next navigation */
-	.post-nav {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 2rem;
-		padding: 1.5rem 0;
-		border-top: 1px solid var(--gray-800);
-	}
-
-	.nav-prev,
-	.nav-next {
-		display: flex;
-	}
-
-	.nav-next {
-		margin-left: auto;
-	}
-
-	/* Desktop: center column like about page */
-	@media (min-width: 60em) {
-		.post-layout {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
-
-		article {
-			grid-column: 2;
-		}
-	}
-</style>

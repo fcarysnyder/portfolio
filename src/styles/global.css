@@ -64,6 +64,36 @@
       opacity: 1;
     }
   }
+
+  /* Aa reader-settings panel (ReaderSettings). Use it behind motion-safe:. */
+  --animate-reader-fade-in: reader-fade-in 0.15s ease-out;
+
+  @keyframes reader-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Home page intro (BaseLayout, only on the first visit of a session). */
+  --animate-fade-in-from-top: fadeInFromTop 1s ease-out forwards;
+
+  @keyframes fadeInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
 }
 
 /* Tailwind's hover: variant is wrapped in @media (hover: hover). The site's hover styles have always

@@ -50,8 +50,8 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   description={entry.data.description}
   image={entry.data.img}
 >
-  <main class="wrapper post-layout">
-    <article data-reader-enabled>
+  <main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_60%_1fr]">
+    <article class="w-full lg:col-2" data-reader-enabled>
       <PageHeader
         title={entry.data.title}
         description={entry.data.description}
@@ -63,33 +63,33 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
         <CaseStudyCarousel images={screenshots} client:load />
       )}
 
-      <div class="post-meta-top t-meta">
-        <div class="meta-row">
-          <span class="meta-label">Role</span>
-          <span class="meta-value">{meta.role}</span>
+      <div class="post-meta-top t-meta mt-8 flex flex-col gap-2 border-y border-y-gray-800 py-6">
+        <div class="meta-row flex justify-between gap-8">
+          <span class="meta-label min-w-24 shrink-0 text-gray-400 uppercase">Role</span>
+          <span class="meta-value text-gray-200">{meta.role}</span>
         </div>
-        <div class="meta-row">
-          <span class="meta-label">Collaborators</span>
-          <span class="meta-value">{meta.collaborators}</span>
+        <div class="meta-row flex justify-between gap-8">
+          <span class="meta-label min-w-24 shrink-0 text-gray-400 uppercase">Collaborators</span>
+          <span class="meta-value text-gray-200">{meta.collaborators}</span>
         </div>
-        <div class="meta-row">
-          <span class="meta-label">Product</span>
-          <span class="meta-value">{meta.product}</span>
+        <div class="meta-row flex justify-between gap-8">
+          <span class="meta-label min-w-24 shrink-0 text-gray-400 uppercase">Product</span>
+          <span class="meta-value text-gray-200">{meta.product}</span>
         </div>
       </div>
 
-      <div class="post-content">
+      <div class="post-content mt-12 [&_.gated-placeholder]:rounded-xl [&_.gated-placeholder]:border [&_.gated-placeholder]:border-gray-800 [&_.gated-placeholder]:bg-(image:--gradient-subtle) [&_.gated-placeholder]:p-8 [&_.gated-placeholder]:text-center [&_.gated-placeholder]:text-gray-300">
         {entry.data.gated ? (
           <GatedContent lockedDataUrl={lockedDataUrl} caseStudyTitle={entry.data.title} client:load />
         ) : null}
       </div>
 
-      <footer class="post-footer">
+      <footer class="post-footer mt-16">
         {entry.data.tags && entry.data.tags.length > 0 && (
-          <div class="post-meta t-meta">
-            <div class="meta-row">
-              <span class="meta-label">Tags</span>
-              <span class="meta-value">{entry.data.tags.join(', ')}</span>
+          <div class="post-meta t-meta flex flex-col gap-2 border-t border-t-gray-800 pt-6">
+            <div class="meta-row flex justify-between gap-4">
+              <span class="meta-label min-w-24 shrink-0 text-gray-400 uppercase">Tags</span>
+              <span class="meta-value text-gray-200">{entry.data.tags.join(', ')}</span>
             </div>
           </div>
         )}
@@ -97,79 +97,3 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
     </article>
   </main>
 </BaseLayout>
-
-<style>
-  .post-layout {
-    display: flex;
-    flex-direction: column;
-  }
-  article {
-    width: 100%;
-  }
-
-  /* Metadata section (top) */
-  .post-meta-top {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--gray-800);
-    border-bottom: 1px solid var(--gray-800);
-    padding-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .post-meta-top .meta-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  /* Decrypted HTML is styled by .prose (src/styles/prose.css) */
-  .post-content {
-    margin-top: 3rem;
-  }
-
-  .post-content :global(.gated-placeholder) {
-    padding: 2rem;
-    background: var(--gradient-subtle);
-    border: 1px solid var(--gray-800);
-    border-radius: 0.75rem;
-    color: var(--gray-300);
-    text-align: center;
-  }
-
-  /* Footer */
-  .post-footer {
-    margin-top: 4rem;
-  }
-  .post-meta {
-    border-top: 1px solid var(--gray-800);
-    padding-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .meta-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .meta-label {
-    color: var(--gray-400);
-    text-transform: uppercase;
-    min-width: 6rem;
-    flex-shrink: 0;
-  }
-  .meta-value {
-    color: var(--gray-200);
-  }
-  @media (min-width: 60em) {
-    .post-layout {
-      display: grid;
-      grid-template-columns: 1fr 60% 1fr;
-    }
-    article {
-      grid-column: 2;
-    }
-  }
-</style>

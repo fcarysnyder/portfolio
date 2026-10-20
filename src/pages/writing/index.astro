@@ -16,7 +16,7 @@ const sortedByTitle = [...posts].sort(
 ---
 
 <BaseLayout title="Writing | F Cary Snyder" description="Writing by F Cary Snyder">
-	<main class="wrapper writing">
+	<main class="wrapper writing flex flex-col gap-6 lg:gap-8">
 		<h1 class="t-page-title">Writing</h1>
 		<SectionHeader label="All Posts">
 			<BookOpen slot="icon" size={18} />
@@ -26,11 +26,11 @@ const sortedByTitle = [...posts].sort(
 				<a href="?sort=title" class="filter-option" data-sort="title">Title (A-Z)</a>
 			</Fragment>
 		</SectionHeader>
-		<ul class="post-list" data-list>
+		<ul class="post-list flex flex-col gap-4" data-list>
 			{sortedByDate.map((post) => (
-				<li data-title={post.data.title} data-date={post.data.publishDate.valueOf()}>
-					<a href={`/writing/${post.id}/`}>{post.data.title}</a>
-					<time class="t-eyebrow" datetime={post.data.publishDate.toISOString()}>
+				<li class="flex items-baseline justify-between gap-4" data-title={post.data.title} data-date={post.data.publishDate.valueOf()}>
+					<a href={`/writing/${post.id}/`} class="text-(length:--text-xl) font-normal text-gray-0 no-underline hover:text-accent-text focus:text-accent-text">{post.data.title}</a>
+					<time class="t-eyebrow whitespace-nowrap" datetime={post.data.publishDate.toISOString()}>
 						{post.data.publishDate.toLocaleDateString('en-US', {
 							month: 'long',
 							day: 'numeric',
@@ -85,50 +85,3 @@ const sortedByTitle = [...posts].sort(
 	initSort();
 	document.addEventListener('astro:after-swap', initSort);
 </script>
-
-<style>
-	/* A little tighter on small screens, where the title takes more of the view */
-	.writing {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-
-	@media (min-width: 60em) {
-		.writing {
-			gap: 2rem;
-		}
-	}
-
-	.post-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.post-list li {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 1rem;
-	}
-
-	.post-list a {
-		color: var(--gray-0);
-		text-decoration: none;
-		font-size: var(--text-xl);
-		font-weight: 400;
-	}
-
-	.post-list a:hover,
-	.post-list a:focus {
-		color: var(--accent-text);
-	}
-
-	.post-list time {
-		white-space: nowrap;
-	}
-</style>

@@ -24,15 +24,15 @@ const title = "Hi, I'm F Cary Snyder";
 ---
 
 <BaseLayout title={title} useAnimatedBackground={true} useIntroAnimation={true}>
-	<div class="flex flex-col full-height-container gap-20">
-		<div class="hero-wrapper">
-			<header class="hero wrapper">
+	<div class="flex flex-1 flex-col justify-center gap-20">
+		<div class="relative w-full max-w-full">
+			<header class="wrapper flex w-full flex-col items-start gap-4 max-lg:[&>.hero]:flex-1 max-lg:[&>.hero_.title]:inline max-lg:[&>.hero_.title]:mb-3 lg:grid lg:grid-cols-[1fr_3fr] lg:items-center lg:gap-8">
 				<img
 					alt="Headshot of F Cary Snyder"
 					width="480"
 					height="620"
 					src="/assets/headshot.jpg"
-					class="headshot"
+					class="headshot h-[320px] w-[240px] rounded-[20px] object-cover object-top max-lg:hidden lg:aspect-[3/4] lg:h-auto lg:max-h-[70vh] lg:w-[300px] lg:min-w-[300px]"
 				/>
 				<Hero align="start" title="Hi, I'm F Cary Snyder">
 					<Fragment slot="tagline">
@@ -43,13 +43,13 @@ const title = "Hi, I'm F Cary Snyder";
 		</div>
 
 		<main class="wrapper flex flex-col gap-20 lg:gap-48">
-			<section class="section with-background with-cta">
-				<div class="section-header-wrapper">
+			<section class="grid w-full grid-cols-1 gap-8 [grid-template-areas:'header'_'gallery'] lg:grid-cols-4 lg:[grid-template-areas:'header_header_header_header'_'gallery_gallery_gallery_gallery']">
+				<div class="w-full [grid-area:header]">
 					<SectionHeader label="Selected Projects">
-						<PenTool slot="icon" size={18} color="var(--icon-color, var(--gray-200))" />
+						<PenTool slot="icon" size={18} color="var(--gray-200)" />
 					</SectionHeader>
 				</div>
-				<div class="gallery">
+				<div class="[grid-area:gallery]">
 					<Grid >
 						{
 							projects.map((project) => (
@@ -64,129 +64,3 @@ const title = "Hi, I'm F Cary Snyder";
 		</main>
 	</div>
 </BaseLayout>
-
-<style>
-	:root {
-		--icon-color: var(--gray-200);
-	}
-
-	:root.theme-dark {
-		--icon-color: var(--gray-200);
-	}
-
-	.full-height-container {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.hero-wrapper {
-		width: 100%;
-		max-width: 100%;
-		padding: 0;
-		position: relative;
-	}
-
-	.hero {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 1rem;
-		width: 100%;
-	}
-
-	.roles {
-		display: none;
-	}
-
-	.hero img.headshot {
-		width: 240px;
-		height: 320px;
-		border-radius: 20px;
-		object-fit: cover;
-		object-position: top;
-	}
-
-	/* Small screen layout - headshot next to title */
-	@media (max-width: 59.99em) {
-		.hero {
-			flex-direction: column;
-		}
-		
-		.hero img.headshot {
-			display: none;
-		}
-		
-		.hero > :global(.hero) {
-			flex: 1;
-			width: 100%;
-		}
-		
-		.hero > :global(.hero .title) {
-			display: inline;
-			margin: 0 0 0.75rem 0;
-		}
-	}
-
-	@media (min-width: 60em) {
-		.hero {
-			display: grid;
-			grid-template-columns: 1fr 3fr;
-			gap: 2rem;
-			align-items: center; /* Center vertically */
-		}
-
-		.roles {
-			margin-top: 0.5rem;
-			display: flex;
-			gap: 0.5rem;
-		}
-
-		.hero img.headshot {
-			min-width: 300px;
-			width: 300px;
-			height: auto;
-			max-height: 70vh; /* Limit height to 70% of viewport to prevent scroll */
-			aspect-ratio: 3 / 4;
-			border-radius: 20px;
-			object-fit: cover;
-		}
-	}
-
-	/* ====================================================== */
-
-	.section {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-areas: 
-			'header'
-			'gallery';
-		gap: 32px;
-		width: 100%;
-	}
-
-	.section-header-wrapper {
-		grid-area: header;
-		width: 100%;
-	}
-
-	.gallery {
-		grid-area: gallery;
-	}
-
-	/* ====================================================== */
-
-	@media (min-width: 60em) {
-		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 32px;
-		}
-
-		.section.with-cta {
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-		}
-	}
-
-</style>
