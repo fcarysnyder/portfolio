@@ -4,7 +4,7 @@ Branch: `chore/fix-style-consistency-usablity`
 Visual reference: `docs/type-explorations.html`, treatment **D · Proposed**. Open it in a browser; it's the approved look for reading pages.
 Background audit: `docs/style-guide.html`. Findings are referenced below as F1–F13.
 
-> **Updated 2026-10-20.** Three things changed after this spec was approved, and the text below now reflects them: the accent reds are one AAA red per theme (§3), `.prose` defaults to 18px with the headings staying at 24/20px (§5, §9), and the cascade is layered all the way down, with no `!important` in `src/` (see `docs/css-architecture.md`). The Swiss layout experiment mentioned in earlier notes was deleted.
+> **Updated 2026-10-20.** Three things changed after this spec was approved, and the text below now reflects them: the accent reds have role tokens that, by the owner's call, resolve to the original brand reds (§3), `.prose` defaults to 18px with the headings staying at 24/20px (§5, §9), and the cascade is layered all the way down, with no `!important` in `src/` (see `docs/css-architecture.md`). The Swiss layout experiment mentioned in earlier notes was deleted.
 
 ## Why
 
@@ -21,7 +21,7 @@ The owner wants three things:
 2. **Named type roles, each defined once**, and used the same way on every page (table below).
 3. **A consistent header** on blog posts and case studies: eyebrow, title, summary.
 4. **One shared set of article styles** (`.prose`) for blog posts and case-study content.
-5. **Separate brand red from accessible "action" red.** The logo keeps the brand red. Text and buttons use one red per theme that passes WCAG AAA (updated 2026-10-20; it started as AA).
+5. **Separate brand red from accessible "action" red.** The logo keeps the brand red. Text and buttons read role tokens. (Updated 2026-10-20: the AA, then AAA, reds were tried and rolled back; the tokens now hold the original reds.)
 6. **Reader controls**: an "Aa" panel in the nav on blog posts and case studies, for font (sans/serif), text size and line spacing.
 
 ## Non-goals
@@ -108,19 +108,19 @@ Global `h1–h5` defaults in global.css (4.5rem / 3.5rem / …) describe nothing
 
 `#ff4949` is 3.33:1 on white and 3.33:1 under white text, so it fails AA for text in light mode and for every white-on-red button in **both** themes. New tokens in `:root` / `:root.theme-dark`, bridged into `@theme`.
 
-**Updated 2026-10-20: AAA reds at the logo's hue.** Light mode: text `#b60000`, fills the light `#ff6969` with dark text (owner's call, so buttons stay close to the logo). Dark mode: one red, `#ff6969`, for both. The first version used a brand red plus two AA reds (`#d62828` / `#b71c1c` light, `#ff4949` / `#ff7a7a` dark text). It is now a single red per theme, taken at the logo's hue (hsl 0 100%) at the lightest lightness that reaches WCAG AAA (7:1) as text on the page and under `--on-accent`. Text and fill are the same value, and the hovers are darker in light mode and lighter in dark mode.
+**Updated 2026-10-20: rolled back to the original reds.** The branch tried AA reds (`#d62828` light), then AAA reds at the logo's hue (`#b60000` text, `#ff6969` fills with dark text). The owner judged both worse to look at and rolled the colors back to main. The role tokens stay, so a later change is one edit in `global.css`.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--brand` | `#ff4949` | `#ff4949` | A token only. The logo is an image, and no UI code reads it (it fails as text: 3.33:1 on white). A test keeps it out of components. |
-| `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
-| `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above. A visible change, unlike the original `#ff4949` to `#f54c4c`. |
-| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds under button text: `.button`, default Pill, GatedContent and PasswordModal buttons. Same value as `--accent-text` in each theme. |
-| `--accent-fill-hover` | `#ff8787` | `#ff8787` | Hover for fills |
-| `--on-accent` | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | Text on fills. Dark mode uses near-black text, because white on `#ff6969` is 2.81:1. |
+| `--brand` | `#ff4949` | `#ff4949` | The logo red. No UI code reads it; a test keeps it out of components. |
+| `--accent-text` | `#ff4949` | `#ff4949` | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
+| `--accent-text-hover` | `#f54c4c` | `#f86161` | Hover for the above |
+| `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds under button text: `btn`, default Pill, toggle knob |
+| `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
+| `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 
-**Designer's call, resolved:** dark-mode buttons moved off `#ff4949` (white on it fails in dark mode too). They now use `#ff6969` with near-black text.
+**Known gap, accepted:** `#ff4949` is 3.33:1 on white and under white text, below AA for normal-size text.
 
 Replace and then remove the old tokens: `--accent-regular`, `--accent-dark`, `--accent-light`, `--accent-overlay`, `--accent-subtle-overlay`, `--link-color`, `--accent-text-over`. They're used in 13 files plus global.css. Map each use by what it *is* (text, fill or decoration), not by its old name. Per-project Pill colors from frontmatter (`color:`) are unchanged.
 
@@ -202,5 +202,5 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 - A search finds no `--font-size-`, `--font-family-`, `--accent-regular`, `--accent-dark` or `--link-color` left in `src/`, and no `px` font sizes outside the documented exceptions.
 - Light and dark, at ~375px and ~1400px: home, Work index, one blog post, Writing index, Photography, About, one case study (unlock locally) and 404. Reading pages match `docs/type-explorations.html` (D), apart from the decided changes (eyebrow, red links, upright quotes).
 - Computed sizes on a blog post at default reader settings: body 18px / 30.6px, H2 24px, H3 20px, title 36px at desktop. Home title 48px at desktop.
-- Contrast: link text and button text/background pass 7:1 (AAA) in both themes. `tests/styles/color-tokens.test.ts` checks it.
+- Colors: the red tokens hold main's values (`tests/styles/color-tokens.test.ts`). Contrast below AA for the red is an accepted gap.
 - Reader controls: each setting changes body text with no layout break; preferences survive reload and View Transition navigation with no flash; reset works; keyboard-only use works; About and index pages ignore saved preferences.

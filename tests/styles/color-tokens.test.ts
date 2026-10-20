@@ -77,26 +77,15 @@ describe('color tokens', () => {
     ).toEqual([]);
   });
 
-  it.each(['light', 'dark'])('%s: accent text passes AAA on the page background', (mode) => {
-    expect(contrast(tok(mode, '--accent-text'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(7);
-    expect(contrast(tok(mode, '--accent-text-hover'), tok(mode, '--gray-999'))).toBeGreaterThanOrEqual(7);
+  // The owner rolled the reds back to what main shipped, under the role token names. #ff4949 is
+  // not AA as text on white (3.3:1); that is a recorded choice, not an oversight.
+  it.each([
+    ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#f54c4c', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
+    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#f86161', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
+  ] as const)('%s: the red tokens resolve to main\'s values', (mode, values) => {
+    for (const [name, value] of Object.entries(values)) expect(tok(mode, name), name).toBe(value);
   });
 
-  // Light mode's fill is the logo red by the owner's choice, which holds AA with dark text; dark mode holds AAA.
-  it.each([['light', 4.5], ['dark', 7]] as const)('%s: text on accent fill passes %s:1', (mode, min) => {
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill'))).toBeGreaterThanOrEqual(min);
-    expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(min);
-  });
-
-  it('light fills are the logo red with the default ink on them; hover lightens', () => {
-    expect(tok('light', '--accent-fill')).toBe('#ff4949');
-    expect(tok('light', '--on-accent')).toBe(tok('light', '--gray-0'));
-    expect(tok('light', '--on-accent')).toBe(tok('dark', '--on-accent'));
-    expect(contrast(tok('light', '--on-accent'), tok('light', '--accent-fill-hover'))).toBeGreaterThan(contrast(tok('light', '--on-accent'), tok('light', '--accent-fill')));
-  });
-  it('dark mode uses one red: text and fill are the same token value', () => {
-    expect(tok('dark', '--accent-fill')).toBe(tok('dark', '--accent-text'));
-  });
   it('uses the brand red only as a token (the logo is an image), never directly in UI code', () => {
     expect(grepSrc(/var\(--brand\)|(?<![\w-])(?:[a-z0-9-]+:)*(?:[a-z]+-)+brand\b/).filter((h) => !h.startsWith('src/styles/global.css:'))).toEqual([]);
   });

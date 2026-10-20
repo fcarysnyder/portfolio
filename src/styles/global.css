@@ -214,19 +214,16 @@
 	--gray-999_40: hsla(var(--gray-999-basis), 0.4);
 	--gray-999: #ffffff;
 
-	/* Brand red: logo and decoration only. Never use it for text or under text. */
+	/* Brand red: the logo. UI code reads the role tokens below, never --brand. */
 	--brand: #ff4949;
-	/* Text red: the logo's hue (hsl 0 100%) at the lightest lightness that passes WCAG AAA
-	   (7:1) as text on white. Hover is darker and passes too. */
-	--accent-text: #b60000;
-	--accent-text-hover: #970000;
-	/* Fills (buttons, the theme toggle knob, pills): the logo red, with the default ink (--gray-0)
-	   as text: #090b11 on #ff4949 is 5.9:1, AA (the owner's choice over a lighter AAA red). Hover
-	   is lighter, #ff6969 (7.0:1). The value matches --brand but is its own token, so UI code
-	   never reads --brand. */
+	/* The reds, by role. They resolve to the values main shipped: the logo red for text and fills,
+	   a slightly deeper red on hover, white text on fills. Not AA as text: #ff4949 on white is
+	   3.3:1 (the owner's call, keeping the brand look). */
+	--accent-text: #ff4949;
+	--accent-text-hover: #f54c4c;
 	--accent-fill: #ff4949;
-	--accent-fill-hover: #ff6969;
-	--on-accent: #090b11;
+	--accent-fill-hover: #f54c4c;
+	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
@@ -262,13 +259,9 @@
 	--gray-900: #141925;
 	--gray-999-basis: 225, 31%, 5%;
 	--gray-999: #090b11;
-	/* One red in dark mode: the lightest logo-hue red that passes AAA (7:1) on the dark page,
-	   used for text and fills alike. Fills keep the dark --on-accent text: #090b11 on #ff6969 is
-	   7.0:1 (AAA), hover 8.5:1 (white would fail). */
-	--accent-text: #ff6969;
-	--accent-text-hover: #ff8787;
-	--accent-fill: #ff6969;
-	--accent-fill-hover: #ff8787;
+	/* Dark mode keeps the logo red; only the hovers change, to main's dark hover red. */
+	--accent-text-hover: #f86161;
+	--accent-fill-hover: #f86161;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);

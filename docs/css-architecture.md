@@ -24,7 +24,7 @@ Weakest first:
 | 2 | **base** layer | Tailwind's reset (Preflight), then our element defaults in `global.css` | `body` color and font, headings, links, `img`, text selection, the focus ring |
 | 3 | **components** layer | `type.css` and `prose.css` | The `.t-*` type roles, `.prose`, the reader-size hooks |
 | 4 | **utilities** layer | Every Tailwind class in the markup, plus our own `@utility` rules in `global.css` | `flex`, `gap-4`, `text-accent-text`, `lg:grid`, `elevation-md`, `wrapper` |
-| 5 | **Unlayered** | `:root` tokens, the About cursors, Astro and library CSS (see the next section) | `--accent-text: #b60000` |
+| 5 | **Unlayered** | `:root` tokens, the About cursors, Astro and library CSS (see the next section) | `--accent-text: #ff4949` |
 | 6 | **Inline `style`** | Markup | `style="--pill-color: #46d501"` |
 
 What this means in practice:
@@ -140,19 +140,21 @@ Don't:
 
 ## Colors in one place
 
-One red per theme, picked at the logo's hue (hsl 0 100%) as the lightest shade that passes WCAG AAA (7:1) as text on the page and under button text.
+The reds have role tokens, and they resolve to the values main shipped: the logo red for text and fills, a slightly deeper red on hover, white text on fills. The owner chose the brand look over contrast: `#ff4949` is 3.3:1 on white and under white text, below AA (4.5:1) for normal-size text. To change a red, change a token here; components only read the roles.
 
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
-| `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
-| `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above |
-| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds: `btn`, default pill, toggle knob. The same light red in both themes |
-| `--accent-fill-hover` | `#ff8787` | `#ff8787` | Hover for fills (lighter) |
-| `--on-accent` | `#090b11` (7.00:1 on the fill) | `#090b11` (7.00:1 on the fill) | Text on fills: dark in both themes, because white on the light red would fail |
-| `--brand` | `#ff4949` | `#ff4949` | A token only. It fails as text or under text (3.33:1 on white), and the logo is an image, so no code reads it |
+| `--accent-text` | `#ff4949` | `#ff4949` | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
+| `--accent-text-hover` | `#f54c4c` | `#f86161` | Hover for the above |
+| `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds: `btn`, default pill, toggle knob |
+| `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
+| `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
+| `--brand` | `#ff4949` | `#ff4949` | The logo red. The same value as the roles today, but no UI code reads it, so the roles can move without touching the logo |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 
-`tests/styles/color-tokens.test.ts` checks the contrast numbers and that text and fill are the same red.
+Project pills pick white or black text per project color at build time (`src/lib/pill-text.ts`); a test checks each work color at AA.
+
+`tests/styles/color-tokens.test.ts` checks that the tokens hold these values.
 
 ## Things worth knowing
 
@@ -177,6 +179,6 @@ All in `tests/styles/`. Run them with `npx vitest run tests`.
 | `type-guard.test.ts` | Every font size is on Tailwind's scale; the scale is never redefined; no old v3 token names |
 | `type-roles.test.ts` | The roles exist and pages use them |
 | `prose.test.ts` | `.prose` sizes, margins and reader hooks |
-| `color-tokens.test.ts` | AAA contrast, one red per theme, brand only as a token |
+| `color-tokens.test.ts` | the red tokens hold main's values, brand only as a token |
 | `links.test.ts` | One link style, `.t-link`; every `<a>` takes it or is on the allow-list |
 | `buttons.test.ts` | `btn` and `icon-control` values; every button takes one or is on the allow-list; no button carries `bg-accent-fill` |

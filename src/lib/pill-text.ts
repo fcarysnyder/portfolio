@@ -1,11 +1,11 @@
 /**
- * Picks the pill text color for a project's front-matter `color`: white or the near-black
- * --on-accent (#090b11), whichever contrasts more. Runs at build time in Pill.astro, so each
- * project color gets readable text without a per-project override.
+ * Picks the pill text color for a project's front-matter `color`: white or black, whichever
+ * contrasts more. Runs at build time in Pill.astro, so each project color gets readable text
+ * without a per-project override (main hard-coded black for CrossnoKaye's green).
  */
 
 export const PILL_TEXT_LIGHT = '#ffffff';
-export const PILL_TEXT_DARK = '#090b11';
+export const PILL_TEXT_DARK = '#000000';
 
 /** Parses #rgb, #rrggbb, rgb()/rgba() and hsl()/hsla() into 0–255 channels; alpha is ignored. */
 export function parseColor(color: string): [number, number, number] | undefined {
