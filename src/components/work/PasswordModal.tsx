@@ -114,7 +114,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           aria-invalid={Boolean(displayedError)}
           aria-describedby={displayedError ? 'gate-error' : undefined}
           className={`mb-2 w-full rounded-lg border bg-gray-900 p-3 font-mono text-base/[inherit] text-gray-0 ${
-            displayedError ? 'border-[hsl(0_80%_60%)]' : 'border-gray-800'
+            displayedError ? 'border-accent-text' : 'border-gray-800'
           }`}
         />
 

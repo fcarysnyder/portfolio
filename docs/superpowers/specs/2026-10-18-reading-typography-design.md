@@ -108,16 +108,16 @@ Global `h1–h5` defaults in global.css (4.5rem / 3.5rem / …) describe nothing
 
 `#ff4949` is 3.33:1 on white and 3.33:1 under white text, so it fails AA for text in light mode and for every white-on-red button in **both** themes. New tokens in `:root` / `:root.theme-dark`, bridged into `@theme`.
 
-**Updated 2026-10-20: one AAA red per theme.** The first version used a brand red plus two AA reds (`#d62828` / `#b71c1c` light, `#ff4949` / `#ff7a7a` dark text). It is now a single red per theme, taken at the logo's hue (hsl 0 100%) at the lightest lightness that reaches WCAG AAA (7:1) as text on the page and under `--on-accent`. Text and fill are the same value, and the hovers are darker in light mode and lighter in dark mode.
+**Updated 2026-10-20: AAA reds at the logo's hue.** Light mode: text `#b60000`, fills the light `#ff6969` with dark text (owner's call, so buttons stay close to the logo). Dark mode: one red, `#ff6969`, for both. The first version used a brand red plus two AA reds (`#d62828` / `#b71c1c` light, `#ff4949` / `#ff7a7a` dark text). It is now a single red per theme, taken at the logo's hue (hsl 0 100%) at the lightest lightness that reaches WCAG AAA (7:1) as text on the page and under `--on-accent`. Text and fill are the same value, and the hovers are darker in light mode and lighter in dark mode.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | `--brand` | `#ff4949` | `#ff4949` | A token only. The logo is an image, and no UI code reads it (it fails as text: 3.33:1 on white). A test keeps it out of components. |
 | `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
 | `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above. A visible change, unlike the original `#ff4949` to `#f54c4c`. |
-| `--accent-fill` | `#b60000` | `#ff6969` | Backgrounds under button text: `.button`, default Pill, GatedContent and PasswordModal buttons. Same value as `--accent-text` in each theme. |
-| `--accent-fill-hover` | `#970000` | `#ff8787` | Hover for fills |
-| `--on-accent` | `#ffffff` (7.03:1 on the fill, 9.07:1 on the hover) | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | Text on fills. Dark mode uses near-black text, because white on `#ff6969` is 2.81:1. |
+| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds under button text: `.button`, default Pill, GatedContent and PasswordModal buttons. Same value as `--accent-text` in each theme. |
+| `--accent-fill-hover` | `#ff8787` | `#ff8787` | Hover for fills |
+| `--on-accent` | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | Text on fills. Dark mode uses near-black text, because white on `#ff6969` is 2.81:1. |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 
 **Designer's call, resolved:** dark-mode buttons moved off `#ff4949` (white on it fails in dark mode too). They now use `#ff6969` with near-black text.

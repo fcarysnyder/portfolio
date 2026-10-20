@@ -44,7 +44,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
     <DropdownMenu.Root open={open} onOpenChange={handleOpenChange} modal={false}>
       <DropdownMenu.Trigger
         ref={triggerRef}
-        className="menu-button relative flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-[0.65rem] text-2xl/[inherit] text-accent-text active:outline-2 active:outline-offset-2 active:outline-brand data-[state=open]:outline-2 data-[state=open]:outline-offset-2 data-[state=open]:outline-brand"
+        className="menu-button relative flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-[0.65rem] text-2xl/[inherit] text-accent-text active:outline-2 active:outline-offset-2 active:outline-accent-text data-[state=open]:outline-2 data-[state=open]:outline-offset-2 data-[state=open]:outline-accent-text"
         aria-label="Menu"
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => handleOpenChange(!open)}

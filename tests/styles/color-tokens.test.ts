@@ -87,11 +87,16 @@ describe('color tokens', () => {
     expect(contrast(tok(mode, '--on-accent'), tok(mode, '--accent-fill-hover'))).toBeGreaterThanOrEqual(7);
   });
 
-  it.each(['light', 'dark'])('%s: the UI uses one red (text and fill are the same token value)', (mode) => {
-    expect(tok(mode, '--accent-fill')).toBe(tok(mode, '--accent-text'));
+  it('fills use the same light red in both themes, with dark text on them', () => {
+    expect(tok('light', '--accent-fill')).toBe(tok('dark', '--accent-fill'));
+    expect(tok('light', '--accent-fill-hover')).toBe(tok('dark', '--accent-fill-hover'));
+    expect(tok('light', '--on-accent')).toBe(tok('dark', '--on-accent'));
+  });
+  it('dark mode uses one red: text and fill are the same token value', () => {
+    expect(tok('dark', '--accent-fill')).toBe(tok('dark', '--accent-text'));
   });
   it('uses the brand red only as a token (the logo is an image), never directly in UI code', () => {
-    expect(grepSrc(/var\(--brand\)|\btext-brand\b|\bbg-brand\b|\bborder-brand\b/).filter((h) => !h.startsWith('src/styles/global.css:'))).toEqual([]);
+    expect(grepSrc(/var\(--brand\)|(?<![\w-])(?:[a-z0-9-]+:)*(?:[a-z]+-)+brand\b/).filter((h) => !h.startsWith('src/styles/global.css:'))).toEqual([]);
   });
   it('keeps the brand red', () => {
     expect(tok('light', '--brand')).toBe('#ff4949');

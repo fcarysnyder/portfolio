@@ -129,9 +129,9 @@ One red per theme, picked at the logo's hue (hsl 0 100%) as the lightest shade t
 |-------|-------|------|-----|
 | `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
 | `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above |
-| `--accent-fill` | `#b60000` | `#ff6969` | Backgrounds: `.button`, default pill |
-| `--accent-fill-hover` | `#970000` | `#ff8787` | Hover for fills |
-| `--on-accent` | `#ffffff` (7.03:1 on the fill) | `#090b11` (7.00:1 on the fill) | Text on fills. Dark mode uses dark text, because white on the light red would fail |
+| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds: `.button`, default pill, toggle knob. The same light red in both themes |
+| `--accent-fill-hover` | `#ff8787` | `#ff8787` | Hover for fills (lighter) |
+| `--on-accent` | `#090b11` (7.00:1 on the fill) | `#090b11` (7.00:1 on the fill) | Text on fills: dark in both themes, because white on the light red would fail |
 | `--brand` | `#ff4949` | `#ff4949` | A token only. It fails as text or under text (3.33:1 on white), and the logo is an image, so no code reads it |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 

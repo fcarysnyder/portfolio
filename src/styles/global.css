@@ -170,13 +170,15 @@
 
 	/* Brand red: logo and decoration only. Never use it for text or under text. */
 	--brand: #ff4949;
-	/* Action reds: the logo's hue (hsl 0 100%) at the lightest lightness that passes WCAG AAA
-	   (7:1) as text on the page and under --on-accent. Hovers are darker and pass too. */
+	/* Text red: the logo's hue (hsl 0 100%) at the lightest lightness that passes WCAG AAA
+	   (7:1) as text on white. Hover is darker and passes too. */
 	--accent-text: #b60000;
 	--accent-text-hover: #970000;
-	--accent-fill: #b60000;
-	--accent-fill-hover: #970000;
-	--on-accent: #ffffff;
+	/* Fills (buttons, the toggle knob, pills) use the light logo-hue red in both themes, with
+	   dark text on them: #090b11 on #ff6969 is 7.0:1 (AAA). Hover is lighter (8.5:1). */
+	--accent-fill: #ff6969;
+	--accent-fill-hover: #ff8787;
+	--on-accent: #090b11;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
@@ -216,9 +218,6 @@
 	   used for text and fills alike. Fills carry dark text (white on it would fail). */
 	--accent-text: #ff6969;
 	--accent-text-hover: #ff8787;
-	--accent-fill: #ff6969;
-	--accent-fill-hover: #ff8787;
-	--on-accent: #090b11;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
