@@ -44,13 +44,15 @@ export default function NavDropdown({ links }: NavDropdownProps) {
     <DropdownMenu.Root open={open} onOpenChange={handleOpenChange} modal={false}>
       <DropdownMenu.Trigger
         ref={triggerRef}
-        className="menu-button relative flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-[0.65rem] text-2xl/[inherit] text-accent-text active:outline-2 active:outline-offset-2 active:outline-accent-text data-[state=open]:outline-2 data-[state=open]:outline-offset-2 data-[state=open]:outline-accent-text"
+        className="menu-button icon-control"
         aria-label="Menu"
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => handleOpenChange(!open)}
       >
         <span className="sr-only">Menu</span>
-        <Menu size={16} />
+        <span className="flex size-8 p-2 text-(length:--text-base)">
+          <Menu size="1em" aria-hidden="true" />
+        </span>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
@@ -72,7 +74,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
                 <DropdownMenu.Item asChild>
                   <a
                     href={href}
-                    className="block rounded-sm border-none px-4 py-2 text-gray-300 no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover data-[highlighted]:outline-none aria-[current]:font-bold aria-[current]:text-accent-text"
+                    className="block rounded-sm border-none px-4 py-2 text-gray-300 no-underline hover:bg-accent-overlay-hover hover:text-accent-text-hover data-highlighted:bg-accent-overlay-hover data-highlighted:text-accent-text-hover data-[highlighted]:outline-none aria-[current]:font-bold aria-[current]:text-accent-text"
                     aria-current={checkIsCurrentPage(href) ? 'page' : undefined}
                   >
                     {label}

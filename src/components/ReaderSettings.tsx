@@ -167,10 +167,10 @@ export default function ReaderSettings() {
       }}
     >
       <DropdownMenu.Trigger
-        className="reader-trigger flex cursor-pointer rounded-[999rem] border-none bg-gray-999 p-0 [box-shadow:inset_0_0_0_1px_var(--accent-text)] hover:bg-accent-overlay-hover data-[state=open]:bg-accent-overlay-hover"
+        className="reader-trigger icon-control"
         aria-label="Reading settings"
       >
-        <span className="flex size-8 p-2 text-(length:--text-base) text-accent-text">
+        <span className="flex size-8 p-2 text-(length:--text-base)">
           <ALargeSmall size="1em" aria-hidden="true" />
         </span>
       </DropdownMenu.Trigger>

@@ -127,9 +127,7 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`mt-2 mb-6 w-full rounded-lg border-none bg-accent-fill p-3 text-base/[inherit] font-medium text-on-accent ${
-            isSubmitting ? 'cursor-wait' : 'cursor-pointer'
-          }`}
+          className="btn mt-2 mb-6 w-full"
         >
           {isSubmitting ? 'Unlocking…' : 'Unlock case study'}
         </button>

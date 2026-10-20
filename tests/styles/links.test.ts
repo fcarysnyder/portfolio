@@ -195,7 +195,7 @@ const hasClass = (tag: string, name: string) => new RegExp(`(?<![\\w-])${name}(?
  * opening tag must contain; the entry must match at least one tag, or the test fails.
  */
 const NOT_INLINE: { file: string; match: string; reason: string }[] = [
-  { file: 'src/components/Hero.astro', match: 'class="button', reason: 'filled call-to-action button (white on accent fill), not a text link' },
+  { file: 'src/components/Hero.astro', match: 'class="button btn', reason: 'filled call-to-action button: the shared btn utility (dark text on the accent fill), not a text link' },
   { file: 'src/components/PortfolioPreview.astro', match: 'class="card', reason: 'whole project card is the link; its CTA line has its own hover' },
   { file: 'src/components/Nav.astro', match: 'href="/"', reason: 'site logo in the nav, gray text with no underline' },
   { file: 'src/components/NavDropdown.tsx', match: 'href={href}', reason: 'nav dropdown items, a list pattern: gray at rest, accent-text-hover on hover, with a hover fill' },

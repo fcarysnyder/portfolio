@@ -137,7 +137,7 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="mt-3 cursor-pointer rounded-lg border-none bg-accent-fill px-4 py-2 font-sans text-sm/[inherit] text-on-accent"
+              className="btn mt-3"
             >
               Enter password
             </button>

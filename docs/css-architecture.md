@@ -46,6 +46,7 @@ The order is declared by Tailwind itself (theme, base, components, utilities), s
 | `@custom-variant hover` | none (it is a rule for Tailwind, not CSS output) | Makes `hover:` mean plain `:hover`. Tailwind's own `hover:` only fires on devices that truly hover; the site has always applied hover styles on tap too |
 | `@custom-variant dark` | none | Makes `dark:` follow the `.theme-dark` class on `<html>`, not the OS setting |
 | `@utility wrapper`, `elevation-sm/md/lg` | utilities | `wrapper` is the 83rem page column. `elevation-*` apply the site's shadow variables, which flip in dark mode (Tailwind's own `shadow-*` classes bake in fixed values) |
+| `@utility btn`, `icon-control` | utilities | The two button styles (see "Buttons" below) |
 | `:root`, `:root.theme-dark` | **unlayered** | The color, gradient and shadow tokens, light and dark |
 | `@layer base { ... }` | base | `html`/`body` sizing, `body` font and color, heading defaults (weight, color, line height, **no size**), `a`, `img`, `::selection`, the global focus ring |
 | `@source not ...` | none | Keeps `docs/`, `tests/` and notes out of Tailwind's class scan (see "Things worth knowing") |
@@ -56,7 +57,18 @@ All in the components layer. The eleven `.t-*` roles: `t-display`, `t-page-title
 
 **Links.** There is one link treatment, `.t-link`: `--accent-text`, an underline that is transparent at rest, and on hover and keyboard focus the color goes to `--accent-text-hover` and the underline to `currentColor` (a 0.2s transition on both). Put the class on every inline text link, with no other color or underline utility on the element. `.t-small-link` is only the size and weight (sm, 500) of Back, Previous and Next; those anchors carry `t-small-link t-link`. Links inside article text follow the same rule through `.prose a` in `prose.css`, with one difference: the underline is faint (40% of the text color) at rest, so a link in body copy does not depend on color alone. The two rules repeat each other's values and point to each other in comments; `tests/styles/links.test.ts` fails if they drift.
 
-Links that are not inline text keep their own pattern, but their hover color is still `--accent-text-hover`: the project card, the primary button, the nav logo, nav dropdown items, the Writing-list post titles and the Writing filters. The test lists each one, with a reason, in an allow-list; any new `<a>` has to take `t-link` or join the list. The global `a` rule in `global.css` only sets the fallback color (`--accent-text`).
+Links that are not inline text keep their own pattern, but their hover color is still `--accent-text-hover`: the project card, nav dropdown items, the Writing-list post titles and the Writing filters. (The primary button is the exception: it hovers its background, see "Buttons" below. The nav logo has no hover.) The test lists each one, with a reason, in an allow-list; any new `<a>` has to take `t-link` or join the list. The global `a` rule in `global.css` only sets the fallback color (`--accent-text`).
+
+### Buttons
+
+There are two button styles, each defined once in `global.css` as an `@utility`:
+
+- **`btn`**, the filled button: `--accent-fill` with `--on-accent` text (dark, in both themes), 40px tall, 8px radius, `text-sm` 600 uppercase. On hover the fill goes to `--accent-fill-hover`; `:disabled` shows the wait cursor. Used by Hero's "Drop me a line", "Enter password" and "Unlock case study". Put layout on the element (`mt-5`, `w-full`, `w-fit`) and nothing that changes the fill, size or radius. The keyboard focus ring is the global one.
+- **`icon-control`**, the round icon control: a white circle with a 1px `--accent-text` ring and icon, tinted with `--accent-overlay-hover` on hover and while its menu is open (`data-state='open'`). Used by the Aa reader trigger, the menu (≡) button and the theme toggle. It sets no size: the 2rem comes from the icon box inside it (`size-8 p-2`, icon at `1em`). That is also why the theme toggle can take it as is: its two icon boxes make a 4rem two-segment pill, and its sliding knob keeps its own `group-hover` darkening to `--accent-fill-hover`.
+
+Dropdown items (`NavDropdown.tsx`, `ReaderSettings.tsx`) are list items, not buttons, but share the hover tint; a keyboard-highlighted item (`data-highlighted`) gets the same background and color as hover.
+
+Left alone on purpose, each with its own look: the lightbox controls (white glyphs on the dark overlay, over photos), the filter buttons (text toggles that follow the link hover), the carousel trigger (the screenshot is the button) and the debug-panel easter egg. `tests/styles/buttons.test.ts` checks that every `<button>` and button-like `<a>` in `src/` takes `btn` or `icon-control`, or is on its allow-list with a reason, and that no button carries its own `bg-accent-fill`.
 
 ### `src/styles/prose.css`
 
@@ -133,7 +145,7 @@ One red per theme, picked at the logo's hue (hsl 0 100%) as the lightest shade t
 |-------|-------|------|-----|
 | `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
 | `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above |
-| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds: `.button`, default pill, toggle knob. The same light red in both themes |
+| `--accent-fill` | `#ff6969` | `#ff6969` | Backgrounds: `btn`, default pill, toggle knob. The same light red in both themes |
 | `--accent-fill-hover` | `#ff8787` | `#ff8787` | Hover for fills (lighter) |
 | `--on-accent` | `#090b11` (7.00:1 on the fill) | `#090b11` (7.00:1 on the fill) | Text on fills: dark in both themes, because white on the light red would fail |
 | `--brand` | `#ff4949` | `#ff4949` | A token only. It fails as text or under text (3.33:1 on white), and the logo is an image, so no code reads it |
@@ -165,3 +177,5 @@ All in `tests/styles/`. Run them with `npx vitest run tests`.
 | `type-roles.test.ts` | The roles exist and pages use them |
 | `prose.test.ts` | `.prose` sizes, margins and reader hooks |
 | `color-tokens.test.ts` | AAA contrast, one red per theme, brand only as a token |
+| `links.test.ts` | One link style, `.t-link`; every `<a>` takes it or is on the allow-list |
+| `buttons.test.ts` | `btn` and `icon-control` values; every button takes one or is on the allow-list; no button carries `bg-accent-fill` |
