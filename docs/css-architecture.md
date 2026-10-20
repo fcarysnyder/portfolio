@@ -20,7 +20,7 @@ Weakest first:
 
 | # | What | Where it comes from | Examples |
 |---|------|---------------------|----------|
-| 1 | **theme** layer | Tailwind, from `@theme` in `global.css` | `--color-gray-200`, `--font-sans`, `--spacing-4`, the type scale (`--text-xl`). Variables only, no rules. |
+| 1 | **theme** layer | Tailwind, from `@theme` in `global.css` | `--color-gray-200`, `--font-sans`, `--breakpoint-lg`, the type scale (`--text-xl`). Variables only, no rules. |
 | 2 | **base** layer | Tailwind's reset (Preflight), then our element defaults in `global.css` | `body` color and font, headings, links, `img`, text selection, the focus ring |
 | 3 | **components** layer | `type.css` and `prose.css` | The `.t-*` type roles, `.prose`, the reader-size hooks |
 | 4 | **utilities** layer | Every Tailwind class in the markup, plus our own `@utility` rules in `global.css` | `flex`, `gap-4`, `text-accent-text`, `lg:grid`, `elevation-md`, `wrapper` |
@@ -42,7 +42,7 @@ The order is declared by Tailwind itself (theme, base, components, utilities), s
 | Part | Layer | What it does |
 |------|-------|--------------|
 | `@import "tailwindcss"` | builds all four layers | Includes Preflight, the reset |
-| `@theme { ... }` | theme | Bridges the site's colors into Tailwind names (`--color-gray-200: var(--gray-200)`), declares the font stacks, the spacing scale, `--breakpoint-lg: 60em`, and the three animations (`--animate-*`) |
+| `@theme { ... }` | theme | Bridges the site's colors into Tailwind names (`--color-gray-200: var(--gray-200)`), declares the font stacks, `--breakpoint-lg: 60em`, and the three animations (`--animate-*`) |
 | `@custom-variant hover` | none (it is a rule for Tailwind, not CSS output) | Makes `hover:` mean plain `:hover`. Tailwind's own `hover:` only fires on devices that truly hover; the site has always applied hover styles on tap too |
 | `@custom-variant dark` | none | Makes `dark:` follow the `.theme-dark` class on `<html>`, not the OS setting |
 | `@utility wrapper`, `elevation-sm/md/lg` | utilities | `wrapper` is the 83rem page column. `elevation-*` apply the site's shadow variables, which flip in dark mode (Tailwind's own `shadow-*` classes bake in fixed values) |
@@ -149,12 +149,11 @@ The reds have role tokens, and they resolve to the values main shipped: the logo
 | `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds: `btn`, default pill, toggle knob |
 | `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
-| `--brand` | `#ff4949` | `#ff4949` | The logo red. The same value as the roles today, but no UI code reads it, so the roles can move without touching the logo |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 
 Project pills pick white or black text per project color at build time (`src/lib/pill-text.ts`); a test checks each work color at AA.
 
-`tests/styles/color-tokens.test.ts` checks that the tokens hold these values.
+`tests/styles/color-tokens.test.ts` checks that the tokens hold these values, and that every token in `:root` is used somewhere (an unused one fails the build). Spacing comes from Tailwind's default (`n × --spacing`); the site defines none of its own.
 
 ## Things worth knowing
 
@@ -179,6 +178,6 @@ All in `tests/styles/`. Run them with `npx vitest run tests`.
 | `type-guard.test.ts` | Every font size is on Tailwind's scale; the scale is never redefined; no old v3 token names |
 | `type-roles.test.ts` | The roles exist and pages use them |
 | `prose.test.ts` | `.prose` sizes, margins and reader hooks |
-| `color-tokens.test.ts` | the red tokens hold main's values, brand only as a token |
+| `color-tokens.test.ts` | the red tokens hold main's values; no brand token; no unused token in `:root` |
 | `links.test.ts` | One link style, `.t-link`; every `<a>` takes it or is on the allow-list |
 | `buttons.test.ts` | `btn` and `icon-control` values; every button takes one or is on the allow-list; no button carries `bg-accent-fill` |

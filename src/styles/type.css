@@ -133,7 +133,8 @@
 		font-weight: 500;
 	}
 
-	@media (min-width: 60em) {
+	/* The lg breakpoint (--breakpoint-lg, 60em in global.css) */
+	@variant lg {
 		.t-display {
 			font-size: var(--text-5xl);
 		}

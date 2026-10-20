@@ -45,18 +45,13 @@
 
 	/* :root (global.css) */
 	--gray-0: #090b11;
-	--gray-50: #141925;
 	--gray-100: #283044;
 	--gray-200: #3d4663;
 	--gray-300: #505d84;
 	--gray-400: #6474a2;
-	--gray-500: #8490b5;
-	--gray-600: #a3acc8;
-	--gray-700: #c3cadb;
 	--gray-800: #e3e6ee;
 	--gray-900: #f3f4f7;
 	--gray-999: #ffffff;
-	--brand: #ff4949;
 	--accent-text: #ff4949;
 	--accent-text-hover: var(--accent-fill-hover);
 	--accent-fill: #ff4949;
@@ -64,7 +59,6 @@
 	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-900), var(--gray-700));
 	--shadow-sm: 0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01), 0px 2px 2px rgba(9, 11, 17, 0.02), 0px 0px 1px rgba(9, 11, 17, 0.03);
 	--shadow-md: 0px 28px 11px rgba(9, 11, 17, 0.01), 0px 16px 10px rgba(9, 11, 17, 0.03), 0px 7px 7px rgba(9, 11, 17, 0.05), 0px 2px 4px rgba(9, 11, 17, 0.06);
 	--shadow-lg: 0px 62px 25px rgba(9, 11, 17, 0.01), 0px 35px 21px rgba(9, 11, 17, 0.05), 0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
@@ -80,21 +74,16 @@
 :root.theme-dark {
 	/* :root.theme-dark (global.css) */
 	--gray-0: #ffffff;
-	--gray-50: #f3f4f7;
 	--gray-100: #e3e6ee;
 	--gray-200: #c3cadb;
 	--gray-300: #a3acc8;
 	--gray-400: #8490b5;
-	--gray-500: #6474a2;
-	--gray-600: #505d84;
-	--gray-700: #3d4663;
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
 	--accent-fill-hover: #f86161;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 	--shadow-sm: 0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01), 0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
 	--shadow-md: 0px 28px 11px rgba(255, 255, 255, 0.01), 0px 16px 10px rgba(255, 255, 255, 0.03), 0px 7px 7px rgba(255, 255, 255, 0.05), 0px 2px 4px rgba(255, 255, 255, 0.06);
 	--shadow-lg: 0px 62px 25px rgba(255, 255, 255, 0.01), 0px 35px 21px rgba(255, 255, 255, 0.05), 0px 16px 16px rgba(255, 255, 255, 0.1), 0px 4px 9px rgba(255, 255, 255, 0.12);
@@ -294,16 +283,16 @@ pre code { white-space: pre; background: none; padding: 0; }
 
 /* ---------- Scales: spacing, radius, shadow ---------- */
 .sg-space { display: grid; grid-template-columns: 6rem 4.5rem minmax(0, 1fr); gap: 0.75rem; align-items: center; font-family: var(--font-mono); font-size: var(--text-xs); padding: 0.3rem 0; }
-.sg-space i { display: block; max-width: 100%; height: 0.75rem; background: var(--brand); border-radius: 2px; opacity: 0.85; }
+.sg-space i { display: block; max-width: 100%; height: 0.75rem; background: var(--accent-fill); border-radius: 2px; opacity: 0.85; }
 .sg-radii { display: flex; flex-wrap: wrap; gap: 1rem; }
 .sg-radius { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; width: 7.5rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--gray-300); }
-.sg-radius i { display: block; width: 4.5rem; height: 4.5rem; border: 2px solid var(--gray-300); border-top-color: var(--brand); border-left-color: var(--brand); background: var(--gray-900); }
+.sg-radius i { display: block; width: 4.5rem; height: 4.5rem; border: 2px solid var(--gray-300); border-top-color: var(--accent-fill); border-left-color: var(--accent-fill); background: var(--gray-900); }
 .sg-shadows { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
 @media (min-width: 45em) { .sg-shadows { grid-template-columns: repeat(3, 1fr); } }
 .sg-shadow { height: 8rem; border-radius: 0.75rem; background: var(--gray-999); border: 1px solid var(--gray-800); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); }
 
 .sg-bp { position: relative; height: 8.5rem; border: 1px solid var(--gray-800); border-radius: 0.5rem; background: var(--gray-900); overflow: hidden; }
-.sg-bp-mark { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--brand); }
+.sg-bp-mark { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--accent-fill); }
 .sg-bp-mark span { position: absolute; top: 0.35rem; left: 0.35rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--gray-200); white-space: nowrap; background: var(--gray-900); padding-right: 0.25rem; }
 .sg-bp-mark.tw { border-left-style: dashed; border-left-color: var(--gray-400); }
 .sg-bp-mark.tw span { color: var(--gray-400); }
@@ -764,7 +753,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<div class="sg-role"><div class="chip" style="background:var(--gray-800)"></div><div><b>Borders &amp; rules</b><span>--gray-800 · 16 uses · cards, dividers, meta rules</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--gray-900)"></div><div><b>Raised surface</b><span>--gray-900 · 3 uses · input fields, gradients</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--gray-999)"></div><div><b>Page / card surface</b><span>--gray-999 · 7 uses + body</span></div></div>
-				<div class="sg-role"><div class="chip" style="background:var(--brand)"></div><div><b>Brand red (token only)</b><span>--brand · no UI code reads it; the logo is an image</span></div></div>
+				
 				<div class="sg-role"><div class="chip" style="background:var(--accent-text)"></div><div><b>Accent text</b><span>--accent-text (+ -hover) · links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--accent-fill)"></div><div><b>Accent fill</b><span>--accent-fill (+ -hover) · btn (Hero, GatedContent, PasswordModal), Pill; text on it is --on-accent (near-black, #090b11, in both themes)</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--accent-overlay-hover)"></div><div><b>Accent tint (hover bg, selection)</b><span>--accent-overlay-hover · global only</span></div></div>
@@ -796,7 +785,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<h3 class="sg-h3">Gradients &amp; overlays</h3>
 			<div class="sg-grid-3">
 				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-subtle);border:1px solid var(--gray-800)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-subtle · gated placeholder</p></div>
-				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-stroke)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-stroke · defined, unused now</p></div>
 				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:rgba(0,0,0,0.9)"></div><p class="sg-src" style="margin-top:0.5rem">rgba(0,0,0,.9) · lightbox backdrop (Lightbox.tsx, shared), hardcoded · .7 in PasswordModal</p></div>
 			</div>
 		</section>
@@ -1135,13 +1123,14 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	});
 
 	// ---------- Ramps ----------
-	var steps = ['0', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '999'];
-	var light = ['#090b11', '#141925', '#283044', '#3d4663', '#505d84', '#6474a2', '#8490b5', '#a3acc8', '#c3cadb', '#e3e6ee', '#f3f4f7', '#ffffff'];
-	var dark  = ['#ffffff', '#f3f4f7', '#e3e6ee', '#c3cadb', '#a3acc8', '#8490b5', '#6474a2', '#505d84', '#3d4663', '#283044', '#141925', '#090b11'];
-	var uses = { '0': 19, '50': 0, '100': 0, '200': 17, '300': 6, '400': 12, '500': 0, '600': 1, '700': 0, '800': 16, '900': 3, '999': 7 };
-	var notes = { '0': 'titles', '100': 'global h1–h5 only', '200': 'body text', '300': 'secondary', '400': 'meta', '600': 'dead nav rule', '700': 'gradient-stroke', '800': 'borders', '900': 'raised surface', '999': 'page bg' };
+	// The eight steps left after the token audit (50, 500, 600 and 700 were unused and removed).
+	var steps = ['0', '100', '200', '300', '400', '800', '900', '999'];
+	var light = ['#090b11', '#283044', '#3d4663', '#505d84', '#6474a2', '#e3e6ee', '#f3f4f7', '#ffffff'];
+	var dark  = ['#ffffff', '#e3e6ee', '#c3cadb', '#a3acc8', '#8490b5', '#283044', '#141925', '#090b11'];
+	var uses = { '0': 15, '100': 1, '200': 16, '300': 6, '400': 14, '800': 14, '900': 3, '999': 9 };
+	var notes = { '0': 'titles', '100': 'prose body', '200': 'body text, lead', '300': 'descriptions, summaries', '400': 'meta', '800': 'borders', '900': 'raised surface', '999': 'page bg' };
 	function ramp(title, hexes) {
-		var bg = hexes[11];
+		var bg = hexes[hexes.length - 1];
 		var rows = steps.map(function (s, i) {
 			var h = hexes[i];
 			var txt = lum(h) > 0.35 ? '#090b11' : '#ffffff';
@@ -1160,7 +1149,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		var textHex = '#ff4949';
 		var onHex = '#ffffff';
 		var accentRow =
-			accRow('--brand', '#ff4949', 'vs page · token only', contrast('#ff4949', bg), '#ffffff') +
 			accRow('--accent-text', textHex, 'vs page · all red text', contrast(textHex, bg), onHex) +
 			accRow('--accent-fill', textHex, '--on-accent text on it', contrast(onHex, textHex), onHex);
 		return '<div class="sg-ramp"><div class="sg-ramp-title">' + title + '</div>' + rows + accentRow + '</div>';
@@ -1170,7 +1158,6 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 	// ---------- Reds ----------
 	var reds = [
-		['#ff4949', '--brand (both) · token only'],
 		['#ff4949', '--accent-text · --accent-fill (both)'],
 		['#f54c4c', '--accent-fill-hover · --accent-text-hover (light)'],
 		['#f86161', '--accent-fill-hover · --accent-text-hover (dark)'],
@@ -1261,10 +1248,10 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	});
 
 	// ---------- Spacing ----------
-	var space = [['1', 0.25], ['2', 0.5], ['3', 0.75], ['4', 1], ['5', 1.25], ['6', 1.5], ['8', 2], ['10', 2.5], ['12', 3], ['15', 3.75], ['16', 4], ['20', 5], ['24', 6], ['30', 7.5], ['48', 12]];
-	document.getElementById('sg-spacing').innerHTML = '<h4 class="sg-h4" style="margin-bottom:0.75rem">--spacing-*</h4>' + space.map(function (s) {
-		return '<div class="sg-space"><span>--spacing-' + s[0] + '</span><span>' + s[1] + 'rem</span><i style="width:' + Math.min(s[1] * 16, 192) + 'px"></i></div>';
-	}).join('') + '<p class="sg-src" style="margin-top:0.75rem">global.css · @theme · used via gap-*, mt-5, my-5, mb-3, mr-2, mx-1</p>';
+	var space = [['1', 0.25], ['2', 0.5], ['3', 0.75], ['4', 1], ['5', 1.25], ['6', 1.5], ['8', 2], ['10', 2.5], ['12', 3], ['16', 4], ['20', 5], ['24', 6]];
+	document.getElementById('sg-spacing').innerHTML = '<h4 class="sg-h4" style="margin-bottom:0.75rem">Spacing (Tailwind default)</h4>' + space.map(function (s) {
+		return '<div class="sg-space"><span>p-' + s[0] + '</span><span>' + s[1] + 'rem</span><i style="width:' + Math.min(s[1] * 16, 192) + 'px"></i></div>';
+	}).join('') + '<p class="sg-src" style="margin-top:0.75rem">Tailwind\'s default: any step n is n × --spacing (0.25rem). The site defines no spacing tokens of its own.</p>';
 
 	// ---------- Radii ----------
 	var radii = [['2px', 'focus ring'], ['0.25rem', 'dropdown link'], ['0.375rem', 'card title (no bg)'], ['0.5rem', 'menu, inputs, modal btn'], ['8px', '.button, card body'], ['0.75rem', 'card, modal, .prose images, reader panel'], ['0.9375rem', 'card title ≥70em (no bg)'], ['1rem', 'case-study carousel trigger'], ['20px', 'home headshot'], ['1.5rem', 'About, card ≥70em'], ['50%', 'bullets'], ['999px', 'pills'], ['999rem', 'toggles, menu button']];

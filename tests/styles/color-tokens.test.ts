@@ -93,11 +93,21 @@ describe('color tokens', () => {
     expect(BLOCKS.dark).not.toMatch(/--accent-text-hover:/);
   });
 
-  it('uses the brand red only as a token (the logo is an image), never directly in UI code', () => {
-    expect(grepSrc(/var\(--brand\)|(?<![\w-])(?:[a-z0-9-]+:)*(?:[a-z]+-)+brand\b/).filter((h) => !h.startsWith('src/styles/global.css:'))).toEqual([]);
+  it('has no brand token or brand utility (UI code reads the role tokens; the logo is an image)', () => {
+    expect(grepSrc(/--brand\b|(?<![\w-])(?:[a-z0-9-]+:)*(?:[a-z]+-)+brand\b/)).toEqual([]);
   });
-  it('keeps the brand red', () => {
-    expect(tok('light', '--brand')).toBe('#ff4949');
-    expect(tok('dark', '--brand')).toBe('#ff4949');
+
+  // Every token in :root is used somewhere in src (outside its own definition and its @theme bridge).
+  it('defines no unused color tokens', () => {
+    const css = read('src/styles/global.css');
+    const names = [...BLOCKS.light.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1]);
+    const unused = names.filter((name) => {
+      const key = name.slice(2);
+      const uses = grepSrc(new RegExp(`var\\(${name}\\)|\\(${name}\\)|\\([a-z-]+:${name}\\)|(?<![\\w-])(?:[\\w\\[\\]&=:.\\-/@()]*:)?(?:bg|text|border(?:-[trblxy])?|outline|ring|fill|stroke|decoration|from|to|via|divide|shadow|caret)-${key}(?![\\w-])|'${name}'`));
+      const outside = uses.filter((h) => !h.startsWith('src/styles/global.css:') || !new RegExp(`(?:${name}|--color-${key})\\s*:`).test(h));
+      return outside.length === 0;
+    });
+    expect(unused).toEqual([]);
+    expect(css).toMatch(/--gray-0:/); // the check is not blind
   });
 });

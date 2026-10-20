@@ -32,19 +32,14 @@
 @theme {
   /* Colors — bridge to existing CSS vars */
   --color-gray-0: var(--gray-0);
-  --color-gray-50: var(--gray-50);
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
   --color-gray-300: var(--gray-300);
   --color-gray-400: var(--gray-400);
-  --color-gray-500: var(--gray-500);
-  --color-gray-600: var(--gray-600);
-  --color-gray-700: var(--gray-700);
   --color-gray-800: var(--gray-800);
   --color-gray-900: var(--gray-900);
   --color-gray-999: var(--gray-999);
 
-  --color-brand: var(--brand);
   --color-accent-text: var(--accent-text);
   --color-accent-text-hover: var(--accent-text-hover);
   --color-accent-fill: var(--accent-fill);
@@ -59,23 +54,6 @@
   --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --font-serif: 'Literata', Georgia, serif;
 
-  /* Spacing — 4px base grid */
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-15: 3.75rem;
-  --spacing-16: 4rem;
-  --spacing-20: 5rem;
-  --spacing-24: 6rem;
-  --spacing-30: 7.5rem;
-  --spacing-48: 12rem;
 
   /* Breakpoint */
   --breakpoint-lg: 60em;
@@ -200,20 +178,14 @@
 :root {
 	/* Colors */
 	--gray-0: #090b11;
-	--gray-50: #141925;
 	--gray-100: #283044;
 	--gray-200: #3d4663;
 	--gray-300: #505d84;
 	--gray-400: #6474a2;
-	--gray-500: #8490b5;
-	--gray-600: #a3acc8;
-	--gray-700: #c3cadb;
 	--gray-800: #e3e6ee;
 	--gray-900: #f3f4f7;
 	--gray-999: #ffffff;
 
-	/* Brand red: the logo. UI code reads the role tokens below, never --brand. */
-	--brand: #ff4949;
 	/* The reds, by role: main's values, the logo red for text and fills, white text on fills.
 	   Hover moves one step: text that is not red at rest (post titles, filters, menu items)
 	   turns --accent-text; anything already red (links, the card CTA, buttons) deepens to the
@@ -246,14 +218,10 @@
 
 :root.theme-dark {
 	--gray-0: #ffffff;
-	--gray-50: #f3f4f7;
 	--gray-100: #e3e6ee;
 	--gray-200: #c3cadb;
 	--gray-300: #a3acc8;
 	--gray-400: #8490b5;
-	--gray-500: #6474a2;
-	--gray-600: #505d84;
-	--gray-700: #3d4663;
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
