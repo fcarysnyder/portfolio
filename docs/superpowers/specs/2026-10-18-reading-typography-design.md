@@ -4,6 +4,8 @@ Branch: `chore/fix-style-consistency-usablity`
 Visual reference: `docs/type-explorations.html`, treatment **D · Proposed**. Open it in a browser; it's the approved look for reading pages.
 Background audit: `docs/style-guide.html`. Findings are referenced below as F1–F13.
 
+> **Updated 2026-10-20.** Three things changed after this spec was approved, and the text below now reflects them: the accent reds are one AAA red per theme (§3), `.prose` defaults to 18px with the headings staying at 24/20px (§5, §9), and the cascade is layered all the way down, with no `!important` in `src/` (see `docs/css-architecture.md`). The Swiss layout experiment mentioned in earlier notes was deleted.
+
 ## Why
 
 The owner designs typography systems professionally, and their own site doesn't have one. Font sizes are declared page by page: the page title is defined six times, and blog posts and case studies each have their own diverging copy of the article styles. Most sizes are off any standard scale (34px H2s, 26px H3s, `24px !important` card titles, a hardcoded 1.5rem tagline). The specific complaint that started this: **H2s on blog pages are too large**. They're 34px against 16px body, 2.1× the body.
@@ -19,7 +21,7 @@ The owner wants three things:
 2. **Named type roles, each defined once**, and used the same way on every page (table below).
 3. **A consistent header** on blog posts and case studies: eyebrow, title, summary.
 4. **One shared set of article styles** (`.prose`) for blog posts and case-study content.
-5. **Separate brand red from accessible "action" red.** The logo and decoration keep the brand red. Text and buttons use reds that pass WCAG AA.
+5. **Separate brand red from accessible "action" red.** The logo keeps the brand red. Text and buttons use one red per theme that passes WCAG AAA (updated 2026-10-20; it started as AA).
 6. **Reader controls**: an "Aa" panel in the nav on blog posts and case studies, for font (sans/serif), text size and line spacing.
 
 ## Non-goals
@@ -40,7 +42,7 @@ The owner wants three things:
 
 ## Constraints
 
-- Astro 6 + Tailwind v4 (Vite pinned to 7). Tailwind utilities live in cascade layers, and unlayered CSS (global.css and Astro `<style>`) always beats them. See the style guide's "How styles assemble."
+- Astro 6 + Tailwind v4 (Vite pinned to 7). Tailwind utilities live in cascade layers, and unlayered CSS always beats them, so our CSS is layered too and the unlayered remainder is a short documented list. See `docs/css-architecture.md` and the style guide's "How styles assemble."
 - Dark mode is a `.theme-dark` class on `<html>`, set by an inline script in `src/components/MainHead.astro` before paint and re-applied on `astro:after-swap`.
 - Astro View Transitions (`ClientRouter`) are on, and Nav is `transition:persist`.
 - Case-study body HTML is decrypted client-side and injected into `.gated-content` (`src/components/work/GatedContent.tsx`), so article styles must use a global class, not Astro-scoped selectors. The source lives in the private repo `~/code/portfolio-private`. It contains only h2, h3, p, ul (items lead with `**bold**`) and blockquotes; there are no rules, tables, code or inline images.
@@ -93,7 +95,7 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 | **Section heading** | `text-2xl` (24px), weight 700, line-height 1.3, `--gray-0` | `.prose` h2, About section headings |
 | **Subheading** | `text-xl` (20px), weight 700, line-height 1.35, `--gray-0` | `.prose` h3, Photography year headings, PasswordModal title |
 | **Section label** | `text-sm`, weight 600, uppercase, `--gray-200` | SectionHeader (unchanged) |
-| **Body** | `text-base`, line-height 1.7 | `.prose` |
+| **Body** | `text-lg` (18px), line-height 1.7 | `.prose` |
 | **Meta** | Roboto Mono `text-sm`, `--gray-400`; labels uppercase | Bottom-of-post meta, case-study Role/Collaborators/Product block, footer |
 | **Small link** | `text-sm`, weight 500, `--accent-text` | Back, Prev/Next |
 | **Tag / pill** | `text-xs`, uppercase, letter-spacing 0.05em | Pills (unchanged) |
@@ -104,19 +106,21 @@ Global `h1–h5` defaults in global.css (4.5rem / 3.5rem / …) describe nothing
 
 ### 3. Color: brand red vs. action red
 
-`#ff4949` is 3.33:1 on white and 3.33:1 under white text, so it fails AA for text in light mode and for every white-on-red button in **both** themes. New tokens in `:root` / `:root.theme-dark`, bridged into `@theme`:
+`#ff4949` is 3.33:1 on white and 3.33:1 under white text, so it fails AA for text in light mode and for every white-on-red button in **both** themes. New tokens in `:root` / `:root.theme-dark`, bridged into `@theme`.
+
+**Updated 2026-10-20: one AAA red per theme.** The first version used a brand red plus two AA reds (`#d62828` / `#b71c1c` light, `#ff4949` / `#ff7a7a` dark text). It is now a single red per theme, taken at the logo's hue (hsl 0 100%) at the lightest lightness that reaches WCAG AAA (7:1) as text on the page and under `--on-accent`. Text and fill are the same value, and the hovers are darker in light mode and lighter in dark mode.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--brand` | `#ff4949` | `#ff4949` | Logo, decorative marks: list markers, blockquote rule, ScrambleText cursor, ThemeToggle knob, focus ring (non-text, needs 3:1, which it passes), BackgroundEffect |
-| `--accent-text` | `#d62828` (5.0:1) | `#ff4949` (5.9:1) | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal links |
-| `--accent-text-hover` | `#b71c1c` (6.6:1) | `#ff7a7a` (7.8:1) | Hover for the above. A visible change, unlike today's `#ff4949` → `#f54c4c`. |
-| `--accent-fill` | `#d62828` | `#d62828` | Backgrounds under white text: `.button`, default Pill, GatedContent and PasswordModal buttons |
-| `--accent-fill-hover` | `#b71c1c` | `#b71c1c` | Hover for fills |
-| `--on-accent` | `#ffffff` | `#ffffff` | Text on fills (5.0:1) |
-| `--accent-overlay-hover` | unchanged | unchanged | Tinted hover backgrounds, selection |
+| `--brand` | `#ff4949` | `#ff4949` | A token only. The logo is an image, and no UI code reads it (it fails as text: 3.33:1 on white). A test keeps it out of components. |
+| `--accent-text` | `#b60000` (7.03:1 on white) | `#ff6969` (7.00:1 on the dark page) | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
+| `--accent-text-hover` | `#970000` (9.07:1) | `#ff8787` (8.49:1) | Hover for the above. A visible change, unlike the original `#ff4949` to `#f54c4c`. |
+| `--accent-fill` | `#b60000` | `#ff6969` | Backgrounds under button text: `.button`, default Pill, GatedContent and PasswordModal buttons. Same value as `--accent-text` in each theme. |
+| `--accent-fill-hover` | `#970000` | `#ff8787` | Hover for fills |
+| `--on-accent` | `#ffffff` (7.03:1 on the fill, 9.07:1 on the hover) | `#090b11` (7.00:1 on the fill, 8.49:1 on the hover) | Text on fills. Dark mode uses near-black text, because white on `#ff6969` is 2.81:1. |
+| `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 
-**Designer's call, check in review:** dark-mode buttons also move to `#d62828`, because white on `#ff4949` fails in dark mode too.
+**Designer's call, resolved:** dark-mode buttons moved off `#ff4949` (white on it fails in dark mode too). They now use `#ff6969` with near-black text.
 
 Replace and then remove the old tokens: `--accent-regular`, `--accent-dark`, `--accent-light`, `--accent-overlay`, `--accent-subtle-overlay`, `--link-color`, `--accent-text-over`. They're used in 13 files plus global.css. Map each use by what it *is* (text, fill or decoration), not by its old name. Per-project Pill colors from frontmatter (`color:`) are unchanged.
 
@@ -135,22 +139,26 @@ The article body starts about 3rem below. Case studies keep their screenshot car
 
 One global class, applied to the blog `.post-content` wrapper and the case-study `.gated-content` element. It replaces both existing copies (writing/[...slug].astro:137-214 and work/[...slug].astro:206-284). **All sizes inside are `em`, relative to `.prose`'s font size**, so reader controls scale everything while keeping the hierarchy. At the default size they land exactly on the scale.
 
-| Element | Spec (value at the default 16px) |
+**Updated 2026-10-20: the default is 18px.** The body grew from 16px to 18px (`text-lg`), and the heading sizes stay at the approved 24px and 20px by changing their ratios to `calc(4em / 3)` and `calc(10em / 9)`, so only the body text got bigger. The reader's default size is 18 (it was 16).
+
+| Element | Spec (value at the default 18px) |
 |---|---|
-| Base | 1rem (`text-base`), line-height 1.7, `--gray-100`, `--font-sans`. Column width unchanged: full width below 60em; the middle column of `1fr 60% 1fr` at and above 60em. |
+| Base | 1.125rem (`text-lg`), line-height 1.7, `--gray-100`, `--font-sans`. Column width unchanged: full width below 60em; the middle column of `1fr 60% 1fr` at and above 60em. |
 | `p + p` | margin-top 1.4em |
 | `strong` | weight 600, `--gray-0` |
-| `h2` | 1.5em (24px), Section heading role, margin 2.75em 0 0.75em (em of the heading) |
-| `h3` | 1.25em (20px), Subheading role, margin 2em 0 0.5em |
-| `h4` | 1.125em (18px), weight 600, `--gray-0`, margin 1.5em 0 0.5em |
+| `h2` | `calc(4em / 3)` (24px), Section heading role, margin 2.75em 0 0.75em (em of the heading) |
+| `h3` | `calc(10em / 9)` (20px), Subheading role, margin 2em 0 0.5em |
+| `h4` | `1em` (18px), weight 600, `--gray-0`, margin 1.5em 0 0.5em. Set apart by weight, not size. |
 | Links | `--accent-text` at rest. 1px underline, offset 0.2em, underline at about 40% opacity of the link color; on hover, full underline and `--accent-text-hover` |
-| `ul` / `ol` | Real markers (`disc` / `decimal`; Preflight removes them). padding-left 1.25em, margin-top 1.4em, `li + li` 0.4em. `ul` markers in `--brand`. |
-| `blockquote` | **Upright (not italic)**, 2px `--brand` left rule, padding-left 1.25em, `--gray-200`, margin 1.75em 0 |
+| `ul` / `ol` | Real markers (`disc` / `decimal`; Preflight removes them). padding-left 1.25em, margin-top 1.4em, `li + li` 0.4em. `ul` markers in `--accent-text`. |
+| `blockquote` | **Upright (not italic)**, 2px `--accent-text` left rule, padding-left 1.25em, `--gray-200`, margin 1.75em 0 |
 | Images / figures | Full width, radius 0.75rem, `--shadow-md`, margin 2.5em auto. `figcaption`: 0.875em, `--gray-400`, centered. |
 | `hr` | 1px `--gray-800`, margin 2.5em 0 |
 | `.react-tweet-theme` | Keep `margin: 2rem auto` |
 
-**Cascade note:** `.prose` must win over the global `h2` / `a` rules. Either keep `.prose` unlayered (and loaded after the globals), or move the element defaults into `@layer base` and `.prose` into `@layer components`.
+Because the headings are fixed ratios of the body, the reader sizes give: 14px body, h2 18.7px, h3 15.6px; 16px, 21.3 and 17.8px; 20px, 26.7 and 22.2px. The h2 stays under 1.5x the body at every size (1.33x), which is the anti-goal above.
+
+**Cascade note (done):** the element defaults live in `@layer base` and `.prose` in `@layer components`, so `.prose` beats the global `h2` / `a` rules and a utility on the same element still beats `.prose`. Never move `.prose` out of its layer: an unlayered rule would beat every utility.
 
 ### 6. Bottom-of-post meta
 
@@ -173,7 +181,7 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 - **Where:** an "Aa" icon button in the nav, immediately left of the theme toggle, matching its size and treatment. Shown only on blog posts and case studies.
 - **Panel** (styled after Matter's reader panel: rounded card, `--gray-999` surface, `--gray-800` border, `--shadow-lg`):
   - **Font:** Sans (Mona Sans) / Serif (Literata). Default Sans.
-  - **Size:** 14 / 16 / 18 / 20px on the `.prose` base (`text-sm` / `base` / `lg` / `xl`). Default 16.
+  - **Size:** 14 / 16 / 18 / 20px on the `.prose` base (`text-sm` / `base` / `lg` / `xl`). Default 18 (changed from 16 on 2026-10-20).
   - **Line spacing:** 1.5 / 1.7 / 1.9. Default 1.7.
   - **Reset to default.**
   - Steppers (like Matter's ▼▲) or segmented controls; builder's choice.
@@ -193,6 +201,6 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
 - `npx astro build` succeeds, and `npm test` passes.
 - A search finds no `--font-size-`, `--font-family-`, `--accent-regular`, `--accent-dark` or `--link-color` left in `src/`, and no `px` font sizes outside the documented exceptions.
 - Light and dark, at ~375px and ~1400px: home, Work index, one blog post, Writing index, Photography, About, one case study (unlock locally) and 404. Reading pages match `docs/type-explorations.html` (D), apart from the decided changes (eyebrow, red links, upright quotes).
-- Computed sizes on a blog post at default reader settings: body 16px / 27.2px, H2 24px, H3 20px, title 36px at desktop. Home title 48px at desktop.
-- Contrast: link text and button text/background pass 4.5:1 in both themes.
+- Computed sizes on a blog post at default reader settings: body 18px / 30.6px, H2 24px, H3 20px, title 36px at desktop. Home title 48px at desktop.
+- Contrast: link text and button text/background pass 7:1 (AAA) in both themes. `tests/styles/color-tokens.test.ts` checks it.
 - Reader controls: each setting changes body text with no layout break; preferences survive reload and View Transition navigation with no flash; reset works; keyboard-only use works; About and index pages ignore saved preferences.

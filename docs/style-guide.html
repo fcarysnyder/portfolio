@@ -19,14 +19,14 @@
 <style>
 /* =====================================================================
    SNAPSHOT OF SITE TOKENS
-   Copied from src/styles/global.css on 2026-10-18 (commit ef80c07, the
-   reading-typography branch). This file does not import the live stylesheet
+   Copied from src/styles/global.css on 2026-10-20 (commit 27a871d, after the
+   Tailwind cleanup). This file does not import the live stylesheet
    (it uses Tailwind directives a browser can't read), so if global.css
    changes, update here.
    ===================================================================== */
 
 :root {
-	/* Type scale: Tailwind's default --text-* scale, the only size scale (global.css:26 says not to redefine it) */
+	/* Type scale: Tailwind's default --text-* scale, the only size scale (global.css says not to redefine it) */
 	--text-xs: 0.75rem;
 	--text-sm: 0.875rem;
 	--text-base: 1rem;
@@ -38,12 +38,12 @@
 	--text-4xl: 2.25rem;
 	--text-5xl: 3rem;
 
-	/* @theme font families (global.css:28-31) */
+	/* @theme font families (global.css) */
 	--font-sans: 'Mona Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 	--font-serif: 'Literata', Georgia, serif;
 
-	/* :root (global.css:92-136) */
+	/* :root (global.css) */
 	--gray-0: #090b11;
 	--gray-50: #141925;
 	--gray-100: #283044;
@@ -57,10 +57,10 @@
 	--gray-900: #f3f4f7;
 	--gray-999: #ffffff;
 	--brand: #ff4949;
-	--accent-text: #d62828;
-	--accent-text-hover: #b71c1c;
-	--accent-fill: #d62828;
-	--accent-fill-hover: #b71c1c;
+	--accent-text: #b60000;
+	--accent-text-hover: #970000;
+	--accent-fill: #b60000;
+	--accent-fill-hover: #970000;
 	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
@@ -78,7 +78,7 @@
 }
 
 :root.theme-dark {
-	/* global.css:138-165 */
+	/* :root.theme-dark (global.css) */
 	--gray-0: #ffffff;
 	--gray-50: #f3f4f7;
 	--gray-100: #e3e6ee;
@@ -91,8 +91,12 @@
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
-	--accent-text: #ff4949;
-	--accent-text-hover: #ff7a7a;
+	--accent-text: #ff6969;
+	--accent-text-hover: #ff8787;
+	--accent-fill: #ff6969;
+	--accent-fill-hover: #ff8787;
+	--on-accent: #090b11;
+	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
 	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 	--shadow-sm: 0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01), 0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
@@ -120,7 +124,7 @@ body {
 h1, h2, h3, h4, h5, p, ul, ol, figure, table, pre { margin: 0; }
 a { color: var(--accent-text); }
 ::selection { background-color: var(--accent-overlay-hover); color: var(--accent-text-hover); }
-*:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 2px; }
+*:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; border-radius: 2px; }
 code, kbd, .sg-mono { font-family: var(--font-mono); font-size: 0.85em; }
 code { background: var(--sg-code-bg); padding: 0.1em 0.35em; border-radius: 0.25rem; color: var(--gray-100); overflow-wrap: anywhere; }
 .sg-grid-2 > *, .sg-grid-3 > *, .sg-layer > *, .sg-flow-row > *, .sg-specimen > *, .sg-scale-row > * { min-width: 0; }
@@ -401,29 +405,29 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 /* Article body: src/styles/prose.css, copied verbatim apart from the class name and the
    reader hooks, which the guide drives with the .reader-* classes on its own demo wrapper */
-.site-prose { font-size: var(--reader-size, 1rem); line-height: var(--reader-leading, 1.7); font-family: var(--reader-font, var(--font-sans)); color: var(--gray-100); }
+.site-prose { font-size: var(--reader-size, var(--text-lg)); line-height: var(--reader-leading, 1.7); font-family: var(--reader-font, var(--font-sans)); color: var(--gray-100); }
 .site-prose > :first-child { margin-top: 0; }
 .site-prose p + p { margin-top: 1.4em; }
 .site-prose :is(ul, ol, blockquote, figure) + p { margin-top: 1.4em; }
 .site-prose strong { font-weight: 600; color: var(--gray-0); }
-.site-prose h2 { font-size: 1.5em; font-weight: 700; line-height: 1.3; color: var(--gray-0); margin: 2.75em 0 0.75em; }
-.site-prose h3 { font-size: 1.25em; font-weight: 700; line-height: 1.35; color: var(--gray-0); margin: 2em 0 0.5em; }
-.site-prose h4 { font-size: 1.125em; font-weight: 600; line-height: 1.4; color: var(--gray-0); margin: 1.5em 0 0.5em; }
+.site-prose h2 { font-size: calc(4em / 3); font-weight: 700; line-height: 1.3; color: var(--gray-0); margin: 2.75em 0 0.75em; }
+.site-prose h3 { font-size: calc(10em / 9); font-weight: 700; line-height: 1.35; color: var(--gray-0); margin: 2em 0 0.5em; }
+.site-prose h4 { font-size: 1em; font-weight: 600; line-height: 1.4; color: var(--gray-0); margin: 1.5em 0 0.5em; }
 .site-prose a { color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
 .site-prose a:hover, .site-prose a:focus { color: var(--accent-text-hover); text-decoration-color: currentColor; }
 .site-prose ul, .site-prose ol { padding-left: 1.25em; margin-top: 1.4em; }
 .site-prose ul { list-style-type: disc; }
 .site-prose ol { list-style-type: decimal; }
 .site-prose li + li { margin-top: 0.4em; }
-.site-prose ul li::marker { color: var(--brand); }
-.site-prose blockquote { font-style: normal; border-left: 2px solid var(--brand); padding-left: 1.25em; color: var(--gray-200); margin: 1.75em 0; }
+.site-prose ul li::marker { color: var(--accent-text); }
+.site-prose blockquote { font-style: normal; border-left: 2px solid var(--accent-text); padding-left: 1.25em; color: var(--gray-200); margin: 1.75em 0; }
 .site-prose figure { margin: 2.5em auto; }
 .site-prose figcaption { font-size: 0.875em; color: var(--gray-400); text-align: center; margin-top: 0.75em; }
 .site-prose hr { border: none; border-top: 1px solid var(--gray-800); margin: 2.5em 0; }
 .site-prose .fake-img { display: block; width: 100%; height: 7rem; border-radius: 0.75rem; box-shadow: var(--shadow-md); background: linear-gradient(135deg, var(--gray-800), var(--gray-900)); }
 /* Reader settings demo: same values as the [data-reader-*] hooks in prose.css */
 .sg-reader-demo[data-size='14'] .site-prose { --reader-size: var(--text-sm); }
-.sg-reader-demo[data-size='18'] .site-prose { --reader-size: var(--text-lg); }
+.sg-reader-demo[data-size='16'] .site-prose { --reader-size: var(--text-base); }
 .sg-reader-demo[data-size='20'] .site-prose { --reader-size: var(--text-xl); }
 .sg-reader-demo[data-leading='1.5'] .site-prose { --reader-leading: 1.5; }
 .sg-reader-demo[data-leading='1.9'] .site-prose { --reader-leading: 1.9; }
@@ -442,7 +446,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 <header class="sg-topbar">
 	<div class="sg-brand">
 		<strong>Style Guide</strong>
-		<span>fcarysnyder.com · snapshot 2026-10-18 · ef80c07</span>
+		<span>fcarysnyder.com · snapshot 2026-10-20 · 27a871d</span>
 	</div>
 	<div class="sg-controls">
 		<button class="sg-toggle" id="sg-theme-toggle" aria-pressed="false">Dark</button>
@@ -472,7 +476,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 		<div class="sg-intro">
 			<h1>How the site's styles actually fit together</h1>
-			<p>A style guide rebuilt from the code, not from Figma. Every value here was read out of <code>src/</code>, and each one notes where it's defined. The first half explains how the CSS gets assembled and what the audit found, with the findings the reading-typography work closed marked resolved. The second half is the style sheet itself, updated for the new type scale, type roles, red tokens, page header, article styles and reader controls.</p>
+			<p>A style guide rebuilt from the code, not from Figma. Every value here was read out of <code>src/</code>, and each one notes where it's defined. The first half explains how the CSS gets assembled and what the audit found, with the findings the reading-typography work and the Tailwind cleanup closed marked resolved. The second half is the style sheet itself, updated for the new type scale, type roles, red tokens, page header, article styles and reader controls.</p>
 			<p class="sg-small">The site's tokens are copied in at the top of this file, so it opens straight from disk with no build step. Toggle <b>Dark</b> to see the theme swap the way the site does it.</p>
 		</div>
 
@@ -480,10 +484,10 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<section class="sg-section" id="how">
 			<div class="sg-section-head"><span class="sg-num">01</span><h2>How styles assemble</h2></div>
 
-			<p class="sg-lede">Several separate systems write CSS for this site. The order they apply in isn't top-to-bottom in a file. It comes from cascade layers, so the first thing to understand is which system wins. Since the reading-typography work, the shared type and article styles live in the layers too, so a utility class or a role class can finally override an element default.</p>
+			<p class="sg-lede">Almost all of the site's styling is Tailwind classes in the markup, and the little CSS that is left is in cascade layers. The order rules apply in doesn't come from where they sit in a file. It comes from the layers, so the first thing to understand is which one wins. The full write-up, with how to add a style, is in <code>docs/css-architecture.md</code>.</p>
 
 			<div class="sg-prose">
-				<p>Tailwind v4 puts everything it generates inside named <code>@layer</code>s. The rule that trips people up: <b>any CSS outside a layer beats every layered rule, regardless of specificity.</b> What is left outside a layer is the palettes and component rules in <code>global.css</code>, plus every Astro <code>&lt;style&gt;</code> block. Those still beat Tailwind utilities and the new role classes, which is why a component <code>&lt;style&gt;</code> must not redeclare size, weight or color on an element that carries a role class.</p>
+				<p>Tailwind v4 puts everything it generates inside named <code>@layer</code>s, and the site's own CSS joins the same ones. The rule that trips people up: <b>any CSS outside a layer beats every layered rule, regardless of specificity.</b> That is why the unlayered row below is almost empty, and why there is no <code>!important</code> left in <code>src/</code>: a utility class always beats a role, and a role always beats an element default.</p>
 			</div>
 
 			<div class="sg-stack-axis"><span>weakest first</span><span>strongest last</span></div>
@@ -491,40 +495,41 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<div class="sg-layer">
 						<div class="sg-rank">1</div>
 						<div><h4>Tailwind <code>@layer theme</code></h4>
-						<p>Writes every <code>@theme</code> token out as a <code>:root</code> custom property: <code>--color-gray-200</code>, <code>--font-sans</code>, <code>--spacing-4</code>, plus Tailwind's own defaults, including the whole <code>--text-*</code> size scale. These are only variables, not rules. <span class="sg-src">global.css:5-53</span></p></div>
+						<p>Writes the <code>@theme</code> tokens out as <code>:root</code> custom properties: <code>--color-gray-200</code>, <code>--font-sans</code>, <code>--spacing-4</code>, plus Tailwind's own defaults, including the whole <code>--text-*</code> size scale. These are only variables, not rules. Tailwind writes out only the ones something uses. <span class="sg-src">global.css · @theme</span></p></div>
 					</div>
 					<div class="sg-layer">
 						<div class="sg-rank">2</div>
-						<div><h4>Tailwind <code>@layer base</code> <span class="sg-badge ok">new: element defaults</span></h4>
-						<p>First Preflight, the reset: it removes every margin and padding, sets <code>h1–h6 { font-size: inherit; font-weight: inherit }</code>, strips list styles and sets <code>border: 0 solid</code>. Then the site's own element defaults, in the same layer and after Preflight so they win without a specificity fight: <code>body</code> (font, color, line-height), <code>h1–h5</code> (weight, color, line-height, <b>no size</b>), <code>a</code> (<code>--accent-text</code>), <code>img</code> and <code>::selection</code>. <span class="sg-src">global.css:173-208</span></p></div>
+						<div><h4>Tailwind <code>@layer base</code></h4>
+						<p>First Preflight, the reset: it removes every margin and padding, sets <code>h1–h6 { font-size: inherit; font-weight: inherit }</code>, strips list styles and sets <code>border: 0 solid</code>. Then the site's own element defaults, in the same layer and after Preflight so they win without a specificity fight: <code>html</code> / <code>body</code> sizing, <code>body</code> (font, color, line-height), <code>h1–h5</code> (weight, color, line-height, <b>no size</b>), <code>a</code> (<code>--accent-text</code>), <code>img</code>, <code>::selection</code> and the global focus ring. <span class="sg-src">global.css · @layer base</span></p></div>
 					</div>
 					<div class="sg-layer">
 						<div class="sg-rank">3</div>
-						<div><h4>Tailwind <code>@layer components</code> <span class="sg-badge ok">new</span></h4>
-						<p>The type roles (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-lead</code> and the rest) and the shared article styles (<code>.prose</code> plus the reader hooks). They beat the element defaults in base, and utilities can still adjust them. <span class="sg-src">styles/type.css · styles/prose.css</span></p></div>
+						<div><h4>Tailwind <code>@layer components</code></h4>
+						<p>The type roles (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-lead</code> and the rest) and the shared article styles (<code>.prose</code> plus the reader hooks). Both are all-layered. They beat the element defaults in base, and a utility can still adjust them. <span class="sg-src">styles/type.css · styles/prose.css</span></p></div>
 					</div>
 					<div class="sg-layer">
 						<div class="sg-rank">4</div>
 						<div><h4>Tailwind <code>@layer utilities</code></h4>
-						<p>The utility classes actually used in templates: <code>flex</code>, <code>flex-col</code>, <code>gap-2/4/8/20</code>, <code>lg:gap-48</code>, <code>mt-5</code>, <code>my-5</code>, <code>mb-3</code>, <code>sr-only</code>, plus the custom <code>@utility wrapper</code>. Used for layout, not for type or color. <span class="sg-src">global.css:55-60</span></p></div>
+						<p>The classes written in templates: layout, spacing, color, borders, hover and focus states, breakpoints (<code>lg:</code> is 60em), dark mode (<code>dark:</code> follows <code>.theme-dark</code>). Plus the site's own <code>@utility</code> rules: <code>wrapper</code> and <code>elevation-sm/md/lg</code>. This is where nearly all component and page styling lives. <span class="sg-src">markup · global.css · @utility</span></p></div>
 					</div>
 					<div class="sg-layer hot">
 						<div class="sg-rank">5</div>
 						<div><h4>Unlayered CSS <span class="sg-badge warn">beats 1–4 always</span></h4>
-						<p>Still a large share of the styling, and every source has equal standing, so specificity and source order decide between them:</p>
-						<p>• <b>global.css</b>: the <code>:root</code> / <code>:root.theme-dark</code> palettes, focus rings, and the component rules <code>.button</code>, <code>.menu-*</code>, <code>.nav-items</code>, <code>.link</code>.<br>
-						• <b>Astro scoped <code>&lt;style&gt;</code></b> in most components and pages. Astro rewrites <code>.title</code> to <code>.title[data-astro-cid-xyz]</code>, which adds one attribute's worth of specificity and limits the rule to that component's own markup. <code>:global(...)</code> turns the scoping off.<br>
-						• <b>React-injected <code>&lt;style&gt;</code> tags</b> inside PhotoGallery, PhotoModal and CaseStudyCarousel, used for hover states that inline styles can't express. <code>ReaderSettings.css</code>, imported by the Aa panel island, is also unlayered.</p></div>
+						<p>Kept as small as possible. The whole list:</p>
+						<p>• <b>global.css</b>: the <code>:root</code> / <code>:root.theme-dark</code> token blocks. Variables, not rules, so nothing competes with them, and dark mode has to redefine them. They are the only unlayered rules in our CSS files.<br>
+						• <b>@keyframes</b> (the three <code>--animate-*</code> in <code>@theme</code>) and Tailwind's <code>@property</code> registrations. Not rules that match elements, so layers don't apply.<br>
+						• <b>about.astro</b>: five hover-cursor rules whose values are emoji SVG data URIs. It is the only <code>&lt;style&gt;</code> left, and it carries a "Why not Tailwind:" comment.<br>
+						• <b>Library CSS</b>: Astro's route announcer and view-transition keyframes, and react-tweet's stylesheet on pages with an embedded tweet.</p></div>
 					</div>
 					<div class="sg-layer">
 						<div class="sg-rank">6</div>
-						<div><h4>Inline <code>style=""</code></h4>
-						<p>React <code>style={{…}}</code> objects in PasswordModal, PhotoModal, CaseStudyCarousel, PhotoGallery, GatedContent and ScrambleText (well over 100 declarations), plus per-instance variables like Pill's <code>--pill-color</code>.</p></div>
+						<div><h4>Inline <code>style=""</code> <span class="sg-badge ok">custom properties only</span></h4>
+						<p>Three uses, each setting a variable from data that a class then reads: Pill's <code>--pill-color</code>, PortfolioPreview's per-card <code>--on-accent</code>, and PhotoGallery's <code>--aspect</code>. Everything else that used to be an inline style object (the modals, lightboxes, gallery) is now classes. A few scripts still set a style at runtime for state: the carousel's <code>transform</code>, <code>body</code> scroll lock and the background blur.</p></div>
 					</div>
 					<div class="sg-layer">
 						<div class="sg-rank">7</div>
-						<div><h4><code>!important</code> <span class="sg-badge muted">20 uses</span></h4>
-						<p>11 in global.css (mostly the dropdown and secondary button), 7 in Footer.astro (where its desktop media query overrides its own base rules) and 2 in BackgroundEffect. The card title's <code>!important</code> went away with the type roles.</p></div>
+						<div><h4><code>!important</code> <span class="sg-badge ok">0 uses in src/</span></h4>
+						<p>There were 20 before the cleanup. A test fails if one comes back, including Tailwind's <code>!</code> modifier. Library CSS still has a few (Preflight's <code>[hidden]</code> rule, Astro's reduced-motion rule).</p></div>
 					</div>
 				</div>
 
@@ -536,7 +541,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<div class="sg-arrow">→</div>
 						<div class="sg-node"><b>Bridged in <code>@theme</code></b><code>--color-gray-200: var(--gray-200)</code></div>
 						<div class="sg-arrow">→</div>
-						<div class="sg-node"><b>Two ways to consume it</b><code>var(--gray-200)</code> in scoped CSS<br><code>bg-gray-200</code> utility (unused)</div>
+						<div class="sg-node"><b>Two ways to consume it</b><code>var(--gray-200)</code> in the CSS files<br><code>text-gray-200</code> utility in markup</div>
 					</div>
 					<div class="sg-flow-row">
 						<div class="sg-node"><b>Tailwind's default scale</b><code>--text-xl: 1.25rem</code><br><span class="sg-small">not redefined in <code>@theme</code></span></div>
@@ -553,11 +558,11 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<div class="sg-node"><b>One mono</b><code>var(--font-mono)</code> = <code>class="font-mono"</code> = <b>Roboto Mono</b></div>
 					</div>
 					<div class="sg-flow-row">
-						<div class="sg-node"><b>Reader choice</b><code>data-reader-size="18"</code> on <code>&lt;html&gt;</code>, set by <code>reader-prefs.ts</code></div>
+						<div class="sg-node"><b>Reader choice</b><code>data-reader-size="20"</code> on <code>&lt;html&gt;</code>, set by <code>reader-prefs.ts</code></div>
 						<div class="sg-arrow">→</div>
-						<div class="sg-node"><b>Hook in prose.css</b><code>[data-reader-size='18'] [data-reader-enabled] .prose { --reader-size: var(--text-lg) }</code></div>
+						<div class="sg-node"><b>Hook in prose.css</b><code>[data-reader-size='20'] [data-reader-enabled] .prose { --reader-size: var(--text-xl) }</code><br><span class="sg-small">18 is the default and needs no hook</span></div>
 						<div class="sg-arrow">→</div>
-						<div class="sg-node"><b>Em scale</b><code>.prose</code> reads <code>--reader-size</code>; every heading and margin inside is in <code>em</code>, so the hierarchy holds</div>
+						<div class="sg-node"><b>Em scale</b><code>.prose</code> reads <code>--reader-size</code> (default <code>--text-lg</code>, 18px); every heading and margin inside is in <code>em</code>, so the hierarchy holds</div>
 					</div>
 				</div>
 				<p class="sg-small">The original audit found that <code>@theme</code> defined <code>--font-size-*</code> and <code>--font-family-*</code>, which Tailwind v4 ignores, so <code>text-lg</code> was 1.125rem while <code>var(--font-size-lg)</code> was 1.25rem. The old names are gone from <code>src/</code> (<code>grep</code> finds none), and every reference was remapped by value or role, never by name (commit <code>ec1f4b9</code>).</p>
@@ -566,8 +571,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<ol>
 					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
-					<li><code>:root.theme-dark</code> (global.css:138-165) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the accent text colors (<code>--accent-text</code> becomes <code>#ff4949</code>, its hover <code>#ff7a7a</code>), the shadows (dark shadows become white glows) and two gradients.</li>
-					<li>Components only reference ramp steps, so none of them need theme logic. The exceptions are <code>ThemeToggle.astro</code> (<code>:global(.theme-dark)</code>), the home page's <code>--icon-color</code> (which has the same value in both themes), and BaseLayout's background images.</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the red (<code>--accent-text</code> and <code>--accent-fill</code> become <code>#ff6969</code>, hover <code>#ff8787</code>, and <code>--on-accent</code> flips to near-black), the shadows (dark shadows become white glows) and two gradients.</li>
+					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
 				</ol>
 				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
 			</div>
@@ -599,6 +604,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<p><code>#ff4949</code> on white is <b>3.33:1</b>, and AA needs 4.5:1 for normal-size text. Red text is used for every link, the back/prev/next links, footer socials, active filters, and the card CTA. The CTA is the worst case: 12px uppercase, the smallest text on the site at the lowest contrast. The primary button (white on red, 14px/600) is also 3.33:1. In dark mode the same red passes at 5.9:1.</p>
 					<div class="fix"><b>Fix:</b> split the accent into a <em>fill</em> role and a <em>text</em> role. Keep <code>#ff4949</code> as the dark-mode text color and the decorative fill. For light-mode text and button fills use something like <code>#d62828</code> (5.0:1 on white, 5.0:1 with white text on it). See the comparison in <a href="#color">Color</a>.</div>
 						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> The accent split into a brand red and accessible text/fill reds. Light-mode text and every button fill use <code>#d62828</code> (5.0:1 on white and under white text); dark-mode text keeps <code>#ff4949</code> (5.9:1). Dark-mode buttons also moved to <code>#d62828</code>, because white on <code>#ff4949</code> fails in both themes. Measured values are in <a href="#color">Color</a>.</div>
+						<div class="fix resolved-note"><b>Updated since.</b> The two-red split was later replaced by one red per theme, picked at the logo's hue as the lightest shade that passes AAA (7:1): light <code>#b60000</code> (7.03:1 on white) for text and fills, dark <code>#ff6969</code> (7.00:1), with hovers <code>#970000</code> and <code>#ff8787</code>. Dark mode now puts near-black text on its fill, because white on the light red would fail. <code>#ff4949</code> stays as <code>--brand</code>, a token no UI code reads. Current numbers are in <a href="#color">Color</a>.</div>
 					</article>
 
 				<article class="sg-finding resolved" data-sev="high">
@@ -656,31 +662,34 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<div class="fix resolved-note"><b>Resolved in <code>0a9ebe9</code>.</b> Blog posts and case studies share one <code>.prose</code> class (<code>src/styles/prose.css</code>, in <code>@layer components</code>) and one <code>PageHeader.astro</code>. Lists have real markers, the blockquote is upright with a brand rule, and h4 is styled in both. Both old copies are deleted.</div>
 					</article>
 
-				<article class="sg-finding" data-sev="medium">
-					<div class="sg-finding-head"><span class="sg-badge warn">Medium</span><span class="id">F6 · dead CSS</span><h4>About 100 lines of Nav styles never apply</h4></div>
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F6 · dead CSS</span><h4>About 100 lines of Nav styles never apply</h4></div>
 					<p>The dropdown markup comes from the React island <code>NavDropdown.tsx</code>. Astro's scoped styles only reach markup in the same <code>.astro</code> template, so the <code>.menu-button</code>, <code>.menu-content</code>, <code>.nav-items</code>, <code>.link</code>, <code>.socials</code> and <code>.social</code> rules in Nav.astro:79-175 match nothing. The live versions are the global ones in global.css:285-370, and their values conflict (for example <code>.nav-items</code> gap 1rem vs 4px, padding 2rem vs 8px).</p>
 					<p>Other dead rules: <code>[data-theme='light'] .menu-button</code> (global.css:315; the site never sets <code>data-theme</code>), <code>.hero p</code> and <code>.roles</code> in index.astro:99-106 and 145-149, and the unused component <code>HeroTyper.tsx</code>.</p>
 					<div class="fix"><b>Fix:</b> delete them. If you want the dropdown styles next to the component, move them into a CSS file that NavDropdown.tsx imports.</div>
-				</article>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup</b> (<code>fa0d046</code> to <code>6218d79</code>). The Nav, dropdown and index-page styles were converted to classes or deleted along with <code>HeroTyper.tsx</code>, and the <code>data-theme</code> rule is gone. No component has a <code>&lt;style&gt;</code> block any more.</div>
+					</article>
 
-				<article class="sg-finding" data-sev="medium">
-					<div class="sg-finding-head"><span class="sg-badge warn">Medium</span><span class="id">F7 · architecture</span><h4>Component styles sit in global scope with generic names</h4></div>
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F7 · architecture</span><h4>Component styles sit in global scope with generic names</h4></div>
 					<p><code>.button</code>, <code>.link</code>, <code>.menu-button</code> and <code>.nav-items</code> are unlayered global classes. <code>.button</code> also carries <code>margin-top: 20px</code>, a layout decision inside a component. Because they're unlayered, adding a utility like <code>class="button mt-0"</code> <b>won't</b> remove that margin (see the cascade above). <code>.link</code> is generic enough that it'll collide with something eventually.</p>
 					<div class="fix"><b>Fix:</b> wrap component rules in <code>@layer components { … }</code> so utilities can override them, and drop the margin from <code>.button</code>.</div>
-				</article>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup.</b> <code>.button</code>, <code>.link</code>, <code>.menu-*</code> and <code>.nav-items</code> are gone as CSS rules: the styling is classes on the elements (<code>button</code> survives only as a hook class), so a utility such as <code>mt-0</code> overrides it. The one unlayered scoped block left is about.astro's cursors.</div>
+					</article>
 
 				<article class="sg-finding resolved" data-sev="medium">
 					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F8 · color</span><h4>Nine reds, and the hover state is barely visible</h4></div>
 					<p>Light-mode hover goes from <code>#ff4949</code> to <code>#f54c4c</code>, which is almost the same color, so hovering a button or link shows almost no change. The naming is also reversed: <code>--accent-light</code> is <code>#600202</code>, the <em>darkest</em> red, and nothing uses it. Hardcoded reds appear in PasswordModal (<code>hsl(0 80% 60%)</code>, <code>hsl(0 80% 65%)</code>), BackgroundEffect (<code>#ff4949</code> fallback) and gradients (<code>#ca7879</code>).</p>
 					<div class="fix"><b>Fix:</b> <code>--accent</code>, <code>--accent-hover</code> (a visible 8–12% shift), <code>--on-accent</code> and <code>--danger</code>. That's four roles, each with a light and dark value.</div>
-						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> Seven tokens replaced nine reds: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code> and <code>--accent-overlay-hover</code>. Hover is now a visible step (<code>#d62828</code> to <code>#b71c1c</code> in light mode, <code>#ff4949</code> to <code>#ff7a7a</code> in dark). The old <code>--accent-regular/-dark/-light/-overlay</code> and <code>--link-color</code> are removed. A <code>--danger</code> token was not added, so the PasswordModal error reds are still hardcoded.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> Seven tokens replaced nine reds: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code> and <code>--accent-overlay-hover</code>. Hover is now a visible step (<code>#d62828</code> to <code>#b71c1c</code> in light mode, <code>#ff4949</code> to <code>#ff7a7a</code> in dark; see F2 for today's values). The old <code>--accent-regular/-dark/-light/-overlay</code> and <code>--link-color</code> are removed. A <code>--danger</code> token was not added; the PasswordModal error message now uses <code>--accent-text</code> instead of its own hardcoded reds.</div>
 					</article>
 
-				<article class="sg-finding" data-sev="medium">
-					<div class="sg-finding-head"><span class="sg-badge warn">Medium</span><span class="id">F9 · React</span><h4>React components style themselves with inline objects</h4></div>
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F9 · React</span><h4>React components style themselves with inline objects</h4></div>
 					<p>PasswordModal, PhotoModal and CaseStudyCarousel each build the same overlay chrome by hand: <code>rgba(0,0,0,.9)</code> backdrop, white ✕ at 2rem, ‹ › arrows at 2.5rem and 1rem insets. Inline styles can't express <code>:hover</code>, <code>:focus-visible</code> or media queries, which is why two of them inject <code>&lt;style&gt;</code> tags. The password field's focus state relies on the global outline only.</p>
 					<div class="fix"><b>Fix:</b> a small <code>overlay.css</code> (backdrop, close, prev/next) imported by the three components.</div>
-				</article>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup</b> (<code>0962a72</code>). The three overlays use classes (hover, focus-visible and breakpoints included) and no longer inject <code>&lt;style&gt;</code> tags. A shared <code>overlay.css</code> was not needed. The only inline styles left set custom properties.</div>
+					</article>
 
 				<article class="sg-finding" data-sev="low">
 					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F10 · fonts</span><h4>Two Google Fonts families load but are never used</h4></div>
@@ -707,6 +716,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<article class="sg-finding" data-sev="low">
 					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F13 · Tailwind scanning</span><h4>Tailwind generates utilities from words that aren't classes</h4></div>
 					<p>The built CSS includes <code>.start{inset-inline-start:…}</code>, <code>.container</code>, <code>.table</code>, <code>.grid</code>, <code>.hidden</code>, <code>.border</code> and <code>.resize</code>. Tailwind found them in prose and props. Hero's <code>align="start"</code> becomes <code>class="start"</code>, which then matches the Tailwind utility as well as Hero's own <code>.start</code>. It's harmless today, but it's a namespace collision waiting to happen. <code>@source not</code> for the content folders would tighten this up.</p>
+					<div class="fix resolved-note"><b>Partly done.</b> <code>global.css</code> now excludes <code>docs/</code>, <code>tests/</code>, <code>.superpowers/</code> and the README from the scan, so example class names in docs no longer generate utilities.</div>
 				</article>
 			</div>
 		</section>
@@ -717,23 +727,23 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<p class="sg-lede">The original plan for this branch. Steps the reading-typography work completed are checked off, with the commits. Each step is small enough to review by itself, and the order keeps the visual changes separate from the plumbing.</p>
 			<ol class="sg-plan">
 					<li class="done"><div><b>Serve the font.</b> Done by switching to Mona Sans from Google Fonts, which also dropped Public Sans and Rubik (F1, F10). Roboto Mono still loads its full weight range. <span class="sg-badge warn">partly done</span></div></li>
-					<li><div><b>Delete dead CSS.</b> Remove the Nav.astro dropdown rules, the <code>data-theme</code> rule, the index.astro leftovers, HeroTyper and the unused tokens (F6, F11). This should change nothing visually, so it's a good first refactor to check against screenshots. <span class="sg-badge muted">open</span></div></li>
+					<li class="done"><div><b>Delete dead CSS.</b> The Nav, <code>data-theme</code>, index.astro and HeroTyper leftovers went with the Tailwind cleanup (F6). The unused gray and gradient tokens (F11) are still there. <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Rename tokens to the v4 namespaces.</b> <code>--text-*</code> and <code>--font-*</code> are done (F3, <code>ec1f4b9</code>). <code>--radius-*</code> and <code>--breakpoint-*</code> are not (F12). <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Add a semantic layer on top of the ramp.</b> The red half is done: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code>, with the contrast fixed (F2, F8, <code>fa7b83d</code>). The gray half (<code>--fg</code>, <code>--border</code>, <code>--surface</code>…) and <code>--danger</code> are not. <span class="sg-badge warn">partly done</span></div></li>
 					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines nine <code>.t-*</code> roles (<code>a480481</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
-					<li class="done"><div><b>Layer it.</b> Element defaults are in <code>@layer base</code>, and the roles and <code>.prose</code> are in <code>@layer components</code>. The old global component rules (<code>.button</code>, nav dropdown) are still unlayered, the overlay styles are not extracted, and the <code>!important</code>s remain (F7, F9). <span class="sg-badge warn">partly done</span></div></li>
+					<li class="done"><div><b>Layer it.</b> Element defaults are in <code>@layer base</code>, the roles and <code>.prose</code> are in <code>@layer components</code>, and component and page styling is Tailwind classes in the utilities layer. The old global component rules are gone, the overlays use classes, and there is no <code>!important</code> in <code>src/</code> (F7, F9). Only the token blocks, keyframes, About's cursors and library CSS stay unlayered. <span class="sg-badge ok">done</span></div></li>
 					<li class="done"><div><b>Reader controls.</b> Not in the original audit. Persisted preferences applied before paint (<code>e8dc511</code>) and the Aa panel (<code>ef80c07</code>). <span class="sg-badge ok">done</span></div></li>
 				</ol>
-			<p class="sg-small">Where the file shape landed: <code>global.css</code> still holds tokens, palettes and the remaining component rules, and now imports <code>type.css</code> and <code>prose.css</code>. The proposed split into <code>tokens.css</code> / <code>base.css</code> / <code>components.css</code> is not done.</p>
+			<p class="sg-small">Where the file shape landed: <code>global.css</code> holds <code>@theme</code>, the token blocks, the custom variants and utilities, and the element defaults, and imports <code>type.css</code> and <code>prose.css</code>. The proposed split into <code>tokens.css</code> / <code>base.css</code> / <code>components.css</code> was not needed. See <code>docs/css-architecture.md</code>.</p>
 		</section>
 
 		<!-- ============================================================ -->
 		<section class="sg-section" id="color">
 			<div class="sg-section-head"><span class="sg-num">04</span><h2>Color</h2></div>
-			<p class="sg-lede">One 12-step blue-gray ramp that inverts between themes, plus a red that is split by job: a brand red for decoration, and accessible reds for text and fills. The ramp numbers mean "distance from the background": <code>0</code> is the strongest ink and <code>999</code> is the page itself.</p>
+			<p class="sg-lede">One 12-step blue-gray ramp that inverts between themes, plus one red per theme for text and fills, chosen to pass WCAG AAA, and a brand red kept as a token only. The ramp numbers mean "distance from the background": <code>0</code> is the strongest ink and <code>999</code> is the page itself.</p>
 
 			<div class="sg-ramps" id="sg-ramps"></div>
-			<p class="sg-small">Contrast is measured against that theme's page background (<code>gray-999</code>); the fill row is white <code>--on-accent</code> text against the fill. <span class="sg-badge ok">AA</span> ≥ 4.5 · <span class="sg-badge warn">AA large</span> ≥ 3 · <span class="sg-badge bad">fail</span> &lt; 3. Gray usage counts are from the original audit and exclude global.css itself.</p>
+			<p class="sg-small">Contrast is measured against that theme's page background (<code>gray-999</code>); the fill row is <code>--on-accent</code> text against the fill. <span class="sg-badge ok">AAA</span> ≥ 7 · <span class="sg-badge ok">AA</span> ≥ 4.5 · <span class="sg-badge warn">AA large</span> ≥ 3 · <span class="sg-badge bad">fail</span> &lt; 3. Gray usage counts are from the original audit and exclude global.css itself.</p>
 
 			<h3 class="sg-h3">What each gray is actually used for</h3>
 			<div class="sg-prose"><p>These are the de facto semantic roles, worked out from how components use the ramp. They're good candidates for the named gray tokens that step 4 of the plan has not reached yet.</p></div>
@@ -745,40 +755,40 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<div class="sg-role"><div class="chip" style="background:var(--gray-800)"></div><div><b>Borders &amp; rules</b><span>--gray-800 · 16 uses · cards, dividers, meta rules</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--gray-900)"></div><div><b>Raised surface</b><span>--gray-900 · 3 uses · input fields, gradients</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--gray-999)"></div><div><b>Page / card surface</b><span>--gray-999 · 7 uses + body</span></div></div>
-				<div class="sg-role"><div class="chip" style="background:var(--brand)"></div><div><b>Brand red (decoration)</b><span>--brand · logo, list markers, blockquote rule, focus ring, toggle knob</span></div></div>
-				<div class="sg-role"><div class="chip" style="background:var(--accent-text)"></div><div><b>Accent text</b><span>--accent-text (+ -hover) · links, back/prev/next, active filters, card CTA</span></div></div>
-				<div class="sg-role"><div class="chip" style="background:var(--accent-fill)"></div><div><b>Accent fill</b><span>--accent-fill (+ -hover) · .button, Pill, GatedContent and PasswordModal buttons; text on it is --on-accent</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--brand)"></div><div><b>Brand red (token only)</b><span>--brand · no UI code reads it; the logo is an image</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--accent-text)"></div><div><b>Accent text</b><span>--accent-text (+ -hover) · links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--accent-fill)"></div><div><b>Accent fill</b><span>--accent-fill (+ -hover) · .button, Pill, GatedContent and PasswordModal buttons; text on it is --on-accent (white in light, near-black in dark)</span></div></div>
 				<div class="sg-role"><div class="chip" style="background:var(--accent-overlay-hover)"></div><div><b>Accent tint (hover bg, selection)</b><span>--accent-overlay-hover · global only</span></div></div>
 			</div>
 
 			<h3 class="sg-h3">Every red on the site</h3>
-			<div class="sg-prose"><p>Seven tokens, each with one job, plus the few hardcoded values that are left. Swatches follow the current theme.</p></div>
+			<div class="sg-prose"><p>Seven tokens, each with one job, plus the few hardcoded values that are left. Text and fill are the same red in each theme. Swatches follow the current theme.</p></div>
 			<div class="sg-reds" id="sg-reds"></div>
 
 			<h3 class="sg-h3">Accent contrast: current state</h3>
-			<div class="sg-grid-2">
-				<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#fff;border-color:#e3e6ee">
-					<span class="sg-badge ok" style="align-self:flex-start">Light · text #d62828 · <span data-cr="#d62828|#ffffff"></span></span>
-					<p style="color:#d62828;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">A link in body copy on white. <b>VIEW PROJECT →</b></p>
-					<p style="color:#b71c1c;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">The same link on hover, <span data-cr="#b71c1c|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
-					<span class="site-button" style="background:#d62828;color:#fff">Drop me a line →</span>
-					<span class="sg-small" style="color:#505d84">White on fill <span data-cr="#ffffff|#d62828"></span> · hover fill #b71c1c <span data-cr="#ffffff|#b71c1c"></span></span>
+				<div class="sg-grid-2">
+					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#fff;border-color:#e3e6ee">
+						<span class="sg-badge ok" style="align-self:flex-start">Light · text #b60000 · <span data-cr="#b60000|#ffffff"></span></span>
+						<p style="color:#b60000;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">A link in body copy on white. <b>VIEW PROJECT →</b></p>
+						<p style="color:#970000;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">The same link on hover, <span data-cr="#970000|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
+						<span class="site-button" style="background:#b60000;color:#fff">Drop me a line →</span>
+						<span class="sg-small" style="color:#505d84">White on fill <span data-cr="#ffffff|#b60000"></span> · hover fill #970000 <span data-cr="#ffffff|#970000"></span></span>
+					</div>
+					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
+						<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff6969 · <span data-cr="#ff6969|#090b11"></span></span>
+						<p style="color:#ff6969;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">A link in body copy on the dark page. <b>VIEW PROJECT →</b></p>
+						<p style="color:#ff8787;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">The same link on hover, <span data-cr="#ff8787|#090b11"></span>. <b>VIEW PROJECT →</b></p>
+						<span class="site-button" style="background:#ff6969;color:#090b11">Drop me a line →</span>
+						<span class="sg-small" style="color:#a3acc8">Near-black on fill <span data-cr="#090b11|#ff6969"></span> · hover fill #ff8787 <span data-cr="#090b11|#ff8787"></span>. White on #ff6969 would be <span data-cr="#ffffff|#ff6969"></span></span>
+					</div>
 				</div>
-				<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
-					<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff4949 · <span data-cr="#ff4949|#090b11"></span></span>
-					<p style="color:#ff4949;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">A link in body copy on the dark page. <b>VIEW PROJECT →</b></p>
-					<p style="color:#ff7a7a;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">The same link on hover, <span data-cr="#ff7a7a|#090b11"></span>. <b>VIEW PROJECT →</b></p>
-					<span class="site-button" style="background:#d62828;color:#fff">Drop me a line →</span>
-					<span class="sg-small" style="color:#a3acc8">Buttons keep #d62828 in dark mode: white on #ff4949 would be <span data-cr="#ffffff|#ff4949"></span></span>
-				</div>
-			</div>
-			<p class="sg-small">These two cards are pinned to each theme's colors on purpose, so you can compare them side by side whichever theme the page is in. Before the change, <code>#ff4949</code> was 3.33:1 on white and under white text, and failed AA for light-mode text and for every white-on-red button in both themes. <code>--brand</code> keeps that value for non-text uses (the focus ring needs only 3:1, which it passes). See finding F2.</p>
+				<p class="sg-small">These two cards are pinned to each theme's colors on purpose, so you can compare them side by side whichever theme the page is in. One red per theme, the lightest shade at the logo's hue (hsl 0 100%) that reaches 7:1 as text on the page and under <code>--on-accent</code>; the hovers are darker in light mode and lighter in dark, and pass too. <code>--brand</code> keeps <code>#ff4949</code> (3.33:1 on white) as a token only, so nothing in the UI reads it: focus rings, list markers, quote rules and switches use <code>--accent-text</code>. See finding F2.</p>
 
-			<h3 class="sg-h3">Gradients &amp; overlays</h3>
+				<h3 class="sg-h3">Gradients &amp; overlays</h3>
 			<div class="sg-grid-3">
 				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-subtle);border:1px solid var(--gray-800)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-subtle · gated placeholder</p></div>
-				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-stroke)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-stroke · dead Nav rule only</p></div>
-				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:rgba(0,0,0,0.9)"></div><p class="sg-src" style="margin-top:0.5rem">rgba(0,0,0,.9) · lightbox backdrop, hardcoded ×2 (.7 in PasswordModal)</p></div>
+				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-stroke)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-stroke · defined, unused now</p></div>
+				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:rgba(0,0,0,0.9)"></div><p class="sg-src" style="margin-top:0.5rem">rgba(0,0,0,.9) · lightbox backdrop (Lightbox.tsx, shared), hardcoded · .7 in PasswordModal</p></div>
 			</div>
 		</section>
 
@@ -795,7 +805,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<span style="font-weight:400">Regular 400</span><span style="font-weight:500">Medium 500</span><span style="font-weight:600">SemiBold 600</span><span style="font-weight:700">Bold 700</span>
 					</div>
 					<p class="sg-small"><code>--font-sans</code>. The body font and the reader's "Sans" option. 700 is now the weight of page titles, section headings and subheadings, 600 of the display title and bold text, 500 of small links, 400 of body. Variable weight 400–700 plus italics, by GitHub under the OFL.</p>
-					<p class="sg-src">global.css:29 · MainHead.astro (Google Fonts link)</p>
+					<p class="sg-src">global.css · @theme · MainHead.astro (Google Fonts link)</p>
 				</div>
 				<div class="sg-card sg-family">
 					<div class="sg-family-head"><b>Roboto Mono</b><span class="sg-badge ok">Google Fonts</span></div>
@@ -804,7 +814,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<span style="font-weight:400">Regular 400</span><span style="font-weight:500">Medium 500</span>
 					</div>
 					<p class="sg-small"><code>--font-mono</code>. Eyebrows, meta rows, the footer, captions and the password input. Always at <code>sm</code> or <code>xs</code>, and usually <code>gray-400</code>.</p>
-					<p class="sg-src">MainHead.astro · global.css:30</p>
+					<p class="sg-src">MainHead.astro · global.css · @theme</p>
 				</div>
 				<div class="sg-card sg-family">
 					<div class="sg-family-head"><b>Literata</b><span class="sg-badge ok">on demand</span></div>
@@ -813,7 +823,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<span style="font-weight:400">Regular 400</span><span style="font-weight:700">Bold 700</span>
 					</div>
 					<p class="sg-small"><code>--font-serif</code>. The reader's "Serif" option, applied to <code>.prose</code> only. The stylesheet is added by the inline bootstrap or the panel when serif is chosen, so default visitors download nothing extra.</p>
-					<p class="sg-src">global.css:31 · lib/reader-prefs.ts</p>
+					<p class="sg-src">global.css · @theme · lib/reader-prefs.ts</p>
 				</div>
 			</div>
 			<div class="sg-card" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
@@ -825,7 +835,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			</div>
 
 			<h3 class="sg-h3">Scale</h3>
-			<div class="sg-prose"><p>Tailwind's default <code>--text-*</code> scale is the only size scale. It is not redefined in <code>@theme</code>, every font size in <code>src/</code> resolves to one of these steps, and there are no <code>px</code> sizes or <code>!important</code> on type except two documented exceptions: the BackgroundEffect debug panel (12px, an easter egg) and the emoji-cursor SVG data URIs in about.astro. Faded rows aren't used by any live code. Counts are references to <code>var(--text-*)</code> or <code>text-*</code> under <code>src/</code>.</p></div>
+			<div class="sg-prose"><p>Tailwind's default <code>--text-*</code> scale is the only size scale. It is not redefined in <code>@theme</code>, every font size in <code>src/</code> resolves to one of these steps, and there are no <code>px</code> sizes or <code>!important</code> on type except two documented exceptions: the BackgroundEffect debug panel (12px, an easter egg) and the emoji-cursor SVG data URIs in about.astro. Faded rows aren't used by any live code. Counts are references to <code>var(--text-*)</code>, <code>text-*</code> or <code>text-(length:--text-*)</code> under <code>src/</code>, as of the Tailwind cleanup. <code>.prose</code> headings are in <code>em</code> and land on 2xl and xl without referencing them.</p></div>
 			<div id="sg-scale"></div>
 
 			<h3 class="sg-h3">Roles</h3>
@@ -851,15 +861,15 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<p>Blog posts and case studies get an "Aa" button in the nav, immediately left of the theme toggle. It opens a panel (<code>components/ReaderSettings.tsx</code>) with three settings and a reset. The choice is saved in <code>localStorage</code> as <code>reader-prefs</code> and applied as <code>data-reader-font|size|leading</code> on <code>&lt;html&gt;</code> by an inline script in <code>MainHead.astro</code> before paint and after every View Transition swap (<code>lib/reader-prefs.ts</code>).</p>
 				<ul>
 					<li><b>Font:</b> Sans (Mona Sans) or Serif (Literata). Default Sans.</li>
-					<li><b>Size:</b> 14 / 16 / 18 / 20px, on the <code>.prose</code> base (<code>text-sm</code> / <code>base</code> / <code>lg</code> / <code>xl</code>). Default 16.</li>
+					<li><b>Size:</b> 14 / 16 / 18 / 20px, on the <code>.prose</code> base (<code>text-sm</code> / <code>base</code> / <code>lg</code> / <code>xl</code>). Default 18. The headings are <code>calc(4em / 3)</code> and <code>calc(10em / 9)</code>, so at 18px they are exactly 24px and 20px, and they scale with the setting.</li>
 					<li><b>Line spacing:</b> 1.5 / 1.7 / 1.9. Default 1.7.</li>
 					<li><b>Scope:</b> only <code>.prose</code>, and only inside a page-level <code>[data-reader-enabled]</code> wrapper, so a saved preference never restyles the header, nav, footer, meta, About or the index pages. Everything inside <code>.prose</code> is in <code>em</code>, so the hierarchy scales with the setting.</li>
 				</ul>
 			</div>
-			<div class="sg-card sg-reader-demo" id="sg-reader-demo" data-size="16" data-leading="1.7" data-font="sans" style="display:flex;flex-direction:column;gap:1rem">
+			<div class="sg-card sg-reader-demo" id="sg-reader-demo" data-size="18" data-leading="1.7" data-font="sans" style="display:flex;flex-direction:column;gap:1rem">
 				<div class="sg-reader-opts" role="group" aria-label="Reader settings demo">
 					<span class="grp"><span class="lbl">Font</span><button class="sg-toggle" data-rd="font" data-val="sans" aria-pressed="true">Sans</button><button class="sg-toggle" data-rd="font" data-val="serif" aria-pressed="false">Serif</button></span>
-					<span class="grp"><span class="lbl">Size</span><button class="sg-toggle" data-rd="size" data-val="14" aria-pressed="false">14</button><button class="sg-toggle" data-rd="size" data-val="16" aria-pressed="true">16</button><button class="sg-toggle" data-rd="size" data-val="18" aria-pressed="false">18</button><button class="sg-toggle" data-rd="size" data-val="20" aria-pressed="false">20</button></span>
+					<span class="grp"><span class="lbl">Size</span><button class="sg-toggle" data-rd="size" data-val="14" aria-pressed="false">14</button><button class="sg-toggle" data-rd="size" data-val="16" aria-pressed="false">16</button><button class="sg-toggle" data-rd="size" data-val="18" aria-pressed="true">18</button><button class="sg-toggle" data-rd="size" data-val="20" aria-pressed="false">20</button></span>
 					<span class="grp"><span class="lbl">Line</span><button class="sg-toggle" data-rd="leading" data-val="1.5" aria-pressed="false">1.5</button><button class="sg-toggle" data-rd="leading" data-val="1.7" aria-pressed="true">1.7</button><button class="sg-toggle" data-rd="leading" data-val="1.9" aria-pressed="false">1.9</button></span>
 					<button class="sg-toggle" data-rd="reset" aria-pressed="false">Reset</button>
 				</div>
@@ -869,7 +879,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<h3>Choose the setting, not the size</h3>
 					<p>Every heading, margin and caption in the article is in <code>em</code>, so it moves with the base size and the proportions between them hold at all four sizes.</p>
 				</div>
-				<p class="sg-src">This is a demo of the same hooks as prose.css:148-172. The real panel is the Aa button on any post or case study.</p>
+				<p class="sg-src">This is a demo of the same hooks as the reader section at the bottom of prose.css. The real panel is the Aa button on any post or case study.</p>
 			</div>
 		</section>
 
@@ -882,9 +892,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<div class="sg-card sg-prose">
 					<h4 class="sg-h4">Layout primitives</h4>
 					<ul>
-						<li><b>Wrapper</b>: <code>max-width: 83rem</code>, <code>padding-inline: 1.5rem</code>. <span class="sg-src">global.css:65-70</span> Re-implemented by hand in Nav and Footer.</li>
+						<li><b>Wrapper</b>: <code>max-width: 83rem</code>, <code>padding-inline: 1.5rem</code>, the <code>wrapper</code> utility. <span class="sg-src">global.css · @utility wrapper</span> Nav and Footer use it too.</li>
 						<li><b>Reading column</b>: <code>grid-template-columns: 1fr 60% 1fr</code> at ≥60em, on About, blog post and case study (3 copies).</li>
-						<li><b>Page rhythm</b>: <code>.main-content-wrapper</code> gap 2.5rem → 4rem at 60em. <span class="sg-src">BaseLayout.astro:83-94</span></li>
+						<li><b>Page rhythm</b>: <code>.main-content-wrapper</code> gap 2.5rem → 4rem at 60em. <span class="sg-src">BaseLayout.astro</span></li>
 						<li><b>Nav</b>: 1.5rem padding, 3.5rem bottom margin.</li>
 						<li><b>Card padding</b>: <code>40px</code>. Section grid gap <code>32px</code>. Project grid gap <code>2em</code>.</li>
 						<li><b>Home</b>: <code>gap-20</code> (5rem) between hero and main, and <code>lg:gap-48</code> (12rem) between sections.</li>
@@ -912,27 +922,27 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 			<h3 class="sg-h3">Motion</h3>
 			<div class="sg-prose"><ul>
-				<li><code>--theme-transition: 0.2s ease-in-out</code>: link underlines, card shadow, filters, theme toggle. 13 uses. One hardcoded <code>0.2s ease</code> in Hero.</li>
-				<li>Page intro <code>fadeInFromTop</code> (1s ease-out, 10px) plays once per session. Dropdown <code>slideDownAndFade</code> is 0.2s.</li>
-				<li>Only ThemeToggle checks <code>prefers-reduced-motion</code>. The About carousel and the three.js background run regardless.</li>
+				<li><code>--theme-transition: 0.2s ease-in-out</code>: link underlines, card shadow, filters, theme toggle. 15 references in <code>src/</code>. One hardcoded <code>0.2s ease</code> in Hero.</li>
+				<li>Animations are registered as <code>--animate-*</code> in <code>@theme</code>, so they are classes: <code>animate-modal-fade-in</code> (0.2s, the lightboxes), <code>animate-reader-fade-in</code> (0.15s, the Aa panel) and <code>animate-fade-in-from-top</code> (1s, 10px, the home page intro, once per session).</li>
+				<li>ThemeToggle and the Aa panel wrap their motion in <code>motion-safe:</code>. The About carousel and the three.js background run regardless.</li>
 			</ul></div>
 		</section>
 
 		<!-- ============================================================ -->
 		<section class="sg-section" id="bp">
 			<div class="sg-section-head"><span class="sg-num">08</span><h2>Breakpoints</h2></div>
-			<p class="sg-lede"><code>60em</code> (960px) is the real breakpoint, used 11 times in raw media queries and registered as Tailwind's <code>lg</code>. The other four are one-off values.</p>
+			<p class="sg-lede"><code>60em</code> (960px) is the real breakpoint, registered as Tailwind's <code>lg</code>: <code>lg:</code> applies from 60em up and <code>max-lg:</code> below it. The other three are one-off values written as arbitrary variants.</p>
 			<div class="sg-bp" id="sg-bp"></div>
 			<p class="sg-small">Solid markers are in the site CSS. Dashed markers are the Tailwind defaults still active for <code>sm/md/xl</code> (40, 48, 80rem). The scale runs 0–90em.</p>
 			<div class="sg-table-wrap"><table class="sg-table">
-				<thead><tr><th>query</th><th>uses</th><th>where</th></tr></thead>
+				<thead><tr><th>variant</th><th>applies</th><th>where</th></tr></thead>
 				<tbody>
-					<tr><td class="num">min-width: 50em</td><td class="num">1</td><td>Nav.astro (site title size, menu footer padding)</td></tr>
-					<tr><td class="num">max-width: 59.99em</td><td class="num">2</td><td>index.astro (hide headshot), AboutHero (smaller carousel)</td></tr>
-					<tr><td class="num">min-width: 60em</td><td class="num">11</td><td>Page title 3xl→4xl, display 4xl→5xl, reading column, grids, page gap</td></tr>
-					<tr><td class="num">min-width: 1024px (64em)</td><td class="num">1</td><td>Footer row layout</td></tr>
-					<tr><td class="num">min-width: 70em</td><td class="num">1</td><td>PortfolioPreview horizontal card</td></tr>
-				</tbody>
+						<tr><td class="num">min-[50em]:</td><td class="num">≥ 50em</td><td>Nav (site title size, theme toggle height)</td></tr>
+						<tr><td class="num">max-lg:</td><td class="num">&lt; 60em</td><td>index (hides the headshot below 60em). AboutHero's carousel images are smaller below 60em by default, with <code>lg:</code> sizes above</td></tr>
+						<tr><td class="num">lg:</td><td class="num">≥ 60em</td><td>Page title 4xl→5xl, display 4xl→5xl, article title 3xl→4xl, reading column, grids, page gap</td></tr>
+						<tr><td class="num">min-[64em]:</td><td class="num">≥ 64em (1024px)</td><td>Footer row layout</td></tr>
+						<tr><td class="num">min-[70em]:</td><td class="num">≥ 70em</td><td>PortfolioPreview horizontal card</td></tr>
+					</tbody>
 			</table></div>
 		</section>
 
@@ -948,7 +958,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 						<a class="site-button" href="#components">Drop me a line →</a>
 						<a class="site-button secondary" href="#components">View work</a>
 					</div>
-					<p class="sg-src">global.css:324-359 · fill <code>--accent-fill</code> (hover <code>--accent-fill-hover</code>), text <code>--on-accent</code>, 40px tall, 8px radius, <code>text-sm</code>/600 uppercase. Secondary uses <code>--accent-text</code>. Also carries margin-top: 20px (not shown).</p>
+					<p class="sg-src">Hero.astro (classes; <code>button</code> is only a hook) · fill <code>--accent-fill</code> (hover <code>--accent-fill-hover</code>), text <code>--on-accent</code>, 40px tall, 8px radius, <code>text-sm</code>/600 uppercase. The secondary look uses <code>--accent-text</code>. The Hero button adds <code>mt-5</code> as a class.</p>
 				</div>
 				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 					<h4 class="sg-h4">Pills</h4>
@@ -1003,7 +1013,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<p>2. Prose: <span class="site-prose" style="display:inline"><a href="#components">1px underline at 40%, full on hover</a></span></p>
 					<p>3. Small: <a class="t-small-link" href="#components">← Back</a> &nbsp; <a class="t-small-link" href="#components">Next →</a></p>
 					<p>4. Post list: <a href="#components" style="color:var(--gray-0);text-decoration:none;font-size:var(--text-xl)">gray-0, turns red on hover</a></p>
-					<p class="sg-src">global.css:195 · prose.css:63-78 · type.css Small link · writing/index. Hover is <code>--accent-text-hover</code> everywhere.</p>
+					<p class="sg-src">global.css (base <code>a</code>) · prose.css · type.css Small link · writing/index. Hover is <code>--accent-text-hover</code> everywhere.</p>
 				</div>
 				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 					<h4 class="sg-h4">Meta (bottom of post)</h4>
@@ -1019,10 +1029,10 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				<div class="site-prose" style="max-width:40rem">
 					<h2>Why the bad ideas look shippable</h2>
 					<p>A designer comes back with a stance. Not a deck, not a memo: a proposal, concrete enough that the team can push against it. <a href="#components">Inline links</a> are accent red with a quiet underline.</p>
-					<p>Paragraphs are base size at 1.7 line-height, with 1.4em between them. <strong>Bold text</strong> steps up to 600 and gray-0.</p>
+					<p>Paragraphs are 18px (<code>text-lg</code>) at 1.7 line-height, with 1.4em between them. <strong>Bold text</strong> steps up to 600 and gray-0.</p>
 					<h3>Subheading at 20px</h3>
-					<ul><li>Lists have real markers now,</li><li>and the bullets are the brand red.</li></ul>
-					<blockquote>Blockquotes are upright, with a 2px brand rule.</blockquote>
+					<ul><li>Lists have real markers now,</li><li>and the bullets are the accent red.</li></ul>
+					<blockquote>Blockquotes are upright, with a 2px accent rule.</blockquote>
 					<h4>A smaller heading, 18px / 600</h4>
 					<figure><span class="fake-img"></span><figcaption>Images are full width with a 0.75rem radius and --shadow-md.</figcaption></figure>
 					<hr>
@@ -1034,7 +1044,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
 				<h4 class="sg-h4">Reader controls (Aa)</h4>
 				<p>The nav button sits left of the theme toggle on posts and case studies only. The panel is a rounded <code>--gray-999</code> card with a <code>--gray-800</code> border and <code>--shadow-lg</code>, with radio groups for font, size and line spacing, and a reset. It closes on Escape or an outside click and returns focus to the button. Try the live demo under <a href="#type">Typography</a>.</p>
-				<p class="sg-src">components/ReaderSettings.tsx + ReaderSettings.css · lib/reader-prefs.ts · prose.css:148-172</p>
+				<p class="sg-src">components/ReaderSettings.tsx (classes only, no stylesheet) · lib/reader-prefs.ts · the reader hooks in prose.css</p>
 			</div>
 
 			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
@@ -1049,29 +1059,22 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		<!-- ============================================================ -->
 		<section class="sg-section" id="files">
 			<div class="sg-section-head"><span class="sg-num">10</span><h2>Where styles live</h2></div>
+			<p class="sg-lede">The map after the Tailwind cleanup. <code>docs/css-architecture.md</code> has the same picture in prose, plus how to add a style.</p>
 			<div class="sg-table-wrap"><table class="sg-table">
 				<thead><tr><th>file</th><th>mechanism</th><th>owns</th></tr></thead>
 				<tbody>
-					<tr><td class="num">styles/global.css</td><td>Tailwind + @theme + @layer base + unlayered</td><td>Tokens, light/dark palettes, element defaults (<code>@layer base</code>), focus rings, .button, nav dropdown</td></tr>
-					<tr><td class="num">styles/type.css</td><td>@layer components</td><td>The nine <code>.t-*</code> type roles, defined once</td></tr>
-					<tr><td class="num">styles/prose.css</td><td>@layer components</td><td>The shared <code>.prose</code> article styles and the <code>[data-reader-*]</code> hooks</td></tr>
-					<tr><td class="num">components/PageHeader.astro</td><td>Scoped + role classes</td><td>Back link, eyebrow, title and summary for posts and case studies</td></tr>
-					<tr><td class="num">components/ReaderSettings.tsx</td><td>Radix dropdown + <code>ReaderSettings.css</code> (unlayered)</td><td>The Aa panel in the nav</td></tr>
-					<tr><td class="num">lib/reader-prefs.ts</td><td>TypeScript</td><td>Reader preference parsing, storage and the pre-paint bootstrap (inlined by MainHead)</td></tr>
-					<tr><td class="num">components/MainHead.astro</td><td>&lt;link&gt; + inline scripts</td><td>Imports global.css, Google Fonts, theme and reader-preference bootstraps</td></tr>
-					<tr><td class="num">layouts/BaseLayout.astro</td><td>Scoped + :root vars</td><td>Page shell, background images, intro fade</td></tr>
-					<tr><td class="num">components/Nav.astro</td><td>Scoped</td><td>Nav bar layout (and ~100 dead dropdown lines)</td></tr>
-					<tr><td class="num">components/NavDropdown.tsx</td><td>Global classes</td><td>Radix dropdown markup. Imports global.css a second time.</td></tr>
-					<tr><td class="num">components/Hero.astro, AboutHero.astro</td><td>Scoped + :global + role classes</td><td>Layout, tagline, company link (titles come from type.css)</td></tr>
-					<tr><td class="num">components/PortfolioPreview.astro, Pill.astro</td><td>Scoped</td><td>Project card, tag pills</td></tr>
-					<tr><td class="num">components/SectionHeader.astro</td><td>Scoped + :global</td><td>Section label row and filter buttons (styles slotted page markup)</td></tr>
-					<tr><td class="num">components/Footer.astro</td><td>Scoped + :global + 7 !important</td><td>Footer, social links rendered by React</td></tr>
-					<tr><td class="num">components/ThemeToggle.astro</td><td>Scoped + :global(.theme-dark)</td><td>Light/dark switch</td></tr>
-					<tr><td class="num">pages/writing/[...slug].astro</td><td>Scoped + role classes + <code>.prose</code></td><td>Tags meta, prev/next (prose and header are shared)</td></tr>
-					<tr><td class="num">pages/work/[...slug].astro</td><td>Scoped + role classes + <code>.prose</code></td><td>Role / Collaborators / Product block, carousel trigger (prose and header are shared)</td></tr>
-					<tr><td class="num">pages/*.astro (index, about, writing, photography)</td><td>Scoped + role classes</td><td>Page layouts</td></tr>
-					<tr><td class="num">work/*.tsx, photography/*.tsx</td><td>Inline style={{}} + injected &lt;style&gt;</td><td>Modals, lightboxes, gallery grid</td></tr>
-				</tbody>
+						<tr><td class="num">styles/global.css</td><td>Tailwind <code>@theme</code>, custom variants and utilities, <code>@layer base</code>, plus two unlayered token blocks</td><td>Tokens (<code>:root</code>, <code>:root.theme-dark</code>), the Tailwind bridges, fonts, spacing, <code>lg</code> = 60em, <code>--animate-*</code>, the <code>hover:</code> and <code>dark:</code> variants, <code>wrapper</code> and <code>elevation-*</code>, element defaults and the focus ring</td></tr>
+						<tr><td class="num">styles/type.css</td><td>@layer components</td><td>The ten <code>.t-*</code> type roles, defined once</td></tr>
+						<tr><td class="num">styles/prose.css</td><td>@layer components</td><td>The shared <code>.prose</code> article styles and the <code>[data-reader-*]</code> hooks</td></tr>
+						<tr><td class="num">components/*.astro, components/*.tsx, layouts/, pages/</td><td>Tailwind classes in the markup (utilities layer)</td><td>Everything else: layout, color, hover and focus states, the modals and lightboxes, the Nav and Aa dropdowns, the gallery. Hook classes (<code>card</code>, <code>pill</code>, <code>back-link</code>…) stay on elements for scripts and tests</td></tr>
+						<tr><td class="num">pages/about.astro</td><td>Scoped <code>&lt;style&gt;</code> with <code>:global()</code>, unlayered</td><td>The five emoji hover cursors. The only <code>&lt;style&gt;</code> block left, with a "Why not Tailwind:" comment</td></tr>
+						<tr><td class="num">style="" in Pill, PortfolioPreview, PhotoGallery</td><td>Inline, custom properties only</td><td><code>--pill-color</code>, <code>--on-accent</code>, <code>--aspect</code>; a class reads each one</td></tr>
+						<tr><td class="num">components/PageHeader.astro</td><td>Classes + role classes</td><td>Back link, eyebrow, title and summary for posts and case studies</td></tr>
+						<tr><td class="num">components/ReaderSettings.tsx</td><td>Radix dropdown + classes</td><td>The Aa panel in the nav (no stylesheet of its own)</td></tr>
+						<tr><td class="num">lib/reader-prefs.ts</td><td>TypeScript</td><td>Reader preference parsing, storage and the pre-paint bootstrap (inlined by MainHead)</td></tr>
+						<tr><td class="num">components/MainHead.astro</td><td>&lt;link&gt; + inline scripts</td><td>Imports global.css, Google Fonts, theme and reader-preference bootstraps</td></tr>
+						<tr><td class="num">tests/styles/*.test.ts</td><td>Vitest</td><td>Guard rules: no <code>!important</code>, inline style only sets custom properties, no stray unlayered CSS, the type scale, roles, prose and color tokens</td></tr>
+					</tbody>
 			</table></div>
 		</section>
 
@@ -1104,7 +1107,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
 	function crBadge(r) {
 		var cls = r >= 4.5 ? 'ok' : r >= 3 ? 'warn' : 'bad';
-		var label = r >= 4.5 ? 'AA' : r >= 3 ? 'AA large' : 'fail';
+		var label = r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'AA large' : 'fail';
 		return '<span class="sg-badge ' + cls + '">' + r.toFixed(2) + ' ' + label + '</span>';
 	}
 
@@ -1133,15 +1136,16 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 				'<span class="cr" style="background:' + bg + ';border-radius:999px">' + cr + '</span></div>';
 		}).join('');
 		// Swatch background is the token; the badge is the contrast that matters for its job
-		function accRow(name, hex, note, ratio) {
-			return '<div class="sg-swatch" style="background:' + hex + ';color:#ffffff"><span class="name">' + name + '</span><span class="meta">' + hex + ' · ' + note + '</span><span class="cr" style="background:' + bg + ';border-radius:999px">' + crBadge(ratio) + '</span></div>';
+		function accRow(name, hex, note, ratio, fg) {
+			return '<div class="sg-swatch" style="background:' + hex + ';color:' + (fg || '#ffffff') + '"><span class="name">' + name + '</span><span class="meta">' + hex + ' · ' + note + '</span><span class="cr" style="background:' + bg + ';border-radius:999px">' + crBadge(ratio) + '</span></div>';
 		}
 		var isDark = hexes[0] === '#ffffff';
-		var textHex = isDark ? '#ff4949' : '#d62828';
+		var textHex = isDark ? '#ff6969' : '#b60000';
+		var onHex = isDark ? '#090b11' : '#ffffff';
 		var accentRow =
-			accRow('--brand', '#ff4949', 'vs page · decoration only', contrast('#ff4949', bg)) +
-			accRow('--accent-text', textHex, 'vs page · all red text', contrast(textHex, bg)) +
-			accRow('--accent-fill', '#d62828', 'white text on it', contrast('#ffffff', '#d62828'));
+			accRow('--brand', '#ff4949', 'vs page · token only', contrast('#ff4949', bg), '#ffffff') +
+			accRow('--accent-text', textHex, 'vs page · all red text', contrast(textHex, bg), onHex) +
+			accRow('--accent-fill', textHex, '--on-accent text on it', contrast(onHex, textHex), onHex);
 		return '<div class="sg-ramp"><div class="sg-ramp-title">' + title + '</div>' + rows + accentRow + '</div>';
 	}
 	document.getElementById('sg-ramps').innerHTML =
@@ -1149,34 +1153,31 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 	// ---------- Reds ----------
 	var reds = [
-		['#ff4949', '--brand (both)'],
-		['#d62828', '--accent-text (light) · --accent-fill (both)'],
-		['#ff4949', '--accent-text (dark)'],
-		['#b71c1c', '--accent-text-hover (light) · --accent-fill-hover'],
-		['#ff7a7a', '--accent-text-hover (dark)'],
-		['#ffffff', '--on-accent (text on fills)'],
+		['#ff4949', '--brand (both) · token only'],
+		['#b60000', '--accent-text · --accent-fill (light)'],
+		['#ff6969', '--accent-text · --accent-fill (dark)'],
+		['#970000', '--accent-text-hover · --accent-fill-hover (light)'],
+		['#ff8787', '--accent-text-hover · --accent-fill-hover (dark)'],
+		['#ffffff', '--on-accent (light) · text on fills'],
+		['#090b11', '--on-accent (dark) · text on fills'],
 		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
-		['hsl(0 80% 60%)', 'PasswordModal error border · hardcoded'],
-		['hsl(0 80% 65%)', 'PasswordModal error text · hardcoded'],
 		['#ff4949', 'BackgroundEffect fallback · hardcoded']
-	];
-	document.getElementById('sg-reds').innerHTML = reds.map(function (r) {
+	];	document.getElementById('sg-reds').innerHTML = reds.map(function (r) {
 		return '<div class="sg-red"><i style="background:' + r[0] + '"></i><b>' + r[0] + '</b><span>' + r[1] + '</span></div>';
 	}).join('');
 
 	// ---------- Type scale: Tailwind defaults, with reference counts from src/ ----------
 	var scale = [
 		['xs', 0.75, 5, 'eyebrow, pills, card CTA, captions'],
-		['sm', 0.875, 16, 'meta, small links, buttons, section label, footer'],
-		['base', 1, 6, 'body, .prose base, card description'],
-		['lg', 1.125, 3, 'summary, .prose h4'],
-		['xl', 1.25, 9, 'subheading, .prose h3, post list, About body ≥60em'],
-		['2xl', 1.5, 9, 'lead, section heading, .prose h2, card title, nav icons'],
-		['3xl', 1.875, 3, 'page title (mobile), lightbox close'],
-		['4xl', 2.25, 6, 'page title (≥60em), display title (mobile)'],
-		['5xl', 3, 1, 'display title (≥60em)']
-	];
-	document.getElementById('sg-scale').innerHTML = scale.map(function (s) {
+		['sm', 0.875, 15, 'meta, small links, buttons, section label, footer, reader 14px'],
+		['base', 1, 8, 'card description, reader 16px'],
+		['lg', 1.125, 3, 'summary, .prose body (the 18px default)'],
+		['xl', 1.25, 11, 'subheading, post list, About body ≥60em, reader 20px'],
+		['2xl', 1.5, 5, 'lead, section heading, nav icons'],
+		['3xl', 1.875, 2, 'article title (mobile), lightbox close'],
+		['4xl', 2.25, 5, 'page title (≥60em), article title (≥60em), display title (mobile)'],
+		['5xl', 3, 2, 'display and page title (≥60em)']
+	];	document.getElementById('sg-scale').innerHTML = scale.map(function (s) {
 		return '<div class="sg-scale-row' + (s[2] === 0 ? ' unused' : '') + '">' +
 			'<div class="label"><b>--text-' + s[0] + '</b><span>' + s[1] + 'rem · ' + (s[1] * 16) + 'px · ' + s[2] + '×</span><span>' + s[3] + '</span></div>' +
 			'<div class="sample" style="font-size:var(--text-' + s[0] + ')">Clarity is the deliverable</div></div>';
@@ -1198,13 +1199,13 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		['Lead', { cls: 't-lead' }, 'I’m a Staff UX Designer who codes, currently designing industrial control software at CrossnoKaye.',
 			['2xl (24px) · 400 · 2rem', 'gray-200'], 'Hero taglines (home, About, 404)', 'type.css .t-lead'],
 		['Section heading', { cls: 't-section-heading' }, 'Why the bad ideas look shippable',
-			['2xl (24px) · 700 · 1.3', 'gray-0'], '.prose h2, About section headings', 'type.css .t-section-heading · prose.css h2 (1.5em)'],
+			['2xl (24px) · 700 · 1.3', 'gray-0'], '.prose h2, About section headings', 'type.css .t-section-heading · prose.css h2 (4/3em)'],
 		['Subheading', { cls: 't-subheading' }, 'Choose the setting, not the size',
-			['xl (20px) · 700 · 1.35', 'gray-0'], '.prose h3, Photography year headings, PasswordModal title', 'type.css .t-subheading · prose.css h3 (1.25em)'],
+			['xl (20px) · 700 · 1.35', 'gray-0'], '.prose h3, Photography year headings, PasswordModal title', 'type.css .t-subheading · prose.css h3 (10/9em)'],
 		['Section label', { style: 'font-size:var(--text-sm);font-weight:600;text-transform:uppercase;color:var(--gray-200)' }, 'Selected projects',
 			['sm · 600 · uppercase', 'gray-200 · rendered as <h3>'], 'SectionHeader (unchanged)', 'SectionHeader.astro'],
-		['Body', { style: 'font-size:var(--text-base);line-height:1.7;color:var(--gray-100)' }, 'Low fidelity is for problem-seeking. High fidelity is for problem-solving. The order matters, because once you invest in visual polish, the sunk cost makes it harder to change the structure underneath.',
-			['base (16px) · 400 · 1.7', 'gray-100 · reader scales it'], '.prose', 'prose.css .prose'],
+		['Body', { style: 'font-size:var(--text-lg);line-height:1.7;color:var(--gray-100)' }, 'Low fidelity is for problem-seeking. High fidelity is for problem-solving. The order matters, because once you invest in visual polish, the sunk cost makes it harder to change the structure underneath.',
+			['lg (18px) · 400 · 1.7', 'gray-100 · reader scales it'], '.prose', 'prose.css .prose'],
 		['Meta', { cls: 't-meta' }, 'Tags: design, process',
 			['mono · sm', 'gray-400 · labels uppercase'], 'Bottom-of-post meta, case-study Role / Collaborators / Product, footer', 'type.css .t-meta'],
 		['Small link', { cls: 't-small-link' }, '← Back      Next →',
@@ -1221,7 +1222,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 
 	// ---------- Reader controls demo ----------
 	var demo = document.getElementById('sg-reader-demo');
-	var rdDefaults = { font: 'sans', size: '16', leading: '1.7' };
+	var rdDefaults = { font: 'sans', size: '18', leading: '1.7' };
 	function rdSync() {
 		demo.querySelectorAll('[data-rd]').forEach(function (b) {
 			var k = b.getAttribute('data-rd');
@@ -1242,7 +1243,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	var space = [['1', 0.25], ['2', 0.5], ['3', 0.75], ['4', 1], ['5', 1.25], ['6', 1.5], ['8', 2], ['10', 2.5], ['12', 3], ['15', 3.75], ['16', 4], ['20', 5], ['24', 6], ['30', 7.5], ['48', 12]];
 	document.getElementById('sg-spacing').innerHTML = '<h4 class="sg-h4" style="margin-bottom:0.75rem">--spacing-*</h4>' + space.map(function (s) {
 		return '<div class="sg-space"><span>--spacing-' + s[0] + '</span><span>' + s[1] + 'rem</span><i style="width:' + Math.min(s[1] * 16, 192) + 'px"></i></div>';
-	}).join('') + '<p class="sg-src" style="margin-top:0.75rem">global.css:44-59 · used via gap-*, mt-5, my-5, mb-3, mr-2, mx-1</p>';
+	}).join('') + '<p class="sg-src" style="margin-top:0.75rem">global.css · @theme · used via gap-*, mt-5, my-5, mb-3, mr-2, mx-1</p>';
 
 	// ---------- Radii ----------
 	var radii = [['2px', 'focus ring'], ['0.25rem', 'dropdown link'], ['0.375rem', 'card title (no bg)'], ['0.5rem', 'menu, inputs, modal btn'], ['8px', '.button, card body'], ['0.75rem', 'card, modal, .prose images, reader panel'], ['0.9375rem', 'card title ≥70em (no bg)'], ['1rem', 'case-study carousel trigger'], ['20px', 'home headshot'], ['1.5rem', 'About, card ≥70em'], ['50%', 'bullets'], ['999px', 'pills'], ['999rem', 'toggles, menu button']];
