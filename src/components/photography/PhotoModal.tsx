@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import type { Photo } from '../../data/photos';
+import Lightbox from '../Lightbox';
 
 interface PhotoModalProps {
   photos: Photo[];
@@ -55,117 +56,22 @@ export default function PhotoModal({ photos, currentIndex, onClose, onNavigate }
     };
   }, [onClose, goNext, goPrev]);
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) {
-      onClose();
-    }
-  };
-
   return createPortal(
-    <div
-      ref={overlayRef}
-      tabIndex={-1}
-      onClick={handleBackdropClick}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(0, 0, 0, 0.9)',
-        animation: 'modalFadeIn 0.2s ease-out',
-        cursor: 'zoom-out',
-      }}
+    <Lightbox
+      overlayRef={overlayRef}
+      onClose={onClose}
+      onPrev={goPrev}
+      onNext={goNext}
+      prevLabel="Previous photo"
+      nextLabel="Next photo"
     >
-      <style>{`
-        @keyframes modalFadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}</style>
-
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        aria-label="Close"
-        style={{
-          position: 'absolute',
-          top: '1rem',
-          right: '1rem',
-          background: 'none',
-          border: 'none',
-          color: 'white',
-          fontSize: 'var(--text-3xl)',
-          cursor: 'pointer',
-          padding: '0.5rem',
-          lineHeight: 1,
-          opacity: 0.7,
-          zIndex: 1,
-        }}
-      >
-        &#x2715;
-      </button>
-
-      {/* Previous arrow */}
-      <button
-        onClick={(e) => { e.stopPropagation(); goPrev(); }}
-        aria-label="Previous photo"
-        style={{
-          position: 'absolute',
-          left: '1rem',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          background: 'none',
-          border: 'none',
-          color: 'white',
-          fontSize: 'var(--text-4xl)',
-          cursor: 'pointer',
-          padding: '0.5rem',
-          lineHeight: 1,
-          opacity: 0.7,
-          zIndex: 1,
-        }}
-      >
-        &#x2039;
-      </button>
-
-      {/* Next arrow */}
-      <button
-        onClick={(e) => { e.stopPropagation(); goNext(); }}
-        aria-label="Next photo"
-        style={{
-          position: 'absolute',
-          right: '1rem',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          background: 'none',
-          border: 'none',
-          color: 'white',
-          fontSize: 'var(--text-4xl)',
-          cursor: 'pointer',
-          padding: '0.5rem',
-          lineHeight: 1,
-          opacity: 0.7,
-          zIndex: 1,
-        }}
-      >
-        &#x203A;
-      </button>
-
-      {/* Image */}
       <img
         src={photo.src}
         alt={photo.title}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          maxWidth: '90vw',
-          maxHeight: '90vh',
-          objectFit: 'contain',
-          cursor: 'default',
-        }}
+        className="max-h-[90vh] max-w-[90vw] cursor-default object-contain"
       />
-    </div>,
+    </Lightbox>,
     document.body
   );
 }

@@ -106,35 +106,6 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   article {
     width: 100%;
   }
-  /* Carousel trigger */
-  article :global(.carousel-trigger) {
-    display: block;
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: relative;
-    margin-top: 2rem;
-  }
-  article :global(.carousel-trigger img) {
-    width: 100%;
-    height: auto;
-    border-radius: 1rem;
-    box-shadow: var(--shadow-md);
-    transition: box-shadow var(--theme-transition);
-  }
-  article :global(.carousel-trigger:hover img) {
-    box-shadow: var(--shadow-lg, var(--shadow-md));
-  }
-  article :global(.carousel-badge) {
-    display: block;
-    margin-top: 1rem;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--gray-400);
-    text-align: center;
-  }
 
   /* Metadata section (top) */
   .post-meta-top {

@@ -55,7 +55,7 @@ export default function NavDropdown({ links }: NavDropdownProps) {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="menu-content z-[1000] max-w-[280px] min-w-[200px] rounded-lg border border-gray-800 bg-gray-999 [box-shadow:var(--shadow-lg)]"
+          className="menu-content z-[1000] max-w-[280px] min-w-[200px] rounded-lg border border-gray-800 bg-gray-999 elevation-lg"
           sideOffset={5}
           align="end"
           collisionPadding={16}

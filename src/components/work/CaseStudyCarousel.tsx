@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import Lightbox from '../Lightbox';
 
 interface Props {
   images: { src: string; alt: string }[];
@@ -48,90 +49,40 @@ export default function CaseStudyCarousel({ images }: Props) {
       <button
         type="button"
         onClick={() => setModalIndex(0)}
-        className="carousel-trigger"
+        className="carousel-trigger group relative mt-8 block w-full cursor-pointer border-none bg-transparent p-0"
         aria-label="View all screenshots"
       >
-        <img src={images[0].src} alt={images[0].alt} />
-        <span className="carousel-badge">{images.length} screenshots - click to browse</span>
+        <img
+          src={images[0].src}
+          alt={images[0].alt}
+          className="h-auto w-full rounded-2xl elevation-md [transition:box-shadow_var(--theme-transition)] group-hover:elevation-lg"
+        />
+        <span className="carousel-badge mt-4 block text-center font-mono text-xs/[inherit] text-gray-400">
+          {images.length} screenshots - click to browse
+        </span>
       </button>
 
       {modalIndex !== null &&
         createPortal(
-          <div
-            ref={overlayRef}
-            tabIndex={-1}
-            onClick={(e) => { if (e.target === overlayRef.current) close(); }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 10000,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(0, 0, 0, 0.9)',
-              animation: 'modalFadeIn 0.2s ease-out',
-              cursor: 'zoom-out',
-            }}
+          <Lightbox
+            overlayRef={overlayRef}
+            onClose={close}
+            onPrev={goPrev}
+            onNext={goNext}
+            prevLabel="Previous"
+            nextLabel="Next"
           >
-            <style>{`
-              @keyframes modalFadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-              }
-            `}</style>
-
-            <button
-              onClick={close}
-              aria-label="Close"
-              style={{
-                position: 'absolute', top: '1rem', right: '1rem',
-                background: 'none', border: 'none', color: 'white',
-                fontSize: 'var(--text-3xl)', cursor: 'pointer', padding: '0.5rem',
-                lineHeight: 1, opacity: 0.7, zIndex: 1,
-              }}
-            >
-              &#x2715;
-            </button>
-
-            <button
-              onClick={(e) => { e.stopPropagation(); goPrev(); }}
-              aria-label="Previous"
-              style={{
-                position: 'absolute', left: '1rem', top: '50%',
-                transform: 'translateY(-50%)', background: 'none',
-                border: 'none', color: 'white', fontSize: 'var(--text-4xl)',
-                cursor: 'pointer', padding: '0.5rem', lineHeight: 1,
-                opacity: 0.7, zIndex: 1,
-              }}
-            >
-              &#x2039;
-            </button>
-
-            <button
-              onClick={(e) => { e.stopPropagation(); goNext(); }}
-              aria-label="Next"
-              style={{
-                position: 'absolute', right: '1rem', top: '50%',
-                transform: 'translateY(-50%)', background: 'none',
-                border: 'none', color: 'white', fontSize: 'var(--text-4xl)',
-                cursor: 'pointer', padding: '0.5rem', lineHeight: 1,
-                opacity: 0.7, zIndex: 1,
-              }}
-            >
-              &#x203A;
-            </button>
-
-            <div onClick={(e) => e.stopPropagation()} style={{ cursor: 'default', textAlign: 'center' }}>
+            <div onClick={(e) => e.stopPropagation()} className="cursor-default text-center">
               <img
                 src={images[modalIndex].src}
                 alt={images[modalIndex].alt}
-                style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain' }}
+                className="max-h-[85vh] max-w-[90vw] object-contain"
               />
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-sm)', marginTop: '0.75rem' }}>
+              <p className="mt-3 text-sm/[inherit] text-[rgba(255,255,255,0.6)]">
                 {modalIndex + 1} / {images.length} - {images[modalIndex].alt}
               </p>
             </div>
-          </div>,
+          </Lightbox>,
           document.body,
         )}
     </>

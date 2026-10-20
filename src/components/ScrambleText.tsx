@@ -171,16 +171,12 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
   return (
     <span className={className}>
       {displayContent.revealed}
-      <span style={{ opacity: 0.7 }}>{displayContent.scrambled}</span>
+      <span className="opacity-70">{displayContent.scrambled}</span>
       {shouldShowCursor && (
-        <span 
-          style={{ 
-            opacity: cursorVisible ? 1 : 0,
-            color: 'var(--brand)',
-            textShadow: '0 0 5px var(--brand)',
-            marginLeft: '2px',
-            fontWeight: 'bold'
-          }}
+        <span
+          className={`ml-[2px] font-bold text-brand [text-shadow:0_0_5px_var(--brand)] ${
+            cursorVisible ? 'opacity-100' : 'opacity-0'
+          }`}
         >
           _
         </span>
