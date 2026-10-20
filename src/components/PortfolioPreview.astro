@@ -31,9 +31,9 @@ const isExternal = !data.gated && !!data.url;
 					</span>
 				)}
 			</div>
-			<h3 class="title z-1 rounded-md pt-3 pb-6 text-(length:--text-2xl) text-gray-0 min-[70em]:rounded-[0.9375rem]">{data.title}</h3>
-			<p class="text-(length:--text-base) text-gray-300">{data.description}</p>
-			<span class="flex items-center gap-1 pt-6 text-(length:--text-xs) text-accent-text uppercase hover:text-accent-text-hover">{cta} <span>{isExternal ? '↗' : '→'}</span></span>
+			<h3 class="title t-card-title z-1 rounded-md pt-3 pb-6 min-[70em]:rounded-[0.9375rem]">{data.title}</h3>
+			<p class="t-summary">{data.description}</p>
+			<span class="t-label flex items-center gap-1 pt-6 text-accent-text hover:text-accent-text-hover">{cta} <span>{isExternal ? '↗' : '→'}</span></span>
 		</div>
 	</a>
 </div>

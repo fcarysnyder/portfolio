@@ -86,15 +86,16 @@ Each role is defined once (as a class, a component, or the `.prose` rules) and u
 
 | Role | Spec | Used on |
 |---|---|---|
-| **Display title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 600 (as today), line-height 1.1, `--gray-0` | Home hero only |
+| **Display title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 600 (as today), line-height 1.15, letter-spacing −0.01em, `--gray-0` | Home hero only |
 | **Page title** | `text-4xl` → `lg:text-5xl` (36 → 48px), weight 600 (the hero's), line-height 1.15, letter-spacing −0.01em, `--gray-0` | Writing index, Photography, About, Work index (`/work/`), 404 |
 | **Article title** | `text-3xl` → `lg:text-4xl` (30 → 36px), weight 600, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Blog post, case study (one step below the section pages) |
-| **Summary** | `text-lg`, line-height 1.5, `--gray-400` | Blog post and case study (from `description`) |
+| **Card title** | `text-2xl` (24px), weight 600, line-height 1.15, letter-spacing −0.01em, `--gray-0` | Project cards (home, Work) |
+| **Summary** | `text-lg`, line-height 1.5, `--gray-300` | Blog post and case study (from `description`), project card description |
 | **Eyebrow** | Roboto Mono `text-xs`, uppercase, letter-spacing 0.06em, `--gray-400` | Date line on posts and case studies, and Writing-index post dates |
 | **Lead** | `text-xl` → `lg:text-2xl` (20 → 24px), `--gray-200` | Hero taglines (home, About, 404) |
 | **Section heading** | `text-2xl` (24px), weight 600, line-height 1.3, `--gray-0` | `.prose` h2, About section headings |
 | **Subheading** | `text-xl` (20px), weight 600, line-height 1.35, `--gray-0` | `.prose` h3, Photography year headings, PasswordModal title |
-| **Section label** | `text-sm`, weight 600, uppercase, `--gray-200` | SectionHeader (unchanged) |
+| **Label** | `text-sm` (14px), weight 600, uppercase, 20px line height; color from the element | Section labels (`--gray-200`), filters, the card CTA (`--accent-text`). The same text as the `btn` utility |
 | **Body** | `text-lg` (18px), line-height 1.7 | `.prose` |
 | **Meta** | Roboto Mono `text-sm`, `--gray-400`; labels uppercase | Bottom-of-post meta, case-study Role/Collaborators/Product block, footer |
 | **Small link** | `text-sm`, weight 500, `--accent-text` | Back, Prev/Next |

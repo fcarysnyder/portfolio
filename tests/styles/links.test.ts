@@ -199,7 +199,7 @@ const NOT_INLINE: { file: string; match: string; reason: string }[] = [
   { file: 'src/components/PortfolioPreview.astro', match: 'class="card', reason: 'whole project card is the link; its CTA line has its own hover' },
   { file: 'src/components/Nav.astro', match: 'href="/"', reason: 'site logo in the nav, gray text with no underline' },
   { file: 'src/components/NavDropdown.tsx', match: 'href={href}', reason: 'nav dropdown items, a list pattern: gray at rest, accent-text-hover on hover, with a hover fill' },
-  { file: 'src/pages/writing/index.astro', match: 'class="filter-option"', reason: 'sort filters in the section header, a toggle group styled by SectionHeader' },
+  { file: 'src/pages/writing/index.astro', match: 'class="filter-option t-label"', reason: 'sort filters in the section header, a toggle group styled by SectionHeader' },
   { file: 'src/pages/writing/index.astro', match: 'text-gray-0', reason: 'post titles in the Writing list: gray-0 at rest, accent-text-hover on hover' },
 ];
 

@@ -14,11 +14,11 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 		<SectionHeader label="Organize by" filterId="filter-options">
 			<Image slot="icon" size={18} />
 			<Fragment slot="filters">
-				<button class="filter-option active" data-year="all">All</button>
+				<button class="filter-option t-label active" data-year="all">All</button>
 				{years.map((year) => (
 					<>
 						<span class="filter-dot" aria-hidden="true">&middot;</span>
-						<button class="filter-option" data-year={String(year)}>{year}</button>
+						<button class="filter-option t-label" data-year={String(year)}>{year}</button>
 					</>
 				))}
 			</Fragment>

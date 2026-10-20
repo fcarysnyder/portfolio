@@ -390,15 +390,17 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 .site-meta-row .v { color: var(--gray-200); }
 
 /* Type roles: src/styles/type.css, copied verbatim (the real file is in @layer components) */
-.t-display { font-size: var(--text-4xl); font-weight: 600; line-height: 1.1; color: var(--gray-0); }
-.t-page-title { font-size: var(--text-4xl); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
-.t-article-title { font-size: var(--text-3xl); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
-.t-summary { font-size: var(--text-lg); line-height: 1.5; color: var(--gray-400); }
+.t-display { font-size: var(--text-4xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-page-title { font-size: var(--text-4xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-article-title { font-size: var(--text-3xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-card-title { font-size: var(--text-2xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-summary { font-size: var(--text-lg); line-height: 1.5; color: var(--gray-300); }
+.t-label { font-size: var(--text-sm); line-height: 1.25rem; font-weight: 600; text-transform: uppercase; }
 .t-eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); }
 .t-lead { font-size: var(--text-xl); line-height: var(--text-xl--line-height); color: var(--gray-200); }
 @media (min-width: 60em) { .t-lead { font-size: var(--text-2xl); line-height: var(--text-2xl--line-height); } }
-.t-section-heading { font-size: var(--text-2xl); font-weight: 700; line-height: 1.3; color: var(--gray-0); }
-.t-subheading { font-size: var(--text-xl); font-weight: 700; line-height: 1.35; color: var(--gray-0); }
+.t-section-heading { font-size: var(--text-2xl); font-weight: 600; line-height: 1.3; color: var(--gray-0); }
+.t-subheading { font-size: var(--text-xl); font-weight: 600; line-height: 1.35; color: var(--gray-0); }
 .t-meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); }
 .t-link { color: var(--accent-text); text-decoration: underline 1px transparent; text-underline-offset: 0.2em; transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
 .t-link:hover, .t-link:focus-visible { color: var(--accent-text-hover); text-decoration-color: currentColor; }
@@ -1201,13 +1203,15 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	// [name, class or inline style, specimen text, spec lines, used on, source]
 	var roles = [
 		['Display title', { cls: 't-display' }, 'Hi, I’m F Cary Snyder',
-			['4xl → 5xl (36 → 48px) · 600 · 1.1', 'gray-0'], 'Home hero only', 'type.css .t-display'],
+			['4xl → 5xl (36 → 48px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Home hero only', 'type.css .t-display'],
 		['Page title', { cls: 't-page-title' }, 'Writing',
 			['4xl → 5xl (36 → 48px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Writing, Photography, About, Work index, 404', 'type.css .t-page-title'],
 		['Article title', { cls: 't-article-title' }, 'Clarity is the Deliverable',
 			['3xl → 4xl (30 → 36px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Blog post, case study', 'type.css .t-article-title'],
+		['Card title', { cls: 't-card-title' }, 'Synthetic Readings - Performance Pages for ATLAS',
+			['2xl (24px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Project cards (home, Work)', 'type.css .t-card-title'],
 		['Summary', { cls: 't-summary' }, 'Why a designer should arrive with a stance, concrete enough for the team to push against.',
-			['lg (18px) · 400 · 1.5', 'gray-400'], 'Blog post and case study, from description', 'type.css .t-summary'],
+			['lg (18px) · 400 · 1.5', 'gray-300'], 'Post and case-study summary, project card description', 'type.css .t-summary'],
 		['Eyebrow', { cls: 't-eyebrow' }, 'July 21, 2026 · 9 min read',
 			['mono · xs · uppercase · +0.06em', 'gray-400'], 'Date line on posts and case studies, Writing-index dates', 'type.css .t-eyebrow'],
 		['Lead', { cls: 't-lead' }, 'I’m a Staff UX Designer who codes, currently designing industrial control software at CrossnoKaye.',
@@ -1216,8 +1220,8 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			['2xl (24px) · 600 · 1.3', 'gray-0'], '.prose h2, About section headings', 'type.css .t-section-heading · prose.css h2 (4/3em)'],
 		['Subheading', { cls: 't-subheading' }, 'Choose the setting, not the size',
 			['xl (20px) · 600 · 1.35', 'gray-0'], '.prose h3, Photography year headings, PasswordModal title', 'type.css .t-subheading · prose.css h3 (10/9em)'],
-		['Section label', { style: 'font-size:var(--text-sm);font-weight:600;text-transform:uppercase;color:var(--gray-200)' }, 'Selected projects',
-			['sm · 600 · uppercase', 'gray-200 · rendered as <h3>'], 'SectionHeader (unchanged)', 'SectionHeader.astro'],
+		['Label', { cls: 't-label', style: 'color:var(--gray-200)' }, 'Selected projects',
+			['sm (14px) · 600 · uppercase · 20px', 'color from the element'], 'Section labels, filters, card CTA; same text as the btn utility', 'type.css .t-label'],
 		['Body', { style: 'font-size:var(--text-lg);line-height:1.7;color:var(--gray-100)' }, 'Low fidelity is for problem-seeking. High fidelity is for problem-solving. The order matters, because once you invest in visual polish, the sunk cost makes it harder to change the structure underneath.',
 			['lg (18px) · 400 · 1.7', 'gray-100 · reader scales it'], '.prose', 'prose.css .prose'],
 		['Meta', { cls: 't-meta' }, 'Tags: design, process',
@@ -1231,7 +1235,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	];
 	document.getElementById('sg-roles-type').innerHTML = roles.map(function (r) {
 		var specLines = r[3].map(function (l) { return '<span>' + l.replace(/</g, '&lt;') + '</span>'; }).join('');
-		var attr = r[1].cls ? 'class="' + r[1].cls + '"' : 'style="font-family:var(--font-sans);' + r[1].style + '"';
+		var attr = r[1].cls
+			? 'class="' + r[1].cls + '"' + (r[1].style ? ' style="' + r[1].style + '"' : '')
+			: 'style="font-family:var(--font-sans);' + r[1].style + '"';
 		return '<div class="sg-specimen"><div ' + attr + '>' + r[2].replace(/&/g, '&amp;') + '</div>' +
 			'<div class="spec"><b>' + r[0] + '</b>' + specLines + '<span>' + r[4] + '</span><span class="src">' + r[5] + '</span></div></div>';
 	}).join('');

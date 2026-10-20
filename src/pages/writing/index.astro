@@ -21,9 +21,9 @@ const sortedByTitle = [...posts].sort(
 		<SectionHeader label="All Posts">
 			<BookOpen slot="icon" size={18} />
 			<Fragment slot="filters">
-				<a href="?sort=date" class="filter-option" data-sort="date">Date</a>
+				<a href="?sort=date" class="filter-option t-label" data-sort="date">Date</a>
 				<span class="filter-dot" aria-hidden="true">&middot;</span>
-				<a href="?sort=title" class="filter-option" data-sort="title">Title (A-Z)</a>
+				<a href="?sort=title" class="filter-option t-label" data-sort="title">Title (A-Z)</a>
 			</Fragment>
 		</SectionHeader>
 		<ul class="post-list flex flex-col gap-4" data-list>
