@@ -145,9 +145,9 @@ The reds have role tokens, and they resolve to the values main shipped: the logo
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
 | `--accent-text` | `#ff4949` | `#ff4949` | Links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches |
-| `--accent-text-hover` | `var(--accent-fill-hover)` | same | Hover for red text: the same red as the button hover |
-| `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds: `btn`, default pill, toggle knob |
-| `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
+| `--accent-text-hover` | `#f54c4c` | `#f54c4c` | Hover for red text; in light mode also the button hover |
+| `--accent-fill` | `var(--accent-text)` | `#e03e3e` | Backgrounds: `btn`, default pill, toggle knob. Deeper in dark so the solid block doesn't glare; white on it is 4.3:1 |
+| `--accent-fill-hover` | `var(--accent-text-hover)` | `#cc3838` | Hover for fills, a step deeper (5.0:1 under white in dark) |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 

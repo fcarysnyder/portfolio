@@ -116,9 +116,9 @@ Global `h1–h5` defaults in global.css (4.5rem / 3.5rem / …) describe nothing
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | `--accent-text` | `#ff4949` | `#ff4949` | All red text: links, back/prev/next, active filters, card CTA, footer social links, company link, PasswordModal error and links. Also the focus ring, list markers, blockquote rule and switches (theme toggle, Aa trigger). |
-| `--accent-text-hover` | `var(--accent-fill-hover)` | same | Hover for red text, the same as the button hover. Ink-at-rest items (post titles, filters, menu items) hover to `--accent-text` instead |
-| `--accent-fill` | `#ff4949` | `#ff4949` | Backgrounds under button text: `btn`, default Pill, toggle knob |
-| `--accent-fill-hover` | `#f54c4c` | `#f86161` | Hover for fills |
+| `--accent-text-hover` | `#f54c4c` | `#f54c4c` | Hover for red text, a step deeper. Ink-at-rest items (post titles, filters, menu items) hover to `--accent-text` instead |
+| `--accent-fill` | `var(--accent-text)` | `#e03e3e` | Backgrounds under button text: `btn`, default Pill, toggle knob. Deeper in dark mode so it doesn't glare (white on it 4.3:1) |
+| `--accent-fill-hover` | `var(--accent-text-hover)` | `#cc3838` | Hover for fills, a step deeper in both themes |
 | `--on-accent` | `#ffffff` | `#ffffff` | Text on fills |
 | `--accent-overlay-hover` | `hsla(0, 99%, 64%, 0.17)` | same | Tinted hover backgrounds, selection |
 

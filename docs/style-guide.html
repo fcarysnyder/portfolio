@@ -53,9 +53,9 @@
 	--gray-900: #f3f4f7;
 	--gray-999: #ffffff;
 	--accent-text: #ff4949;
-	--accent-text-hover: var(--accent-fill-hover);
-	--accent-fill: #ff4949;
-	--accent-fill-hover: #f54c4c;
+	--accent-text-hover: #f54c4c;
+	--accent-fill: var(--accent-text);
+	--accent-fill-hover: var(--accent-text-hover);
 	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
@@ -81,7 +81,8 @@
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
-	--accent-fill-hover: #f86161;
+	--accent-fill: #e03e3e;
+	--accent-fill-hover: #cc3838;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
 	--shadow-sm: 0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01), 0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
@@ -569,7 +570,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 			<div class="sg-prose">
 				<ol>
 					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
-					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. It also swaps the hover red to <code>#f86161</code> (the reds themselves stay <code>#ff4949</code>), the shadows (dark shadows become white glows) and one gradient.</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. Red text doesn't change with the theme; the fills deepen to <code>#e03e3e</code> (hover <code>#cc3838</code>) so buttons don't glare. It also swaps the shadows (dark shadows become white glows) and one gradient.</li>
 					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
 				</ol>
 				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
@@ -602,7 +603,7 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<p><code>#ff4949</code> on white is <b>3.33:1</b>, and AA needs 4.5:1 for normal-size text. Red text is used for every link, the back/prev/next links, footer socials, active filters, and the card CTA. The CTA is the worst case: 12px uppercase, the smallest text on the site at the lowest contrast. The primary button (white on red, 14px/600) is also 3.33:1. In dark mode the same red passes at 5.9:1.</p>
 					<div class="fix"><b>Fix:</b> split the accent into a <em>fill</em> role and a <em>text</em> role. Keep <code>#ff4949</code> as the dark-mode text color and the decorative fill. For light-mode text and button fills use something like <code>#d62828</code> (5.0:1 on white, 5.0:1 with white text on it). See the comparison in <a href="#color">Color</a>.</div>
 						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> The accent split into a brand red and accessible text/fill reds. Light-mode text and every button fill use <code>#d62828</code> (5.0:1 on white and under white text); dark-mode text keeps <code>#ff4949</code> (5.9:1). Dark-mode buttons also moved to <code>#d62828</code>, because white on <code>#ff4949</code> fails in both themes. Measured values are in <a href="#color">Color</a>.</div>
-						<div class="fix resolved-note"><b>Updated since.</b> The branch then tried AAA reds at the logo's hue (<code>#b60000</code> text, <code>#ff6969</code> fills with dark text). The owner judged both versions worse to look at and <b>rolled the colors back to main</b>: <code>#ff4949</code> for text and fills, hovers <code>#f54c4c</code> (light) and <code>#f86161</code> (dark), white text on fills. The role tokens stay, so a later change is one edit. This finding is open again, as an accepted gap.</div>
+						<div class="fix resolved-note"><b>Updated since.</b> The branch then tried AAA reds at the logo's hue (<code>#b60000</code> text, <code>#ff6969</code> fills with dark text). The owner judged both versions worse to look at and <b>rolled the colors back to main</b>: <code>#ff4949</code> for text and fills, hovers <code>#f54c4c</code>, white text on fills. (Later: dark mode's hover went from main's lighter <code>#f86161</code> to the same deeper <code>#f54c4c</code>.) The role tokens stay, so a later change is one edit. This finding is open again, as an accepted gap.</div>
 					</article>
 
 				<article class="sg-finding resolved" data-sev="high">
@@ -775,9 +776,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
 						<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff4949 · <span data-cr="#ff4949|#090b11"></span></span>
 						<p style="color:#ff4949;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">A link in body copy on the dark page. <b>VIEW PROJECT →</b></p>
-						<p style="color:#f86161;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f86161|#090b11"></span>. <b>VIEW PROJECT →</b></p>
-						<span class="site-button" style="background:#ff4949;color:#fff">Drop me a line →</span>
-						<span class="sg-small" style="color:#a3acc8">White on fill <span data-cr="#ffffff|#ff4949"></span> · hover fill #f86161 <span data-cr="#ffffff|#f86161"></span></span>
+						<p style="color:#f54c4c;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f54c4c|#090b11"></span>. <b>VIEW PROJECT →</b></p>
+						<span class="site-button" style="background:#e03e3e;color:#fff">Drop me a line →</span>
+						<span class="sg-small" style="color:#a3acc8">White on fill #e03e3e <span data-cr="#ffffff|#e03e3e"></span> · hover fill #cc3838 <span data-cr="#ffffff|#cc3838"></span></span>
 					</div>
 				</div>
 				<p class="sg-small">These two cards are pinned to each theme's colors on purpose, so you can compare them side by side whichever theme the page is in. The reds are main's: the owner tried AA and AAA reds on this branch and rolled them back. Components read the role tokens, never <code>--brand</code>, so the next change to a red is one edit in <code>global.css</code>. See finding F2.</p>
@@ -1148,9 +1149,10 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 		var isDark = hexes[0] === '#ffffff';
 		var textHex = '#ff4949';
 		var onHex = '#ffffff';
+		var fillHex = isDark ? '#e03e3e' : '#ff4949';
 		var accentRow =
 			accRow('--accent-text', textHex, 'vs page · all red text', contrast(textHex, bg), onHex) +
-			accRow('--accent-fill', textHex, '--on-accent text on it', contrast(onHex, textHex), onHex);
+			accRow('--accent-fill', fillHex, '--on-accent text on it', contrast(onHex, fillHex), onHex);
 		return '<div class="sg-ramp"><div class="sg-ramp-title">' + title + '</div>' + rows + accentRow + '</div>';
 	}
 	document.getElementById('sg-ramps').innerHTML =
@@ -1159,8 +1161,9 @@ pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); 
 	// ---------- Reds ----------
 	var reds = [
 		['#ff4949', '--accent-text · --accent-fill (both)'],
-		['#f54c4c', '--accent-fill-hover · --accent-text-hover (light)'],
-		['#f86161', '--accent-fill-hover · --accent-text-hover (dark)'],
+		['#f54c4c', '--accent-text-hover (both) · --accent-fill-hover (light)'],
+		['#e03e3e', '--accent-fill (dark): buttons, toggle knob'],
+		['#cc3838', '--accent-fill-hover (dark)'],
 		['#ffffff', '--on-accent (both) · text on fills'],
 		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
 		['#ff4949', 'BackgroundEffect fallback · hardcoded']

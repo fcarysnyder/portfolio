@@ -188,13 +188,14 @@
 
 	/* The reds, by role: main's values, the logo red for text and fills, white text on fills.
 	   Hover moves one step: text that is not red at rest (post titles, filters, menu items)
-	   turns --accent-text; anything already red (links, the card CTA, buttons) deepens to the
-	   button hover, so --accent-text-hover is that same token. Not AA as text: #ff4949 on
-	   white is 3.3:1 (the owner's call, keeping the brand look). */
+	   turns --accent-text; anything already red (links, the card CTA, buttons) deepens to
+	   --accent-text-hover. In light mode the fills are the same two reds; dark mode deepens
+	   only the fills (see below). Not AA as text: #ff4949 on white is 3.3:1 (the owner's call,
+	   keeping the brand look). */
 	--accent-text: #ff4949;
-	--accent-text-hover: var(--accent-fill-hover);
-	--accent-fill: #ff4949;
-	--accent-fill-hover: #f54c4c;
+	--accent-text-hover: #f54c4c;
+	--accent-fill: var(--accent-text);
+	--accent-fill-hover: var(--accent-text-hover);
 	--on-accent: #ffffff;
 	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
 	/* Gradients */
@@ -225,8 +226,10 @@
 	--gray-800: #283044;
 	--gray-900: #141925;
 	--gray-999: #090b11;
-	/* Dark mode keeps the logo red; only the fill hover changes, to main's dark hover red. */
-	--accent-fill-hover: #f86161;
+	/* A deeper red for fills (buttons, the toggle knob) so the solid block doesn't glare on the
+	   dark page; white on it is 4.3:1 (5.0:1 on the hover, up from 3.3:1 on #ff4949). Red text stays --accent-text. */
+	--accent-fill: #e03e3e;
+	--accent-fill-hover: #cc3838;
 
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
 

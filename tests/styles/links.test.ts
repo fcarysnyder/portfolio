@@ -152,8 +152,8 @@ describe('link defaults and hover color', () => {
     for (const [file, pattern] of items) expect(read(file), `${file} ${pattern}`).toMatch(pattern);
   });
 
-  it('makes the link hover the same token as the button hover', () => {
-    expect(read('src/styles/global.css')).toMatch(/--accent-text-hover:\s*var\(--accent-fill-hover\);/);
+  it('makes the light button hover the link hover token', () => {
+    expect(read('src/styles/global.css')).toMatch(/--accent-fill-hover:\s*var\(--accent-text-hover\);/);
   });
 });
 

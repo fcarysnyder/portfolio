@@ -83,14 +83,21 @@ describe('color tokens', () => {
   // not AA as text on white (3.3:1); that is a recorded choice, not an oversight.
   it.each([
     ['light', { '--accent-text': '#ff4949', '--accent-text-hover': '#f54c4c', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f54c4c', '--on-accent': '#ffffff' }],
-    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#f86161', '--accent-fill': '#ff4949', '--accent-fill-hover': '#f86161', '--on-accent': '#ffffff' }],
+    ['dark', { '--accent-text': '#ff4949', '--accent-text-hover': '#f54c4c', '--accent-fill': '#e03e3e', '--accent-fill-hover': '#cc3838', '--on-accent': '#ffffff' }],
   ] as const)('%s: the red tokens resolve to main\'s values', (mode, values) => {
     for (const [name, value] of Object.entries(values)) expect(tok(mode, name), name).toBe(value);
   });
 
-  it('defines the text hover as a reference to the button hover, not a copy of it', () => {
-    expect(BLOCKS.light).toMatch(/--accent-text-hover:\s*var\(--accent-fill-hover\);/);
-    expect(BLOCKS.dark).not.toMatch(/--accent-text-hover:/);
+  it('changes only the fills in dark mode, each a step deeper than the last', () => {
+    expect([...BLOCKS.dark.matchAll(/^\s*(--accent-[\w-]+)\s*:/gm)].map((m) => m[1]).sort()).toEqual(['--accent-fill', '--accent-fill-hover']);
+    expect(contrast('#ffffff', tok('dark', '--accent-fill-hover'))).toBeGreaterThan(contrast('#ffffff', tok('dark', '--accent-fill')));
+    expect(contrast('#ffffff', tok('dark', '--accent-fill'))).toBeGreaterThan(contrast('#ffffff', tok('light', '--accent-fill')));
+  });
+
+  it('defines the light fills as references to the text reds, not copies', () => {
+    expect(BLOCKS.light).toMatch(/--accent-fill:\s*var\(--accent-text\);/);
+    expect(BLOCKS.light).toMatch(/--accent-fill-hover:\s*var\(--accent-text-hover\);/);
+    expect(BLOCKS.dark).not.toMatch(/--accent-text[\w-]*\s*:/);
   });
 
   it('has no brand token or brand utility (UI code reads the role tokens; the logo is an image)', () => {
