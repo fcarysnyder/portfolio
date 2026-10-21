@@ -26,8 +26,8 @@ export const LITERATA_HREF =
 const SERIF_LINK_ID = 'reader-serif-font';
 
 const FONTS: readonly ReaderFont[] = ['sans', 'serif'];
-const SIZES: readonly ReaderSize[] = [14, 16, 18, 20];
-const LEADINGS: readonly ReaderLeading[] = [1.5, 1.7, 1.9];
+export const SIZES: readonly ReaderSize[] = [14, 16, 18, 20];
+export const LEADINGS: readonly ReaderLeading[] = [1.5, 1.7, 1.9];
 
 /** Parse stored preferences. Each field falls back to its default on its own. Never throws. */
 export function parseReaderPrefs(raw: string | null): ReaderPrefs {
@@ -47,19 +47,30 @@ export function parseReaderPrefs(raw: string | null): ReaderPrefs {
 	};
 }
 
+/** Add the Literata stylesheet once. Also used by the settings panel so its serif "Aa" renders in Literata. */
+export function loadSerifFont(doc: Document): void {
+	if (doc.getElementById(SERIF_LINK_ID)) return;
+	const link = doc.createElement('link');
+	link.id = SERIF_LINK_ID;
+	link.rel = 'stylesheet';
+	link.href = LITERATA_HREF;
+	doc.head.appendChild(link);
+}
+
 /** Set the data-reader-* attributes on <html>, and add the Literata stylesheet once when serif is active. */
 export function applyReaderPrefs(doc: Document, prefs: ReaderPrefs): void {
 	const root = doc.documentElement;
 	root.setAttribute('data-reader-font', prefs.font);
 	root.setAttribute('data-reader-size', String(prefs.size));
 	root.setAttribute('data-reader-leading', String(prefs.leading));
-	if (prefs.font === 'serif' && !doc.getElementById(SERIF_LINK_ID)) {
-		const link = doc.createElement('link');
-		link.id = SERIF_LINK_ID;
-		link.rel = 'stylesheet';
-		link.href = LITERATA_HREF;
-		doc.head.appendChild(link);
-	}
+	if (prefs.font === 'serif') loadSerifFont(doc);
+}
+
+/** The next allowed value in `options` after `value` (direction 1) or before it (-1), clamped at the ends. */
+export function stepOption<T>(options: readonly T[], value: T, direction: 1 | -1): T {
+	const i = options.indexOf(value);
+	const next = Math.min(options.length - 1, Math.max(0, (i < 0 ? 0 : i) + direction));
+	return options[next];
 }
 
 export function saveReaderPrefs(storage: Storage, prefs: ReaderPrefs): void {

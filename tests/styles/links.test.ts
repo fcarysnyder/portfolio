@@ -135,7 +135,7 @@ describe('link defaults and hover color', () => {
       ['src/pages/writing/index.astro', /focus-visible:text-accent-text(?![\w-])/],
       ['src/components/NavDropdown.tsx', /text-gray-300 [^"]*hover:text-accent-text(?![\w-])/],
       ['src/components/NavDropdown.tsx', /data-highlighted:text-accent-text(?![\w-])/],
-      ['src/components/ReaderSettings.tsx', /data-highlighted:text-accent-text(?![\w-])/],
+      ['src/components/ReaderSettings.tsx', /text-gray-300 [^']*not-aria-disabled:hover:text-accent-text(?![\w-])/],
       ['src/components/SectionHeader.astro', /\.filter-option:hover\]:text-accent-text(?![\w-])/],
       ['src/components/SectionHeader.astro', /\.filter-option:focus-visible\]:text-accent-text(?![\w-])/],
     ];

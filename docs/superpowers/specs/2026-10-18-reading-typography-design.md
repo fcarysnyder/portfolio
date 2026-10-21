@@ -186,7 +186,7 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
   - **Size:** 14 / 16 / 18 / 20px on the `.prose` base (`text-sm` / `base` / `lg` / `xl`). Default 18 (changed from 16 on 2026-10-20).
   - **Line spacing:** 1.5 / 1.7 / 1.9. Default 1.7.
   - **Reset to default.**
-  - Steppers (like Matter's ▼▲) or segmented controls; builder's choice.
+  - Built (2026-10-21) as a Radix Popover of tile buttons: two "Aa" toggles for the font (each in its own face), a `[−] 18px [+]` size stepper, two line-glyph spacing steppers (▾ tighter, ▴ looser), then Reset (disabled at the defaults).
 - **Affects only `.prose`** on opted-in pages. The page header, nav, footer and meta don't change. The `data-reader-*` attributes sit on `<html>`, so `.prose` responds to them only inside a page-level opt-in (e.g. `[data-reader-enabled] .prose` on the post and case-study article wrappers). A saved preference can then never restyle other pages.
 - **Persistence:** `localStorage` key `reader-prefs` (`{ font, size, leading }`), applied as `data-reader-font|size|leading` on `<html>` by an inline script in `MainHead.astro` before paint and on `astro:after-swap`, mirroring the theme script.
 - **Serif font loading:** Literata via Google Fonts (`display=swap`), loaded only when serif is active. The inline script adds the `<link>` when the saved pref is serif, and the panel adds it on switch. Default visitors download nothing extra.

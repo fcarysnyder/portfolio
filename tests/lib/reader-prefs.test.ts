@@ -187,3 +187,23 @@ describe('readerBootstrap', () => {
     }
   });
 });
+
+describe('stepOption', () => {
+  it('steps through the allowed values and stops at the ends', async () => {
+    const { stepOption, SIZES, LEADINGS } = await import('../../src/lib/reader-prefs');
+    expect(stepOption(SIZES, 18, 1)).toBe(20);
+    expect(stepOption(SIZES, 20, 1)).toBe(20);
+    expect(stepOption(SIZES, 14, -1)).toBe(14);
+    expect(stepOption(LEADINGS, 1.7, -1)).toBe(1.5);
+  });
+});
+
+describe('loadSerifFont', () => {
+  it('adds the Literata stylesheet once', async () => {
+    const { loadSerifFont } = await import('../../src/lib/reader-prefs');
+    const d = makeDoc();
+    loadSerifFont(d as unknown as Document);
+    loadSerifFont(d as unknown as Document);
+    expect(d.links.map((l) => l.href)).toEqual([LITERATA_HREF]);
+  });
+});

@@ -165,6 +165,7 @@ const OWN_STYLE: { file: string; match: string; reason: string }[] = [
   { file: 'src/components/Lightbox.tsx', match: 'CONTROL', reason: 'close, previous and next glyphs: white on the dark overlay, over photos, so they cannot take the red fill' },
   { file: 'src/components/work/CaseStudyCarousel.tsx', match: 'carousel-trigger', reason: 'the screenshot itself is the trigger, an image with a hover shadow, not a labelled button' },
   { file: 'src/pages/photography/index.astro', match: 'filter-option', reason: 'year filters: text toggles that follow the link hover, styled by SectionHeader' },
+  { file: 'src/components/ReaderSettings.tsx', match: 'className={SEGMENT', reason: 'reader panel toggles and steppers (font, size, spacing, reset): bordered tiles that share one SEGMENT style, not actions with a fill' },
   { file: 'src/components/BackgroundEffect.astro', match: 'toggle-debug-btn', reason: 'the debug-panel easter egg, hidden by default and not part of the design' },
 ];
 
