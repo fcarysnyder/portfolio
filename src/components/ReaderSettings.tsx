@@ -14,6 +14,7 @@ import {
   READER_DEFAULTS,
   READER_STORAGE_KEY,
   SIZES,
+  WIDTHS,
   applyReaderPrefs,
   loadSerifFont,
   parseReaderPrefs,
@@ -28,8 +29,13 @@ import '../styles/global.css';
 // link red), presses in slightly, and shows its selected state with a red border. The global
 // focus ring marks keyboard focus. At either end of a range a stepper is aria-disabled, not
 // disabled: a disabled button drops keyboard focus out of the panel the moment it hits the end.
-const SEGMENT =
-  'flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-800 bg-transparent text-gray-300 select-none motion-safe:[transition:color_var(--theme-transition),background-color_var(--theme-transition),border-color_var(--theme-transition),transform_0.1s_ease-out] not-aria-disabled:hover:bg-accent-overlay-hover not-aria-disabled:hover:text-accent-text motion-safe:not-aria-disabled:active:scale-95 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-pressed:border-accent-text aria-pressed:text-gray-0 forced-colors:aria-pressed:[outline:2px_solid_Highlight]';
+const TILE =
+  'flex cursor-pointer items-center justify-center rounded-lg border border-gray-800 bg-transparent text-gray-300 select-none motion-safe:[transition:color_var(--theme-transition),background-color_var(--theme-transition),border-color_var(--theme-transition),transform_0.1s_ease-out] not-aria-disabled:hover:bg-accent-overlay-hover not-aria-disabled:hover:text-accent-text motion-safe:not-aria-disabled:active:scale-95 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-pressed:border-accent-text aria-pressed:text-gray-0 forced-colors:aria-pressed:[outline:2px_solid_Highlight]';
+
+const SEGMENT = `${TILE} h-10 gap-2`;
+
+/** The font tiles: taller, with the face's name in a small caption under its "Aa". */
+const SEGMENT_FONT = `${TILE} h-16 flex-col gap-1`;
 
 /** The Reset button: the same tile with a text label. */
 const SEGMENT_TEXT = `${SEGMENT} font-sans text-(length:--text-sm)`;
@@ -56,23 +62,30 @@ function writeStoredPrefs(prefs: ReaderPrefs): void {
   }
 }
 
-/** Three lines, close together or far apart, with a caret: the spacing buttons' glyph. */
-function SpacingGlyph({ loose }: { loose: boolean }) {
-  const ys = loose ? [3, 9, 15] : [5, 9, 13];
+/**
+ * Three lines of text with a caret (▴ more, ▾ less): the spacing and width steppers' glyph.
+ * Spacing moves the lines apart; width makes them longer.
+ */
+function LinesGlyph({ up, ys, span }: { up: boolean; ys: number[]; span: [number, number] }) {
   return (
     <svg width="34" height="18" viewBox="0 0 34 18" fill="none" aria-hidden="true">
       {ys.map((y) => (
-        <line key={y} x1="1" x2="21" y1={y} y2={y} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <line key={y} x1={span[0]} x2={span[1]} y1={y} y2={y} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       ))}
-      <path d={loose ? 'M27 11l3-4 3 4z' : 'M27 7l3 4 3-4z'} fill="currentColor" />
+      <path d={up ? 'M27 11l3-4 3 4z' : 'M27 7l3 4 3-4z'} fill="currentColor" />
     </svg>
   );
 }
 
-function Row({ label, children }: { label: string; children: ReactNode }) {
+/** A labelled row. `largeOnly` hides it below 60em, where the setting has no effect. */
+function Row({ label, largeOnly, children }: { label: string; largeOnly?: boolean; children: ReactNode }) {
   const id = useId();
   return (
-    <div role="group" aria-labelledby={id} className="grid grid-cols-[4.5rem_1fr] items-center gap-3">
+    <div
+      role="group"
+      aria-labelledby={id}
+      className={`${largeOnly ? 'hidden lg:grid' : 'grid'} grid-cols-[4.5rem_1fr] items-center gap-3`}
+    >
       <span id={id} className="t-eyebrow">
         {label}
       </span>
@@ -117,8 +130,7 @@ export default function ReaderSettings() {
   }, []);
 
   const update = (patch: Partial<ReaderPrefs>) => commit({ ...prefs, ...patch });
-  const isDefault =
-    prefs.font === READER_DEFAULTS.font && prefs.size === READER_DEFAULTS.size && prefs.leading === READER_DEFAULTS.leading;
+  const isDefault = (Object.keys(READER_DEFAULTS) as (keyof ReaderPrefs)[]).every((k) => prefs[k] === READER_DEFAULTS[k]);
 
   // An empty fragment, not null: Astro's React renderer only recognizes a component that
   // returns an element, and a null return during SSR makes it log "Invalid hook call".
@@ -156,13 +168,18 @@ export default function ReaderSettings() {
                 <button
                   key={o.value}
                   type="button"
-                  className={SEGMENT}
+                  className={SEGMENT_FONT}
                   aria-pressed={prefs.font === o.value}
                   aria-label={o.label}
-                  title={o.label}
                   onClick={() => update({ font: o.value })}
                 >
-                  <span className={`${o.className} text-(length:--text-xl) leading-none`}>Aa</span>
+                  <span className={`${o.className} text-(length:--text-xl) leading-none`} aria-hidden="true">
+                    Aa
+                  </span>
+                  {/* The visible caption repeats the aria-label; it follows the tile's color (red on hover). */}
+                  <span className="font-sans text-(length:--text-xs) leading-none" aria-hidden="true">
+                    {o.label}
+                  </span>
                 </button>
               ))}
             </div>
@@ -209,7 +226,7 @@ export default function ReaderSettings() {
                 aria-disabled={prefs.leading === LEADINGS[0]}
                 onClick={() => update({ leading: stepOption(LEADINGS, prefs.leading, -1) })}
               >
-                <SpacingGlyph loose={false} />
+                <LinesGlyph up={false} ys={[5, 9, 13]} span={[1, 21]} />
               </button>
               <button
                 type="button"
@@ -219,7 +236,32 @@ export default function ReaderSettings() {
                 aria-disabled={prefs.leading === LEADINGS[LEADINGS.length - 1]}
                 onClick={() => update({ leading: stepOption(LEADINGS, prefs.leading, 1) })}
               >
-                <SpacingGlyph loose />
+                <LinesGlyph up ys={[3, 9, 15]} span={[1, 21]} />
+              </button>
+            </div>
+          </Row>
+
+          <Row label="Width" largeOnly>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                className={SEGMENT}
+                aria-label="Narrower column"
+                title="Narrower"
+                aria-disabled={prefs.width === WIDTHS[0]}
+                onClick={() => update({ width: stepOption(WIDTHS, prefs.width, -1) })}
+              >
+                <LinesGlyph up={false} ys={[5, 9, 13]} span={[6, 16]} />
+              </button>
+              <button
+                type="button"
+                className={SEGMENT}
+                aria-label="Wider column"
+                title="Wider, up to the page width"
+                aria-disabled={prefs.width === WIDTHS[WIDTHS.length - 1]}
+                onClick={() => update({ width: stepOption(WIDTHS, prefs.width, 1) })}
+              >
+                <LinesGlyph up ys={[5, 9, 13]} span={[1, 21]} />
               </button>
             </div>
           </Row>

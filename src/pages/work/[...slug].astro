@@ -50,7 +50,7 @@ const meta = metaBySlug[entry.id] ?? { role: 'Lead Product Designer', collaborat
   description={entry.data.description}
   image={entry.data.img}
 >
-  <main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_60%_1fr]">
+  <main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_var(--reader-width,60%)_1fr]">
     <article class="w-full lg:col-2" data-reader-enabled>
       <PageHeader
         title={entry.data.title}

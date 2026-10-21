@@ -1,5 +1,5 @@
 /*
- * Reader preferences: font, text size and line spacing for blog posts and case studies.
+ * Reader preferences: font, text size, line spacing and column width for blog posts and case studies.
  *
  * Stored in localStorage and applied as data-reader-* attributes on <html>. The CSS hooks
  * in prose.css only act inside [data-reader-enabled], so a saved preference never restyles
@@ -9,14 +9,16 @@
 export type ReaderFont = 'sans' | 'serif';
 export type ReaderSize = 14 | 16 | 18 | 20;
 export type ReaderLeading = 1.5 | 1.7 | 1.9;
+export type ReaderWidth = 'narrow' | 'normal' | 'wide' | 'full';
 
 export interface ReaderPrefs {
 	font: ReaderFont;
 	size: ReaderSize;
 	leading: ReaderLeading;
+	width: ReaderWidth;
 }
 
-export const READER_DEFAULTS: ReaderPrefs = { font: 'sans', size: 18, leading: 1.7 };
+export const READER_DEFAULTS: ReaderPrefs = { font: 'sans', size: 18, leading: 1.7, width: 'normal' };
 
 export const READER_STORAGE_KEY = 'reader-prefs';
 
@@ -28,6 +30,7 @@ const SERIF_LINK_ID = 'reader-serif-font';
 const FONTS: readonly ReaderFont[] = ['sans', 'serif'];
 export const SIZES: readonly ReaderSize[] = [14, 16, 18, 20];
 export const LEADINGS: readonly ReaderLeading[] = [1.5, 1.7, 1.9];
+export const WIDTHS: readonly ReaderWidth[] = ['narrow', 'normal', 'wide', 'full'];
 
 /** Parse stored preferences. Each field falls back to its default on its own. Never throws. */
 export function parseReaderPrefs(raw: string | null): ReaderPrefs {
@@ -44,6 +47,7 @@ export function parseReaderPrefs(raw: string | null): ReaderPrefs {
 		leading: LEADINGS.includes(o.leading as ReaderLeading)
 			? (o.leading as ReaderLeading)
 			: READER_DEFAULTS.leading,
+		width: WIDTHS.includes(o.width as ReaderWidth) ? (o.width as ReaderWidth) : READER_DEFAULTS.width,
 	};
 }
 
@@ -63,6 +67,7 @@ export function applyReaderPrefs(doc: Document, prefs: ReaderPrefs): void {
 	root.setAttribute('data-reader-font', prefs.font);
 	root.setAttribute('data-reader-size', String(prefs.size));
 	root.setAttribute('data-reader-leading', String(prefs.leading));
+	root.setAttribute('data-reader-width', prefs.width);
 	if (prefs.font === 'serif') loadSerifFont(doc);
 }
 
@@ -106,10 +111,12 @@ export function readerBootstrap(doc: Document = document, storage?: Storage): vo
 	const font = ['sans', 'serif'].indexOf(o.font) !== -1 ? o.font : 'sans';
 	const size = [14, 16, 18, 20].indexOf(o.size) !== -1 ? o.size : 18;
 	const leading = [1.5, 1.7, 1.9].indexOf(o.leading) !== -1 ? o.leading : 1.7;
+	const width = ['narrow', 'normal', 'wide', 'full'].indexOf(o.width) !== -1 ? o.width : 'normal';
 	const root = doc.documentElement;
 	root.setAttribute('data-reader-font', font);
 	root.setAttribute('data-reader-size', String(size));
 	root.setAttribute('data-reader-leading', String(leading));
+	root.setAttribute('data-reader-width', width);
 	if (font === 'serif' && !doc.getElementById('reader-serif-font')) {
 		const link = doc.createElement('link');
 		link.id = 'reader-serif-font';

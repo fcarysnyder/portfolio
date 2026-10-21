@@ -157,7 +157,7 @@
  * Reader preferences. src/lib/reader-prefs.ts sets data-reader-* on <html>; these hooks turn them
  * into the custom properties the .prose base rule reads. They only apply inside [data-reader-enabled]
  * (blog posts and case studies), so a saved preference never restyles another page.
- * 18px and 1.7 are the defaults on .prose, so they need no rule.
+ * 18px and 1.7 are the defaults on .prose, and 60% is the default column width, so they need no rule.
  */
 @layer components {
 	[data-reader-size='14'] [data-reader-enabled] .prose {
@@ -182,5 +182,21 @@
 
 	[data-reader-font='serif'] [data-reader-enabled] .prose {
 		--reader-font: var(--font-serif);
+	}
+
+	/* Column width, from 60em up: the share of the wrapper the article's grid column takes
+	   (the post and case-study pages read --reader-width in their grid template). 60% is the
+	   default; full is the page width the index pages use. Set on the layout that holds the
+	   opted-in article, so the hook stays inside [data-reader-enabled] pages. */
+	[data-reader-width='narrow'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 50%;
+	}
+
+	[data-reader-width='wide'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 80%;
+	}
+
+	[data-reader-width='full'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 100%;
 	}
 }

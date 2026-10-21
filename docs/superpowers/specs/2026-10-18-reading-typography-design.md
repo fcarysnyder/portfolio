@@ -185,10 +185,11 @@ Drop the "Date" row (the date is at the top now). Keep "Tags", the only place ta
   - **Font:** Sans (Mona Sans) / Serif (Literata). Default Sans.
   - **Size:** 14 / 16 / 18 / 20px on the `.prose` base (`text-sm` / `base` / `lg` / `xl`). Default 18 (changed from 16 on 2026-10-20).
   - **Line spacing:** 1.5 / 1.7 / 1.9. Default 1.7.
+  - **Width** (added 2026-10-21, from 60em up): narrow / normal / wide / full = 50 / 60 / 80 / 100% of the wrapper, where full matches the index pages. Default normal (60%, the original column). Blog posts and case studies alike.
   - **Reset to default.**
-  - Built (2026-10-21) as a Radix Popover of tile buttons: two "Aa" toggles for the font (each in its own face), a `[−] 18px [+]` size stepper, two line-glyph spacing steppers (▾ tighter, ▴ looser), then Reset (disabled at the defaults).
+  - Built (2026-10-21) as a Radix Popover of tile buttons: two "Aa" toggles for the font (each in its own face, with a small caption), a `[−] 18px [+]` size stepper, two line-glyph spacing steppers (▾ tighter, ▴ looser), two width steppers, then Reset (disabled at the defaults).
 - **Affects only `.prose`** on opted-in pages. The page header, nav, footer and meta don't change. The `data-reader-*` attributes sit on `<html>`, so `.prose` responds to them only inside a page-level opt-in (e.g. `[data-reader-enabled] .prose` on the post and case-study article wrappers). A saved preference can then never restyle other pages.
-- **Persistence:** `localStorage` key `reader-prefs` (`{ font, size, leading }`), applied as `data-reader-font|size|leading` on `<html>` by an inline script in `MainHead.astro` before paint and on `astro:after-swap`, mirroring the theme script.
+- **Persistence:** `localStorage` key `reader-prefs` (`{ font, size, leading, width }`), applied as `data-reader-font|size|leading|width` on `<html>` by an inline script in `MainHead.astro` before paint and on `astro:after-swap`, mirroring the theme script.
 - **Serif font loading:** Literata via Google Fonts (`display=swap`), loaded only when serif is active. The inline script adds the `<link>` when the saved pref is serif, and the panel adds it on switch. Default visitors download nothing extra.
 - **Accessibility:** a `<button>` with `aria-label="Reading settings"` and `aria-expanded`. The panel is keyboard reachable and closes on Escape or an outside click, returning focus to the button. Settings are radio groups or steppers with visible values. Works in both themes.
 

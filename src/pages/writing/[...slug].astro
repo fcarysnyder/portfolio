@@ -30,7 +30,7 @@ const readingTime = getReadingTime(post.body ?? '');
 ---
 
 <BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description} image={socialImage}>
-	<main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_60%_1fr]">
+	<main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_var(--reader-width,60%)_1fr]">
 		<article class="w-full lg:col-2" data-reader-enabled>
 			<PageHeader
 				title={post.data.title}

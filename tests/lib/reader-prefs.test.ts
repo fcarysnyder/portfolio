@@ -65,11 +65,11 @@ const asDoc = (d: ReturnType<typeof makeDoc>) => d as unknown as Document;
 
 describe('parseReaderPrefs', () => {
   it('parses valid prefs', () =>
-    expect(parseReaderPrefs('{"font":"serif","size":20,"leading":1.9}')).toEqual({ font: 'serif', size: 20, leading: 1.9 }));
+    expect(parseReaderPrefs('{"font":"serif","size":20,"leading":1.9,"width":"wide"}')).toEqual({ font: 'serif', size: 20, leading: 1.9, width: 'wide' }));
 
   it('falls back per field', () => {
     expect(parseReaderPrefs('{"font":"comic","size":17}')).toEqual(READER_DEFAULTS);
-    expect(parseReaderPrefs('{"font":"serif","size":17,"leading":1.5}')).toEqual({ font: 'serif', size: 18, leading: 1.5 });
+    expect(parseReaderPrefs('{"font":"serif","size":17,"leading":1.5,"width":"huge"}')).toEqual({ font: 'serif', size: 18, leading: 1.5, width: 'normal' });
   });
 
   it('rejects wrong types', () => {
@@ -87,9 +87,9 @@ describe('parseReaderPrefs', () => {
 
 describe('applyReaderPrefs', () => {
   it('applies attributes and loads Literata only once for serif', () => {
-    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 18, leading: 1.5 });
-    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 18, leading: 1.5 });
-    expect(doc.attrs).toEqual({ 'data-reader-font': 'serif', 'data-reader-size': '18', 'data-reader-leading': '1.5' });
+    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 18, leading: 1.5, width: 'narrow' });
+    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 18, leading: 1.5, width: 'narrow' });
+    expect(doc.attrs).toEqual({ 'data-reader-font': 'serif', 'data-reader-size': '18', 'data-reader-leading': '1.5', 'data-reader-width': 'narrow' });
     expect(doc.links).toHaveLength(1);
     expect(doc.links[0]).toMatchObject({ id: 'reader-serif-font', rel: 'stylesheet', href: LITERATA_HREF });
   });
@@ -104,8 +104,8 @@ describe('saveReaderPrefs', () => {
   it('writes JSON under the storage key', () => {
     const written: Record<string, string> = {};
     const storage = { setItem: (k: string, v: string) => (written[k] = v) } as unknown as Storage;
-    saveReaderPrefs(storage, { font: 'serif', size: 20, leading: 1.9 });
-    expect(JSON.parse(written[READER_STORAGE_KEY])).toEqual({ font: 'serif', size: 20, leading: 1.9 });
+    saveReaderPrefs(storage, { font: 'serif', size: 20, leading: 1.9, width: 'wide' });
+    expect(JSON.parse(written[READER_STORAGE_KEY])).toEqual({ font: 'serif', size: 20, leading: 1.9, width: 'wide' });
   });
 
   it('swallows storage errors', () => {
@@ -124,6 +124,7 @@ describe('readerBootstrap', () => {
     expect(doc.attrs['data-reader-size']).toBe('18');
     expect(doc.attrs['data-reader-font']).toBe('sans');
     expect(doc.attrs['data-reader-leading']).toBe('1.7');
+    expect(doc.attrs['data-reader-width']).toBe('normal');
   });
 
   it('is self-contained when serialized', () => {
@@ -137,10 +138,10 @@ describe('readerBootstrap', () => {
   it('prepares an incoming document before a View Transition swap', () => {
     const current = makeDoc();
     const incoming = makeDoc();
-    const store = storeWith('{"font":"serif","size":18,"leading":1.9}');
+    const store = storeWith('{"font":"serif","size":18,"leading":1.9,"width":"wide"}');
     readerBootstrap(asDoc(current), store);
     readerBootstrap(asDoc(incoming), store);
-    expect(incoming.attrs).toEqual({ 'data-reader-font': 'serif', 'data-reader-size': '18', 'data-reader-leading': '1.9' });
+    expect(incoming.attrs).toEqual({ 'data-reader-font': 'serif', 'data-reader-size': '18', 'data-reader-leading': '1.9', 'data-reader-width': 'wide' });
     expect(incoming.links).toHaveLength(1);
     expect(incoming.links[0]).toMatchObject({ id: 'reader-serif-font', href: LITERATA_HREF });
     // The safety-net run after the swap does not duplicate the link
@@ -159,7 +160,7 @@ describe('readerBootstrap', () => {
 
   it('shares one Literata link id with applyReaderPrefs', () => {
     readerBootstrap(asDoc(doc), storeWith('{"font":"serif"}'));
-    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 16, leading: 1.7 });
+    applyReaderPrefs(asDoc(doc), { font: 'serif', size: 16, leading: 1.7, width: 'normal' });
     expect(doc.links).toHaveLength(1);
   });
 
@@ -168,8 +169,9 @@ describe('readerBootstrap', () => {
       null,
       '{oops',
       '{}',
-      '{"font":"serif","size":20,"leading":1.9}',
-      '{"font":"comic","size":17,"leading":2}',
+      '{"font":"serif","size":20,"leading":1.9,"width":"narrow"}',
+      '{"width":"full"}',
+      '{"font":"comic","size":17,"leading":2,"width":7}',
       '{"font":"serif","size":17,"leading":1.5}',
       '{"size":"20"}',
       '[1]',
@@ -183,6 +185,7 @@ describe('readerBootstrap', () => {
         'data-reader-font': p.font,
         'data-reader-size': String(p.size),
         'data-reader-leading': String(p.leading),
+        'data-reader-width': p.width,
       });
     }
   });
@@ -195,6 +198,9 @@ describe('stepOption', () => {
     expect(stepOption(SIZES, 20, 1)).toBe(20);
     expect(stepOption(SIZES, 14, -1)).toBe(14);
     expect(stepOption(LEADINGS, 1.7, -1)).toBe(1.5);
+    const { WIDTHS } = await import('../../src/lib/reader-prefs');
+    expect(stepOption(WIDTHS, 'wide', 1)).toBe('full');
+    expect(stepOption(WIDTHS, 'full', 1)).toBe('full');
   });
 });
 

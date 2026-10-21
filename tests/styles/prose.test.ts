@@ -102,6 +102,12 @@ describe('prose styles', () => {
     expect(decl(`[data-reader-leading='1.5'] [data-reader-enabled] .prose`, '--reader-leading')).toBe('1.5');
     expect(decl(`[data-reader-leading='1.9'] [data-reader-enabled] .prose`, '--reader-leading')).toBe('1.9');
     expect(decl(`[data-reader-font='serif'] [data-reader-enabled] .prose`, '--reader-font')).toBe('var(--font-serif)');
+    for (const [width, value] of [['narrow', '50%'], ['wide', '80%'], ['full', '100%']]) {
+      expect(decl(`[data-reader-width='${width}'] .post-layout:has(> [data-reader-enabled])`, '--reader-width')).toBe(value);
+    }
+    for (const page of ['src/pages/writing/[...slug].astro', 'src/pages/work/[...slug].astro']) {
+      expect(read(page), page).toMatch(/lg:grid-cols-\[1fr_var\(--reader-width,60%\)_1fr\]/);
+    }
     // No hook may set a reader property outside the opt-in.
     for (const rule of rules(prose)) {
       if (/--reader-[a-z]+\s*:/.test(rule.body) && !rule.selectors.every((sel) => sel.includes('[data-reader-enabled]'))) {
