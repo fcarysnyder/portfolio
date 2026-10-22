@@ -122,7 +122,7 @@
 }
 
 /* The filled button: Hero's "Drop me a line", "Enter password", "Unlock case study". The fill is
-   --accent-fill with dark --on-accent text in both themes. Layout (margin, width) stays on the
+   --accent-fill with white --on-accent text in both themes. Layout (margin, width) stays on the
    element; the keyboard focus ring comes from the global rule in @layer base. */
 @utility btn {
   display: inline-flex;
@@ -295,18 +295,5 @@
 		outline: 2px solid var(--accent-text);
 		outline-offset: 2px;
 		border-radius: 2px;
-	}
-
-	/* Ensure focus rings work for all interactive elements */
-	a:focus-visible,
-	button:focus-visible,
-	input:focus-visible,
-	select:focus-visible,
-	textarea:focus-visible,
-	[tabindex]:focus-visible,
-	[role="button"]:focus-visible,
-	[role="link"]:focus-visible {
-		outline: 2px solid var(--accent-text);
-		outline-offset: 2px;
 	}
 }
