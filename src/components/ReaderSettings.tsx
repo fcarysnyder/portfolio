@@ -25,12 +25,12 @@ import {
 } from '../lib/reader-prefs';
 import '../styles/global.css';
 
-// One style for every control in the panel: a bordered tile that tints on hover (ink turns the
-// link red), presses in slightly, and shows its selected state with a red border. The global
+// One style for every control in the panel: a bordered tile that tints on hover (ink and border
+// turn red), presses in slightly, and shows its selected state with a red border. The global
 // focus ring marks keyboard focus. At either end of a range a stepper is aria-disabled, not
 // disabled: a disabled button drops keyboard focus out of the panel the moment it hits the end.
 const TILE =
-  'flex cursor-pointer items-center justify-center rounded-lg border border-gray-800 bg-transparent text-gray-300 select-none motion-safe:[transition:color_var(--theme-transition),background-color_var(--theme-transition),border-color_var(--theme-transition),transform_0.1s_ease-out] not-aria-disabled:hover:bg-accent-overlay-hover not-aria-disabled:hover:text-accent-text motion-safe:not-aria-disabled:active:scale-95 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-pressed:border-accent-text aria-pressed:text-gray-0 forced-colors:aria-pressed:[outline:2px_solid_Highlight]';
+  'flex cursor-pointer items-center justify-center rounded-lg border border-gray-800 bg-transparent text-gray-300 select-none motion-safe:[transition:color_var(--theme-transition),background-color_var(--theme-transition),border-color_var(--theme-transition),transform_0.1s_ease-out] not-aria-disabled:hover:bg-accent-overlay-hover not-aria-disabled:hover:text-accent-text not-aria-disabled:hover:border-accent-text motion-safe:not-aria-disabled:active:scale-95 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-pressed:border-accent-text aria-pressed:text-gray-0 forced-colors:aria-pressed:[outline:2px_solid_Highlight]';
 
 const SEGMENT = `${TILE} h-10 gap-2`;
 
