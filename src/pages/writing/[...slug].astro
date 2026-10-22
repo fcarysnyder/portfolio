@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import { getReadingTime } from '../../utils/reading-time';
 
 export async function getStaticPaths() {
@@ -25,54 +26,43 @@ const { Content } = await render(post);
 const firstImageMatch = post.body?.match(/!\[.*?\]\(([^)]+)\)/);
 const socialImage = firstImageMatch ? firstImageMatch[1] : undefined;
 
-const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
-	month: 'long',
-	day: 'numeric',
-	year: 'numeric',
-});
-
 const readingTime = getReadingTime(post.body ?? '');
 ---
 
 <BaseLayout title={`${post.data.title} | F Cary Snyder`} description={post.data.description} image={socialImage}>
-	<main class="wrapper post-layout">
-		<article>
-			<header class="post-header">
-				<a href="/writing/" class="back-link">&larr; Back</a>
-				<h1>{post.data.title}</h1>
-				<div class="post-date-row">
-					<time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
-					<span class="reading-time">·&nbsp; {readingTime} min read</span>
-				</div>
-			</header>
+	<main class="wrapper post-layout flex flex-col lg:grid lg:grid-cols-[1fr_var(--reader-width,60%)_1fr]">
+		<article class="w-full lg:col-2" data-reader-enabled>
+			<PageHeader
+				title={post.data.title}
+				description={post.data.description}
+				date={post.data.publishDate}
+				readingTime={readingTime}
+				backHref="/writing/"
+			/>
 
-			<div class="post-content">
+			<div class="post-content prose mt-12">
 				<Content />
 			</div>
 
-			<footer class="post-footer">
-				<div class="post-meta">
-					<div class="meta-row">
-						<span class="meta-label">Date</span>
-						<span class="meta-value">{formattedDate}</span>
-					</div>
-					{post.data.tags && post.data.tags.length > 0 && (
-						<div class="meta-row">
-							<span class="meta-label">Tags</span>
-							<span class="meta-value">{post.data.tags.join(', ')}</span>
+			<footer class="post-footer mt-16">
+				{post.data.tags && post.data.tags.length > 0 && (
+					<div class="post-meta t-meta flex flex-col gap-2 border-t border-t-gray-800 pt-6">
+						<div class="meta-row flex justify-between gap-4">
+							<span class="meta-label min-w-16 text-gray-400 uppercase">Tags</span>
+							<span class="meta-value text-gray-200">{post.data.tags.join(', ')}</span>
 						</div>
-					)}
-				</div>
+					</div>
+				)}
 
-				<nav class="post-nav">
-					<div class="nav-prev">
+				<nav class="post-nav mt-8 flex justify-between border-t border-t-gray-800 py-6">
+					<div class="nav-prev flex">
 						{prevPost && (
-							<a href={`/writing/${prevPost.id}/`}>&larr; Previous</a>
+							<a href={`/writing/${prevPost.id}/`} class="t-small-link t-link">&larr; Previous</a>
 						)}
 					</div>
-					<div class="nav-next">
+					<div class="nav-next ml-auto flex">
 						{nextPost && (
-							<a href={`/writing/${nextPost.id}/`}>Next &rarr;</a>
+							<a href={`/writing/${nextPost.id}/`} class="t-small-link t-link">Next &rarr;</a>
 						)}
 					</div>
 				</nav>
@@ -82,212 +72,20 @@ const readingTime = getReadingTime(post.body ?? '');
 </BaseLayout>
 
 <style>
-	.post-layout {
-		display: flex;
-		flex-direction: column;
-	}
-
-	article {
-		width: 100%;
-	}
-
-	/* Back link — absolute so it doesn't push the title down */
-	.post-header {
-		position: relative;
-		padding-top: 2rem;
-	}
-
-	.back-link {
-		position: absolute;
-		top: 0;
-		left: 0;
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		color: var(--accent-regular);
-		text-decoration: none;
-		transition: color var(--theme-transition);
-	}
-
-	.back-link:hover,
-	.back-link:focus {
-		color: var(--accent-dark);
-	}
-
-	.post-header h1 {
-		font-size: var(--font-size-2xl);
-		font-weight: 600;
-		color: var(--gray-0);
-		margin-bottom: 0.5rem;
-	}
-
-	.post-date-row {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-family: var(--font-family-mono);
-		font-size: var(--font-size-sm);
-		color: var(--gray-400);
-	}
-
-	/* MDX content styles */
-	.post-content {
-		margin-top: 2.5rem;
-	}
-
-	.post-content :global(h2) {
-		font-size: var(--font-size-2xl);
-		font-weight: 600;
-		color: var(--gray-0);
-		margin-top: 2.5rem;
-		margin-bottom: 1.5rem;
-	}
-
-	.post-content :global(h3) {
-		font-size: var(--font-size-xl);
-		font-weight: 600;
-		color: var(--gray-0);
-		margin-top: 2rem;
-		margin-bottom: 0.75rem;
-	}
-
-	.post-content :global(h4) {
-		font-size: var(--font-size-lg);
-		font-weight: 500;
-		color: var(--gray-0);
-		margin-top: 1.5rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.post-content :global(p) {
-		font-size: var(--font-size-base);
-		line-height: 1.7;
-		color: var(--gray-200);
-	}
-
-	.post-content :global(p + p) {
-		margin-top: 1.5em;
-	}
-
-	.post-content :global(a) {
-		color: var(--accent-regular);
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
-
-	.post-content :global(a:hover),
-	.post-content :global(a:focus) {
-		text-decoration-color: currentColor;
-	}
-
+	/* Why not Tailwind: react-tweet's stylesheet is unlayered and sets the embed's margin on its own
+	   root (margin: var(--tweet-container-margin), 1.5rem 0). Unlayered CSS beats every layer, so a
+	   utility on the wrapper loses whatever its specificity. This rule is unlayered too and more
+	   specific, so it centers the 550px embed in the column with the 2rem gap prose blocks use. */
 	.post-content :global(.react-tweet-theme) {
 		margin: 2rem auto;
+		/* 600 is the heaviest weight on the site; react-tweet uses 700 */
+		--tweet-actions-font-weight: 600;
+		--tweet-replies-font-weight: 600;
 	}
 
-	.post-content :global(img) {
-		display: block;
-		width: 100%;
-		height: auto;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-		margin: 2rem auto;
-	}
-
-	.post-content :global(ul),
-	.post-content :global(ol) {
-		color: var(--gray-200);
-		font-size: var(--font-size-base);
-		line-height: 1.7;
-		padding-left: 1.5em;
-		margin-top: 1em;
-	}
-
-	.post-content :global(li + li) {
-		margin-top: 0.5em;
-	}
-
-	.post-content :global(hr) {
-		border: none;
-		border-top: 1px solid var(--gray-800);
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
-
-	/* Front matter metadata */
-	.post-footer {
-		margin-top: 3rem;
-	}
-
-	.post-meta {
-		border-top: 1px solid var(--gray-800);
-		padding-top: 1.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.meta-row {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-		font-family: var(--font-family-mono);
-		font-size: var(--font-size-sm);
-	}
-
-	.meta-label {
-		color: var(--gray-400);
-		text-transform: uppercase;
-		min-width: 4rem;
-	}
-
-	.meta-value {
-		color: var(--gray-200);
-	}
-
-	/* Prev / Next navigation */
-	.post-nav {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 2rem;
-		padding: 1.5rem 0;
-		border-top: 1px solid var(--gray-800);
-	}
-
-	.nav-prev,
-	.nav-next {
-		display: flex;
-	}
-
-	.nav-next {
-		margin-left: auto;
-	}
-
-	.post-nav a {
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		color: var(--accent-regular);
-		text-decoration: none;
-		transition: color var(--theme-transition);
-	}
-
-	.post-nav a:hover,
-	.post-nav a:focus {
-		color: var(--accent-dark);
-	}
-
-	/* Desktop: center column like about page */
-	@media (min-width: 60em) {
-		.post-layout {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
-
-		article {
-			grid-column: 2;
-		}
-
-		.post-header h1 {
-			font-size: var(--font-size-3xl);
-		}
+	/* The rest of react-tweet's 700s are hard-coded on its CSS-module classes (author name,
+	   Follow, quoted author, video link), which Vite names _<class>_<hash>. */
+	.post-content :global(.react-tweet-theme :is([class*='_authorLinkText_'], [class*='_follow_'], [class*='_authorText_'], [class*='_anchor_'])) {
+		font-weight: 600;
 	}
 </style>

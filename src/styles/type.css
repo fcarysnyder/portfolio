@@ -1,0 +1,155 @@
+/*
+ * LAYER: components (everything in this file).
+ *
+ * Type roles. Each role is defined once here and used by class on every page.
+ * Sizes come from Tailwind's default --text-* scale.
+ *
+ * Why this layer: it sits above the element defaults in global.css (base), so a role
+ * wins over `h1 { ... }` and `a { ... }`, and below utilities, so a page can still add
+ * spacing or an override with a class like mt-2. Nothing here is unlayered. The two
+ * unlayered scoped styles left (about.astro cursors, the blog post's tweet margin) do not
+ * touch type, so no role needs to defend itself.
+ *
+ * See docs/css-architecture.md.
+ */
+@layer components {
+	/* Titles: display, page, article and card share weight 600, line-height 1.15 and -0.01em
+	   tracking; only the size steps down. */
+
+	/* Home hero title only */
+	.t-display {
+		font-size: var(--text-4xl);
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Title of the main section pages: Writing, Photography, Work, About, 404 */
+	.t-page-title {
+		font-size: var(--text-4xl);
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Title of a blog post or case study: one step smaller than the section pages */
+	.t-article-title {
+		font-size: var(--text-3xl);
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Project card title on the home and Work pages */
+	.t-card-title {
+		font-size: var(--text-2xl);
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		color: var(--gray-0);
+	}
+
+	/* Description text: the summary under a post or case-study title, and the project card
+	   description. One size and one grey. */
+	.t-summary {
+		font-size: var(--text-lg);
+		line-height: 1.5;
+		color: var(--gray-300);
+	}
+
+	/* Uppercase label: section labels (Selected projects, All posts), filters and the card CTA.
+	   The same text as the btn utility in global.css (a test keeps the two in step). Color
+	   comes from the element. */
+	.t-label {
+		font-size: var(--text-sm);
+		line-height: 1.25rem;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	/* Date line on posts and case studies, Writing index dates */
+	.t-eyebrow {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--gray-400);
+	}
+
+	/* Hero taglines */
+	.t-lead {
+		font-size: var(--text-xl);
+		line-height: var(--text-xl--line-height);
+		color: var(--gray-200);
+	}
+
+	/* .prose h2, About section headings */
+	.t-section-heading {
+		font-size: var(--text-2xl);
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--gray-0);
+	}
+
+	/* .prose h3, Photography year headings, PasswordModal title */
+	.t-subheading {
+		font-size: var(--text-xl);
+		font-weight: 600;
+		line-height: 1.35;
+		color: var(--gray-0);
+	}
+
+	/* Bottom-of-post meta, case-study Role / Collaborators / Product, footer */
+	.t-meta {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	/* Every inline text link: accent red, an underline that fades in with the hover color on
+	   hover and keyboard focus. Keep in step with .prose a in prose.css, which is this link
+	   with a faint underline at rest. Add it with a class: t-link. */
+	.t-link {
+		color: var(--accent-text);
+		text-decoration: underline 1px transparent;
+		text-underline-offset: 0.2em;
+		transition:
+			color var(--theme-transition),
+			text-decoration-color var(--theme-transition);
+	}
+
+	.t-link:hover,
+	.t-link:focus-visible {
+		color: var(--accent-text-hover);
+		text-decoration-color: currentColor;
+	}
+
+	/* Size and weight of Back, Prev / Next. Color and underline come from .t-link on the same element. */
+	.t-small-link {
+		font-size: var(--text-sm);
+		font-weight: 500;
+	}
+
+	/* The lg breakpoint (--breakpoint-lg, 60em in global.css) */
+	@variant lg {
+		.t-display {
+			font-size: var(--text-5xl);
+		}
+
+		.t-page-title {
+			font-size: var(--text-5xl);
+		}
+
+		.t-article-title {
+			font-size: var(--text-4xl);
+		}
+
+		.t-lead {
+			font-size: var(--text-2xl);
+			line-height: var(--text-2xl--line-height);
+		}
+	}
+}

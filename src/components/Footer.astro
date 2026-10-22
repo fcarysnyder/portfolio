@@ -14,95 +14,13 @@ const socialLinks = [
 ];
 ---
 
-<footer>
-	<div class="group">
-		<p class="footer-text">
+<footer class="wrapper mt-5 flex flex-col gap-4 py-10 font-mono text-sm/[inherit] text-gray-400 min-[64em]:mt-10 min-[64em]:flex-row min-[64em]:justify-between min-[64em]:text-left">
+	<div class="flex flex-col gap-2 min-[64em]:mb-4 min-[64em]:flex-row min-[64em]:flex-wrap min-[64em]:gap-8">
+		<p class="pr-3 uppercase min-[64em]:text-left">
 			<FooterTyper client:visible initialText={footerText} />
 		</p>
 	</div>
-	<div class="socials">
+	<div class="flex flex-wrap justify-start uppercase min-[64em]:justify-end">
 		<FooterSocials client:visible initialText="@fcarysnyder on" links={socialLinks} delay={socialDelay} />
 	</div>
 </footer>
-<style>
-	footer {
-		display: flex;
-		color: var(--gray-400);
-		flex-direction: column;
-		padding: 2.5rem 1.5rem;
-		font-size: var(--font-size-sm);
-		max-width: 83rem; /* Updated max-width to match .wrapper (83rem) */
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 1.25rem;
-		width: 100%;
-		font-family: var(--font-family-mono);
-		gap: 1rem;
-	}
-
-	/* Target the links inside the React component */
-	footer :global(.social-link) {
-		color: var(--gray-400);
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-		color: var(--accent-regular) !important;
-	}
-
-	footer :global(.social-link:hover), footer :global(.social-link:focus) {
-		text-decoration-color: var(--accent-dark);
-		color: var(--accent-dark) !important;
-	}
-
-	.group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.footer-text {
-		font-size: var(--font-size-sm);
-		color: var(--gray-400);
-		text-transform: uppercase;
-		padding: 0px 12px 0px 0px;
-		margin: 0;
-	}
-
-	.socials {
-		display: flex;
-		justify-content: flex-start;
-		/* column-gap: 0.75rem; -- Handled by React component now */
-		flex-wrap: wrap;
-		text-transform: uppercase;
-	}
-
-	/* Since React component handles layout, we might need fewer styles here but keeping basics */
-
-	@media (min-width: 1024px) {
-		footer {
-			flex-direction: row;
-			justify-content: space-between;
-			padding: 2.5rem 1.5rem;
-			margin-top: 2.5rem;
-			text-align: left !important;
-			gap: 1rem !important;
-
-		}
-
-		.group {
-			flex-direction: row;
-			gap: 2rem !important;
-			flex-wrap: wrap;
-			margin-bottom: 1rem !important;
-		}
-
-		.footer-text {
-			padding: 0px 12px 0px 0px;
-			text-align: left !important;
-		}
-
-		.socials {
-			justify-content: flex-end;
-		}
-	}
-</style>

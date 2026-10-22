@@ -83,75 +83,23 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
       role="dialog"
       aria-modal="true"
       aria-labelledby="gate-title"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(0, 0, 0, 0.7)',
-        backdropFilter: 'blur(4px)',
-        padding: '1.5rem',
-      }}
+      className="fixed inset-0 z-[10000] flex items-center justify-center bg-[rgba(0,0,0,0.7)] p-6 backdrop-blur-[4px]"
     >
       <form
         onSubmit={handleSubmit}
-        style={{
-          background: 'var(--gray-999)',
-          border: '1px solid var(--gray-800)',
-          borderRadius: '0.75rem',
-          boxShadow: 'var(--shadow-md)',
-          padding: '2rem',
-          width: '100%',
-          maxWidth: '28rem',
-          fontFamily: 'var(--font-family-body)',
-        }}
+        className="w-full max-w-md rounded-xl border border-gray-800 bg-gray-999 p-8 font-sans elevation-md"
       >
-        <a
-          href="/"
-          style={{
-            display: 'inline-block',
-            fontSize: 'var(--font-size-sm)',
-            fontWeight: 500,
-            color: 'var(--accent-regular)',
-            textDecoration: 'none',
-            marginBottom: '1.5rem',
-          }}
-        >
+        <a href="/" className="t-link mb-6 inline-block text-sm/[inherit] font-medium">
           &larr; Back
         </a>
-        <h2
-          id="gate-title"
-          style={{
-            fontSize: 'var(--font-size-xl)',
-            fontWeight: 600,
-            color: 'var(--gray-0)',
-            marginBottom: '0.5rem',
-          }}
-        >
+        <h2 id="gate-title" className="t-subheading mb-2">
           Password required
         </h2>
-        <p
-          style={{
-            fontSize: 'var(--font-size-base)',
-            color: 'var(--gray-300)',
-            marginBottom: '1.5rem',
-            lineHeight: 1.6,
-          }}
-        >
+        <p className="mb-6 text-base/[1.6] text-gray-300">
           This case study is password-protected. Enter the password you received to read the full write-up.
         </p>
 
-        <label
-          htmlFor="gate-password"
-          style={{
-            display: 'block',
-            fontSize: 'var(--font-size-sm)',
-            color: 'var(--gray-200)',
-            marginBottom: '0.5rem',
-          }}
-        >
+        <label htmlFor="gate-password" className="mb-2 block text-sm/[inherit] text-gray-200">
           Password
         </label>
         <input
@@ -165,29 +113,13 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
           disabled={isSubmitting}
           aria-invalid={Boolean(displayedError)}
           aria-describedby={displayedError ? 'gate-error' : undefined}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            fontSize: 'var(--font-size-base)',
-            background: 'var(--gray-900)',
-            border: `1px solid ${displayedError ? 'hsl(0 80% 60%)' : 'var(--gray-800)'}`,
-            borderRadius: '0.5rem',
-            color: 'var(--gray-0)',
-            fontFamily: 'var(--font-family-mono)',
-            marginBottom: '0.5rem',
-          }}
+          className={`mb-2 w-full rounded-lg border bg-gray-900 p-3 font-mono text-base/[inherit] text-gray-0 ${
+            displayedError ? 'border-accent-text' : 'border-gray-800'
+          }`}
         />
 
         {displayedError && (
-          <p
-            id="gate-error"
-            role="alert"
-            style={{
-              fontSize: 'var(--font-size-sm)',
-              color: 'hsl(0 80% 65%)',
-              marginBottom: '1rem',
-            }}
-          >
+          <p id="gate-error" role="alert" className="mb-4 text-sm/[inherit] text-accent-text">
             {displayedError}
           </p>
         )}
@@ -195,26 +127,14 @@ export default function PasswordModal({ onSubmit, errorMessage, isSubmitting, on
         <button
           type="submit"
           disabled={isSubmitting}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            fontSize: 'var(--font-size-base)',
-            background: 'var(--accent-regular)',
-            color: 'var(--accent-text-over)',
-            border: 'none',
-            borderRadius: '0.5rem',
-            cursor: isSubmitting ? 'wait' : 'pointer',
-            fontWeight: 500,
-            marginTop: '0.5rem',
-            marginBottom: '1.5rem',
-          }}
+          className="btn mt-2 mb-6 w-full"
         >
           {isSubmitting ? 'Unlocking…' : 'Unlock case study'}
         </button>
 
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ color: 'var(--gray-400)' }}>Don't have a password?</span>
-          <a href={mailtoHref} style={{ color: 'var(--accent-regular)', textDecoration: 'none' }}>
+        <p className="mt-2 flex items-center justify-between text-sm/[inherit]">
+          <span className="text-gray-400">Don't have a password?</span>
+          <a href={mailtoHref} className="t-link">
             Ask for access →
           </a>
         </p>

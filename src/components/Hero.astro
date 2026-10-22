@@ -8,83 +8,24 @@ interface Props {
 }
 
 const { align = 'center', title, button = true } = Astro.props;
+
+// Complete class strings, so Tailwind can see them.
+const alignClasses = {
+	start: { root: 'text-start lg:self-center', child: '' },
+	center: { root: 'text-center', child: 'mx-auto' },
+};
+const { root: alignRoot, child: alignChild } = alignClasses[align];
 ---
 
-<div class:list={['hero flex flex-col gap-2', align]}>
+<div class:list={['hero flex w-full flex-col gap-2 text-(length:--text-xl) lg:text-(length:--text-2xl)', alignRoot]}>
 	<div class="flex flex-col gap-2">
-		{title && <h1 class="title mb-3">
+		{title && <h1 class:list={['title t-display mb-3 max-w-[37ch]', alignChild]}>
 			<slot name="title">{title}</slot>
 		</h1>}
-		{Astro.slots.has('tagline') && <p class="tagline">
+		{Astro.slots.has('tagline') && <p class:list={['tagline t-lead w-full', alignChild]}>
 			<slot name="tagline" />
 		</p>}
 		<slot />
-		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button">Drop me a line <ArrowRight size="1em" /></a>}
+		{button && <a href="mailto:fcarysnyder@gmail.com?subject=Saw%20your%20website!" class="button btn mt-5 w-fit">Drop me a line <ArrowRight size="1em" /></a>}
 	</div>
 </div>
-
-<style>
-	.hero {
-		font-size: var(--font-size-lg);
-		width: 100%;
-	}
-
-	.title, :global(.hero .title) {
-		max-width: 37ch;
-		font-size: var(--font-size-2xl);
-		color: var(--gray-0);
-	}
-
-	.start {
-		text-align: start;
-	}
-
-	.center {
-		text-align: center;
-	}
-
-	.center .title,
-	.center :global(.title),
-	.center .tagline,
-	.center :global(.tagline) {
-		margin-inline: auto;
-	}
-
-	.tagline, :global(.hero .tagline) {
-		font-size: 1.5rem; /* 24px */
-		line-height: 2rem; /* 32px */
-		width: 100%;
-	}
-
-	:global(.company-link) {
-		color: var(--accent-regular);
-		text-decoration: none;
-		transition: color 0.2s ease;
-	}
-	
-	:global(.company-link:hover) {
-		color: var(--accent-dark);
-	}
-
-	@media (min-width: 60em) {
-		.hero {
-			font-size: var(--font-size-2xl);
-		}
-
-		.start {
-			text-align: start;
-			align-self: center;
-		}
-
-		.start .title,
-		.start :global(.title),
-		.start .tagline,
-		.start :global(.tagline) {
-			margin-inline: unset;
-		}
-
-		.title, :global(.hero .title) {
-			font-size: var(--font-size-3xl);
-		}
-	}
-</style>

@@ -8,74 +8,14 @@ const { label, filterId } = Astro.props;
 const hasFilters = Astro.slots.has('filters');
 ---
 
-<div class="section-header">
-	<div class="header-content">
+<div class="section-header w-full text-(length:--text-xl)">
+	<div class="header-content flex h-[38px] w-full items-center gap-2 border-b border-gray-200 pb-2 text-gray-200 [&>svg]:shrink-0">
 		<slot name="icon" />
-		<h3>{label}</h3>
+		<h3 class="t-label text-gray-200">{label}</h3>
 		{hasFilters && (
-			<div class="filter-options" id={filterId}>
+			<div class="filter-options flex items-center gap-2 ml-auto [&_.filter-dot]:text-gray-400 [&_.filter-option]:cursor-pointer [&_.filter-option]:border-none [&_.filter-option]:bg-transparent [&_.filter-option]:p-0 [&_.filter-option]:font-sans [&_.filter-option]:text-gray-400 [&_.filter-option]:no-underline [&_.filter-option]:[transition:color_var(--theme-transition)] [&_.filter-option.active]:text-accent-text [&_.filter-option:focus-visible]:text-accent-text [&_.filter-option:hover]:text-accent-text [&_.filter-option.active:focus-visible]:text-accent-text-hover [&_.filter-option.active:hover]:text-accent-text-hover" id={filterId}>
 				<slot name="filters" />
 			</div>
 		)}
 	</div>
 </div>
-
-<style>
-	.section-header {
-		font-size: var(--font-size-lg);
-		width: 100%;
-	}
-
-	.header-content {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		height: 38px;
-		padding-bottom: 8px;
-		box-sizing: border-box;
-		border-bottom: 1px solid var(--gray-200);
-		color: var(--gray-200);
-		width: 100%;
-	}
-
-	.header-content :global(svg) {
-		flex-shrink: 0;
-	}
-
-	h3 {
-		font-size: var(--font-size-sm);
-		text-transform: uppercase;
-		color: var(--gray-200);
-		margin: 0;
-	}
-
-	.filter-options {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-left: auto;
-	}
-
-	.filter-options :global(.filter-dot) {
-		color: var(--gray-400);
-	}
-
-	.filter-options :global(.filter-option) {
-		font-size: var(--font-size-sm);
-		font-family: var(--font-family-body);
-		text-transform: uppercase;
-		text-decoration: none;
-		color: var(--gray-400);
-		background: none;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		transition: color var(--theme-transition);
-	}
-
-	.filter-options :global(.filter-option:hover),
-	.filter-options :global(.filter-option:focus),
-	.filter-options :global(.filter-option.active) {
-		color: var(--accent-regular);
-	}
-</style>

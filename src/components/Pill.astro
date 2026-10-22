@@ -1,27 +1,15 @@
 ---
+import { pillTextColor } from '../lib/pill-text';
+
 interface Props {
 	color?: string;
 }
 
-const { color = 'var(--accent-regular)' } = Astro.props;
+// A project color gets white or near-black text, whichever reads better (src/lib/pill-text.ts).
+// Without one the pill uses the accent fill and its --on-accent text. The fill, border and text
+// utilities read the two variables set inline below.
+const { color } = Astro.props;
+const text = color ? pillTextColor(color) : undefined;
 ---
 
-<div class="pill" style={`--pill-color: ${color};`}><slot /></div>
-
-<style>
-	.pill {
-		display: flex;
-		padding: 0.15rem 0.5rem;
-		gap: 0.5rem;
-		color: var(--accent-text-over);
-		border: 1px solid var(--pill-color, var(--accent-regular));
-		background-color: var(--pill-color, var(--accent-regular));
-		border-radius: 999px;
-		font-size: var(--font-size-xs);
-		line-height: 1.35;
-		white-space: nowrap;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		font-weight: 400;
-	}
-</style>
+<div class="pill flex gap-2 rounded-[999px] border border-[color:var(--pill-color,var(--accent-fill))] bg-[var(--pill-color,var(--accent-fill))] px-2 py-[0.15rem] text-xs/[1.35] font-normal tracking-[0.05em] whitespace-nowrap text-[color:var(--pill-text,var(--on-accent))] uppercase" style={`--pill-color: ${color ?? 'var(--accent-fill)'}; --pill-text: ${text ?? 'var(--on-accent)'};`}><slot /></div>

@@ -7,87 +7,18 @@ interface Props {
 const { tagline, title } = Astro.props;
 ---
 
-<div class="about-hero">
+<div class="about-hero flex flex-col gap-8 pb-12">
 	<div class="wrapper flex flex-col gap-2">
-		<h1 class="title">{title}</h1>
-		{tagline && <p class="tagline">{tagline}</p>}
+		<h1 class="title t-page-title max-w-[37ch]">{title}</h1>
+		{tagline && <p class="tagline t-lead max-w-[60ch]">{tagline}</p>}
 	</div>
-	<div class="carousel-container">
-		<div class="carousel-track">
+	<div class="carousel-container overflow-hidden pb-8 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.2)_0%,black_15%,black_90%,rgba(0,0,0,0.2)_100%)] [-webkit-mask-image:linear-gradient(to_right,rgba(0,0,0,0.2)_0%,black_15%,black_90%,rgba(0,0,0,0.2)_100%)]">
+		<div class="carousel-track flex w-max gap-(--gap) [--gap:2em] will-change-transform [&_img]:h-[250px] [&_img]:w-[300px] [&_img]:rounded-3xl [&_img]:object-cover [&_img]:elevation-md lg:[&_img]:h-[500px] lg:[&_img]:w-[600px]">
 			<slot />
 			<slot />
 		</div>
 	</div>
 </div>
-
-<style>
-	.about-hero {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		padding-bottom: 3rem;
-	}
-
-	.title {
-		max-width: 37ch;
-		font-size: var(--font-size-2xl);
-		color: var(--gray-0);
-	}
-
-	.tagline {
-		font-size: 1.5rem; /* 24px */
-		line-height: 2rem; /* 32px */
-		max-width: 60ch;
-	}
-
-	.carousel-container {
-		overflow: hidden;
-		mask-image: linear-gradient(
-			to right, 
-			rgba(0,0,0,0.2) 0%,
-			black 15%,
-			black 90%,
-			rgba(0,0,0,0.2) 100%
-		);
-		-webkit-mask-image: linear-gradient(
-			to right, 
-			rgba(0,0,0,0.2) 0%,
-			black 15%,
-			black 90%,
-			rgba(0,0,0,0.2) 100%
-		);
-        padding-bottom: 2rem;
-	}
-
-	.carousel-track {
-		--gap: 2em;
-		display: flex;
-		gap: var(--gap);
-		width: max-content;
-		will-change: transform;
-	}
-
-	.carousel-track :global(img) {
-		width: 600px;
-		height: 500px;
-		object-fit: cover;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
-	@media (min-width: 60em) {
-		.title {
-			font-size: var(--font-size-3xl);
-		}
-	}
-
-	@media (max-width: 59.99em) {
-		.carousel-track :global(img) {
-			width: 300px;
-			height: 250px;
-		}
-	}
-</style>
 
 <script>
 	const containers = document.querySelectorAll('.carousel-container');

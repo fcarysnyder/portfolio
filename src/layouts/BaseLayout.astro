@@ -13,11 +13,10 @@ interface Props {
 	title?: string | undefined;
 	description?: string | undefined;
 	image?: string | undefined;
-    useAnimatedBackground?: boolean;
 	useIntroAnimation?: boolean;
 }
 
-const { title, description, image, useAnimatedBackground = false, useIntroAnimation = false } = Astro.props;
+const { title, description, image, useIntroAnimation = false } = Astro.props;
 ---
 
 <html lang="en">
@@ -33,27 +32,25 @@ const { title, description, image, useAnimatedBackground = false, useIntroAnimat
 		</script>
 	</head>
 	<body>
-		<div class:list={['flex', 'flex-col', 'backgrounds', 'use-animated-bg']}>
+		<div class="isolate flex min-h-screen flex-col bg-gray-999">
             <div transition:persist>
                 <BackgroundEffect />
             </div>
 			<div transition:persist>
 				<Nav />
 			</div>
-			<div class:list={['main-content-wrapper', { 'animated-fade-in': useIntroAnimation }]}>
+			<div class:list={['main-content-wrapper flex min-h-screen flex-col gap-10 lg:gap-16', { 'animated-fade-in animate-fade-in-from-top [.intro-played_&]:animate-none [.intro-played_&]:opacity-100': useIntroAnimation }]}>
 				<slot />
 			</div>
 			<Footer />
 		</div>
 
 		<script>
-			addEventListener('load', () => document.documentElement.classList.add('loaded'));
-
 			function handleIntroAnimation() {
 				const el = document.querySelector('.animated-fade-in');
 				if (!el) return;
 				if (sessionStorage.getItem('intro-played')) {
-					el.classList.remove('animated-fade-in');
+					el.classList.remove('animated-fade-in', 'animate-fade-in-from-top');
 				} else {
 					sessionStorage.setItem('intro-played', 'true');
 				}
@@ -62,134 +59,6 @@ const { title, description, image, useAnimatedBackground = false, useIntroAnimat
 			document.addEventListener('astro:after-swap', handleIntroAnimation);
 		</script>
 
-		<style>
-			:root {
-				--_placeholder-bg: linear-gradient(transparent, transparent);
-				--bg-image-main: url('/assets/backgrounds/bg-light.png');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-light.png');
-				/* --bg-image-subtle-1: var(--_placeholder-bg);
-				--bg-image-subtle-2: var(--_placeholder-bg); */
-				--bg-image-footer: var(--_placeholder-bg);
-				--bg-svg-blend-mode: overlay;
-				--bg-blend-mode: darken;
-				--bg-image-aspect-ratio: 2.25;
-				--bg-scale: 1.68;
-				--bg-aspect-ratio: calc(var(--bg-image-aspect-ratio) / var(--bg-scale));
-				--bg-gradient-size: calc(var(--bg-scale) * 100%);
-			}
-
-            /* ... existing vars ... */
-
-            .main-content-wrapper {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                gap: 2.5rem;
-            }
-
-            @media (min-width: 60em) {
-                .main-content-wrapper {
-                    gap: 4rem;
-                }
-            }
-
-			:root.theme-dark {
-				--bg-image-main: url('/assets/backgrounds/bg-dark.png');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-dark.png');
-				--bg-svg-blend-mode: darken;
-				--bg-blend-mode: lighten;
-			}
-
-			/* These backgrounds are displayed below the fold, so we lazy load them
-			   once the `.loaded` class has been set.  */
-			:root.loaded {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-light.png');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-light.png');
-				--bg-image-footer: url('/assets/backgrounds/bg-light.png');
-			}
-			:root.loaded.theme-dark {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-light.png');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-light.png');
-				--bg-image-footer: url('/assets/backgrounds/bg-light.png');
-			}
-
-			@media (min-width: 60em) {
-				:root {
-					--bg-scale: 1;
-					--bg-image-main: url('/assets/backgrounds/bg-light.png');
-				}
-				:root.theme-dark {
-					--bg-image-main: url('/assets/backgrounds/bg-light.png');
-				}
-
-				/* :root.loaded {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-light.png');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-light.png');
-					--bg-image-footer: url('/assets/backgrounds/bg-light.png');
-				}
-				:root.loaded.theme-dark {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-light.png');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-light.png');
-					--bg-image-footer: url('/assets/backgrounds/bg-light.png');
-				} */
-			}
-
-			.backgrounds {
-				display: flex;
-				flex-direction: column;
-				min-height: 100vh;
-				isolation: isolate;
-				background:
-					/*noise*/
-					/* url('/assets/backgrounds/noise.png') top center/220px repeat, */
-					/* footer var(--bg-image-footer) bottom center/var(--bg-gradient-size) no-repeat, */
-					/*header1*/ var(--bg-image-main-curves) top center/var(--bg-gradient-size) no-repeat,
-					/*header2*/ var(--bg-image-main) top center/var(--bg-gradient-size) no-repeat,
-					/*base*/ var(--gray-999);
-				background-blend-mode: /*noise*/
-					overlay,
-					/*footer*/ var(--bg-blend-mode),
-					/*header1*/ var(--bg-svg-blend-mode),
-					/*header2*/ normal,
-					/*base*/ normal;
-			}
-			@media (forced-colors: active) {
-				/* Deactivate custom backgrounds for high contrast users. */
-				.backgrounds {
-					background: none;
-					background-blend-mode: none;
-					--bg-gradient-size: none;
-				}
-			}
-
-            /* When using animated background, remove the static background images */
-            .backgrounds.use-animated-bg {
-                background: var(--gray-999);
-                background-blend-mode: normal;
-            }
-
-			.animated-fade-in {
-				animation: 1s ease-out forwards fadeInFromTop;
-			}
-
-			:root.intro-played .animated-fade-in {
-				animation: none;
-				opacity: 1;
-			}
-
-			@keyframes fadeInFromTop {
-				from {
-					opacity: 0;
-					transform: translateY(-10px);
-					pointer-events: none;
-				}
-				to {
-					opacity: 1;
-					transform: translateY(0);
-					pointer-events: auto;
-				}
-			}
-		</style>
 		<!-- Cloudflare Web Analytics -->
 		<script
 			is:inline

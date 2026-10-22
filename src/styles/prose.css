@@ -1,0 +1,202 @@
+/*
+ * LAYER: components (everything in this file, including the reader hooks below).
+ *
+ * Article body. One global class for blog posts (.post-content) and case studies
+ * (.gated-content, whose HTML is decrypted and injected client-side, so scoped
+ * styles and utilities on the elements cannot reach it).
+ *
+ * Every size is in em, relative to .prose's own font size, so reader controls that
+ * change --reader-size scale the whole article and keep the hierarchy. At the
+ * default 18px (text-lg) the headings land on the type scale: h2 24px (4/3em),
+ * h3 20px (10/9em), h4 18px (1em, set apart by weight).
+ *
+ * Why this layer: it beats the element defaults in the base layer (global.css), and a
+ * utility on the .prose element itself (a margin, say) still beats it. Do not move it
+ * out of the layer: an unlayered rule would beat every utility.
+ *
+ * See docs/css-architecture.md.
+ */
+@layer components {
+	.prose {
+		font-size: var(--reader-size, var(--text-lg));
+		line-height: var(--reader-leading, 1.7);
+		font-family: var(--reader-font, var(--font-sans));
+		color: var(--gray-100);
+	}
+
+	.prose > :first-child {
+		margin-top: 0;
+	}
+
+	.prose p + p {
+		margin-top: 1.4em;
+	}
+
+	/* A paragraph that follows a block needs the same gap as one that follows a paragraph */
+	.prose :is(ul, ol, blockquote, figure) + p {
+		margin-top: 1.4em;
+	}
+
+	.prose strong {
+		font-weight: 600;
+		color: var(--gray-0);
+	}
+
+	.prose h2 {
+		font-size: calc(4em / 3);
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--gray-0);
+		margin: 2.75em 0 0.75em;
+	}
+
+	.prose h3 {
+		font-size: calc(10em / 9);
+		font-weight: 600;
+		line-height: 1.35;
+		color: var(--gray-0);
+		margin: 2em 0 0.5em;
+	}
+
+	.prose h4 {
+		font-size: 1em;
+		font-weight: 600;
+		line-height: 1.4;
+		color: var(--gray-0);
+		margin: 1.5em 0 0.5em;
+	}
+
+	/* The element defaults in the base layer set headings to sans; in the serif reader mode they follow the reader font */
+	.prose :is(h2, h3, h4) {
+		font-family: inherit;
+	}
+
+	/* The same link as .t-link in type.css (keep the two in step), except the underline is faint
+	   at rest, so a link in body text does not rely on color alone. */
+	.prose a {
+		color: var(--accent-text);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+		text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+		transition:
+			color var(--theme-transition),
+			text-decoration-color var(--theme-transition);
+	}
+
+	.prose a:hover,
+	.prose a:focus-visible {
+		color: var(--accent-text-hover);
+		text-decoration-color: currentColor;
+	}
+
+	/* Preflight removes list markers; put them back */
+	.prose ul,
+	.prose ol {
+		padding-left: 1.25em;
+		margin-top: 1.4em;
+	}
+
+	.prose ul {
+		list-style-type: disc;
+	}
+
+	.prose ol {
+		list-style-type: decimal;
+	}
+
+	.prose li + li {
+		margin-top: 0.4em;
+	}
+
+	.prose ul li::marker {
+		color: var(--accent-text);
+	}
+
+	.prose blockquote {
+		font-style: normal;
+		border-left: 2px solid var(--accent-text);
+		padding-left: 1.25em;
+		color: var(--gray-200);
+		margin: 1.75em 0;
+	}
+
+	/* Embeds (react-tweet) bring their own images, such as avatars; leave those alone */
+	.prose img:not(.react-tweet-theme img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 0.75rem;
+		box-shadow: var(--shadow-md);
+		margin: 2.5em auto;
+	}
+
+	.prose figure {
+		margin: 2.5em auto;
+	}
+
+	.prose figure img {
+		margin: 0 auto;
+	}
+
+	.prose figcaption {
+		font-size: 0.875em;
+		color: var(--gray-400);
+		text-align: center;
+		margin-top: 0.75em;
+	}
+
+	.prose hr {
+		border: none;
+		border-top: 1px solid var(--gray-800);
+		margin: 2.5em 0;
+	}
+}
+
+/*
+ * Reader preferences. src/lib/reader-prefs.ts sets data-reader-* on <html>; these hooks turn them
+ * into the custom properties the .prose base rule reads. They only apply inside [data-reader-enabled]
+ * (blog posts and case studies), so a saved preference never restyles another page.
+ * 18px and 1.7 are the defaults on .prose, and 60% is the default column width, so they need no rule.
+ */
+@layer components {
+	[data-reader-size='14'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-sm);
+	}
+
+	[data-reader-size='16'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-base);
+	}
+
+	[data-reader-size='20'] [data-reader-enabled] .prose {
+		--reader-size: var(--text-xl);
+	}
+
+	[data-reader-leading='1.5'] [data-reader-enabled] .prose {
+		--reader-leading: 1.5;
+	}
+
+	[data-reader-leading='1.9'] [data-reader-enabled] .prose {
+		--reader-leading: 1.9;
+	}
+
+	[data-reader-font='serif'] [data-reader-enabled] .prose {
+		--reader-font: var(--font-serif);
+	}
+
+	/* Column width, from 60em up: the share of the wrapper the article's grid column takes
+	   (the post and case-study pages read --reader-width in their grid template). 60% is the
+	   default; full is the page width the index pages use. Set on the layout that holds the
+	   opted-in article, so the hook stays inside [data-reader-enabled] pages. */
+	[data-reader-width='narrow'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 50%;
+	}
+
+	[data-reader-width='wide'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 80%;
+	}
+
+	[data-reader-width='full'] .post-layout:has(> [data-reader-enabled]) {
+		--reader-width: 100%;
+	}
+}

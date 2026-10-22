@@ -9,16 +9,16 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 ---
 
 <BaseLayout title="Photography | F Cary Snyder" description="Photography by F Cary Snyder">
-	<main class="wrapper photography">
-		<h1>Photography</h1>
+	<main class="wrapper photography flex flex-col gap-6 lg:gap-8">
+		<h1 class="t-page-title">Photography</h1>
 		<SectionHeader label="Organize by" filterId="filter-options">
 			<Image slot="icon" size={18} />
 			<Fragment slot="filters">
-				<button class="filter-option active" data-year="all">All</button>
+				<button class="filter-option t-label active" data-year="all">All</button>
 				{years.map((year) => (
 					<>
 						<span class="filter-dot" aria-hidden="true">&middot;</span>
-						<button class="filter-option" data-year={String(year)}>{year}</button>
+						<button class="filter-option t-label" data-year={String(year)}>{year}</button>
 					</>
 				))}
 			</Fragment>
@@ -26,22 +26,3 @@ const years = [...new Set(photos.map((p) => p.year))].sort((a, b) => b - a);
 		<PhotoGallery client:load photos={photos} years={years} />
 	</main>
 </BaseLayout>
-
-<style>
-	.photography {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-	}
-
-	h1 {
-		font-size: var(--font-size-2xl);
-		color: var(--gray-0);
-	}
-
-	@media (min-width: 60em) {
-		h1 {
-			font-size: var(--font-size-3xl);
-		}
-	}
-</style>

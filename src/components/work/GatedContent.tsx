@@ -115,14 +115,14 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
 
   if (status === 'unlocked') {
     return (
-      <div className="gated-content" dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="gated-content prose" dangerouslySetInnerHTML={{ __html: html }} />
     );
   }
 
   if (status === 'load-error') {
     return (
       <div className="gated-placeholder">
-        <p>We couldn't load this case study. Try refreshing, or <a href="mailto:fcarysnyder@gmail.com">email me</a>.</p>
+        <p>We couldn't load this case study. Try refreshing, or <a href="mailto:fcarysnyder@gmail.com" className="t-link">email me</a>.</p>
       </div>
     );
   }
@@ -137,17 +137,7 @@ export default function GatedContent({ lockedDataUrl, caseStudyTitle }: Props) {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              style={{
-                marginTop: '0.75rem',
-                padding: '0.5rem 1rem',
-                background: 'var(--accent-regular)',
-                color: 'var(--accent-text-over)',
-                border: 'none',
-                borderRadius: '0.5rem',
-                fontFamily: 'var(--font-family-body)',
-                fontSize: 'var(--font-size-sm)',
-                cursor: 'pointer',
-              }}
+              className="btn mt-3"
             >
               Enter password
             </button>

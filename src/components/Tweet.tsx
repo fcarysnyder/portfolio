@@ -35,6 +35,15 @@ function useTheme() {
 
 const TWEET_API = 'https://react-tweet.vercel.app';
 
+/** The API now omits empty entity lists, and react-tweet iterates them unchecked (on the quoted tweet too). */
+function withEntityLists<T extends { entities?: object; quoted_tweet?: T }>(tweet: T): T {
+  return {
+    ...tweet,
+    entities: { hashtags: [], urls: [], user_mentions: [], symbols: [], ...tweet.entities },
+    quoted_tweet: tweet.quoted_tweet ? withEntityLists(tweet.quoted_tweet) : undefined,
+  };
+}
+
 export default function Tweet({ url }: { url: string }) {
   const id = extractTweetId(url);
   const theme = useTheme();
@@ -47,7 +56,7 @@ export default function Tweet({ url }: { url: string }) {
     fetch(`${TWEET_API}/api/tweet/${id}`)
       .then((res) => res.json())
       .then((json) => {
-        if (json.data) setTweet(json.data);
+        if (json.data) setTweet(withEntityLists(json.data));
         else setError(true);
       })
       .catch(() => setError(true))

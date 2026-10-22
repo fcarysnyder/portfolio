@@ -1,0 +1,29 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	date: Date;
+	/** Minutes. Omit for case studies: their body is encrypted, so it can't be measured at build time. */
+	readingTime?: number;
+	backHref: string;
+}
+
+const { title, description, date, readingTime, backHref } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+	timeZone: 'UTC',
+});
+---
+
+<header class="page-header">
+	{/* Block (not inline-block) so the link doesn't sit on a text baseline and drift down a few px. No top padding on the header: the link's top lines up with the index pages' titles. */}
+	<a href={backHref} class="t-small-link t-link back-link mb-8 block w-fit">&larr; Back</a>
+	<h1 class="t-article-title">{title}</h1>
+	<p class="t-summary summary mt-3">{description}</p>
+	<p class="t-eyebrow meta-line mt-4">
+		<time datetime={date.toISOString()}>{formattedDate}</time>{readingTime ? <> &middot; {readingTime} min read</> : null}
+	</p>
+</header>

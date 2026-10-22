@@ -11,9 +11,6 @@ function getAspectValue(ratio: '3:2' | '4:5'): number {
   return ratio === '3:2' ? 3 / 2 : 4 / 5;
 }
 
-const GAP = 10;
-const RADIUS = 10;
-
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
@@ -76,75 +73,32 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
     yearGroups.sort((a, b) => b.year - a.year);
 
     return (
-      <div
-        ref={containerRef}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: `${GAP}px`,
-          width: '100%',
-        }}
-      >
-        <style>{`
-          .photo-card {
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow var(--theme-transition);
-          }
-          .photo-card:hover {
-            box-shadow: var(--shadow-md);
-          }
-        `}</style>
+      <div ref={containerRef} className="flex w-full flex-col gap-[10px]">
         {yearGroups.map((group) => (
-          <div key={group.year} style={{ display: 'flex', flexDirection: 'column', gap: `${GAP}px` }}>
-            <h2
-              style={{
-                fontSize: 'var(--font-size-xl)',
-                color: 'var(--gray-0)',
-                margin: 0,
-              }}
-            >
-              {group.year}
-            </h2>
+          <div key={group.year} className="flex flex-col gap-[10px]">
+            <h2 className="t-subheading m-0">{group.year}</h2>
             {chunkPairs(group.items).map((row, rowIdx) => (
-          <div
-            key={rowIdx}
-            style={{
-              display: 'flex',
-              gap: `${GAP}px`,
-            }}
-          >
-            {row.map(({ photo, idx }) => {
-              const aspect = getAspectValue(photo.aspectRatio);
-              return (
-                <div
-                  key={`${photo.src}-${idx}`}
-                  className="photo-card"
-                  onClick={() => setModalIndex(idx)}
-                  style={{
-                    flex: `${aspect}`,
-                    aspectRatio: `${aspect}`,
-                    borderRadius: `${RADIUS}px`,
-                    overflow: 'hidden',
-                    cursor: 'zoom-in',
-                  }}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.title}
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center',
-                      display: 'block',
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
+              <div key={rowIdx} className="flex gap-[10px]">
+                {row.map(({ photo, idx }) => {
+                  const aspect = getAspectValue(photo.aspectRatio);
+                  return (
+                    <div
+                      key={`${photo.src}-${idx}`}
+                      className="photo-card aspect-(--aspect) flex-(--aspect) cursor-zoom-in overflow-hidden rounded-[10px] elevation-sm [transition:box-shadow_var(--theme-transition)] hover:elevation-md"
+                      onClick={() => setModalIndex(idx)}
+                      style={{ '--aspect': aspect } as React.CSSProperties}
+                    >
+                      <img
+                        src={photo.src}
+                        alt={photo.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="block h-full w-full object-cover object-center"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             ))}
           </div>
         ))}
@@ -154,7 +108,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
 
   return (
     <>
-      <div style={{ width: '100%' }}>
+      <div className="w-full">
         {renderGrid()}
       </div>
 

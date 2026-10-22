@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>fcarysnyder.com Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,700&display=swap" rel="stylesheet" />
+<script>
+	// Same mechanism as src/components/MainHead.astro: `.theme-dark` on <html>.
+	(function () {
+		var saved = null;
+		try { saved = localStorage.getItem('sg-theme'); } catch (e) {}
+		var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+		if (dark) document.documentElement.classList.add('theme-dark');
+	})();
+</script>
+<style>
+/* =====================================================================
+   SNAPSHOT OF SITE TOKENS
+   Copied from src/styles/global.css on 2026-10-20 (commit 27a871d, after the
+   Tailwind cleanup). This file does not import the live stylesheet
+   (it uses Tailwind directives a browser can't read), so if global.css
+   changes, update here.
+   ===================================================================== */
+
+:root {
+	/* Type scale: Tailwind's default --text-* scale, the only size scale (global.css says not to redefine it) */
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-2xl--line-height: calc(2 / 1.5);
+	--text-3xl: 1.875rem;
+	--text-4xl: 2.25rem;
+	--text-5xl: 3rem;
+
+	/* @theme font families (global.css) */
+	--font-sans: 'Mona Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	--font-serif: 'Literata', Georgia, serif;
+
+	/* :root (global.css) */
+	--gray-0: #090b11;
+	--gray-100: #283044;
+	--gray-200: #3d4663;
+	--gray-300: #505d84;
+	--gray-400: #6474a2;
+	--gray-800: #e3e6ee;
+	--gray-900: #f3f4f7;
+	--gray-999: #ffffff;
+	--accent-text: #ff4949;
+	--accent-text-hover: #f54c4c;
+	--accent-fill: var(--accent-text);
+	--accent-fill-hover: var(--accent-text-hover);
+	--on-accent: #ffffff;
+	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
+	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
+	--shadow-sm: 0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01), 0px 2px 2px rgba(9, 11, 17, 0.02), 0px 0px 1px rgba(9, 11, 17, 0.03);
+	--shadow-md: 0px 28px 11px rgba(9, 11, 17, 0.01), 0px 16px 10px rgba(9, 11, 17, 0.03), 0px 7px 7px rgba(9, 11, 17, 0.05), 0px 2px 4px rgba(9, 11, 17, 0.06);
+	--shadow-lg: 0px 62px 25px rgba(9, 11, 17, 0.01), 0px 35px 21px rgba(9, 11, 17, 0.05), 0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
+	--theme-transition: 0.2s ease-in-out;
+
+	/* Guide-only tokens (not part of the site) */
+	--sg-ok: #1f8a4c;
+	--sg-warn: #b26a00;
+	--sg-bad: #d62828;
+	--sg-code-bg: var(--gray-900);
+}
+
+:root.theme-dark {
+	/* :root.theme-dark (global.css) */
+	--gray-0: #ffffff;
+	--gray-100: #e3e6ee;
+	--gray-200: #c3cadb;
+	--gray-300: #a3acc8;
+	--gray-400: #8490b5;
+	--gray-800: #283044;
+	--gray-900: #141925;
+	--gray-999: #090b11;
+	--accent-fill: #e03e3e;
+	--accent-fill-hover: #cc3838;
+	--accent-overlay-hover: hsla(0, 99%, 64%, 0.17);
+	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
+	--shadow-sm: 0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01), 0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
+	--shadow-md: 0px 28px 11px rgba(255, 255, 255, 0.01), 0px 16px 10px rgba(255, 255, 255, 0.03), 0px 7px 7px rgba(255, 255, 255, 0.05), 0px 2px 4px rgba(255, 255, 255, 0.06);
+	--shadow-lg: 0px 62px 25px rgba(255, 255, 255, 0.01), 0px 35px 21px rgba(255, 255, 255, 0.05), 0px 16px 16px rgba(255, 255, 255, 0.1), 0px 4px 9px rgba(255, 255, 255, 0.12);
+	--sg-ok: #4cc47f;
+	--sg-warn: #f0a941;
+	--sg-bad: #ff6b6b;
+}
+
+/* =====================================================================
+   GUIDE CHROME (sg-*) — styles for this document, not the site
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+	margin: 0;
+	background: var(--gray-999);
+	color: var(--gray-200);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.5;
+	transition: background-color var(--theme-transition), color var(--theme-transition);
+}
+h1, h2, h3, h4, h5, p, ul, ol, figure, table, pre { margin: 0; }
+a { color: var(--accent-text); }
+::selection { background-color: var(--accent-overlay-hover); color: var(--accent-text-hover); }
+*:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; border-radius: 2px; }
+code, kbd, .sg-mono { font-family: var(--font-mono); font-size: 0.85em; }
+code { background: var(--sg-code-bg); padding: 0.1em 0.35em; border-radius: 0.25rem; color: var(--gray-100); overflow-wrap: anywhere; }
+.sg-grid-2 > *, .sg-grid-3 > *, .sg-layer > *, .sg-flow-row > *, .sg-specimen > *, .sg-scale-row > * { min-width: 0; }
+pre code { white-space: pre; background: none; padding: 0; }
+
+.sg-topbar {
+	position: sticky; top: 0; z-index: 50;
+	display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+	padding: 0.75rem 1.5rem;
+	background: color-mix(in srgb, var(--gray-999) 88%, transparent);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border-bottom: 1px solid var(--gray-800);
+}
+.sg-brand { display: flex; align-items: baseline; gap: 0.75rem; min-width: 0; }
+.sg-brand strong { color: var(--gray-0); font-weight: 600; white-space: nowrap; }
+.sg-brand span { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sg-controls { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.sg-toggle {
+	display: inline-flex; align-items: center; gap: 0.4rem;
+	height: 2rem; padding: 0 0.75rem;
+	border: 1px solid var(--gray-800); border-radius: 999px;
+	background: var(--gray-999); color: var(--gray-200);
+	font: 500 var(--text-xs)/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;
+	cursor: pointer;
+}
+.sg-toggle:hover { border-color: var(--accent-text); color: var(--accent-text); }
+.sg-toggle[aria-pressed="true"] { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
+
+.sg-layout { display: grid; grid-template-columns: 1fr; max-width: 83rem; margin-inline: auto; }
+.sg-nav { display: none; }
+.sg-main { padding: 2.5rem 1.5rem 6rem; min-width: 0; }
+@media (min-width: 60em) {
+	.sg-layout { grid-template-columns: 13rem 1fr; gap: 2rem; padding-inline: 1.5rem; }
+	.sg-nav {
+		display: block; position: sticky; top: 4.5rem; align-self: start;
+		max-height: calc(100vh - 5rem); overflow-y: auto; padding: 2.5rem 0 2rem;
+	}
+	.sg-main { padding-inline: 0; }
+}
+.sg-nav ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.sg-nav a {
+	display: block; padding: 0.35rem 0.6rem; border-radius: 0.375rem;
+	color: var(--gray-300); text-decoration: none; font-size: var(--text-sm);
+}
+.sg-nav a:hover { background: var(--accent-overlay-hover); color: var(--accent-text-hover); }
+.sg-nav .sg-nav-label { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; color: var(--gray-400); padding: 1rem 0.6rem 0.35rem; }
+
+.sg-intro { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 3rem; max-width: 52rem; }
+.sg-intro h1 { font-size: var(--text-3xl); line-height: 1.1; color: var(--gray-0); font-weight: 600; }
+@media (min-width: 60em) { .sg-intro h1 { font-size: var(--text-4xl); } }
+.sg-intro p { font-size: var(--text-xl); }
+
+.sg-section { padding-top: 3.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.sg-section-head {
+	display: flex; align-items: center; gap: 0.5rem;
+	padding-bottom: 0.5rem; border-bottom: 1px solid var(--gray-200);
+}
+.sg-section-head .sg-num { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--accent-text); }
+.sg-section-head h2 { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.02em; color: var(--gray-200); font-weight: 600; }
+.sg-h3 { font-size: var(--text-2xl); line-height: 1.15; color: var(--gray-0); font-weight: 600; padding-top: 1rem; }
+.sg-h4 { font-size: var(--text-xl); line-height: 1.2; color: var(--gray-0); font-weight: 500; }
+.sg-lede { font-size: var(--text-xl); max-width: 52rem; }
+.sg-prose { max-width: 52rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.sg-prose p, .sg-prose li { line-height: 1.65; }
+.sg-prose ul, .sg-prose ol { padding-left: 1.25em; display: flex; flex-direction: column; gap: 0.4rem; }
+.sg-small { font-size: var(--text-sm); color: var(--gray-400); }
+.sg-src { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); }
+
+.sg-card {
+	border: 1px solid var(--gray-800); border-radius: 0.75rem;
+	background: var(--gray-999); padding: 1.25rem;
+}
+.sg-grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.sg-grid-3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 45em) { .sg-grid-2 { grid-template-columns: 1fr 1fr; } .sg-grid-3 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 70em) { .sg-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+.sg-table-wrap { overflow-x: auto; border: 1px solid var(--gray-800); border-radius: 0.75rem; }
+.sg-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.sg-table th, .sg-table td { text-align: left; padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--gray-800); vertical-align: top; }
+.sg-table tr:last-child td { border-bottom: none; }
+.sg-table th { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; color: var(--gray-400); font-weight: 500; background: var(--gray-900); white-space: nowrap; }
+.sg-table td.num { font-family: var(--font-mono); white-space: nowrap; }
+
+.sg-badge {
+	display: inline-flex; align-items: center; gap: 0.3rem;
+	padding: 0.1rem 0.5rem; border-radius: 999px;
+	font: 500 var(--text-xs)/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: 0.03em;
+	border: 1px solid currentColor; max-width: 100%;
+}
+.sg-badge.ok { color: var(--sg-ok); }
+.sg-badge.warn { color: var(--sg-warn); }
+.sg-badge.bad { color: var(--sg-bad); }
+.sg-badge.muted { color: var(--gray-400); }
+
+/* ---------- Cascade diagram ---------- */
+.sg-stack { display: flex; flex-direction: column; gap: 0.5rem; }
+.sg-layer {
+	display: grid; grid-template-columns: 2.25rem 1fr; gap: 0.75rem; align-items: start;
+	border: 1px solid var(--gray-800); border-radius: 0.75rem; padding: 0.85rem 1rem;
+	background: var(--gray-999);
+}
+.sg-layer .sg-rank {
+	width: 2.25rem; height: 2.25rem; border-radius: 999px; display: grid; place-items: center;
+	font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-0);
+	background: var(--gray-900); border: 1px solid var(--gray-800);
+}
+.sg-layer h4 { font-size: var(--text-base); color: var(--gray-0); font-weight: 600; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.sg-layer p { font-size: var(--text-sm); margin-top: 0.25rem; }
+.sg-layer.hot { border-color: var(--accent-fill); }
+.sg-layer.hot .sg-rank { background: var(--accent-fill); color: var(--on-accent); border-color: var(--accent-fill); }
+.sg-stack-axis { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); text-transform: uppercase; padding-inline: 0.25rem; }
+
+/* ---------- Token flow ---------- */
+.sg-flow { display: flex; flex-direction: column; gap: 0.75rem; }
+.sg-flow-row { display: grid; grid-template-columns: 1fr; gap: 0.5rem; align-items: stretch; }
+@media (min-width: 60em) { .sg-flow-row { grid-template-columns: 1fr auto 1fr auto 1fr; } }
+.sg-node { border: 1px solid var(--gray-800); border-radius: 0.5rem; padding: 0.75rem 0.85rem; background: var(--gray-999); font-size: var(--text-sm); }
+.sg-node b { display: block; color: var(--gray-0); font-weight: 600; margin-bottom: 0.2rem; }
+.sg-node.broken { border-color: var(--sg-bad); border-style: dashed; }
+.sg-arrow { display: grid; place-items: center; color: var(--gray-400); font-family: var(--font-mono); }
+@media (max-width: 59.99em) { .sg-arrow { transform: rotate(90deg); height: 1rem; } }
+
+/* ---------- Color ---------- */
+.sg-ramps { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 60em) { .sg-ramps { grid-template-columns: 1fr 1fr; } }
+.sg-ramp { border: 1px solid var(--gray-800); border-radius: 0.75rem; overflow: hidden; }
+.sg-ramp-title { padding: 0.6rem 0.85rem; font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; color: var(--gray-400); background: var(--gray-900); border-bottom: 1px solid var(--gray-800); }
+.sg-swatch {
+	display: grid; grid-template-columns: 6.5rem 1fr auto; gap: 0.75rem; align-items: center;
+	padding: 0.55rem 0.85rem; font-family: var(--font-mono); font-size: var(--text-xs);
+}
+.sg-swatch .name { font-weight: 500; }
+.sg-swatch .meta { opacity: 0.8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sg-swatch .cr { white-space: nowrap; }
+.sg-swatch.unused .name::after { content: ' · unused'; opacity: 0.7; }
+
+.sg-roles { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+@media (min-width: 45em) { .sg-roles { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 75em) { .sg-roles { grid-template-columns: 1fr 1fr 1fr; } }
+.sg-role { display: grid; grid-template-columns: 3rem 1fr; gap: 0.85rem; align-items: center; border: 1px solid var(--gray-800); border-radius: 0.75rem; padding: 0.75rem; }
+.sg-role .chip { width: 3rem; height: 3rem; border-radius: 0.5rem; border: 1px solid var(--gray-800); }
+.sg-role b { display: block; color: var(--gray-0); font-size: var(--text-sm); font-weight: 600; }
+.sg-role span { display: block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); }
+
+.sg-reds { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sg-red { display: flex; flex-direction: column; gap: 0.35rem; width: 7.5rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--gray-300); }
+.sg-red i { display: block; height: 3rem; border-radius: 0.5rem; border: 1px solid var(--gray-800); }
+
+/* ---------- Typography ---------- */
+.sg-family { display: flex; flex-direction: column; gap: 0.75rem; }
+.sg-family .glyphs { font-size: var(--text-4xl); line-height: 1.1; color: var(--gray-0); overflow-wrap: anywhere; }
+.sg-family .weights { display: flex; flex-wrap: wrap; gap: 1rem; font-size: var(--text-xl); color: var(--gray-100); }
+.sg-family-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.sg-family-head b { font-size: var(--text-xl); color: var(--gray-0); font-weight: 600; }
+
+.sg-scale-row { display: grid; grid-template-columns: 1fr; gap: 0.35rem; padding: 1rem 0; border-bottom: 1px solid var(--gray-800); }
+@media (min-width: 60em) { .sg-scale-row { grid-template-columns: 11rem 1fr; gap: 1.5rem; align-items: baseline; } }
+.sg-scale-row .label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); display: flex; flex-direction: column; gap: 0.2rem; }
+.sg-scale-row .label b { color: var(--gray-0); font-weight: 500; font-size: var(--text-sm); }
+.sg-scale-row .sample { color: var(--gray-0); line-height: 1.15; overflow-wrap: anywhere; font-weight: 600; }
+.sg-scale-row.unused .sample { opacity: 0.35; }
+
+.sg-specimen { display: grid; grid-template-columns: 1fr; border-bottom: 1px solid var(--gray-800); padding: 1.25rem 0; gap: 0.75rem; }
+@media (min-width: 60em) { .sg-specimen { grid-template-columns: 1fr 19rem; gap: 2rem; align-items: start; } }
+.sg-specimen .spec { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); display: flex; flex-direction: column; gap: 0.2rem; }
+.sg-specimen .spec b { font-family: var(--font-sans); font-size: var(--text-sm); color: var(--gray-0); font-weight: 600; margin-bottom: 0.15rem; }
+.sg-specimen .spec .src { color: var(--gray-300); }
+.sg-specimen .spec .flag { color: var(--sg-warn); }
+
+/* ---------- Scales: spacing, radius, shadow ---------- */
+.sg-space { display: grid; grid-template-columns: 6rem 4.5rem minmax(0, 1fr); gap: 0.75rem; align-items: center; font-family: var(--font-mono); font-size: var(--text-xs); padding: 0.3rem 0; }
+.sg-space i { display: block; max-width: 100%; height: 0.75rem; background: var(--accent-fill); border-radius: 2px; opacity: 0.85; }
+.sg-radii { display: flex; flex-wrap: wrap; gap: 1rem; }
+.sg-radius { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; width: 7.5rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--gray-300); }
+.sg-radius i { display: block; width: 4.5rem; height: 4.5rem; border: 2px solid var(--gray-300); border-top-color: var(--accent-fill); border-left-color: var(--accent-fill); background: var(--gray-900); }
+.sg-shadows { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 45em) { .sg-shadows { grid-template-columns: repeat(3, 1fr); } }
+.sg-shadow { height: 8rem; border-radius: 0.75rem; background: var(--gray-999); border: 1px solid var(--gray-800); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); }
+
+.sg-bp { position: relative; height: 8.5rem; border: 1px solid var(--gray-800); border-radius: 0.5rem; background: var(--gray-900); overflow: hidden; }
+.sg-bp-mark { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--accent-fill); }
+.sg-bp-mark span { position: absolute; top: 0.35rem; left: 0.35rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--gray-200); white-space: nowrap; background: var(--gray-900); padding-right: 0.25rem; }
+.sg-bp-mark.tw { border-left-style: dashed; border-left-color: var(--gray-400); }
+.sg-bp-mark.tw span { color: var(--gray-400); }
+.sg-bp-mark.flip span { left: auto; right: 0.35rem; padding-right: 0; padding-left: 0.25rem; }
+
+/* ---------- Findings ---------- */
+.sg-finding { border: 1px solid var(--gray-800); border-radius: 0.75rem; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; background: var(--gray-999); }
+.sg-finding-head { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.sg-finding-head h4 { font-size: var(--text-xl); color: var(--gray-0); font-weight: 600; line-height: 1.25; }
+.sg-finding .id { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gray-400); }
+.sg-finding p, .sg-finding li { font-size: var(--text-base); line-height: 1.6; }
+.sg-finding ul { padding-left: 1.25em; display: flex; flex-direction: column; gap: 0.3rem; }
+.sg-finding .fix { border-top: 1px dashed var(--gray-800); padding-top: 0.6rem; font-size: var(--text-sm); }
+.sg-finding .fix b { color: var(--gray-0); }
+.sg-findings { display: flex; flex-direction: column; gap: 0.85rem; }
+.sg-finding.resolved { border-style: dashed; }
+.sg-finding.resolved .fix.resolved-note { border-top-style: solid; color: var(--gray-200); }
+.sg-filterbar { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.sg-plan { counter-reset: step; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.sg-plan li { counter-increment: step; display: grid; grid-template-columns: 2.25rem 1fr; gap: 0.75rem; align-items: start; }
+.sg-plan li::before { content: counter(step); width: 2.25rem; height: 2.25rem; border-radius: 999px; display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-sm); background: var(--gray-900); color: var(--gray-0); border: 1px solid var(--gray-800); }
+.sg-plan b { color: var(--gray-0); }
+.sg-plan li.done::before { content: '\2713'; background: var(--sg-ok); border-color: var(--sg-ok); color: #fff; }
+
+pre.sg-code { background: var(--sg-code-bg); border: 1px solid var(--gray-800); border-radius: 0.5rem; padding: 0.85rem 1rem; overflow-x: auto; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; color: var(--gray-100); }
+
+/* =====================================================================
+   SITE COMPONENT REPLICAS — reproduced from the source files noted.
+   ===================================================================== */
+/* @utility btn in global.css */
+.site-button {
+	background-color: var(--accent-fill); border-radius: 8px; justify-content: center; align-items: center;
+	padding: 0 16px; height: 40px; gap: 8px; font-size: var(--text-sm); line-height: 20px; display: inline-flex; width: fit-content;
+	border: none; color: var(--on-accent); text-transform: uppercase; text-decoration: none; font-weight: 600; cursor: pointer;
+	font-family: var(--font-sans);
+}
+.site-button:hover { background-color: var(--accent-fill-hover); }
+/* @utility icon-control in global.css: no size of its own; the icon box (2rem, p-2) sets it */
+.site-icon-control {
+	display: flex; border: none; border-radius: 999rem; padding: 0;
+	background: var(--gray-999); box-shadow: inset 0 0 0 1px var(--accent-text);
+	color: var(--accent-text); cursor: pointer;
+}
+.site-icon-control:hover, .site-icon-control.open { background: var(--accent-overlay-hover); }
+.site-icon-control > span { display: flex; width: 2rem; height: 2rem; padding: 0.5rem; font-size: var(--text-base); }
+.site-icon-control > span > svg { width: 1em; height: 1em; }
+.site-icon-control.toggle > span.knob { position: relative; z-index: 1; color: var(--on-accent); }
+.site-icon-control.toggle > span.knob::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 999rem; background: var(--accent-fill); }
+.site-icon-control.toggle:hover > span.knob::before { background: var(--accent-fill-hover); }
+/* Pill.astro (project pills pick their own text color; see src/lib/pill-text.ts) */
+.site-pill {
+	display: inline-flex; padding: 0.15rem 0.5rem; color: var(--on-accent);
+	border: 1px solid var(--pill-color, var(--accent-fill)); background-color: var(--pill-color, var(--accent-fill));
+	border-radius: 999px; font-size: var(--text-xs); line-height: 1.35; white-space: nowrap;
+	text-transform: uppercase; letter-spacing: 0.05em; font-weight: 400;
+}
+/* PortfolioPreview.astro lock pill */
+.site-lock-pill {
+	display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.15rem 0.5rem; border: 1px solid var(--gray-800);
+	border-radius: 999px; font-size: var(--text-xs); color: var(--gray-300); text-transform: uppercase; letter-spacing: 0.05em;
+}
+/* SectionHeader.astro */
+.site-section-header { display: flex; align-items: center; gap: 8px; height: 38px; padding-bottom: 8px; border-bottom: 1px solid var(--gray-200); color: var(--gray-200); font-size: var(--text-xl); }
+.site-section-header h3 { font-size: var(--text-sm); text-transform: uppercase; color: var(--gray-200); margin: 0; font-weight: 600; line-height: 1.1; }
+.site-section-header .filters { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.site-section-header .filter { font-size: var(--text-sm); font-family: var(--font-sans); text-transform: uppercase; color: var(--gray-400); background: none; border: none; padding: 0; cursor: pointer; }
+.site-section-header .filter:hover, .site-section-header .filter.active { color: var(--accent-text); }
+/* PortfolioPreview.astro card (simplified) */
+.site-card { display: flex; flex-direction: column; background: var(--gray-999); border: 1px solid var(--gray-800); border-radius: 0.75rem; overflow: hidden; box-shadow: var(--shadow-sm); text-decoration: none; font-size: var(--text-xl); transition: box-shadow var(--theme-transition); }
+.site-card:hover { box-shadow: var(--shadow-md); }
+.site-card .img { min-height: 9rem; background: linear-gradient(135deg, var(--gray-800), var(--gray-900)); }
+.site-card .body { padding: 40px; display: flex; flex-direction: column; align-items: flex-start; }
+.site-card .title { color: var(--gray-200); font-size: var(--text-2xl); font-weight: 600; line-height: 1.1; padding: 12px 0 24px; }
+.site-card .desc { color: var(--gray-300); font-size: var(--text-base); }
+.site-card .cta { display: flex; gap: 4px; font-size: var(--text-xs); padding-top: 24px; text-transform: uppercase; color: var(--accent-text); }
+.site-card:hover .cta { color: var(--accent-text-hover); }
+@media (min-width: 70em) { .site-card { flex-direction: row; border-radius: 1.5rem; } .site-card .img { flex: 2; } .site-card .body { flex: 3; } }
+/* Meta block: writing/[...slug].astro (Tags only; the date moved to the page header) */
+.site-meta { border-top: 1px solid var(--gray-800); padding-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.site-meta-row { display: flex; justify-content: space-between; gap: 1rem; font-family: var(--font-mono); font-size: var(--text-sm); }
+.site-meta-row .l { color: var(--gray-400); text-transform: uppercase; min-width: 4rem; }
+.site-meta-row .v { color: var(--gray-200); }
+
+/* Type roles: src/styles/type.css, copied verbatim (the real file is in @layer components) */
+.t-display { font-size: var(--text-4xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-page-title { font-size: var(--text-4xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-article-title { font-size: var(--text-3xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-card-title { font-size: var(--text-2xl); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: var(--gray-0); }
+.t-summary { font-size: var(--text-lg); line-height: 1.5; color: var(--gray-300); }
+.t-label { font-size: var(--text-sm); line-height: 1.25rem; font-weight: 600; text-transform: uppercase; }
+.t-eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); }
+.t-lead { font-size: var(--text-xl); line-height: var(--text-xl--line-height); color: var(--gray-200); }
+@media (min-width: 60em) { .t-lead { font-size: var(--text-2xl); line-height: var(--text-2xl--line-height); } }
+.t-section-heading { font-size: var(--text-2xl); font-weight: 600; line-height: 1.3; color: var(--gray-0); }
+.t-subheading { font-size: var(--text-xl); font-weight: 600; line-height: 1.35; color: var(--gray-0); }
+.t-meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); }
+.t-link { color: var(--accent-text); text-decoration: underline 1px transparent; text-underline-offset: 0.2em; transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
+.t-link:hover, .t-link:focus-visible { color: var(--accent-text-hover); text-decoration-color: currentColor; }
+.t-small-link { font-size: var(--text-sm); font-weight: 500; }
+@media (min-width: 60em) { .t-display { font-size: var(--text-5xl); } .t-page-title { font-size: var(--text-5xl); } .t-article-title { font-size: var(--text-4xl); } }
+
+/* Page header: components/PageHeader.astro */
+.site-page-header { padding-top: 0.5rem; }
+.site-page-header .back-link { display: inline-block; margin-bottom: 2rem; }
+.site-page-header .eyebrow { margin: 0 0 0.75rem; }
+.site-page-header h1 { margin: 0; }
+.site-page-header .summary { margin: 0.75rem 0 0; }
+
+/* Article body: src/styles/prose.css, copied verbatim apart from the class name and the
+   reader hooks, which the guide drives with the .reader-* classes on its own demo wrapper */
+.site-prose { font-size: var(--reader-size, var(--text-lg)); line-height: var(--reader-leading, 1.7); font-family: var(--reader-font, var(--font-sans)); color: var(--gray-100); }
+.site-prose > :first-child { margin-top: 0; }
+.site-prose p + p { margin-top: 1.4em; }
+.site-prose :is(ul, ol, blockquote, figure) + p { margin-top: 1.4em; }
+.site-prose strong { font-weight: 600; color: var(--gray-0); }
+.site-prose h2 { font-size: calc(4em / 3); font-weight: 700; line-height: 1.3; color: var(--gray-0); margin: 2.75em 0 0.75em; }
+.site-prose h3 { font-size: calc(10em / 9); font-weight: 700; line-height: 1.35; color: var(--gray-0); margin: 2em 0 0.5em; }
+.site-prose h4 { font-size: 1em; font-weight: 600; line-height: 1.4; color: var(--gray-0); margin: 1.5em 0 0.5em; }
+.site-prose a { color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); transition: color var(--theme-transition), text-decoration-color var(--theme-transition); }
+.site-prose a:hover, .site-prose a:focus-visible { color: var(--accent-text-hover); text-decoration-color: currentColor; }
+.site-prose ul, .site-prose ol { padding-left: 1.25em; margin-top: 1.4em; }
+.site-prose ul { list-style-type: disc; }
+.site-prose ol { list-style-type: decimal; }
+.site-prose li + li { margin-top: 0.4em; }
+.site-prose ul li::marker { color: var(--accent-text); }
+.site-prose blockquote { font-style: normal; border-left: 2px solid var(--accent-text); padding-left: 1.25em; color: var(--gray-200); margin: 1.75em 0; }
+.site-prose figure { margin: 2.5em auto; }
+.site-prose figcaption { font-size: 0.875em; color: var(--gray-400); text-align: center; margin-top: 0.75em; }
+.site-prose hr { border: none; border-top: 1px solid var(--gray-800); margin: 2.5em 0; }
+.site-prose .fake-img { display: block; width: 100%; height: 7rem; border-radius: 0.75rem; box-shadow: var(--shadow-md); background: linear-gradient(135deg, var(--gray-800), var(--gray-900)); }
+/* Reader settings demo: same values as the [data-reader-*] hooks in prose.css */
+.sg-reader-demo[data-size='14'] .site-prose { --reader-size: var(--text-sm); }
+.sg-reader-demo[data-size='16'] .site-prose { --reader-size: var(--text-base); }
+.sg-reader-demo[data-size='20'] .site-prose { --reader-size: var(--text-xl); }
+.sg-reader-demo[data-leading='1.5'] .site-prose { --reader-leading: 1.5; }
+.sg-reader-demo[data-leading='1.9'] .site-prose { --reader-leading: 1.9; }
+.sg-reader-demo[data-font='serif'] .site-prose { --reader-font: var(--font-serif); }
+.sg-reader-opts { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; }
+.sg-reader-opts .grp { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+.sg-reader-opts .lbl { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; color: var(--gray-400); margin-right: 0.15rem; }
+/* Back / Prev / Next: on .t-small-link above */
+/* Footer */
+.site-footer { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--gray-400); text-transform: uppercase; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+</style>
+</head>
+<body>
+
+<header class="sg-topbar">
+	<div class="sg-brand">
+		<strong>Style Guide</strong>
+		<span>fcarysnyder.com · snapshot 2026-10-20 · 27a871d</span>
+	</div>
+	<div class="sg-controls">
+		<button class="sg-toggle" id="sg-theme-toggle" aria-pressed="false">Dark</button>
+	</div>
+</header>
+
+<div class="sg-layout">
+	<nav class="sg-nav" aria-label="Sections">
+		<ol>
+			<li class="sg-nav-label">Report</li>
+			<li><a href="#how">1 · How styles assemble</a></li>
+			<li><a href="#findings">2 · Findings</a></li>
+			<li><a href="#plan">3 · Cleanup plan</a></li>
+			<li class="sg-nav-label">Style guide</li>
+			<li><a href="#color">4 · Color</a></li>
+			<li><a href="#type">5 · Typography</a></li>
+			<li><a href="#space">6 · Spacing &amp; layout</a></li>
+			<li><a href="#shape">7 · Radius, shadow, motion</a></li>
+			<li><a href="#bp">8 · Breakpoints</a></li>
+			<li><a href="#components">9 · Components</a></li>
+			<li class="sg-nav-label">Reference</li>
+			<li><a href="#files">10 · Where styles live</a></li>
+		</ol>
+	</nav>
+
+	<main class="sg-main">
+
+		<div class="sg-intro">
+			<h1>How the site's styles actually fit together</h1>
+			<p>A style guide rebuilt from the code, not from Figma. Every value here was read out of <code>src/</code>, and each one notes where it's defined. The first half explains how the CSS gets assembled and what the audit found, with the findings the reading-typography work and the Tailwind cleanup closed marked resolved. The second half is the style sheet itself, updated for the new type scale, type roles, red tokens, page header, article styles and reader controls.</p>
+			<p class="sg-small">The site's tokens are copied in at the top of this file, so it opens straight from disk with no build step. Toggle <b>Dark</b> to see the theme swap the way the site does it.</p>
+		</div>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="how">
+			<div class="sg-section-head"><span class="sg-num">01</span><h2>How styles assemble</h2></div>
+
+			<p class="sg-lede">Almost all of the site's styling is Tailwind classes in the markup, and the little CSS that is left is in cascade layers. The order rules apply in doesn't come from where they sit in a file. It comes from the layers, so the first thing to understand is which one wins. The full write-up, with how to add a style, is in <code>docs/css-architecture.md</code>.</p>
+
+			<div class="sg-prose">
+				<p>Tailwind v4 puts everything it generates inside named <code>@layer</code>s, and the site's own CSS joins the same ones. The rule that trips people up: <b>any CSS outside a layer beats every layered rule, regardless of specificity.</b> That is why the unlayered row below is almost empty, and why there is no <code>!important</code> left in <code>src/</code>: a utility class always beats a role, and a role always beats an element default.</p>
+			</div>
+
+			<div class="sg-stack-axis"><span>weakest first</span><span>strongest last</span></div>
+				<div class="sg-stack">
+					<div class="sg-layer">
+						<div class="sg-rank">1</div>
+						<div><h4>Tailwind <code>@layer theme</code></h4>
+						<p>Writes the <code>@theme</code> tokens out as <code>:root</code> custom properties: <code>--color-gray-200</code>, <code>--font-sans</code>, <code>--spacing-4</code>, plus Tailwind's own defaults, including the whole <code>--text-*</code> size scale. These are only variables, not rules. Tailwind writes out only the ones something uses. <span class="sg-src">global.css · @theme</span></p></div>
+					</div>
+					<div class="sg-layer">
+						<div class="sg-rank">2</div>
+						<div><h4>Tailwind <code>@layer base</code></h4>
+						<p>First Preflight, the reset: it removes every margin and padding, sets <code>h1–h6 { font-size: inherit; font-weight: inherit }</code>, strips list styles and sets <code>border: 0 solid</code>. Then the site's own element defaults, in the same layer and after Preflight so they win without a specificity fight: <code>html</code> / <code>body</code> sizing, <code>body</code> (font, color, line-height), <code>h1–h5</code> (weight, color, line-height, <b>no size</b>), <code>a</code> (<code>--accent-text</code>), <code>img</code>, <code>::selection</code> and the global focus ring. <span class="sg-src">global.css · @layer base</span></p></div>
+					</div>
+					<div class="sg-layer">
+						<div class="sg-rank">3</div>
+						<div><h4>Tailwind <code>@layer components</code></h4>
+						<p>The type roles (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-lead</code> and the rest) and the shared article styles (<code>.prose</code> plus the reader hooks). Both are all-layered. They beat the element defaults in base, and a utility can still adjust them. <span class="sg-src">styles/type.css · styles/prose.css</span></p></div>
+					</div>
+					<div class="sg-layer">
+						<div class="sg-rank">4</div>
+						<div><h4>Tailwind <code>@layer utilities</code></h4>
+						<p>The classes written in templates: layout, spacing, color, borders, hover and focus states, breakpoints (<code>lg:</code> is 60em), dark mode (<code>dark:</code> follows <code>.theme-dark</code>). Plus the site's own <code>@utility</code> rules: <code>wrapper</code> and <code>elevation-sm/md/lg</code>. This is where nearly all component and page styling lives. <span class="sg-src">markup · global.css · @utility</span></p></div>
+					</div>
+					<div class="sg-layer hot">
+						<div class="sg-rank">5</div>
+						<div><h4>Unlayered CSS <span class="sg-badge warn">beats 1–4 always</span></h4>
+						<p>Kept as small as possible. The whole list:</p>
+						<p>• <b>global.css</b>: the <code>:root</code> / <code>:root.theme-dark</code> token blocks. Variables, not rules, so nothing competes with them, and dark mode has to redefine them. They are the only unlayered rules in our CSS files.<br>
+						• <b>@keyframes</b> (the three <code>--animate-*</code> in <code>@theme</code>) and Tailwind's <code>@property</code> registrations. Not rules that match elements, so layers don't apply.<br>
+						• <b>about.astro</b>: five hover-cursor rules whose values are emoji SVG data URIs. It is the only <code>&lt;style&gt;</code> left, and it carries a "Why not Tailwind:" comment.<br>
+						• <b>Library CSS</b>: Astro's route announcer and view-transition keyframes, and react-tweet's stylesheet on pages with an embedded tweet.</p></div>
+					</div>
+					<div class="sg-layer">
+						<div class="sg-rank">6</div>
+						<div><h4>Inline <code>style=""</code> <span class="sg-badge ok">custom properties only</span></h4>
+						<p>Three uses, each setting a variable from data that a class then reads: Pill's <code>--pill-color</code>, PortfolioPreview's per-card <code>--on-accent</code>, and PhotoGallery's <code>--aspect</code>. Everything else that used to be an inline style object (the modals, lightboxes, gallery) is now classes. A few scripts still set a style at runtime for state: the carousel's <code>transform</code>, <code>body</code> scroll lock and the background blur.</p></div>
+					</div>
+					<div class="sg-layer">
+						<div class="sg-rank">7</div>
+						<div><h4><code>!important</code> <span class="sg-badge ok">0 uses in src/</span></h4>
+						<p>There were 20 before the cleanup. A test fails if one comes back, including Tailwind's <code>!</code> modifier. Library CSS still has a few (Preflight's <code>[hidden]</code> rule, Astro's reduced-motion rule).</p></div>
+					</div>
+				</div>
+
+				<h3 class="sg-h3">How a token reaches the page</h3>
+			<div class="sg-prose"><p>Colors, type sizes and fonts now all follow the same pattern. The type and font paths used to be broken (finding F3, resolved).</p></div>
+				<div class="sg-flow">
+					<div class="sg-flow-row">
+						<div class="sg-node"><b>Raw hex on <code>:root</code></b><code>--gray-200: #3d4663</code><br><span class="sg-small">redefined under <code>:root.theme-dark</code></span></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>Bridged in <code>@theme</code></b><code>--color-gray-200: var(--gray-200)</code></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>Two ways to consume it</b><code>var(--gray-200)</code> in the CSS files<br><code>text-gray-200</code> utility in markup</div>
+					</div>
+					<div class="sg-flow-row">
+						<div class="sg-node"><b>Tailwind's default scale</b><code>--text-xl: 1.25rem</code><br><span class="sg-small">not redefined in <code>@theme</code></span></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>Emitted on <code>:root</code></b>Right namespace, so Tailwind and the site read the same variable</div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>One scale</b><code>var(--text-xl)</code> = <code>class="text-xl"</code> = <b>1.25rem</b></div>
+					</div>
+					<div class="sg-flow-row">
+						<div class="sg-node"><b>Font stack in <code>@theme</code></b><code>--font-mono: 'Roboto Mono', …</code><br><code>--font-sans</code>, <code>--font-serif</code></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>v4 namespace</b><code>--font-*</code> builds the <code>font-*</code> utilities and is emitted on <code>:root</code></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>One mono</b><code>var(--font-mono)</code> = <code>class="font-mono"</code> = <b>Roboto Mono</b></div>
+					</div>
+					<div class="sg-flow-row">
+						<div class="sg-node"><b>Reader choice</b><code>data-reader-size="20"</code> on <code>&lt;html&gt;</code>, set by <code>reader-prefs.ts</code></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>Hook in prose.css</b><code>[data-reader-size='20'] [data-reader-enabled] .prose { --reader-size: var(--text-xl) }</code><br><span class="sg-small">18 is the default and needs no hook</span></div>
+						<div class="sg-arrow">→</div>
+						<div class="sg-node"><b>Em scale</b><code>.prose</code> reads <code>--reader-size</code> (default <code>--text-lg</code>, 18px); every heading and margin inside is in <code>em</code>, so the hierarchy holds</div>
+					</div>
+				</div>
+				<p class="sg-small">The original audit found that <code>@theme</code> defined <code>--font-size-*</code> and <code>--font-family-*</code>, which Tailwind v4 ignores, so <code>text-lg</code> was 1.125rem while <code>var(--font-size-lg)</code> was 1.25rem. The old names are gone from <code>src/</code> (<code>grep</code> finds none), and every reference was remapped by value or role, never by name (commit <code>ec1f4b9</code>).</p>
+
+				<h3 class="sg-h3">How theming works</h3>
+			<div class="sg-prose">
+				<ol>
+					<li>An inline script in <code>MainHead.astro</code> runs before first paint. It reads <code>localStorage.theme</code>, falls back to <code>prefers-color-scheme</code>, and toggles <code>.theme-dark</code> on <code>&lt;html&gt;</code>. It runs again after every View Transition swap. A second inline script in the same file does the same for reader preferences (see Typography).</li>
+					<li><code>:root.theme-dark</code> (<code>global.css</code>) <b>inverts the gray ramp</b>: <code>--gray-0</code> goes from near-black to white and <code>--gray-999</code> from white to near-black. Red text doesn't change with the theme; the fills deepen to <code>#e03e3e</code> (hover <code>#cc3838</code>) so buttons don't glare. It also swaps the shadows (dark shadows become white glows) and one gradient.</li>
+					<li>Components reference ramp steps or tokens, so almost none need theme logic. Where one does, it uses the <code>dark:</code> variant, which follows <code>.theme-dark</code> on <code>&lt;html&gt;</code>, not the OS setting.</li>
+				</ol>
+				<p>The upshot: the gray numbers mean <b>distance from the background</b>, not lightness. <code>gray-0</code> is "strongest ink" and <code>gray-999</code> is "the page". The model is a sound one. It just isn't named that way, which is why the ramp reads like a puzzle.</p>
+			</div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="findings">
+			<div class="sg-section-head"><span class="sg-num">02</span><h2>Findings</h2></div>
+			<p class="sg-lede">Ranked by how much each one affects what visitors see or how easy the CSS is to change. File references point at the branch as audited; line numbers in unresolved findings may have shifted. Findings resolved by the reading-typography work are marked and outlined with a dashed border, with the commit. They keep their original audit text, which describes the site before the change.</p>
+			<div class="sg-filterbar" role="group" aria-label="Filter findings">
+				<button class="sg-toggle" data-filter="all" aria-pressed="true">All</button>
+				<button class="sg-toggle" data-filter="high" aria-pressed="false">High</button>
+				<button class="sg-toggle" data-filter="medium" aria-pressed="false">Medium</button>
+				<button class="sg-toggle" data-filter="low" aria-pressed="false">Low</button>
+			</div>
+
+			<div class="sg-findings">
+
+				<article class="sg-finding resolved" data-sev="high">
+					<div class="sg-finding-head"><span class="sg-badge bad">High</span><span class="id">F1 · fonts</span><h4>Aktiv Grotesk is never actually served to visitors</h4></div>
+					<p>All four <code>@font-face</code> rules use only <code>src: local(...)</code> (global.css:73-99). No woff2 is in <code>public/</code> and there's no Adobe Fonts kit. You see Aktiv Grotesk because it's installed on your Mac through Creative Cloud. Everyone else gets the next font in the stack: San Francisco on Apple devices, Segoe UI on Windows, Roboto on Android.</p>
+					<p>Your brand typeface is effectively a local preview.</p>
+					<div class="fix"><b>Fix:</b> add the Adobe Fonts web project embed (Aktiv Grotesk is on Adobe Fonts) or self-host licensed woff2 files with <code>font-display: swap</code>. Keep the <code>local()</code> entries first if you like.</div>
+					<div class="fix resolved-note"><b>Resolved by switching fonts.</b> Aktiv Grotesk is gone. The sans is now <b>Mona Sans</b> (GitHub, open source), served from Google Fonts as one variable file (weights 400–700, with italics), so every visitor gets it. The unused Public Sans and Rubik request was replaced in the same change.</div>
+				</article>
+
+				<article class="sg-finding resolved" data-sev="high">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F2 · color / a11y</span><h4>The accent red fails WCAG AA for text in light mode</h4></div>
+					<p><code>#ff4949</code> on white is <b>3.33:1</b>, and AA needs 4.5:1 for normal-size text. Red text is used for every link, the back/prev/next links, footer socials, active filters, and the card CTA. The CTA is the worst case: 12px uppercase, the smallest text on the site at the lowest contrast. The primary button (white on red, 14px/600) is also 3.33:1. In dark mode the same red passes at 5.9:1.</p>
+					<div class="fix"><b>Fix:</b> split the accent into a <em>fill</em> role and a <em>text</em> role. Keep <code>#ff4949</code> as the dark-mode text color and the decorative fill. For light-mode text and button fills use something like <code>#d62828</code> (5.0:1 on white, 5.0:1 with white text on it). See the comparison in <a href="#color">Color</a>.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> The accent split into a brand red and accessible text/fill reds. Light-mode text and every button fill use <code>#d62828</code> (5.0:1 on white and under white text); dark-mode text keeps <code>#ff4949</code> (5.9:1). Dark-mode buttons also moved to <code>#d62828</code>, because white on <code>#ff4949</code> fails in both themes. Measured values are in <a href="#color">Color</a>.</div>
+						<div class="fix resolved-note"><b>Updated since.</b> The branch then tried AAA reds at the logo's hue (<code>#b60000</code> text, <code>#ff6969</code> fills with dark text). The owner judged both versions worse to look at and <b>rolled the colors back to main</b>: <code>#ff4949</code> for text and fills, hovers <code>#f54c4c</code>, white text on fills. (Later: dark mode's hover went from main's lighter <code>#f86161</code> to the same deeper <code>#f54c4c</code>.) The role tokens stay, so a later change is one edit. This finding is open again, as an accepted gap.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="high">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F3 · tokens</span><h4>Type and font tokens use Tailwind v3 names, so there are two parallel scales</h4></div>
+					<p><code>@theme</code> defines <code>--font-size-*</code> and <code>--font-family-*</code>. Tailwind v4 reads <code>--text-*</code> and <code>--font-*</code>. The values are still emitted as variables, so <code>var(--text-xl)</code> works, but every Tailwind type utility silently falls back to Tailwind's defaults. Six of the ten steps differ:</p>
+					<div class="sg-table-wrap"><table class="sg-table">
+						<thead><tr><th>step</th><th>var(--font-size-*)</th><th>class text-*</th><th></th></tr></thead>
+						<tbody>
+							<tr><td class="num">xs / sm / base</td><td class="num">0.75 / 0.875 / 1rem</td><td class="num">same</td><td><span class="sg-badge ok">match</span></td></tr>
+							<tr><td class="num">md</td><td class="num">1.125rem</td><td class="num">no such class</td><td><span class="sg-badge muted">n/a</span></td></tr>
+							<tr><td class="num">lg</td><td class="num">1.25rem</td><td class="num">1.125rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+							<tr><td class="num">xl</td><td class="num">1.625rem</td><td class="num">1.25rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+							<tr><td class="num">2xl</td><td class="num">2.125rem</td><td class="num">1.5rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+							<tr><td class="num">3xl</td><td class="num">2.625rem</td><td class="num">1.875rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+							<tr><td class="num">4xl</td><td class="num">3.5rem</td><td class="num">2.25rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+							<tr><td class="num">5xl</td><td class="num">4.5rem</td><td class="num">3rem</td><td><span class="sg-badge bad">differs</span></td></tr>
+						</tbody>
+					</table></div>
+					<div class="fix"><b>Fix:</b> rename to <code>--text-*</code> / <code>--font-body</code> / <code>--font-mono</code> inside <code>@theme</code> and find-and-replace the roughly 70 <code>var(--font-size-*)</code> / <code>var(--font-family-*)</code> references. Or, during the transition, keep the old names as aliases outside <code>@theme</code>.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>ec1f4b9</code>.</b> The <code>--font-size-*</code> entries are deleted, so Tailwind's default <code>--text-*</code> scale is the only size scale. Fonts use the v4 namespaces <code>--font-sans</code>, <code>--font-mono</code> and the new <code>--font-serif</code>. The table above describes the audit; there is no longer a second scale.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F4 · typography</span><h4>The site has a type system in practice, but no single place defines it</h4></div>
+					<p>The <code>h1–h5</code> defaults in global.css:252-281 (h1 = 4.5rem, h2 = 3.5rem…) are overridden everywhere they appear, so they describe a site that doesn't exist. The real roles (see <a href="#type">Typography</a>) are redeclared page by page:</p>
+					<ul>
+						<li><b>Page title</b> (2xl → 3xl at 60em, gray-0) is written out 6 times: Hero.astro:32, AboutHero.astro:31, photography/index:37, writing/index:95, writing/[...slug]:116, work/[...slug]:133.</li>
+						<li><b>Hero tagline</b> is hardcoded at <code>1.5rem/2rem</code> in 3 places. 1.5rem isn't a step on your scale, which jumps from lg 1.25 to xl 1.625.</li>
+						<li><b>Card title</b> is <code>24px !important</code> in gray-200, while every other title is gray-0 (PortfolioPreview.astro:113). <i>Now gray-0 like the rest.</i></li>
+						<li><code>--font-size-4xl</code>, <code>-5xl</code> and <code>-md</code> aren't used by anything live.</li>
+						<li>SectionHeader renders its 14px uppercase label as an <code>&lt;h3&gt;</code>, so the document outline jumps from h1 to h3.</li>
+					</ul>
+					<div class="fix"><b>Fix:</b> name the roles (display, title, heading, subheading, lead, body, label, meta, caption) as classes in one file. Then set the global <code>h1–h5</code> rules to what pages really use, or delete them.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>a480481</code>.</b> The ten roles are classes in <code>src/styles/type.css</code> (<code>.t-display</code>, <code>.t-page-title</code>, <code>.t-article-title</code>, <code>.t-summary</code>, <code>.t-eyebrow</code>, <code>.t-lead</code>, <code>.t-section-heading</code>, <code>.t-subheading</code>, <code>.t-meta</code>, <code>.t-small-link</code>), and every page uses them. The global <code>h1–h5</code> defaults no longer carry a size. The <code>!important</code> on the card title is gone. The SectionHeader outline issue (h3 for a label) was not part of this change and is still open.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F5 · duplication</span><h4>Blog prose and case-study prose are two copies that have drifted apart</h4></div>
+					<p><code>.post-content</code> in writing/[...slug].astro:137-214 and <code>.gated-content</code> in work/[...slug].astro:206-284 style the same long-form content, but they differ:</p>
+					<div class="sg-table-wrap"><table class="sg-table">
+						<thead><tr><th>property</th><th>blog post</th><th>case study</th></tr></thead>
+						<tbody>
+							<tr><td>h2 margin-bottom</td><td class="num">1.5rem</td><td class="num">1rem</td></tr>
+							<tr><td>h3 margin-bottom</td><td class="num">0.75rem</td><td class="num">1.25rem</td></tr>
+							<tr><td>h4</td><td class="num">lg / 500</td><td class="num">unstyled (Preflight → inherits body)</td></tr>
+							<tr><td>image radius</td><td class="num">1.5rem</td><td class="num">1rem</td></tr>
+							<tr><td>hr</td><td class="num">1px gray-800 rule</td><td class="num">display: none</td></tr>
+							<tr><td>ul bullets</td><td class="num">Preflight → none</td><td class="num">accent dots</td></tr>
+							<tr><td>blockquote</td><td class="num">unstyled</td><td class="num">3px accent rule</td></tr>
+							<tr><td>.meta-label min-width</td><td class="num">4rem</td><td class="num">6rem</td></tr>
+						</tbody>
+					</table></div>
+					<p>A detail that's easy to miss: Preflight sets <code>list-style: none</code>, and the blog styles never set it back. No published post has a list yet, but <b>the first one will render with no bullets</b>, just indented lines. The About page's Skills and Interests lists have no markers for the same reason (which may be what you want there).</p>
+					<div class="fix"><b>Fix:</b> one shared <code>.prose</code> stylesheet (in <code>@layer components</code>) that both templates use, with the case-study design choices (accent bullets, blockquote rule) applied to both.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>0a9ebe9</code>.</b> Blog posts and case studies share one <code>.prose</code> class (<code>src/styles/prose.css</code>, in <code>@layer components</code>) and one <code>PageHeader.astro</code>. Lists have real markers, the blockquote is upright with a brand rule, and h4 is styled in both. Both old copies are deleted.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F6 · dead CSS</span><h4>About 100 lines of Nav styles never apply</h4></div>
+					<p>The dropdown markup comes from the React island <code>NavDropdown.tsx</code>. Astro's scoped styles only reach markup in the same <code>.astro</code> template, so the <code>.menu-button</code>, <code>.menu-content</code>, <code>.nav-items</code>, <code>.link</code>, <code>.socials</code> and <code>.social</code> rules in Nav.astro:79-175 match nothing. The live versions are the global ones in global.css:285-370, and their values conflict (for example <code>.nav-items</code> gap 1rem vs 4px, padding 2rem vs 8px).</p>
+					<p>Other dead rules: <code>[data-theme='light'] .menu-button</code> (global.css:315; the site never sets <code>data-theme</code>), <code>.hero p</code> and <code>.roles</code> in index.astro:99-106 and 145-149, and the unused component <code>HeroTyper.tsx</code>.</p>
+					<div class="fix"><b>Fix:</b> delete them. If you want the dropdown styles next to the component, move them into a CSS file that NavDropdown.tsx imports.</div>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup</b> (<code>fa0d046</code> to <code>6218d79</code>). The Nav, dropdown and index-page styles were converted to classes or deleted along with <code>HeroTyper.tsx</code>, and the <code>data-theme</code> rule is gone. No component has a <code>&lt;style&gt;</code> block any more.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F7 · architecture</span><h4>Component styles sit in global scope with generic names</h4></div>
+					<p><code>.button</code>, <code>.link</code>, <code>.menu-button</code> and <code>.nav-items</code> are unlayered global classes. <code>.button</code> also carries <code>margin-top: 20px</code>, a layout decision inside a component. Because they're unlayered, adding a utility like <code>class="button mt-0"</code> <b>won't</b> remove that margin (see the cascade above). <code>.link</code> is generic enough that it'll collide with something eventually.</p>
+					<div class="fix"><b>Fix:</b> wrap component rules in <code>@layer components { … }</code> so utilities can override them, and drop the margin from <code>.button</code>.</div>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup.</b> <code>.button</code>, <code>.link</code>, <code>.menu-*</code> and <code>.nav-items</code> are gone as CSS rules: the styling is classes on the elements (<code>button</code> survives only as a hook class), so a utility such as <code>mt-0</code> overrides it. The one unlayered scoped block left is about.astro's cursors.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F8 · color</span><h4>Nine reds, and the hover state is barely visible</h4></div>
+					<p>Light-mode hover goes from <code>#ff4949</code> to <code>#f54c4c</code>, which is almost the same color, so hovering a button or link shows almost no change. The naming is also reversed: <code>--accent-light</code> is <code>#600202</code>, the <em>darkest</em> red, and nothing uses it. Hardcoded reds appear in PasswordModal (<code>hsl(0 80% 60%)</code>, <code>hsl(0 80% 65%)</code>), BackgroundEffect (<code>#ff4949</code> fallback) and gradients (<code>#ca7879</code>).</p>
+					<div class="fix"><b>Fix:</b> <code>--accent</code>, <code>--accent-hover</code> (a visible 8–12% shift), <code>--on-accent</code> and <code>--danger</code>. That's four roles, each with a light and dark value.</div>
+						<div class="fix resolved-note"><b>Resolved in <code>fa7b83d</code>.</b> Seven tokens replaced nine reds: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code> and <code>--accent-overlay-hover</code>. Hover is now a visible step (<code>#d62828</code> to <code>#b71c1c</code> in light mode, <code>#ff4949</code> to <code>#ff7a7a</code> in dark; see F2 for today's values). The old <code>--accent-regular/-dark/-light/-overlay</code> and <code>--link-color</code> are removed. A <code>--danger</code> token was not added; the PasswordModal error message now uses <code>--accent-text</code>, but its error border is still a hardcoded <code>hsl(0 80% 60%)</code>.</div>
+					</article>
+
+				<article class="sg-finding resolved" data-sev="medium">
+					<div class="sg-finding-head"><span class="sg-badge ok">Resolved</span><span class="id">F9 · React</span><h4>React components style themselves with inline objects</h4></div>
+					<p>PasswordModal, PhotoModal and CaseStudyCarousel each build the same overlay chrome by hand: <code>rgba(0,0,0,.9)</code> backdrop, white ✕ at 2rem, ‹ › arrows at 2.5rem and 1rem insets. Inline styles can't express <code>:hover</code>, <code>:focus-visible</code> or media queries, which is why two of them inject <code>&lt;style&gt;</code> tags. The password field's focus state relies on the global outline only.</p>
+					<div class="fix"><b>Fix:</b> a small <code>overlay.css</code> (backdrop, close, prev/next) imported by the three components.</div>
+						<div class="fix resolved-note"><b>Resolved by the Tailwind cleanup</b> (<code>0962a72</code>). The three overlays use classes (hover, focus-visible and breakpoints included) and no longer inject <code>&lt;style&gt;</code> tags. A shared <code>overlay.css</code> was not needed. The only inline styles left set custom properties.</div>
+					</article>
+
+				<article class="sg-finding" data-sev="low">
+					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F10 · fonts</span><h4>Two Google Fonts families load but are never used</h4></div>
+					<p>MainHead.astro:44-47 requests <b>Public Sans</b> and <b>Rubik</b>. Nothing references either one. Roboto Mono loads its full 100–700 variable range plus italics, but the site only uses 400 and 500.</p>
+					<div class="fix"><b>Fix:</b> remove the first <code>&lt;link&gt;</code> and request <code>Roboto+Mono:wght@400;500</code>.</div>
+				</article>
+
+				<article class="sg-finding" data-sev="low">
+					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F11 · tokens</span><h4>Unused tokens left over from the starter template</h4></div>
+					<p>No live code uses <code>--gray-50</code>, <code>--gray-500</code>, <code>--gray-700</code> (except inside a gradient), <code>--gray-999_40</code>, <code>--gray-999-basis</code>, <code>--accent-light</code>, <code>--accent-subtle-overlay</code>, <code>--gradient-accent</code> or <code>--gradient-accent-orange</code>. The dark-mode <code>--accent-subtle-overlay</code> was <em>purple</em> (<code>hsla(281…)</code>), which suggests these came from Astro's portfolio starter and were never cleaned out.</p>
+						<p class="sg-small">Update: the red-related ones (<code>--accent-light</code>, <code>--accent-subtle-overlay</code>) went away with the F8 token swap. The gray ramp leftovers, <code>--gradient-accent*</code> and <code>--gray-999_40</code> / <code>-basis</code> remain.</p>
+				</article>
+
+				<article class="sg-finding" data-sev="low">
+					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F12 · scales</span><h4>Radius, spacing and breakpoints have no shared scale</h4></div>
+					<ul>
+						<li><b>13 distinct radii</b>: 2px, 0.25, 0.375, 0.5rem, 8px, 0.75, 0.9375, 1rem, 20px, 1.5rem, 50%, 999px, 999rem.</li>
+						<li><b>Spacing tokens</b> exist, but only Tailwind utilities use them. At audit time scoped CSS wrote raw values (<code>40px</code>, <code>24px</code>, <code>2.5rem</code>, <code>3.5rem</code>…). That scoped CSS is gone; where an exact value is off the scale, a class now uses an arbitrary value (<code>gap-[10px]</code>) instead of rounding.</li>
+						<li><b>Five breakpoints</b>: 50em, 59.99em / 60em, 64em (written as <code>1024px</code> in Footer), 70em. Tailwind only knows <code>lg = 60em</code>, and its <code>sm/md/xl</code> are still the defaults.</li>
+						<li>The 83rem wrapper is redefined by hand in Nav.astro:58-61 and Footer.astro:32-38 instead of using <code>.wrapper</code>. The reading-column grid (<code>1fr 60% 1fr</code>) is copied 3 times.</li>
+					</ul>
+				</article>
+
+				<article class="sg-finding" data-sev="low">
+					<div class="sg-finding-head"><span class="sg-badge muted">Low</span><span class="id">F13 · Tailwind scanning</span><h4>Tailwind generates utilities from words that aren't classes</h4></div>
+					<p>The built CSS includes <code>.start{inset-inline-start:…}</code>, <code>.container</code>, <code>.table</code>, <code>.grid</code>, <code>.hidden</code>, <code>.border</code> and <code>.resize</code>. Tailwind found them in prose and props. Hero's <code>align="start"</code> becomes <code>class="start"</code>, which then matches the Tailwind utility as well as Hero's own <code>.start</code>. It's harmless today, but it's a namespace collision waiting to happen. <code>@source not</code> for the content folders would tighten this up.</p>
+					<div class="fix resolved-note"><b>Partly done.</b> <code>global.css</code> now excludes <code>docs/</code>, <code>tests/</code>, <code>.superpowers/</code> and the README from the scan, so example class names in docs no longer generate utilities.</div>
+				</article>
+			</div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="plan">
+			<div class="sg-section-head"><span class="sg-num">03</span><h2>Suggested cleanup order</h2></div>
+			<p class="sg-lede">The original plan for this branch. Steps the reading-typography work completed are checked off, with the commits. Each step is small enough to review by itself, and the order keeps the visual changes separate from the plumbing.</p>
+			<ol class="sg-plan">
+					<li class="done"><div><b>Serve the font.</b> Done by switching to Mona Sans from Google Fonts, which also dropped Public Sans and Rubik (F1, F10). Roboto Mono still loads its full weight range. <span class="sg-badge warn">partly done</span></div></li>
+					<li class="done"><div><b>Delete dead CSS.</b> The Nav, <code>data-theme</code>, index.astro and HeroTyper leftovers went with the Tailwind cleanup (F6). The unused gray and gradient tokens (F11) are still there. <span class="sg-badge warn">partly done</span></div></li>
+					<li class="done"><div><b>Rename tokens to the v4 namespaces.</b> <code>--text-*</code> and <code>--font-*</code> are done (F3, <code>ec1f4b9</code>). <code>--radius-*</code> and <code>--breakpoint-*</code> are not (F12). <span class="sg-badge warn">partly done</span></div></li>
+					<li class="done"><div><b>Add a semantic layer on top of the ramp.</b> The red half is done: <code>--brand</code>, <code>--accent-text</code>, <code>--accent-text-hover</code>, <code>--accent-fill</code>, <code>--accent-fill-hover</code>, <code>--on-accent</code>, with the contrast fixed (F2, F8, <code>fa7b83d</code>). The gray half (<code>--fg</code>, <code>--border</code>, <code>--surface</code>…) and <code>--danger</code> are not. <span class="sg-badge warn">partly done</span></div></li>
+					<li class="done"><div><b>Type roles in one file.</b> <code>src/styles/type.css</code> defines the <code>.t-*</code> roles (ten at <code>a480481</code>, eleven with <code>.t-link</code>), and <code>src/styles/prose.css</code> plus <code>PageHeader.astro</code> replace the two prose copies and the page-title copies (F4, F5, <code>0a9ebe9</code>). <span class="sg-badge ok">done</span></div></li>
+					<li class="done"><div><b>Layer it.</b> Element defaults are in <code>@layer base</code>, the roles and <code>.prose</code> are in <code>@layer components</code>, and component and page styling is Tailwind classes in the utilities layer. The old global component rules are gone, the overlays use classes, and there is no <code>!important</code> in <code>src/</code> (F7, F9). Only the token blocks, keyframes, About's cursors and library CSS stay unlayered. <span class="sg-badge ok">done</span></div></li>
+					<li class="done"><div><b>Reader controls.</b> Not in the original audit. Persisted preferences applied before paint (<code>e8dc511</code>) and the Aa panel (<code>ef80c07</code>). <span class="sg-badge ok">done</span></div></li>
+				</ol>
+			<p class="sg-small">Where the file shape landed: <code>global.css</code> holds <code>@theme</code>, the token blocks, the custom variants and utilities, and the element defaults, and imports <code>type.css</code> and <code>prose.css</code>. The proposed split into <code>tokens.css</code> / <code>base.css</code> / <code>components.css</code> was not needed. See <code>docs/css-architecture.md</code>.</p>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="color">
+			<div class="sg-section-head"><span class="sg-num">04</span><h2>Color</h2></div>
+			<p class="sg-lede">An eight-step blue-gray ramp that inverts between themes, plus the original brand red for text and fills (below AA on white, an accepted gap), read through role tokens. The ramp numbers mean "distance from the background": <code>0</code> is the strongest ink and <code>999</code> is the page itself.</p>
+
+			<div class="sg-ramps" id="sg-ramps"></div>
+			<p class="sg-small">Contrast is measured against that theme's page background (<code>gray-999</code>); the fill row is <code>--on-accent</code> text against the fill. <span class="sg-badge ok">AAA</span> ≥ 7 · <span class="sg-badge ok">AA</span> ≥ 4.5 · <span class="sg-badge warn">AA large</span> ≥ 3 · <span class="sg-badge bad">fail</span> &lt; 3. Gray usage counts are from the original audit and exclude global.css itself.</p>
+
+			<h3 class="sg-h3">What each gray is actually used for</h3>
+			<div class="sg-prose"><p>These are the de facto semantic roles, worked out from how components use the ramp. They're good candidates for the named gray tokens that step 4 of the plan has not reached yet.</p></div>
+			<div class="sg-roles">
+				<div class="sg-role"><div class="chip" style="background:var(--gray-0)"></div><div><b>Strong text / titles</b><span>--gray-0 · 19 uses · h1s, post titles, links in lists</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-200)"></div><div><b>Body text</b><span>--gray-200 · 17 uses · body, prose, section headers</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-300)"></div><div><b>Secondary text</b><span>--gray-300 · 6 uses · card descriptions, nav links</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-400)"></div><div><b>Meta / subtle</b><span>--gray-400 · 12 uses · dates, footer, filters, labels</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-800)"></div><div><b>Borders &amp; rules</b><span>--gray-800 · 16 uses · cards, dividers, meta rules</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-900)"></div><div><b>Raised surface</b><span>--gray-900 · 3 uses · input fields, gradients</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--gray-999)"></div><div><b>Page / card surface</b><span>--gray-999 · 7 uses + body</span></div></div>
+				
+				<div class="sg-role"><div class="chip" style="background:var(--accent-text)"></div><div><b>Accent text</b><span>--accent-text (+ -hover) · links, back/prev/next, active filters, card CTA, focus rings, list markers, quote rules, switches</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--accent-fill)"></div><div><b>Accent fill</b><span>--accent-fill (+ -hover) · btn (Hero, GatedContent, PasswordModal), Pill; text on it is --on-accent (near-black, #090b11, in both themes)</span></div></div>
+				<div class="sg-role"><div class="chip" style="background:var(--accent-overlay-hover)"></div><div><b>Accent tint (hover bg, selection)</b><span>--accent-overlay-hover · global only</span></div></div>
+			</div>
+
+			<h3 class="sg-h3">Every red on the site</h3>
+			<div class="sg-prose"><p>Seven tokens, each with one job, plus the one hardcoded value that is left. They hold main's reds. Swatches follow the current theme.</p></div>
+			<div class="sg-reds" id="sg-reds"></div>
+
+			<h3 class="sg-h3">Accent contrast: current state</h3>
+				<div class="sg-grid-2">
+					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#fff;border-color:#e3e6ee">
+						<span class="sg-badge bad" style="align-self:flex-start">Light · text #ff4949 · <span data-cr="#ff4949|#ffffff"></span></span>
+						<p style="color:#ff4949;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee">A link in body copy on white. <b>VIEW PROJECT →</b></p>
+						<p style="color:#f54c4c;background:#fff;padding:0.75rem;border-radius:0.5rem;border:1px solid #e3e6ee;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f54c4c|#ffffff"></span>. <b>VIEW PROJECT →</b></p>
+						<span class="site-button" style="background:#ff4949;color:#fff">Drop me a line →</span>
+						<span class="sg-small" style="color:#505d84">White on fill #ff4949 <span data-cr="#ffffff|#ff4949"></span> · hover fill #f54c4c <span data-cr="#ffffff|#f54c4c"></span></span>
+					</div>
+					<div class="sg-card" style="display:flex;flex-direction:column;gap:0.75rem;background:#090b11;border-color:#283044">
+						<span class="sg-badge ok" style="align-self:flex-start">Dark · text #ff4949 · <span data-cr="#ff4949|#090b11"></span></span>
+						<p style="color:#ff4949;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044">A link in body copy on the dark page. <b>VIEW PROJECT →</b></p>
+						<p style="color:#f54c4c;background:#090b11;padding:0.75rem;border-radius:0.5rem;border:1px solid #283044;text-decoration:underline 1px;text-underline-offset:0.2em">The same link on hover (the button hover red), <span data-cr="#f54c4c|#090b11"></span>. <b>VIEW PROJECT →</b></p>
+						<span class="site-button" style="background:#e03e3e;color:#fff">Drop me a line →</span>
+						<span class="sg-small" style="color:#a3acc8">White on fill #e03e3e <span data-cr="#ffffff|#e03e3e"></span> · hover fill #cc3838 <span data-cr="#ffffff|#cc3838"></span></span>
+					</div>
+				</div>
+				<p class="sg-small">These two cards are pinned to each theme's colors on purpose, so you can compare them side by side whichever theme the page is in. The reds are main's: the owner tried AA and AAA reds on this branch and rolled them back. Components read the role tokens, never <code>--brand</code>, so the next change to a red is one edit in <code>global.css</code>. See finding F2.</p>
+
+				<h3 class="sg-h3">Gradients &amp; overlays</h3>
+			<div class="sg-grid-3">
+				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:var(--gradient-subtle);border:1px solid var(--gray-800)"></div><p class="sg-src" style="margin-top:0.5rem">--gradient-subtle · gated placeholder</p></div>
+				<div class="sg-card"><div style="height:4rem;border-radius:0.5rem;background:rgba(0,0,0,0.9)"></div><p class="sg-src" style="margin-top:0.5rem">rgba(0,0,0,.9) · lightbox backdrop (Lightbox.tsx, shared), hardcoded · .7 in PasswordModal</p></div>
+			</div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="type">
+			<div class="sg-section-head"><span class="sg-num">05</span><h2>Typography</h2></div>
+			<p class="sg-lede">One sans for everything, Roboto Mono for metadata, a serif option for reading, Tailwind's default size scale, and twelve named roles that each have one definition.</p>
+
+			<div class="sg-grid-3">
+				<div class="sg-card sg-family">
+					<div class="sg-family-head"><b>Mona Sans</b><span class="sg-badge ok">Google Fonts</span></div>
+					<div class="glyphs" style="font-family:var(--font-sans);font-weight:600">Aa Gg Rr 0123</div>
+					<div class="weights" style="font-family:var(--font-sans)">
+						<span style="font-weight:400">Regular 400</span><span style="font-weight:500">Medium 500</span><span style="font-weight:600">SemiBold 600</span><span style="font-weight:700">Bold 700</span>
+					</div>
+					<p class="sg-small"><code>--font-sans</code>. The body font and the reader's "Sans" option. 700 is now the weight of page titles, section headings and subheadings, 600 of the display title and bold text, 500 of small links, 400 of body. Variable weight 400–700 plus italics, by GitHub under the OFL.</p>
+					<p class="sg-src">global.css · @theme · MainHead.astro (Google Fonts link)</p>
+				</div>
+				<div class="sg-card sg-family">
+					<div class="sg-family-head"><b>Roboto Mono</b><span class="sg-badge ok">Google Fonts</span></div>
+					<div class="glyphs" style="font-family:var(--font-mono);font-weight:400;font-size:var(--text-3xl)">Aa 0123 · MAY 2026</div>
+					<div class="weights" style="font-family:var(--font-mono);font-size:var(--text-base)">
+						<span style="font-weight:400">Regular 400</span><span style="font-weight:500">Medium 500</span>
+					</div>
+					<p class="sg-small"><code>--font-mono</code>. Eyebrows, meta rows, the footer, captions and the password input. Always at <code>sm</code> or <code>xs</code>, and usually <code>gray-400</code>.</p>
+					<p class="sg-src">MainHead.astro · global.css · @theme</p>
+				</div>
+				<div class="sg-card sg-family">
+					<div class="sg-family-head"><b>Literata</b><span class="sg-badge ok">on demand</span></div>
+					<div class="glyphs" style="font-family:var(--font-serif);font-weight:700">Aa Gg Rr 0123</div>
+					<div class="weights" style="font-family:var(--font-serif)">
+						<span style="font-weight:400">Regular 400</span><span style="font-weight:700">Bold 700</span>
+					</div>
+					<p class="sg-small"><code>--font-serif</code>. The reader's "Serif" option, applied to <code>.prose</code> only. The stylesheet is added by the inline bootstrap or the panel when serif is chosen, so default visitors download nothing extra.</p>
+					<p class="sg-src">global.css · @theme · lib/reader-prefs.ts</p>
+				</div>
+			</div>
+			<div class="sg-card" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+				<span class="sg-badge muted">Loaded, never used</span>
+				<span style="font-family:'Public Sans',sans-serif">Public Sans 400/700</span>
+				<span class="sg-small">·</span>
+				<span style="font-family:'Rubik',sans-serif">Rubik 500/600</span>
+				<span class="sg-src" style="margin-left:auto">MainHead.astro · finding F10, still open</span>
+			</div>
+
+			<h3 class="sg-h3">Scale</h3>
+			<div class="sg-prose"><p>Tailwind's default <code>--text-*</code> scale is the only size scale. It is not redefined in <code>@theme</code>, every font size in <code>src/</code> resolves to one of these steps, and there are no <code>px</code> sizes or <code>!important</code> on type except two documented exceptions: the BackgroundEffect debug panel (12px, an easter egg) and the emoji-cursor SVG data URIs in about.astro. Faded rows aren't used by any live code. Counts are references to <code>var(--text-*)</code>, <code>text-*</code> or <code>text-(length:--text-*)</code> under <code>src/</code>, as of the Tailwind cleanup. <code>.prose</code> headings are in <code>em</code> and land on 2xl and xl without referencing them.</p></div>
+			<div id="sg-scale"></div>
+
+			<h3 class="sg-h3">Roles</h3>
+			<div class="sg-prose"><p>Each role is defined once, as a class in <code>src/styles/type.css</code> (or, for body and the in-article headings, in <code>prose.css</code>), and used the same way on every page. Specimens below use the same declarations as the source. Sizes shown as "A → B" change at the 60em breakpoint. The Work index and 404 used to borrow the home hero; they now use Page title, so only the home page shows the display size.</p></div>
+			<div id="sg-roles-type"></div>
+
+			<h3 class="sg-h3">Line-heights in use</h3>
+			<div class="sg-table-wrap"><table class="sg-table">
+				<thead><tr><th>value</th><th>where</th></tr></thead>
+				<tbody>
+					<tr><td class="num">1.1</td><td>Display title; the base <code>h1–h5</code> default (a role overrides it)</td></tr>
+					<tr><td class="num">1.15</td><td>Page title</td></tr>
+					<tr><td class="num">1.3 / 1.35 / 1.4</td><td>Section heading and <code>.prose h2</code> / subheading and <code>.prose h3</code> / <code>.prose h4</code></td></tr>
+					<tr><td class="num">1.5</td><td><code>body</code> default, summary, the dropdown nav, and the reader's tight setting</td></tr>
+					<tr><td class="num">1.7</td><td><code>.prose</code> body (reader default). Reader options: 1.5 / 1.7 / 1.9</td></tr>
+					<tr><td class="num">2rem (<code>--text-2xl--line-height</code>)</td><td>Lead (hero taglines), from Tailwind's scale instead of a hardcoded value</td></tr>
+					<tr><td class="num">20px (fixed)</td><td><code>.button</code></td></tr>
+				</tbody>
+			</table></div>
+
+			<h3 class="sg-h3">Reader controls</h3>
+			<div class="sg-prose">
+				<p>Blog posts and case studies get an "Aa" button in the nav, immediately left of the theme toggle. It opens a panel (<code>components/ReaderSettings.tsx</code>) with three settings and a reset. The choice is saved in <code>localStorage</code> as <code>reader-prefs</code> and applied as <code>data-reader-font|size|leading</code> on <code>&lt;html&gt;</code> by an inline script in <code>MainHead.astro</code> before paint and after every View Transition swap (<code>lib/reader-prefs.ts</code>).</p>
+				<ul>
+					<li><b>Font:</b> Sans (Mona Sans) or Serif (Literata). Default Sans.</li>
+					<li><b>Size:</b> 14 / 16 / 18 / 20px, on the <code>.prose</code> base (<code>text-sm</code> / <code>base</code> / <code>lg</code> / <code>xl</code>). Default 18. The headings are <code>calc(4em / 3)</code> and <code>calc(10em / 9)</code>, so at 18px they are exactly 24px and 20px, and they scale with the setting.</li>
+					<li><b>Line spacing:</b> 1.5 / 1.7 / 1.9. Default 1.7.</li>
+					<li><b>Scope:</b> only <code>.prose</code>, and only inside a page-level <code>[data-reader-enabled]</code> wrapper, so a saved preference never restyles the header, nav, footer, meta, About or the index pages. Everything inside <code>.prose</code> is in <code>em</code>, so the hierarchy scales with the setting.</li>
+				</ul>
+			</div>
+			<div class="sg-card sg-reader-demo" id="sg-reader-demo" data-size="18" data-leading="1.7" data-font="sans" style="display:flex;flex-direction:column;gap:1rem">
+				<div class="sg-reader-opts" role="group" aria-label="Reader settings demo">
+					<span class="grp"><span class="lbl">Font</span><button class="sg-toggle" data-rd="font" data-val="sans" aria-pressed="true">Sans</button><button class="sg-toggle" data-rd="font" data-val="serif" aria-pressed="false">Serif</button></span>
+					<span class="grp"><span class="lbl">Size</span><button class="sg-toggle" data-rd="size" data-val="14" aria-pressed="false">14</button><button class="sg-toggle" data-rd="size" data-val="16" aria-pressed="false">16</button><button class="sg-toggle" data-rd="size" data-val="18" aria-pressed="true">18</button><button class="sg-toggle" data-rd="size" data-val="20" aria-pressed="false">20</button></span>
+					<span class="grp"><span class="lbl">Line</span><button class="sg-toggle" data-rd="leading" data-val="1.5" aria-pressed="false">1.5</button><button class="sg-toggle" data-rd="leading" data-val="1.7" aria-pressed="true">1.7</button><button class="sg-toggle" data-rd="leading" data-val="1.9" aria-pressed="false">1.9</button></span>
+					<button class="sg-toggle" data-rd="reset" aria-pressed="false">Reset</button>
+				</div>
+				<div class="site-prose" style="max-width:40rem">
+					<h2>Why the bad ideas look shippable</h2>
+					<p>Low fidelity is for problem-seeking. High fidelity is for problem-solving. The order matters, because once you invest in visual polish, the sunk cost makes it harder to change the structure underneath.</p>
+					<h3>Choose the setting, not the size</h3>
+					<p>Every heading, margin and caption in the article is in <code>em</code>, so it moves with the base size and the proportions between them hold at all four sizes.</p>
+				</div>
+				<p class="sg-src">This is a demo of the same hooks as the reader section at the bottom of prose.css. The real panel is the Aa button on any post or case study.</p>
+			</div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="space">
+			<div class="sg-section-head"><span class="sg-num">06</span><h2>Spacing &amp; layout</h2></div>
+			<p class="sg-lede">A 4px-based scale lives in <code>@theme</code>, and Tailwind's spacing utilities read it. Where an exact value is off the scale, the class uses an arbitrary value (<code>gap-[10px]</code>) rather than rounding to a nearby step.</p>
+			<div class="sg-grid-2">
+				<div class="sg-card" id="sg-spacing"></div>
+				<div class="sg-card sg-prose">
+					<h4 class="sg-h4">Layout primitives</h4>
+					<ul>
+						<li><b>Wrapper</b>: <code>max-width: 83rem</code>, <code>padding-inline: 1.5rem</code>, the <code>wrapper</code> utility. <span class="sg-src">global.css · @utility wrapper</span> Nav and Footer use it too.</li>
+						<li><b>Reading column</b>: <code>grid-template-columns: 1fr 60% 1fr</code> at ≥60em, on About, blog post and case study (3 copies).</li>
+						<li><b>Page rhythm</b>: <code>.main-content-wrapper</code> gap 2.5rem → 4rem at 60em. <span class="sg-src">BaseLayout.astro</span></li>
+						<li><b>Nav</b>: 1.5rem padding, 3.5rem bottom margin.</li>
+						<li><b>Card padding</b>: <code>40px</code>. Section grid gap <code>32px</code>. Project grid gap <code>2em</code>.</li>
+						<li><b>Home</b>: <code>gap-20</code> (5rem) between hero and main, and <code>lg:gap-48</code> (12rem) between sections.</li>
+						<li><b>Page header</b> (posts and case studies): back link on its own line, 2rem above the eyebrow; eyebrow 0.75rem above the title; summary 0.75rem below it. <span class="sg-src">PageHeader.astro</span></li>
+						<li><b>Prose</b> (all <code>em</code>): <code>p + p</code> 1.4em, <code>li + li</code> 0.4em, h2 margin 2.75em 0 0.75em, h3 2em 0 0.5em, h4 1.5em 0 0.5em, images 2.5em. <span class="sg-src">prose.css</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="shape">
+			<div class="sg-section-head"><span class="sg-num">07</span><h2>Radius, shadow, motion</h2></div>
+			<h3 class="sg-h3" style="padding-top:0">Radii in use (13)</h3>
+			<div class="sg-radii" id="sg-radii"></div>
+			<p class="sg-small">Suggested consolidation: <code>--radius-sm: 0.5rem</code> (buttons, inputs, menus) · <code>--radius-md: 0.75rem</code> (cards, modals) · <code>--radius-lg: 1.5rem</code> (images, desktop cards) · <code>--radius-full: 999px</code> (pills, toggles). Everything else maps onto one of these four.</p>
+
+			<h3 class="sg-h3">Shadows</h3>
+			<div class="sg-shadows">
+				<div class="sg-shadow" style="box-shadow:var(--shadow-sm)">--shadow-sm · cards, photos</div>
+				<div class="sg-shadow" style="box-shadow:var(--shadow-md)">--shadow-md · hover, images, modal</div>
+				<div class="sg-shadow" style="box-shadow:var(--shadow-lg)">--shadow-lg · dropdown menu</div>
+			</div>
+			<p class="sg-small">Each one is four stacked layers. In dark mode they become faint white glows (toggle Dark to compare), which barely show against <code>#090b11</code>, so dark mode effectively has no elevation.</p>
+
+			<h3 class="sg-h3">Motion</h3>
+			<div class="sg-prose"><ul>
+				<li><code>--theme-transition: 0.2s ease-in-out</code>: link underlines, card shadow, filters, theme toggle. 15 references in <code>src/</code>. One hardcoded <code>0.2s ease</code> in Hero.</li>
+				<li>Animations are registered as <code>--animate-*</code> in <code>@theme</code>, so they are classes: <code>animate-modal-fade-in</code> (0.2s, the lightboxes), <code>animate-reader-fade-in</code> (0.15s, the Aa panel) and <code>animate-fade-in-from-top</code> (1s, 10px, the home page intro, once per session).</li>
+				<li>ThemeToggle and the Aa panel wrap their motion in <code>motion-safe:</code>. The About carousel and the three.js background run regardless.</li>
+			</ul></div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="bp">
+			<div class="sg-section-head"><span class="sg-num">08</span><h2>Breakpoints</h2></div>
+			<p class="sg-lede"><code>60em</code> (960px) is the real breakpoint, registered as Tailwind's <code>lg</code>: <code>lg:</code> applies from 60em up and <code>max-lg:</code> below it. The other three are one-off values written as arbitrary variants.</p>
+			<div class="sg-bp" id="sg-bp"></div>
+			<p class="sg-small">Solid markers are in the site CSS. Dashed markers are the Tailwind defaults still active for <code>sm/md/xl</code> (40, 48, 80rem). The scale runs 0–90em.</p>
+			<div class="sg-table-wrap"><table class="sg-table">
+				<thead><tr><th>variant</th><th>applies</th><th>where</th></tr></thead>
+				<tbody>
+						<tr><td class="num">min-[50em]:</td><td class="num">≥ 50em</td><td>Nav (site title size, theme toggle height)</td></tr>
+						<tr><td class="num">max-lg:</td><td class="num">&lt; 60em</td><td>index (hides the headshot below 60em). AboutHero's carousel images are smaller below 60em by default, with <code>lg:</code> sizes above</td></tr>
+						<tr><td class="num">lg:</td><td class="num">≥ 60em</td><td>Page title 4xl→5xl, display 4xl→5xl, article title 3xl→4xl, reading column, grids, page gap</td></tr>
+						<tr><td class="num">min-[64em]:</td><td class="num">≥ 64em (1024px)</td><td>Footer row layout</td></tr>
+						<tr><td class="num">min-[70em]:</td><td class="num">≥ 70em</td><td>PortfolioPreview horizontal card</td></tr>
+					</tbody>
+			</table></div>
+		</section>
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="components">
+			<div class="sg-section-head"><span class="sg-num">09</span><h2>Components</h2></div>
+			<p class="sg-lede">Reproduced from source. These respond to the Dark toggle the same way the site does.</p>
+
+			<div class="sg-grid-2">
+				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+					<h4 class="sg-h4">Button</h4>
+					<div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+						<a class="site-button" href="#components">Drop me a line →</a>
+					</div>
+					<p class="sg-src"><code>@utility btn</code> in global.css · one filled button: fill <code>--accent-fill</code> (hover <code>--accent-fill-hover</code>), text <code>--on-accent</code>, 40px tall, 8px radius, <code>text-sm</code>/600 uppercase; <code>:disabled</code> shows the wait cursor. Used by Hero's "Drop me a line", "Enter password" and "Unlock case study". Layout (<code>mt-5</code>, <code>w-full</code>) stays on the element; the focus ring is the global one.</p>
+				</div>
+				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+					<h4 class="sg-h4">Round icon controls</h4>
+					<div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+						<button class="site-icon-control" aria-label="Reading settings"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 18 9 6l5 12M6 14h6M17 18l2.5-6 2.5 6M18 16.5h3"/></svg></span></button>
+						<button class="site-icon-control toggle" aria-label="Dark theme"><span class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span></button>
+						<button class="site-icon-control open" aria-label="Menu"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></button>
+					</div>
+					<p class="sg-src"><code>@utility icon-control</code> in global.css · the Aa trigger, the theme toggle and the menu (≡) button share one page-colored circle (<code>--gray-999</code>, dark in dark mode) with a 1px <code>--accent-text</code> ring and icon, tinted <code>--accent-overlay-hover</code> on hover and while open (the menu is shown open). It sets no size: the icon box inside it (<code>size-8 p-2</code>, icon at <code>1em</code>) makes the 2rem circle, and two boxes make the theme toggle's pill. The toggle's knob darkens to <code>--accent-fill-hover</code> on hover. Lightbox controls, filter buttons and the debug panel keep their own looks.</p>
+				</div>
+				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+					<h4 class="sg-h4">Pills</h4>
+					<div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+						<span class="site-pill">Design systems</span>
+						<span class="site-pill" style="--pill-color:#46D501;color:#000">CrossnoKaye</span>
+						<span class="site-lock-pill">🔒 Gated</span>
+					</div>
+					<p class="sg-src">Pill.astro · default fill <code>--accent-fill</code> with <code>--on-accent</code> text · color per project from frontmatter <code>color:</code>. PortfolioPreview.astro forces black text for the "CrossnoKaye" tag, which is a one-off.</p>
+				</div>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Section header + filters</h4>
+				<div class="site-section-header">
+					<span aria-hidden="true">✎</span>
+					<h3>All posts</h3>
+					<div class="filters"><button class="filter active">Date</button><span style="color:var(--gray-400)">·</span><button class="filter">Title (A-Z)</button></div>
+				</div>
+				<p class="sg-src">SectionHeader.astro · the label is an &lt;h3&gt; (see F4). Its border is gray-200, darker than every other rule on the site, which use gray-800. Active filter is <code>--accent-text</code>.</p>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Project card</h4>
+				<a class="site-card" href="#components">
+					<div class="img"></div>
+					<div class="body">
+						<div style="display:flex;gap:0.5rem"><span class="site-pill">Design systems</span><span class="site-lock-pill">🔒 Gated</span></div>
+						<div class="title">OpenNode Design System</div>
+						<p class="desc">A component library and token set for a Bitcoin payments platform.</p>
+						<span class="cta">view project →</span>
+					</div>
+				</a>
+				<p class="sg-src">PortfolioPreview.astro · title <code>text-2xl</code> (no <code>!important</code>) in gray-200 · description <code>text-base</code> · CTA xs uppercase <code>--accent-text</code> · horizontal at ≥70em</p>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Page header (posts and case studies)</h4>
+				<div class="site-page-header" style="max-width:40rem">
+					<a class="t-small-link t-link back-link" href="#components">← Back</a>
+					<p class="t-eyebrow eyebrow">July 21, 2026 · 9 min read</p>
+					<h1 class="t-article-title">Clarity is the deliverable</h1>
+					<p class="t-summary summary">Why a designer should arrive with a stance, concrete enough for the team to push against.</p>
+				</div>
+				<p class="sg-src">components/PageHeader.astro · back link (Small link) on its own line, eyebrow (date and read time; case studies show the date only), Page title, Summary from <code>description</code>. The article starts about 3rem below.</p>
+			</div>
+
+			<div class="sg-grid-2">
+				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+					<h4 class="sg-h4">Links: one treatment, plus the prose variant</h4>
+					<p>Inline link: <a class="t-link" href="#components">accent red, underline fades in on hover and focus</a>. <code>.t-link</code>, used on every inline text link: the home tagline, footer socials, the About list, the password modal.</p>
+					<p>With the small size: <a class="t-small-link t-link" href="#components">← Back</a> &nbsp; <a class="t-small-link t-link" href="#components">Next →</a></p>
+					<p>In article text: <span class="site-prose" style="display:inline"><a href="#components">the same link, with the underline at 40% at rest</a></span> so it does not rely on color alone.</p>
+					<p>Lists and navigation (own resting color, same hover): <a href="#components" style="color:var(--gray-0);text-decoration:none;font-size:var(--text-xl)">gray-0, turns red on hover</a></p>
+					<p class="sg-src">type.css .t-link · prose.css .prose a · writing/index, NavDropdown, SectionHeader. Hover is <code>--accent-text-hover</code> everywhere.</p>
+				</div>
+				<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+					<h4 class="sg-h4">Meta (bottom of post)</h4>
+					<div class="site-meta">
+						<div class="site-meta-row"><span class="l">Tags</span><span class="v">design, process</span></div>
+					</div>
+					<p class="sg-src">writing/[...slug] · Tags only, in the Meta role; the Date row moved up into the eyebrow. Case studies keep Role / Collaborators / Product in the same role.</p>
+				</div>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Prose (post and case-study body)</h4>
+				<div class="site-prose" style="max-width:40rem">
+					<h2>Why the bad ideas look shippable</h2>
+					<p>A designer comes back with a stance. Not a deck, not a memo: a proposal, concrete enough that the team can push against it. <a href="#components">Inline links</a> are accent red with a quiet underline.</p>
+					<p>Paragraphs are 18px (<code>text-lg</code>) at 1.7 line-height, with 1.4em between them. <strong>Bold text</strong> steps up to 600 and gray-0.</p>
+					<h3>Subheading at 20px</h3>
+					<ul><li>Lists have real markers now,</li><li>and the bullets are the accent red.</li></ul>
+					<blockquote>Blockquotes are upright, with a 2px accent rule.</blockquote>
+					<h4>A smaller heading, 18px / 600</h4>
+					<figure><span class="fake-img"></span><figcaption>Images are full width with a 0.75rem radius and --shadow-md.</figcaption></figure>
+					<hr>
+					<p>A rule closes the section.</p>
+				</div>
+				<p class="sg-src">styles/prose.css · one <code>.prose</code> class for the blog <code>.post-content</code> and the case-study <code>.gated-content</code> · h2 24px, h3 20px, h4 18px at the default size</p>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Reader controls (Aa)</h4>
+				<p>The nav button sits left of the theme toggle on posts and case studies only. The panel is a rounded <code>--gray-999</code> card with a <code>--gray-800</code> border and <code>--shadow-lg</code>, with radio groups for font, size and line spacing, and a reset. It closes on Escape or an outside click and returns focus to the button. Try the live demo under <a href="#type">Typography</a>.</p>
+				<p class="sg-src">components/ReaderSettings.tsx (classes only, no stylesheet) · lib/reader-prefs.ts · the reader hooks in prose.css</p>
+			</div>
+
+			<div class="sg-card" style="display:flex;flex-direction:column;gap:1rem">
+				<h4 class="sg-h4">Footer</h4>
+				<div class="site-footer"><span>Designed &amp; developed in Santa Barbara, California</span><span>@fcarysnyder on <a class="t-link" href="#components">Twitter</a> · <a class="t-link" href="#components">LinkedIn</a></span></div>
+				<p class="sg-src">Footer.astro · Meta role, uppercase · links are <code>.t-link</code></p>
+			</div>
+		</section>
+
+		
+
+		<!-- ============================================================ -->
+		<section class="sg-section" id="files">
+			<div class="sg-section-head"><span class="sg-num">10</span><h2>Where styles live</h2></div>
+			<p class="sg-lede">The map after the Tailwind cleanup. <code>docs/css-architecture.md</code> has the same picture in prose, plus how to add a style.</p>
+			<div class="sg-table-wrap"><table class="sg-table">
+				<thead><tr><th>file</th><th>mechanism</th><th>owns</th></tr></thead>
+				<tbody>
+						<tr><td class="num">styles/global.css</td><td>Tailwind <code>@theme</code>, custom variants and utilities, <code>@layer base</code>, plus two unlayered token blocks</td><td>Tokens (<code>:root</code>, <code>:root.theme-dark</code>), the Tailwind bridges, fonts, spacing, <code>lg</code> = 60em, <code>--animate-*</code>, the <code>hover:</code> and <code>dark:</code> variants, <code>wrapper</code> and <code>elevation-*</code>, element defaults and the focus ring</td></tr>
+						<tr><td class="num">styles/type.css</td><td>@layer components</td><td>The eleven <code>.t-*</code> type roles, defined once (including <code>.t-link</code>)</td></tr>
+						<tr><td class="num">styles/prose.css</td><td>@layer components</td><td>The shared <code>.prose</code> article styles and the <code>[data-reader-*]</code> hooks</td></tr>
+						<tr><td class="num">components/*.astro, components/*.tsx, layouts/, pages/</td><td>Tailwind classes in the markup (utilities layer)</td><td>Everything else: layout, color, hover and focus states, the modals and lightboxes, the Nav and Aa dropdowns, the gallery. Hook classes (<code>card</code>, <code>pill</code>, <code>back-link</code>…) stay on elements for scripts and tests</td></tr>
+						<tr><td class="num">pages/about.astro</td><td>Scoped <code>&lt;style&gt;</code> with <code>:global()</code>, unlayered</td><td>The five emoji hover cursors. The only <code>&lt;style&gt;</code> block left, with a "Why not Tailwind:" comment</td></tr>
+						<tr><td class="num">style="" in Pill, PortfolioPreview, PhotoGallery</td><td>Inline, custom properties only</td><td><code>--pill-color</code>, <code>--on-accent</code>, <code>--aspect</code>; a class reads each one</td></tr>
+						<tr><td class="num">components/PageHeader.astro</td><td>Classes + role classes</td><td>Back link, eyebrow, title and summary for posts and case studies</td></tr>
+						<tr><td class="num">components/ReaderSettings.tsx</td><td>Radix dropdown + classes</td><td>The Aa panel in the nav (no stylesheet of its own)</td></tr>
+						<tr><td class="num">lib/reader-prefs.ts</td><td>TypeScript</td><td>Reader preference parsing, storage and the pre-paint bootstrap (inlined by MainHead)</td></tr>
+						<tr><td class="num">components/MainHead.astro</td><td>&lt;link&gt; + inline scripts</td><td>Imports global.css, Google Fonts, theme and reader-preference bootstraps</td></tr>
+						<tr><td class="num">tests/styles/*.test.ts</td><td>Vitest</td><td>Guard rules: no <code>!important</code>, inline style only sets custom properties, no stray unlayered CSS, the type scale, roles, prose and color tokens</td></tr>
+					</tbody>
+			</table></div>
+		</section>
+
+	</main>
+</div>
+
+<script>
+(function () {
+	var root = document.documentElement;
+
+	// ---------- Toggles ----------
+	var themeBtn = document.getElementById('sg-theme-toggle');
+	function syncTheme() { themeBtn.setAttribute('aria-pressed', String(root.classList.contains('theme-dark'))); }
+	themeBtn.addEventListener('click', function () {
+		var dark = !root.classList.contains('theme-dark');
+		root.classList.toggle('theme-dark', dark);
+		try { localStorage.setItem('sg-theme', dark ? 'dark' : 'light'); } catch (e) {}
+		syncTheme();
+	});
+	syncTheme();
+
+
+	// ---------- Contrast ----------
+	function lum(hex) {
+		hex = hex.replace('#', '');
+		return [0, 2, 4].map(function (i) { return parseInt(hex.substr(i, 2), 16) / 255; })
+			.map(function (v) { return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); })
+			.reduce(function (acc, v, i) { return acc + v * [0.2126, 0.7152, 0.0722][i]; }, 0);
+	}
+	function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+	function crBadge(r) {
+		var cls = r >= 4.5 ? 'ok' : r >= 3 ? 'warn' : 'bad';
+		var label = r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'AA large' : 'fail';
+		return '<span class="sg-badge ' + cls + '">' + r.toFixed(2) + ' ' + label + '</span>';
+	}
+
+	// ---------- Inline contrast badges: <span data-cr="fg|bg"> ----------
+	document.querySelectorAll('[data-cr]').forEach(function (el) {
+		var p = el.getAttribute('data-cr').split('|');
+		el.innerHTML = crBadge(contrast(p[0], p[1]));
+	});
+
+	// ---------- Ramps ----------
+	// The eight steps left after the token audit (50, 500, 600 and 700 were unused and removed).
+	var steps = ['0', '100', '200', '300', '400', '800', '900', '999'];
+	var light = ['#090b11', '#283044', '#3d4663', '#505d84', '#6474a2', '#e3e6ee', '#f3f4f7', '#ffffff'];
+	var dark  = ['#ffffff', '#e3e6ee', '#c3cadb', '#a3acc8', '#8490b5', '#283044', '#141925', '#090b11'];
+	var uses = { '0': 15, '100': 1, '200': 16, '300': 6, '400': 14, '800': 14, '900': 3, '999': 9 };
+	var notes = { '0': 'titles', '100': 'prose body', '200': 'body text, lead', '300': 'descriptions, summaries', '400': 'meta', '800': 'borders', '900': 'raised surface', '999': 'page bg' };
+	function ramp(title, hexes) {
+		var bg = hexes[hexes.length - 1];
+		var rows = steps.map(function (s, i) {
+			var h = hexes[i];
+			var txt = lum(h) > 0.35 ? '#090b11' : '#ffffff';
+			var cls = uses[s] === 0 && s !== '100' ? 'sg-swatch unused' : 'sg-swatch';
+			var cr = s === '999' ? '<span class="sg-badge" style="color:' + txt + ';border-color:' + txt + '">bg</span>' : crBadge(contrast(h, bg));
+			return '<div class="' + cls + '" style="background:' + h + ';color:' + txt + '">' +
+				'<span class="name">--gray-' + s + '</span>' +
+				'<span class="meta">' + h + ' · ' + uses[s] + '× ' + (notes[s] ? '· ' + notes[s] : '') + '</span>' +
+				'<span class="cr" style="background:' + bg + ';border-radius:999px">' + cr + '</span></div>';
+		}).join('');
+		// Swatch background is the token; the badge is the contrast that matters for its job
+		function accRow(name, hex, note, ratio, fg) {
+			return '<div class="sg-swatch" style="background:' + hex + ';color:' + (fg || '#ffffff') + '"><span class="name">' + name + '</span><span class="meta">' + hex + ' · ' + note + '</span><span class="cr" style="background:' + bg + ';border-radius:999px">' + crBadge(ratio) + '</span></div>';
+		}
+		var isDark = hexes[0] === '#ffffff';
+		var textHex = '#ff4949';
+		var onHex = '#ffffff';
+		var fillHex = isDark ? '#e03e3e' : '#ff4949';
+		var accentRow =
+			accRow('--accent-text', textHex, 'vs page · all red text', contrast(textHex, bg), onHex) +
+			accRow('--accent-fill', fillHex, '--on-accent text on it', contrast(onHex, fillHex), onHex);
+		return '<div class="sg-ramp"><div class="sg-ramp-title">' + title + '</div>' + rows + accentRow + '</div>';
+	}
+	document.getElementById('sg-ramps').innerHTML =
+		ramp('Light · :root', light) + ramp('Dark · :root.theme-dark', dark);
+
+	// ---------- Reds ----------
+	var reds = [
+		['#ff4949', '--accent-text · --accent-fill (both)'],
+		['#f54c4c', '--accent-text-hover (both) · --accent-fill-hover (light)'],
+		['#e03e3e', '--accent-fill (dark): buttons, toggle knob'],
+		['#cc3838', '--accent-fill-hover (dark)'],
+		['#ffffff', '--on-accent (both) · text on fills'],
+		['hsla(0,99%,64%,.17)', '--accent-overlay-hover'],
+		['#ff4949', 'BackgroundEffect fallback · hardcoded']
+	];	document.getElementById('sg-reds').innerHTML = reds.map(function (r) {
+		return '<div class="sg-red"><i style="background:' + r[0] + '"></i><b>' + r[0] + '</b><span>' + r[1] + '</span></div>';
+	}).join('');
+
+	// ---------- Type scale: Tailwind defaults, with reference counts from src/ ----------
+	var scale = [
+		['xs', 0.75, 5, 'eyebrow, pills, card CTA, captions'],
+		['sm', 0.875, 15, 'meta, small links, buttons, section label, footer, reader 14px'],
+		['base', 1, 8, 'card description, reader 16px'],
+		['lg', 1.125, 3, 'summary, .prose body (the 18px default)'],
+		['xl', 1.25, 11, 'subheading, post list, About body ≥60em, reader 20px'],
+		['2xl', 1.5, 5, 'lead, section heading'],
+		['3xl', 1.875, 2, 'article title (mobile), lightbox close'],
+		['4xl', 2.25, 5, 'page title (mobile), article title (≥60em), display title (mobile)'],
+		['5xl', 3, 2, 'display and page title (≥60em)']
+	];	document.getElementById('sg-scale').innerHTML = scale.map(function (s) {
+		return '<div class="sg-scale-row' + (s[2] === 0 ? ' unused' : '') + '">' +
+			'<div class="label"><b>--text-' + s[0] + '</b><span>' + s[1] + 'rem · ' + (s[1] * 16) + 'px · ' + s[2] + '×</span><span>' + s[3] + '</span></div>' +
+			'<div class="sample" style="font-size:var(--text-' + s[0] + ')">Clarity is the deliverable</div></div>';
+	}).join('');
+
+	// ---------- Type roles (spec §2) ----------
+	// [name, class or inline style, specimen text, spec lines, used on, source]
+	var roles = [
+		['Display title', { cls: 't-display' }, 'Hi, I’m F Cary Snyder',
+			['4xl → 5xl (36 → 48px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Home hero only', 'type.css .t-display'],
+		['Page title', { cls: 't-page-title' }, 'Writing',
+			['4xl → 5xl (36 → 48px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Writing, Photography, About, Work index, 404', 'type.css .t-page-title'],
+		['Article title', { cls: 't-article-title' }, 'Clarity is the Deliverable',
+			['3xl → 4xl (30 → 36px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Blog post, case study', 'type.css .t-article-title'],
+		['Card title', { cls: 't-card-title' }, 'Synthetic Readings - Performance Pages for ATLAS',
+			['2xl (24px) · 600 · 1.15 · −0.01em', 'gray-0'], 'Project cards (home, Work)', 'type.css .t-card-title'],
+		['Summary', { cls: 't-summary' }, 'Why a designer should arrive with a stance, concrete enough for the team to push against.',
+			['lg (18px) · 400 · 1.5', 'gray-300'], 'Post and case-study summary, project card description', 'type.css .t-summary'],
+		['Eyebrow', { cls: 't-eyebrow' }, 'July 21, 2026 · 9 min read',
+			['mono · xs · uppercase · +0.06em', 'gray-400'], 'Date line on posts and case studies, Writing-index dates', 'type.css .t-eyebrow'],
+		['Lead', { cls: 't-lead' }, 'I’m a Staff UX Designer who codes, currently designing industrial control software at CrossnoKaye.',
+			['xl → 2xl (20 → 24px) · 400', 'gray-200'], 'Hero taglines (home, About, 404)', 'type.css .t-lead'],
+		['Section heading', { cls: 't-section-heading' }, 'Why the bad ideas look shippable',
+			['2xl (24px) · 600 · 1.3', 'gray-0'], '.prose h2, About section headings', 'type.css .t-section-heading · prose.css h2 (4/3em)'],
+		['Subheading', { cls: 't-subheading' }, 'Choose the setting, not the size',
+			['xl (20px) · 600 · 1.35', 'gray-0'], '.prose h3, Photography year headings, PasswordModal title', 'type.css .t-subheading · prose.css h3 (10/9em)'],
+		['Label', { cls: 't-label', style: 'color:var(--gray-200)' }, 'Selected projects',
+			['sm (14px) · 600 · uppercase · 20px', 'color from the element'], 'Section labels, filters, card CTA; same text as the btn utility', 'type.css .t-label'],
+		['Body', { style: 'font-size:var(--text-lg);line-height:1.7;color:var(--gray-100)' }, 'Low fidelity is for problem-seeking. High fidelity is for problem-solving. The order matters, because once you invest in visual polish, the sunk cost makes it harder to change the structure underneath.',
+			['lg (18px) · 400 · 1.7', 'gray-100 · reader scales it'], '.prose', 'prose.css .prose'],
+		['Meta', { cls: 't-meta' }, 'Tags: design, process',
+			['mono · sm', 'gray-400 · labels uppercase'], 'Bottom-of-post meta, case-study Role / Collaborators / Product, footer', 'type.css .t-meta'],
+		['Link', { cls: 't-link' }, 'CrossnoKaye',
+			['inherits size · --accent-text', 'underline transparent, shown on hover and focus · hover --accent-text-hover'], 'Every inline text link, with the .prose a variant (underline at 40% at rest)', 'type.css .t-link · prose.css .prose a'],
+		['Small link', { cls: 't-small-link t-link' }, '← Back      Next →',
+			['sm · 500', 'color and underline from .t-link'], 'Back, Prev / Next', 'type.css .t-small-link + .t-link'],
+		['Tag / pill', { style: 'font-size:var(--text-xs);line-height:1.35;letter-spacing:0.05em;text-transform:uppercase;color:var(--gray-300)' }, 'Design systems · Gated',
+			['xs · 400 · 1.35 · +0.05em · uppercase', '--on-accent on --accent-fill (default)'], 'Pills (unchanged)', 'Pill.astro']
+	];
+	document.getElementById('sg-roles-type').innerHTML = roles.map(function (r) {
+		var specLines = r[3].map(function (l) { return '<span>' + l.replace(/</g, '&lt;') + '</span>'; }).join('');
+		var attr = r[1].cls
+			? 'class="' + r[1].cls + '"' + (r[1].style ? ' style="' + r[1].style + '"' : '')
+			: 'style="font-family:var(--font-sans);' + r[1].style + '"';
+		return '<div class="sg-specimen"><div ' + attr + '>' + r[2].replace(/&/g, '&amp;') + '</div>' +
+			'<div class="spec"><b>' + r[0] + '</b>' + specLines + '<span>' + r[4] + '</span><span class="src">' + r[5] + '</span></div></div>';
+	}).join('');
+
+	// ---------- Reader controls demo ----------
+	var demo = document.getElementById('sg-reader-demo');
+	var rdDefaults = { font: 'sans', size: '18', leading: '1.7' };
+	function rdSync() {
+		demo.querySelectorAll('[data-rd]').forEach(function (b) {
+			var k = b.getAttribute('data-rd');
+			if (k === 'reset') return;
+			b.setAttribute('aria-pressed', String(demo.getAttribute('data-' + k) === b.getAttribute('data-val')));
+		});
+	}
+	demo.querySelectorAll('[data-rd]').forEach(function (b) {
+		b.addEventListener('click', function () {
+			var k = b.getAttribute('data-rd');
+			if (k === 'reset') { Object.keys(rdDefaults).forEach(function (d) { demo.setAttribute('data-' + d, rdDefaults[d]); }); }
+			else demo.setAttribute('data-' + k, b.getAttribute('data-val'));
+			rdSync();
+		});
+	});
+
+	// ---------- Spacing ----------
+	var space = [['1', 0.25], ['2', 0.5], ['3', 0.75], ['4', 1], ['5', 1.25], ['6', 1.5], ['8', 2], ['10', 2.5], ['12', 3], ['16', 4], ['20', 5], ['24', 6]];
+	document.getElementById('sg-spacing').innerHTML = '<h4 class="sg-h4" style="margin-bottom:0.75rem">Spacing (Tailwind default)</h4>' + space.map(function (s) {
+		return '<div class="sg-space"><span>p-' + s[0] + '</span><span>' + s[1] + 'rem</span><i style="width:' + Math.min(s[1] * 16, 192) + 'px"></i></div>';
+	}).join('') + '<p class="sg-src" style="margin-top:0.75rem">Tailwind\'s default: any step n is n × --spacing (0.25rem). The site defines no spacing tokens of its own.</p>';
+
+	// ---------- Radii ----------
+	var radii = [['2px', 'focus ring'], ['0.25rem', 'dropdown link'], ['0.375rem', 'card title (no bg)'], ['0.5rem', 'menu, inputs, modal btn'], ['8px', '.button, card body'], ['0.75rem', 'card, modal, .prose images, reader panel'], ['0.9375rem', 'card title ≥70em (no bg)'], ['1rem', 'case-study carousel trigger'], ['20px', 'home headshot'], ['1.5rem', 'About, card ≥70em'], ['50%', 'bullets'], ['999px', 'pills'], ['999rem', 'toggles, menu button']];
+	document.getElementById('sg-radii').innerHTML = radii.map(function (r) {
+		return '<div class="sg-radius"><i style="border-radius:' + r[0] + '"></i><b>' + r[0] + '</b><span>' + r[1] + '</span></div>';
+	}).join('');
+
+	// ---------- Breakpoints ----------
+	var bps = [[50, '50em · Nav', '', 0], [60, '60em · main (lg)', '', 1], [64, '64em (1024px) · Footer', '', 2], [70, '70em · Card', '', 3], [40, 'tw sm 40rem', 'tw', 4], [48, 'tw md 48rem', 'tw', 5], [80, 'tw xl 80rem', 'tw', 4]];
+	document.getElementById('sg-bp').innerHTML = bps.map(function (b) {
+		return '<div class="sg-bp-mark ' + b[2] + (b[0] > 65 ? ' flip' : '') + '" style="left:' + (b[0] / 90 * 100) + '%"><span' + (b[3] !== undefined ? ' style="top:' + (0.35 + b[3] * 1.3) + 'rem"' : '') + '>' + b[1] + '</span></div>';
+	}).join('');
+
+	// ---------- Findings filter ----------
+	var filterBtns = document.querySelectorAll('[data-filter]');
+	filterBtns.forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var f = btn.getAttribute('data-filter');
+			filterBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+			document.querySelectorAll('.sg-finding').forEach(function (el) {
+				el.style.display = f === 'all' || el.getAttribute('data-sev') === f ? '' : 'none';
+			});
+		});
+	});
+})();
+</script>
+</body>
+</html>
